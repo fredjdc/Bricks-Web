@@ -285,8 +285,13 @@
 
         window.useCountUp = function useCountUp(target, when, durationMs = 1400) {
             const [val, setVal] = React.useState(0);
+            const reduceMotion = window.usePrefersReducedMotion();
             React.useEffect(() => {
                 if (!when) return;
+                if (reduceMotion) {
+                    setVal(target);
+                    return;
+                }
                 let raf;
                 const start = performance.now();
                 const tick = (now) => {
@@ -297,7 +302,7 @@
                 };
                 raf = requestAnimationFrame(tick);
                 return () => cancelAnimationFrame(raf);
-            }, [when, target]);
+            }, [when, target, durationMs, reduceMotion]);
             return val;
         };
 
@@ -363,6 +368,34 @@
             return isMobile;
         };
 
+        window.useCanHover = function useCanHover() {
+            const [canHover, setCanHover] = React.useState(() =>
+                window.matchMedia('(hover: hover) and (pointer: fine)').matches
+            );
+            React.useEffect(() => {
+                const mq = window.matchMedia('(hover: hover) and (pointer: fine)');
+                const handler = (e) => setCanHover(e.matches);
+                setCanHover(mq.matches);
+                mq.addEventListener('change', handler);
+                return () => mq.removeEventListener('change', handler);
+            }, []);
+            return canHover;
+        };
+
+        window.usePrefersReducedMotion = function usePrefersReducedMotion() {
+            const [reduced, setReduced] = React.useState(() =>
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            );
+            React.useEffect(() => {
+                const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+                const handler = (e) => setReduced(e.matches);
+                setReduced(mq.matches);
+                mq.addEventListener('change', handler);
+                return () => mq.removeEventListener('change', handler);
+            }, []);
+            return reduced;
+        };
+
         window.useTheme = function useTheme() {
             const [theme, setTheme] = React.useState(
                 () => document.documentElement.getAttribute('data-theme') || 'light'
@@ -397,8 +430,10 @@
         window.Header = function Header({ t, lang, currentProduct, cta }) {
             const { dir, atTop } = window.useScrollDirection();
             const isMobile = window.useIsMobile();
+            const reduceMotion = window.usePrefersReducedMotion();
             const hidden = dir === 'down' && !atTop;
             const [dlOpen, setDlOpen] = React.useState(false);
+            const [ctaPressed, setCtaPressed] = React.useState(false);
             const dlRef = React.useRef(null);
 
             React.useEffect(() => {
@@ -476,11 +511,28 @@
                                     background: 'var(--b-text)', color: 'var(--b-bg)',
                                     border: 'none', fontSize: 14, fontWeight: 600,
                                     letterSpacing: '-0.01em',
-                                    boxShadow: '0 8px 20px rgba(11,15,20,0.18)',
-                                    transition: 'transform 0.15s ease',
+                                    boxShadow: ctaPressed ? '0 5px 14px rgba(11,15,20,0.14)' : '0 8px 20px rgba(11,15,20,0.18)',
+                                    transform: ctaPressed ? 'translateY(0) scale(0.985)' : 'translateY(0) scale(1)',
+                                    transition: reduceMotion ? 'none' : 'transform 0.15s ease, box-shadow 0.15s ease',
+                                    WebkitTapHighlightColor: 'transparent',
                                 }}
-                                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+                                onPointerEnter={(e) => { if (e.pointerType === 'mouse' && !reduceMotion) e.currentTarget.style.transform = 'translateY(-1px) scale(1)'; }}
+                                onPointerLeave={(e) => {
+                                    setCtaPressed(false);
+                                    if (e.pointerType === 'mouse') e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                }}
+                                onPointerDown={(e) => {
+                                    setCtaPressed(true);
+                                    e.currentTarget.style.transform = 'translateY(0) scale(0.985)';
+                                }}
+                                onPointerUp={(e) => {
+                                    setCtaPressed(false);
+                                    if (e.pointerType === 'mouse' && !reduceMotion) e.currentTarget.style.transform = 'translateY(-1px) scale(1)';
+                                }}
+                                onPointerCancel={(e) => {
+                                    setCtaPressed(false);
+                                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                }}
                             >{cta.label}</a>
                         ) : (
                             <div ref={dlRef} style={{ position: 'relative' }}>
@@ -560,9 +612,13 @@
         window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent, tilt = 0 }) {
             const ref = React.useRef(null);
             const [y, setY] = React.useState(0);
+            const [active, setActive] = React.useState(false);
             const isMobile = window.useIsMobile();
+            const canHover = window.useCanHover();
+            const reduceMotion = window.usePrefersReducedMotion();
 
             React.useEffect(() => {
+                if (reduceMotion) return;
                 let raf = 0;
                 const onScroll = () => {
                     if (raf) return;
@@ -584,9 +640,16 @@
                     window.removeEventListener('resize', onScroll);
                     if (raf) cancelAnimationFrame(raf);
                 };
-            }, []);
+            }, [reduceMotion]);
 
-            const translateY = -y * 40;
+            const translateY = reduceMotion ? 0 : -y * 40;
+            const activeTilt = active ? tilt * 0.35 : tilt;
+            const activeLift = active && !reduceMotion ? -4 : 0;
+            const transition = reduceMotion ? 'none' : 'transform 0.22s cubic-bezier(0.16,1,0.3,1)';
+            const setInteraction = (next, pointerType) => {
+                if (pointerType === 'mouse' && !canHover) return;
+                setActive(next);
+            };
 
             return (
                 <div ref={ref} style={{
@@ -594,7 +657,13 @@
                     display: 'flex', justifyContent: 'center', alignItems: 'center',
                     perspective: 1800,
                     minHeight: isMobile ? 360 : 640,
-                }}>
+                }}
+                    onPointerEnter={(e) => setInteraction(true, e.pointerType)}
+                    onPointerLeave={(e) => setInteraction(false, e.pointerType)}
+                    onPointerDown={(e) => setInteraction(true, e.pointerType)}
+                    onPointerUp={(e) => setInteraction(false, e.pointerType)}
+                    onPointerCancel={(e) => setInteraction(false, e.pointerType)}
+                >
                     <div aria-hidden="true" style={{
                         position: 'absolute', inset: '10% 15%',
                         background: `radial-gradient(ellipse at 50% 55%, ${accent}22 0%, ${accent}10 35%, transparent 70%)`,
@@ -612,9 +681,11 @@
                             height: 'auto',
                             display: 'block',
                             borderRadius: 48,
-                            transform: `translateY(${translateY}px) rotate(${tilt}deg)`,
-                            transition: 'transform 0.05s linear',
-                            boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
+                            transform: `translateY(${translateY + activeLift}px) rotate(${activeTilt}deg)`,
+                            transition,
+                            boxShadow: active
+                                ? '0 2px 4px rgba(0,0,0,0.04), 0 16px 30px rgba(0,0,0,0.08), 0 46px 86px rgba(0,0,0,0.13), 0 86px 148px rgba(0,0,0,0.14)'
+                                : '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
                             willChange: 'transform',
                         }}
                     />
@@ -625,9 +696,13 @@
         window.ScreenshotVideo = function ScreenshotVideo({ src, posterSrc, alt, accent, tilt = 0 }) {
             const ref = React.useRef(null);
             const [y, setY] = React.useState(0);
+            const [active, setActive] = React.useState(false);
             const isMobile = window.useIsMobile();
+            const canHover = window.useCanHover();
+            const reduceMotion = window.usePrefersReducedMotion();
 
             React.useEffect(() => {
+                if (reduceMotion) return;
                 let raf = 0;
                 const onScroll = () => {
                     if (raf) return;
@@ -649,9 +724,16 @@
                     window.removeEventListener('resize', onScroll);
                     if (raf) cancelAnimationFrame(raf);
                 };
-            }, []);
+            }, [reduceMotion]);
 
-            const translateY = -y * 40;
+            const translateY = reduceMotion ? 0 : -y * 40;
+            const activeTilt = active ? tilt * 0.35 : tilt;
+            const activeLift = active && !reduceMotion ? -4 : 0;
+            const transition = reduceMotion ? 'none' : 'transform 0.22s cubic-bezier(0.16,1,0.3,1)';
+            const setInteraction = (next, pointerType) => {
+                if (pointerType === 'mouse' && !canHover) return;
+                setActive(next);
+            };
 
             return (
                 <div ref={ref} style={{
@@ -659,7 +741,13 @@
                     display: 'flex', justifyContent: 'center', alignItems: 'center',
                     perspective: 1800,
                     minHeight: isMobile ? 360 : 640,
-                }}>
+                }}
+                    onPointerEnter={(e) => setInteraction(true, e.pointerType)}
+                    onPointerLeave={(e) => setInteraction(false, e.pointerType)}
+                    onPointerDown={(e) => setInteraction(true, e.pointerType)}
+                    onPointerUp={(e) => setInteraction(false, e.pointerType)}
+                    onPointerCancel={(e) => setInteraction(false, e.pointerType)}
+                >
                     <div aria-hidden="true" style={{
                         position: 'absolute', inset: '10% 15%',
                         background: `radial-gradient(ellipse at 50% 55%, ${accent}22 0%, ${accent}10 35%, transparent 70%)`,
@@ -672,9 +760,11 @@
                         width: isMobile ? '100%' : 340,
                         maxWidth: isMobile ? 280 : 'none',
                         borderRadius: 48,
-                        transform: `translateY(${translateY}px) rotate(${tilt}deg)`,
-                        transition: 'transform 0.05s linear',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
+                        transform: `translateY(${translateY + activeLift}px) rotate(${activeTilt}deg)`,
+                        transition,
+                        boxShadow: active
+                            ? '0 2px 4px rgba(0,0,0,0.04), 0 16px 30px rgba(0,0,0,0.08), 0 46px 86px rgba(0,0,0,0.13), 0 86px 148px rgba(0,0,0,0.14)'
+                            : '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
                         willChange: 'transform',
                         overflow: 'hidden',
                         background: 'var(--b-bg-elevated)',
@@ -1173,6 +1263,8 @@
         function CalcHero({ t, lang, theme }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
+            const reduceMotion = window.usePrefersReducedMotion();
+            const [ctaPressed, setCtaPressed] = React.useState(false);
             const videoSrc = `images-bricks-calc/hero-video-${lang}.mp4`;
             const posterSrc = `images-bricks-calc/hero-video-img-${lang}.png`;
 
@@ -1228,11 +1320,30 @@
                                         color: '#fff', textDecoration: 'none',
                                         border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
                                         fontFamily: 'inherit', letterSpacing: '-0.01em',
-                                        boxShadow: '0 12px 28px rgba(0,122,255,0.25)',
-                                        transition: 'transform 0.15s ease',
+                                        boxShadow: ctaPressed ? '0 8px 18px rgba(0,122,255,0.2)' : '0 12px 28px rgba(0,122,255,0.25)',
+                                        transform: ctaPressed ? 'translateY(0) scale(0.985)' : 'translateY(0) scale(1)',
+                                        transition: reduceMotion ? 'none' : 'transform 0.16s ease, box-shadow 0.16s ease',
+                                        WebkitTapHighlightColor: 'transparent',
                                     }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+                                    onPointerEnter={(e) => {
+                                        if (e.pointerType === 'mouse' && !reduceMotion) e.currentTarget.style.transform = 'translateY(-2px) scale(1)';
+                                    }}
+                                    onPointerLeave={(e) => {
+                                        setCtaPressed(false);
+                                        if (e.pointerType === 'mouse') e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                    }}
+                                    onPointerDown={(e) => {
+                                        setCtaPressed(true);
+                                        e.currentTarget.style.transform = 'translateY(0) scale(0.985)';
+                                    }}
+                                    onPointerUp={(e) => {
+                                        setCtaPressed(false);
+                                        if (e.pointerType === 'mouse' && !reduceMotion) e.currentTarget.style.transform = 'translateY(-2px) scale(1)';
+                                    }}
+                                    onPointerCancel={(e) => {
+                                        setCtaPressed(false);
+                                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                    }}
                                 >
                                     {t.hero.cta}
                                 </a>
@@ -1314,14 +1425,42 @@
 
         function StatCell({ item, visible }) {
             const isNumeric = typeof item.v === 'number';
-            const v = isNumeric ? window.useCountUp(item.v, visible) : item.v;
+            const reduceMotion = window.usePrefersReducedMotion();
+            const [settled, setSettled] = React.useState(false);
+            const [flash, setFlash] = React.useState(false);
+            const durationMs = 1200;
+            const countedValue = window.useCountUp(isNumeric ? item.v : 0, visible && isNumeric, durationMs);
+            const v = isNumeric ? countedValue : item.v;
+
+            React.useEffect(() => {
+                setSettled(false);
+                setFlash(false);
+            }, [item.v]);
+
+            React.useEffect(() => {
+                if (!visible || reduceMotion) return;
+                const settleTimer = window.setTimeout(() => {
+                    setSettled(true);
+                    setFlash(true);
+                }, isNumeric ? durationMs : 120);
+                const flashTimer = window.setTimeout(() => setFlash(false), isNumeric ? durationMs + 340 : 460);
+                return () => {
+                    window.clearTimeout(settleTimer);
+                    window.clearTimeout(flashTimer);
+                };
+            }, [visible, isNumeric, reduceMotion]);
+
             return (
                 <div style={{ textAlign: 'center', padding: '12px 8px' }}>
                     <div style={{
                         fontSize: isNumeric ? 48 : 34, fontWeight: 900, letterSpacing: '-0.02em',
                         color: CALC_ACCENT, lineHeight: 1,
+                        opacity: visible ? 1 : 0.82,
+                        filter: flash ? 'brightness(1.18)' : 'none',
+                        transform: flash ? 'scale(1.025)' : 'scale(1)',
+                        transition: reduceMotion ? 'none' : 'opacity 0.25s ease, filter 0.34s ease, transform 0.34s cubic-bezier(0.16,1,0.3,1)',
                     }}>
-                        {isNumeric ? window.fmtNum(v) : v}{item.suffix}
+                        {isNumeric ? window.fmtNum(settled ? item.v : v) : v}{item.suffix}
                     </div>
                     <div style={{ marginTop: 10, fontSize: 14, color: 'var(--b-text-2)' }}>{item.l}</div>
                 </div>
@@ -1367,37 +1506,64 @@
                         gap: isMobile ? 16 : 24,
                     }}>
                         {t.pillars.items.map((p, i) => (
-                            <div key={i} className={`reveal reveal-d${i + 1}`} style={{
-                                background: 'var(--b-bg-elevated)', borderRadius: 32,
-                                padding: isMobile ? 28 : 36,
-                                boxShadow: 'var(--emboss-soft)',
-                                border: '1px solid var(--b-border)',
-                            }}>
-                                <div style={{
-                                    width: 44, height: 44, borderRadius: 14,
-                                    background: `${CALC_ACCENT}1a`,
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    marginBottom: 20,
-                                    boxShadow: 'var(--emboss-soft)',
-                                    border: '1px solid var(--b-border)',
-                                }}>
-                                    <div style={{
-                                        width: 22, height: 22,
-                                        backgroundColor: CALC_ACCENT,
-                                        maskImage: `url(images-bricks-calc/${p.icon})`,
-                                        WebkitMaskImage: `url(images-bricks-calc/${p.icon})`,
-                                        maskSize: 'contain',
-                                        WebkitMaskSize: 'contain',
-                                        maskRepeat: 'no-repeat',
-                                        WebkitMaskRepeat: 'no-repeat'
-                                    }} />
-                                </div>
-                                <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--b-text)', marginBottom: 8, letterSpacing: '-0.01em' }}>{p.t}</div>
-                                <div style={{ fontSize: 15, color: 'var(--b-text-2)', lineHeight: 1.55 }}>{p.d}</div>
-                            </div>
+                            <CalcPillarCard key={i} item={p} delay={i + 1} isMobile={isMobile} />
                         ))}
                     </div>
                 </section>
+            );
+        }
+
+        function CalcPillarCard({ item, delay, isMobile }) {
+            const [active, setActive] = React.useState(false);
+            const canHover = window.useCanHover();
+            const reduceMotion = window.usePrefersReducedMotion();
+            const setInteraction = (next, pointerType) => {
+                if (pointerType === 'mouse' && !canHover) return;
+                setActive(next);
+            };
+
+            return (
+                <div className={`reveal reveal-d${delay}`} style={{
+                    background: 'var(--b-bg-elevated)', borderRadius: 32,
+                    padding: isMobile ? 28 : 36,
+                    boxShadow: active
+                        ? '0 8px 22px rgba(11,15,20,0.08), var(--emboss-soft)'
+                        : 'var(--emboss-soft)',
+                    border: `1px solid ${active ? CALC_ACCENT + '44' : 'var(--b-border)'}`,
+                    transform: active && !reduceMotion ? 'translateY(-3px)' : 'translateY(0)',
+                    transition: reduceMotion ? 'none' : 'transform 0.24s cubic-bezier(0.16,1,0.3,1), border-color 0.24s ease, box-shadow 0.24s ease',
+                    WebkitTapHighlightColor: 'transparent',
+                }}
+                    onPointerEnter={(e) => setInteraction(true, e.pointerType)}
+                    onPointerLeave={(e) => setInteraction(false, e.pointerType)}
+                    onPointerDown={(e) => setInteraction(true, e.pointerType)}
+                    onPointerUp={(e) => setInteraction(false, e.pointerType)}
+                    onPointerCancel={(e) => setInteraction(false, e.pointerType)}
+                >
+                    <div style={{
+                        width: 44, height: 44, borderRadius: 14,
+                        background: active ? `${CALC_ACCENT}24` : `${CALC_ACCENT}1a`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        marginBottom: 20,
+                        boxShadow: 'var(--emboss-soft)',
+                        border: '1px solid var(--b-border)',
+                        transform: active && !reduceMotion ? 'translateY(-1px)' : 'translateY(0)',
+                        transition: reduceMotion ? 'none' : 'background 0.24s ease, transform 0.24s cubic-bezier(0.16,1,0.3,1)',
+                    }}>
+                        <div style={{
+                            width: 22, height: 22,
+                            backgroundColor: CALC_ACCENT,
+                            maskImage: `url(images-bricks-calc/${item.icon})`,
+                            WebkitMaskImage: `url(images-bricks-calc/${item.icon})`,
+                            maskSize: 'contain',
+                            WebkitMaskSize: 'contain',
+                            maskRepeat: 'no-repeat',
+                            WebkitMaskRepeat: 'no-repeat'
+                        }} />
+                    </div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--b-text)', marginBottom: 8, letterSpacing: '-0.01em' }}>{item.t}</div>
+                    <div style={{ fontSize: 15, color: 'var(--b-text-2)', lineHeight: 1.55 }}>{item.d}</div>
+                </div>
             );
         }
 
@@ -1511,6 +1677,7 @@
         function CalcFAQ({ t }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
+            const reduceMotion = window.usePrefersReducedMotion();
             const [open, setOpen] = React.useState(0);
             return (
                 <section ref={reveal} style={{
@@ -1535,6 +1702,8 @@
                             return (
                                 <div key={i} style={{
                                     borderTop: i === 0 ? 'none' : '1px solid var(--b-border)',
+                                    background: isOpen ? 'color-mix(in srgb, var(--b-bg) 45%, transparent)' : 'transparent',
+                                    transition: reduceMotion ? 'none' : 'background 0.24s ease',
                                 }}>
                                     <button
                                         onClick={() => setOpen(isOpen ? -1 : i)}
@@ -1545,13 +1714,15 @@
                                             display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16,
                                             fontSize: isMobile ? 16 : 17, fontWeight: 600, color: 'var(--b-text)',
                                             letterSpacing: '-0.01em',
+                                            WebkitTapHighlightColor: 'transparent',
                                         }}
                                     >
                                         <span>{item.q}</span>
                                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{
                                             flexShrink: 0,
                                             transform: isOpen ? 'rotate(180deg)' : 'rotate(0)',
-                                            transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)',
+                                            color: isOpen ? CALC_ACCENT : 'currentColor',
+                                            transition: reduceMotion ? 'none' : 'transform 0.3s cubic-bezier(0.16,1,0.3,1), color 0.2s ease',
                                         }}>
                                             <path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
@@ -1559,12 +1730,15 @@
                                     <div style={{
                                         maxHeight: isOpen ? 400 : 0,
                                         overflow: 'hidden',
-                                        transition: 'max-height 0.35s cubic-bezier(0.16,1,0.3,1)',
+                                        transition: reduceMotion ? 'none' : 'max-height 0.35s cubic-bezier(0.16,1,0.3,1)',
                                     }}>
                                         <div style={{
                                             padding: isMobile ? '0 24px 22px' : '0 32px 28px',
                                             fontSize: 15, lineHeight: 1.6, color: 'var(--b-text-2)',
                                             maxWidth: 720,
+                                            opacity: isOpen ? 1 : 0,
+                                            transform: isOpen ? 'translateY(0)' : 'translateY(-3px)',
+                                            transition: reduceMotion ? 'none' : 'opacity 0.24s ease, transform 0.24s cubic-bezier(0.16,1,0.3,1)',
                                         }}>{item.a}</div>
                                     </div>
                                 </div>
