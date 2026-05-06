@@ -1,18 +1,18 @@
 {
-    "appclips": {
-      "details": [
-           {
-             "appIDs": [ "GTH4V8XM4N.com.bricks.bricksapp.Clip" ],
-             "components": [
-               {
-                  "#": "no_universal_links",
-                  "exclude": true,
-                  "comment": "Matches any URL whose fragment equals no_universal_links and instructs the system not to open it as a universal link"
-               }
-             ]
-           }
-       ]    },
-    "appclips": {
-        "apps": ["GTH4V8XM4N.com.bricks.bricksapp.Clip"]
-    } 
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "GTH4V8XM4N.bricks.Bricks-Calc",
+        "paths": [
+          "/calc/clip/*"
+        ]
+      }
+    ]
+  },
+  "appclips": {
+    "apps": [
+      "GTH4V8XM4N.bricks.Bricks-Calc.Clip"
+    ]
+  }
 }
