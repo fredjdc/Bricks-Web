@@ -1,5 +1,5 @@
 {
-    "appclips": {
+    "applinks": {
         "details": [
             {
                 "appIDs": [
@@ -7,9 +7,12 @@
                 ],
                 "components": [
                     {
+                        "/": "/homebuyers*"
+                    },
+                    {
                         "#": "no_universal_links",
                         "exclude": true,
-                        "comment": "Matches any URL whose fragment equals no_universal_links and instructs the system not to open it as a universal link"
+                        "comment": "Prevent universal link handling when the fragment is no_universal_links"
                     }
                 ]
             }
@@ -17,7 +20,7 @@
     },
     "appclips": {
         "apps": [
-            "GTH4V8XM4N.bricks.Bricks-Calc"
+            "GTH4V8XM4N.bricks.Bricks-Calc.Clip"
         ]
     }
 }
