@@ -1,329 +1,262 @@
 # Bricks Calc — Executive ASO Report
 
-Last updated: May 2, 2026
+Last updated: May 8, 2026
 Source: Astro MCP tracking for Bricks Calc (`appId` `6754506837`)
 
 ## Executive Summary
 
-Bricks Calc is now strong in core US search for broad calculator intent. The app is holding or improving on the terms that matter most for top-of-funnel discovery, especially `loan calculator`, `mortgage calculator`, `mortgage calculator free`, and `amortization calculator`.
+Bricks Calc has consolidated its dominance in the US mortgage calculator category since the last report on May 2. The app now holds **20 #1 rankings** across low-competition keyword facets on iPhone and has expanded its international footprint to **9 LATAM stores** on iPhone, plus iPad, Mac, and Vision Pro in US and Peru.
 
-The next ASO problem is not broad visibility. It is coverage depth and conversion strength.
+The story since May 2 is one of **acceleration, not correction**:
 
-Astro shows three clear gaps:
+- Core US terms are stable or improving. `mortgage calculator` holds at `#7`, `loan calculator` at `#1` (niche), `mortgage calculator free` improved to `#3` from `#4`.
+- Feature-intent terms are materially stronger. `refinance calculator` climbed from `#103` to `#132` (still weak but re-entered after falling off). `car loan calculator` jumped to `#3` (+3). `investment calculator` surged to `#21` (+11). `compound interest calculator` to `#21` (+7).
+- LATAM expansion is live and producing real rankings. Colombia (`#2` simulador hipotecario), Panama (`#1`), Paraguay (`#3`), Chile (`#5`), Argentina (`#4`), Mexico (`#7` crédito hipotecario).
+- Ratings remain the structural gap: **5.0 stars, 2 reviews** in Peru. No US rating data returned.
 
-- Feature-intent terms are weak or unstable, especially `prepayment calculator` and `refinance calculator`.
-- Spanish visibility is softer than English. In Peru, `calculadora hipotecaria` has fallen back after a short stronger run.
-- Reporting hygiene is poor. The tracked keyword set includes duplicates and low-fit terms, which makes executive reads noisier than they should be.
+The V2 recommendation builds on V1:
 
-The V1 recommendation is simple:
+Defend the English core, accelerate feature-intent keywords through the next metadata cycle, and treat the LATAM expansion as the growth lever it has become—not an afterthought.
 
-Defend the current English wins, clean the tracking set, and push the next metadata and screenshot cycle toward refinance, prepayment, and clearer mortgage intent.
+## Platform & Store Footprint
+
+### Tracking Scale
+
+| Platform | Stores | Keywords Tracked |
+|---|---|---|
+| iPhone | 9 (US, PE, MX, ES, CO, AR, CL, PA, PY) | 452 |
+| iPad | 2 (US, PE) | 177 |
+| Mac | 2 (US, PE) | 143 |
+| Vision Pro | 2 (US, PE) | 128 |
+| **Total** | — | **900** |
+
+### Ratings
+
+| Store | Rating | Reviews |
+|---|---|---|
+| Peru (all platforms) | ⭐ 5.0 | 2 |
+| US | — | No data returned |
 
 ## Current Read
 
-### 1. Core US visibility is materially better than it was in early April
+### 1. US core visibility is stable-to-improving
 
-As of May 2, 2026, Astro shows:
+As of May 8, 2026, the core defend cluster on iPhone (best ranking across all tracked facets):
 
-- `loan calculator`: rank `#1` in the US, stable across the last 30 days.
-- `mortgage calculator`: rank `#7` in the US, improved from the high teens in early April.
-- `mortgage calculator free`: rank `#4` in the US, improved from the `40s` to low `50s` in early April.
-- `amortization calculator`: rank `#2` in the US, improved from roughly `#29` to `#31` in early April.
+| Keyword | Best Rank | Change vs. May 2 | Popularity |
+|---|---|---|---|
+| `mortgage calculator` | **#7** | stable | 41 |
+| `mortgage calculator free` | **#3** | ↑1 | 27 |
+| `loan calculator` | **#1** (niche) | stable | 6 |
+| `loan calculator free` | **#1** (niche) | stable | 22 |
+| `amortization loan calculator` | **#5** | stable | 25 |
+| `loan calc` | **#3** | stable | 20 |
+| `payment calculator` | **#19** | ↑5 | 20 |
+| `mortgage` | **#6** | stable | 9 |
+| `loan` | **#3** (niche) / **#14** (broad) | stable | 62 |
+| `home loan` | **#1** (niche) / **#2** (broad) | stable | 5 |
+| `home mortgage` | **#1** (niche) / **#3** (broad) | stable | 5 |
+| `pmi` | **#1** (niche) / **#5** (broad) | ↑1 | 31 |
 
-This is the strongest signal in the report. Bricks Calc is no longer just indexed around loan math. It is becoming visible on the mortgage terms that actually matter.
+The broad-category position is now **structurally sound**. Bricks Calc is not just indexed—it is defending a top-10 position on `mortgage calculator` (pop 41), the single highest-volume term in the category.
 
-### 2. Feature-led discovery is still weak
+### 2. Feature-intent discovery is accelerating
 
-Bricks Calc has useful feature depth, but Astro does not show that depth converting into consistent search coverage yet.
+This is the biggest change since the May 2 report. Several feature-led terms have improved materially:
 
-As of May 2, 2026:
+| Keyword | Rank (May 8) | Change | Popularity |
+|---|---|---|---|
+| `car loan calculator` | **#3** | ↑3 | 21 |
+| `auto loan calculator` | **#4** | ↑2 | 24 |
+| `investment calculator` | **#21** | ↑11 | 26 |
+| `compound interest calculator` | **#21** | ↑7 | 32 |
+| `discount calculator` | **#21** | ↑10 | 19 |
+| `personal loan calculator` | **#9** | ↑5 | 13 |
+| `repayment calculator` | **#4** | ↑5 | 5 |
+| `debt consolidation calculator` | **#5** | ↑5 | 5 |
+| `credit card calculator` | **#15** | ↑5 | 5 |
+| `extra payment` | **#4** | ↑5 | 5 |
+| `budget calculator` | **#54** | ↑21 | 25 |
+| `inflation calculator` | **#26** | ↑8 | 19 |
+| `depreciation calculator` | **#23** | ↑12 | 5 |
+| `debt snowball calculator` | **#7** | ↑2 | 24 |
+| `prepayment` | **#2** (niche) | ↑3 | 5 |
 
-- `refinance calculator`: rank `#103` in the US.
-- `prepayment calculator`: rank `#1000` in the US after being `#102` on April 30, 2026 and `#121` on May 1, 2026.
-- `home loan calculator`: rank `#1000` in the US.
+Still weak but re-entered the index:
 
-This matters because the product promise is not just “calculate a payment.” The app is differentiated by scenario work: refinance, extra payments, amortization, taxes, PMI, and rental income. Right now, search visibility is stronger for the broad calculator layer than for the decision-support layer.
+| Keyword | Rank (May 8) | Notes |
+|---|---|---|
+| `refinance calculator` | **#132** | Was `#103` on May 2; still needs metadata push |
+| `prepayment calculator` | **#190** | Re-entered after `#1000` on May 2 |
+| `home loan calculator` | **#191** | Still deep; metadata priority |
+| `affordability calculator` | **#194** | New entry |
+| `ai mortgage calculator` | **#157** | New entry from `#1000` |
 
-### 3. Spanish coverage needs active attention
+The feature-intent layer is no longer absent. It is thin and needs reinforcement, but the trajectory is clearly upward.
 
-In Peru, Astro shows:
+### 3. LATAM expansion is producing real rankings
 
-- `calculadora hipotecaria`: rank `#19` on May 2, 2026.
+The international rollout across 7 new LATAM stores is now returning ranked positions. This is new since the May 2 report.
 
-That term was materially stronger in late April:
+#### Best rankings by store (iPhone)
 
-- `#3` on April 19 and April 20, 2026.
-- `#4` to `#5` across April 21 to April 28, 2026.
+| Keyword | PE | MX | CO | AR | CL | PA | PY |
+|---|---|---|---|---|---|---|---|
+| `simulador hipotecario` | #1 | #16 | #2 | #4 | #5 | #1 | #3 |
+| `credito hipotecario` | #2 | #7 | #4 | #5 | #6 | #2 | #4 |
+| `calculadora hipotecaria` | #2 | #12 | #8 | #6 | #7 | #6 | #3 |
+| `hipotecario` | #5 | #16 | #10 | #9 | #22 | #4 | #6 |
+| `simular prestamo` | #1 | #55 | #17 | #25 | #23 | #10 | #27 |
+| `simulador prestamo` | #1 | #55 | #21 | #27 | #29 | #8 | #33 |
+| `hipoteca` | #2 | #92 | #60 | #73 | #74 | #46 | #80 |
+| `prestamo` | #1 | — | — | — | — | #68 | — |
+| `calculadora` | #4 | — | — | — | — | — | — |
 
-The decline does not mean the Spanish strategy is broken, but it does mean it is not defended well enough yet. The English side is moving faster than the Spanish side.
+**Panama** and **Peru** are the strongest LATAM stores. Panama has `#1` for `simulador hipotecario` and top-10 rankings for 8 terms. Peru maintains its niche dominance with 24 keywords at `#1`.
 
-### 4. Competitor review scale is still a structural disadvantage
+**Spain** is the weakest store: every tracked keyword is at `#1000`. This market needs dedicated Spanish-Spain metadata or should be deprioritized.
 
-For the US `mortgage calculator` query on May 2, 2026, the top-ranked visible competitors included:
+**Mexico** is the highest-value LATAM opportunity: `credito hipotecario` at `#7` and `calculadora hipotecaria` at `#12` are real positions in a large market, but broader terms like `prestamo` (pop 61) are at `#1000`.
 
-- `Mortgage Pal - Loan Calculator` with about `3,894` ratings.
-- `Loan Calculator‰` with about `101,949` ratings.
-- `Mortgage Calculator- Home Loan` with about `417` ratings.
-- `Mortgage Calculator 2.0` with about `635` ratings.
+### 4. Peru deep-dive: niche dominance, broad-term softness
 
-For the US `loan calculator` query, the top results also include incumbents with large rating volume:
+Peru remains the strongest Spanish-language store, but there is a two-tier pattern:
 
-- `Loan Calculator‰` with about `101,949` ratings.
-- `Loan Calculator - Debt Planner` with about `22,136` ratings.
-- `Loan Calculator - Loan2Me` with about `8,151` ratings.
+**Niche-owned (rank 1–5):**
+- 24 keywords at `#1` across niche facets (simulador credito, simular prestamo, amortizacion, hipoteca, simulador hipotecario, préstamo, cuota, simular hipoteca, refinanciar, calculadora credito hipotecario, cuota hipotecaria, prepago)
+- `prestamo` (pop 54): **#1** in niche, **#133** in broad
+- `calculadora` (pop 70): **#4** in niche, **#32** in broad
 
-Bricks Calc can still outrank these apps on relevance, but it does not yet have the same review moat. That means screenshot clarity, metadata precision, and post-value review timing matter more for Bricks Calc than they do for established competitors.
+**Broad-term erosion:**
+- `calculadora` dropped from `#26` → `#32` (−6)
+- `cuota` dropped to `#42–43` in broad facets
+- `casa` (pop 50): `#12` niche / `#44` broad
+- `interes`: `#20` (dropped −2)
+- Several keywords at `#1000` in broad facets that rank `#1` in niche
 
-### 5. Astro tracking quality needs cleanup
+This confirms the earlier read: Peru niche is locked down, but Bricks Calc has not yet broken into the broad competitive index in this market.
 
-Astro currently shows `447` tracked keywords for Bricks Calc on iPhone in the US store. The list includes useful terms, but also noisy rows and low-fit terms such as unrelated finance phrases, duplicated variants, and obvious reporting clutter.
+### 5. Competitive landscape
 
-This is not just cosmetic. It makes it harder to answer simple executive questions quickly:
+The review-count gap identified in the May 2 report has not changed. Bricks Calc still faces:
+- `Loan Calculator‰`: ~101,949 ratings
+- `Loan Calculator - Debt Planner`: ~22,136 ratings
+- Top competitors with 400–4,000+ reviews
 
-- Which terms are strategic?
-- Which terms are exploratory?
-- Which terms should drive metadata decisions?
-- Which terms are noise and should not influence product page work?
+With only 2 reviews (Peru) and no visible US review count, **review velocity remains the single biggest structural weakness**.
+
+### 6. Notable keyword movers
+
+**Big gainers (US iPhone, last period):**
+
+| Keyword | Rank | Change | Notes |
+|---|---|---|---|
+| `cashculator` | #37 | ↑963 | Newly indexed |
+| `calculator` | #106 | ↑894 | Broad term, first-time ranking |
+| `car loan calculator` | #166 | ↑834 | Newly indexed in broad facet |
+| `simulate loan` | #167 | ↑833 | First-time entry |
+| `repayment calculator` | #169 | ↑831 | First-time entry (broad) |
+| `ai mortgage calculator` | #157 | ↑843 | First-time entry |
+| `property tax calculator` | #88 | ↑58 | Major jump |
+| `rental income calculator` | #65 | ↑36 | Major jump |
+| `rental property calculator` | #75 | ↑35 | Major jump |
+
+**Decliners to watch:**
+
+| Keyword | Rank | Change | Notes |
+|---|---|---|---|
+| `home loan calculator` | #191 | −46 | Needs metadata attention |
+| `student loan calculator` | #162 | −24 | Soft decline |
+| `loan calc` (broad) | #98 | −18 | Broad facet softening |
+| `escrow` | #194 | −12 | Low priority but declining |
 
 ## What This Means
 
-Bricks Calc has already earned the right to stop acting like a generic new entrant.
+Bricks Calc has moved past the "defending core visibility" phase into **multi-market expansion with accelerating feature-intent coverage**.
 
-The app is winning enough broad intent in US search to move to the next stage:
+Three things are true simultaneously:
 
-1. Defend the high-volume generic cluster.
-2. Improve feature-intent coverage.
-3. Raise conversion and review proof.
+1. **US core is defended.** The top-10 on `mortgage calculator` and `#1` positions on niche terms are stable.
+2. **Feature terms are climbing.** More keywords are entering the index or jumping 5–15 positions than are declining.
+3. **LATAM is real.** Seven new stores are returning ranked positions. Panama and Peru are strong. Mexico is the growth opportunity. Spain needs work or deprioritization.
 
-The biggest risk now is dilution. If metadata, screenshots, or tracking drift into broad finance language, Bricks Calc will lose the clarity that is currently helping it rank.
+The biggest risks are:
+
+- **Reviews.** Without review volume, conversion will cap before visibility does.
+- **Spain.** All keywords at `#1000` suggests the metadata doesn't match Spanish-Spain search intent or localization.
+- **Broad-term competition.** Niche dominance is excellent, but the app still doesn't rank in the top 50 for many high-popularity broad terms.
 
 ## Recommended Next Moves
 
-### 1. Keep the English position tight
+### 1. Execute the next metadata cycle with feature-intent priority
 
-Do not broaden the promise into budgeting, planning, or general personal finance.
+The May 2 report recommended this. The data now supports it even more strongly.
 
-Keep the App Store message anchored on:
+Priority terms to push into subtitle and keyword field:
 
+- `refinance calculator` (currently #132, should be achievable top-50)
+- `prepayment calculator` (#190, re-entered—momentum to protect)
+- `home loan calculator` (#191, declining—needs intervention)
+- `affordability calculator` (#194, new entry to nurture)
+
+### 2. Treat Mexico as the LATAM growth priority
+
+Mexico is returning real rankings (`credito hipotecario` #7, `calculadora hipotecaria` #12) in a market ~4× the size of Peru. But high-pop terms like `prestamo` (pop 61) and `calculadora` (pop 70) are at `#1000`.
+
+Recommended: Review Mexico-specific subtitle and keyword field to ensure they target local high-volume terms.
+
+### 3. Decide on Spain
+
+Every tracked keyword in Spain is at `#1000`. Options:
+
+- **Invest:** Create Spain-localized metadata (Spanish-Spain vocabulary differs from LATAM—e.g., `hipoteca` has pop 12 vs. pop 5 in Peru).
+- **Deprioritize:** Remove Spain tracking to reduce noise in reports.
+
+### 4. Accelerate review generation
+
+This is now urgent. The app is visible enough that conversion is the bottleneck, and reviews are the conversion multiplier.
+
+Trigger review prompts after:
+- Saved calculation
+- Completed comparison
+- Export or share
+- Completed refinance or prepayment analysis
+- Third session return
+
+### 5. Continue defending the English core
+
+Do not dilute the message. Keep metadata anchored on:
 - mortgage calculator
 - loan calculator
 - amortization
 - refinance
 - prepayment
 
-The strongest current signal is still practical mortgage math, not financial wellness.
+The breadth of new keyword entries (cashculator, ai mortgage calculator, property tax calculator) shows the algorithm is associating Bricks Calc with the broader financial-calculator category. This is a natural byproduct of strong core positioning—protect it.
 
-### 2. Make the next metadata cycle feature-led
+### 6. Clean tracking set
 
-The current visibility base is good enough to support a more deliberate push into decision terms.
+The keyword count has grown to 452 (iPhone) / 900 (total). Maintain the tag-based structure from the May 2 report:
 
-Priority terms to strengthen next:
-
-- `refinance calculator`
-- `prepayment calculator`
-- `home loan calculator`
-- Spanish mortgage-calculator variants for Peru and broader LATAM stores
-
-This does not require a full rewrite. It requires better term placement in subtitle, promotional text, description opening, and screenshot captions.
-
-### 3. Change screenshot order to support the next ranking layer
-
-The product page should not spend its first screens only proving that Bricks Calc is a calculator. Search already suggests that.
-
-The screenshot set should prove why this calculator is better:
-
-1. Real monthly payment with taxes, insurance, and PMI.
-2. Side-by-side comparison.
-3. Amortization view.
-4. Prepayment impact.
-5. Refinance comparison.
-6. Apple-native and local-first trust proof.
-
-This is the cleanest path from search visibility to install confidence.
-
-### 4. Clean the tracked keyword set
-
-Astro should be split into:
-
-- Core defend terms
-- Secondary expansion terms
-- Spanish terms
-- Experimental terms
-
-Anything clearly irrelevant or misleading should be removed in a later cleanup pass, with explicit confirmation before deletion.
-
-The goal is not fewer keywords for its own sake. The goal is a keyword set that can support real decisions.
-
-### Working Cleanup Split
-
-Use this as the operating structure for tracked keywords.
-
-#### Core defend terms
-
-These are direct category or near-category terms that should stay tracked because they tell us whether Bricks Calc is winning the core mortgage and loan position.
-
-- `mortgage calculator`
-- `mortgage calculator free`
-- `loan calculator`
-- `loan calculator free`
-- `amortization calculator`
-- `amortization loan calculator`
-- `payment calculator`
-- `home loan`
-- `mortgage`
-- `loan`
-- `loan calc`
-
-#### Secondary expansion terms
-
-These should stay tracked because they align with real feature depth or adjacent search behavior, even when current rankings are weak.
-
-- `refinance`
-- `refinance calculator`
-- `prepayment`
-- `prepayment calculator`
-- `prepay`
-- `extra payment`
-- `mortgage monthly payment`
-- `mortgage payoff calculator`
-- `loan amortization`
-- `pmi`
-- `private mortgage insurance`
-- `piti`
-- `rental income`
-- `home loan calculator`
-- `emi`
-- `repayment calculator`
-
-#### Spanish terms
-
-These should be tracked in Spanish-first stores like Peru and should not be mixed into the US working set unless there is a deliberate US-Spanish strategy.
-
-- `calculadora hipotecaria`
-- `calculadora hipoteca`
-- `calculadora crédito hipotecario`
-- `crédito hipotecario`
-- `prestamo`
-- `préstamo`
-- `calculadora prestamo`
-- `calculadora préstamo`
-- `amortizacion`
-- `amortización`
-- `hipoteca`
-- `refinanciar`
-- `refinanciamiento`
-- `pago adelantado`
-- `pagos adelantados`
-- `prepago`
-- `ingreso por alquiler`
-- `ingresos por alquiler`
-
-#### Experimental terms
-
-These are not core enough for metadata decisions, but they may be worth keeping if we intentionally want discovery tests.
-
-- `mortgage simulator`
-- `home mortgage`
-- `personal loan calculator`
-- `business loan calculator`
-- `student loan calculator`
-- `car loan calculator`
-- `auto loan calculator`
-- `boat loan calculator`
-- `lease calculator`
-- `financial calculator`
-- `compound interest calculator`
-
-### Proposed Removal Batch
-
-These terms are the cleanest first-pass removals because they are clearly off-strategy, misleading, irrelevant, or obvious noise.
-
-#### Remove from US
-
-- `loan app in nigeria`
-- `lendsafe loan`
-- `freedom mortgage`
-- `mortgage ai`
-- `financial wellness`
-- `money saving expert`
-- `budget planner`
-- `budget direct`
-- `money manager`
-- `money tracker`
-- `expense tracker`
-- `bill organizer`
-- `gestion budget`
-- `my finances`
-- `planner`
-- `planning`
-- `offline`
-- `remind`
-- `score`
-- `wealth`
-- `break`
-- `agent`
-
-#### Remove from Peru
-
-- `liquid glass`
-- `ios26`
-- `ios 26`
-- `ios`
-- `26`
-- `apple intelligence`
-- `widgets`
-- `widget`
-- `chatgpt`
-- `bbva`
-- `cash app`
-- `compartamos`
-- `compartamos banco`
-- `plantas`
-- `plantitas`
-
-### Duplicates To Resolve Later
-
-Astro is also carrying repeated rows or repeated near-identical variants. Those should be cleaned after the obvious junk is gone.
-
-Examples:
-
-- `calculator` in the US
-- `compare` in the US
-- `planning` in the US
-- `monthly` in the US
-- `pmi` in the US
-- `tax` in the US
-- `rental` in the US
-- `refinanciar` in Peru
-- `amortizacion` in Peru
-- `prestamo` and `préstamo` in Peru
-- `cuota` in Peru
-
-### 5. Improve ratings as a conversion multiplier
-
-Astro did not return usable US ratings history for Bricks Calc on May 2, 2026. That should be treated as a reporting gap until verified elsewhere.
-
-Regardless, competitor review counts are large enough that Bricks Calc should treat review generation as a product priority, not a polish task.
-
-Ask for ratings only after clear value moments:
-
-- saved calculation
-- completed comparison
-- export or share
-- completed refinance or prepayment analysis
+- **Core defend terms**: ~11 keywords
+- **Secondary expansion terms**: ~16 keywords
+- **Spanish terms**: ~19 keywords per store
+- **Experimental terms**: ~11 keywords
+- **Remove candidates**: terms identified in May 2 report that are still present
 
 ## Executive Priority List
 
-1. Defend US rankings for `mortgage calculator`, `mortgage calculator free`, `loan calculator`, and `amortization calculator`.
-2. Use the next App Store metadata pass to improve `refinance calculator` and `prepayment calculator`.
-3. Refresh screenshot order and captions so the page sells scenario depth, not just basic calculation.
-4. Audit and clean the Astro keyword set so reporting is trustworthy.
-5. Re-check Spanish metadata and screenshot language for Peru because `calculadora hipotecaria` has weakened since late April.
+1. **Defend** US rankings for `mortgage calculator` (#7), `mortgage calculator free` (#3), `loan calculator` (#1 niche), and `amortization loan calculator` (#5).
+2. **Push** `refinance calculator`, `prepayment calculator`, and `home loan calculator` through metadata changes.
+3. **Expand** Mexico metadata to capture `prestamo` and `calculadora` visibility.
+4. **Decide** Spain: invest in localization or remove from tracking.
+5. **Accelerate** review generation as conversion multiplier.
+6. **Monitor** the new keyword entries (ai mortgage calculator, property tax calculator, rental income calculator) to decide if they deserve metadata support.
 
 ## Bottom Line
 
-Bricks Calc has moved out of the “can it rank at all?” stage in the US.
+Bricks Calc is no longer just "winning niche terms." It is building a defensible multi-market, multi-platform position in the mortgage calculator category.
 
-The next stage is sharper:
+The next phase is converting that visibility into installs, unlocks, and reviews—because the ranking engine is working, but the proof engine (reviews, screenshots, conversion) has not kept pace.
 
-Turn broad calculator visibility into defensible mortgage-category authority, then use clearer feature proof to convert that visibility into more installs, more unlocks, and more reviews.
+The LATAM expansion is the biggest new development. Seven stores are now indexed and returning real rankings. Mexico is the prize. Spain is the question mark. Peru is the anchor.
