@@ -73,11 +73,11 @@ Do not include the app name in keywords. The title already carries `Bricks`.
 
 Lead with the practical job:
 
-Calculate monthly payments and compare mortgage or loan scenarios.
+Estimate the real monthly cost of a mortgage, then compare, adjust, and track what changes over time.
 
 Then explain the difference:
 
-Bricks Calc includes amortization, prepayments, refinance comparisons, taxes, PMI, rental income, and local-first Apple sync.
+Bricks Calc is a mortgage planning companion for before, during, and after the loan. Estimate quickly, compare scenarios, test extra payments, check refinance options, and keep mortgage details organized across devices.
 
 Avoid leading with broad claims like “master your financial future.” They may sound bigger, but they lower trust and make the app harder to place in search.
 
@@ -94,33 +94,32 @@ The first screen should answer four questions quickly:
 
 ### Screenshots
 
-Recommended screenshot order:
+Recommended screenshot order and specific copy:
 
-1. Monthly payment result with principal, interest, taxes, PMI, and insurance visible.
-2. Side-by-side loan comparison.
-3. Amortization chart with principal versus interest.
-4. Prepayment scenario showing interest saved and time saved.
-5. Refinance comparison or rental income cash flow.
-6. Apple-native/local-first proof: iPhone, iPad, Mac, iCloud sync.
-
-Each screenshot caption should be short and specific:
-
-- Calculate the real monthly payment.
-- Compare loan options side by side.
-- See principal and interest over time.
-- Test extra payments before you commit.
-- Check refinance and rental income scenarios.
-- Built for iPhone, iPad, and Mac.
+1. **Title:** Estimate your monthly payment
+   **Subtitle:** Start with a quick mortgage estimate.
+2. **Title:** See the real monthly cost
+   **Subtitle:** Include taxes, insurance, and full loan costs.
+3. **Title:** Compare loan offers
+   **Subtitle:** Review mortgage scenarios side by side.
+4. **Title:** Understand the loan over time
+   **Subtitle:** See principal, interest, and balance over time.
+5. **Title:** Test extra payments
+   **Subtitle:** See how faster payments affect time and interest.
+6. **Title:** Track and refinance later
+   **Subtitle:** Keep the loan updated and review refinance options over time.
 
 ### Pricing
 
 Do not say “no subscription” while a yearly access option is publicly listed.
 
+Frame the purchase around continuity:
+
+> Keep every plan, scenario, and extra payment saved.
+
 Recommended wording:
 
-Free to try. No account required. Unlock unlimited saved calculations with an in-app purchase, including a one-time option.
-
-This keeps the one-time purchase advantage without creating a trust problem.
+Free to try. No account required. Save every mortgage plan with an in-app purchase, including a one-time option.
 
 ### Reviews
 
@@ -189,7 +188,7 @@ Rationale: this keeps `Amortization` and `Payment` visible near the title. It is
 ### Promotional Text
 
 ```text
-Calculate mortgage and loan payments, compare scenarios, and test prepayments or refinance options. No account required.
+Estimate your monthly payment, include taxes and insurance, compare loan scenarios, and test extra payments before you decide. No account required.
 ```
 
 ### Description
@@ -197,9 +196,9 @@ Calculate mortgage and loan payments, compare scenarios, and test prepayments or
 ```text
 Plan your mortgage or loan with clear numbers.
 
-Bricks Calc is a mortgage calculator and loan calculator for iPhone and iPad. Calculate monthly payments, compare scenarios, and understand the full cost of a loan before you commit.
+Bricks Calc is a mortgage calculator and planning companion for iPhone and iPad. Estimate monthly payments, include real cost inputs, compare scenarios, and test extra payments and refinance options before you commit.
 
-Adjust the loan amount, down payment, interest rate, and term. Add taxes, insurance, PMI, rental income, or extra payments. See the impact instantly.
+Adjust the loan amount, down payment, interest rate, and term. Add taxes, insurance, PMI, rental income, or extra payments. See the impact instantly and save your plans for later.
 
 No spreadsheets. No account required. No ads.
 
@@ -288,7 +287,7 @@ loan,app,tax,rental,pmi,debt,home,real,estate,house,equity,rate,property,buy,fre
 ### Promotional Text
 
 ```text
-Calculate mortgage and loan payments, compare scenarios, and test prepayments or refinance options on Mac. No account required.
+Estimate your monthly payment, include taxes and insurance, compare loan scenarios, and test extra payments before you decide. No account required.
 ```
 
 ### Description
@@ -296,9 +295,9 @@ Calculate mortgage and loan payments, compare scenarios, and test prepayments or
 ```text
 Plan your mortgage or loan with clear numbers on Mac.
 
-Bricks Calc is a mortgage calculator and loan calculator for macOS. Calculate monthly payments, compare scenarios, and understand the full cost of a loan before you commit.
+Bricks Calc is a mortgage calculator and planning companion for macOS. Estimate monthly payments, include real cost inputs, compare scenarios, and test extra payments and refinance options before you commit.
 
-Adjust the loan amount, down payment, interest rate, and term. Add taxes, insurance, PMI, rental income, or extra payments. See the impact instantly.
+Adjust the loan amount, down payment, interest rate, and term. Add taxes, insurance, PMI, rental income, or extra payments. See the impact instantly and save your plans for later.
 
 No spreadsheets. No account required. No ads.
 
@@ -387,7 +386,7 @@ loan,app,tax,rental,pmi,debt,home,real,estate,house,equity,rate,property,buy,fre
 ### Promotional Text
 
 ```text
-Calculate mortgage and loan payments, compare scenarios, and review loan options on Apple Vision. No account required.
+Estimate your monthly payment, include taxes and insurance, compare loan scenarios, and test extra payments before you decide. No account required.
 ```
 
 ### Description
@@ -395,9 +394,9 @@ Calculate mortgage and loan payments, compare scenarios, and review loan options
 ```text
 Plan your mortgage or loan with clear numbers on Apple Vision.
 
-Bricks Calc is a mortgage calculator and loan calculator for Apple Vision. Calculate monthly payments, compare scenarios, and understand the full cost of a loan before you commit.
+Bricks Calc is a mortgage calculator and planning companion for Apple Vision. Estimate monthly payments, include real cost inputs, compare scenarios, and test extra payments and refinance options before you commit.
 
-Adjust the loan amount, down payment, interest rate, and term. Add taxes, insurance, PMI, rental income, or extra payments. See the impact instantly.
+Adjust the loan amount, down payment, interest rate, and term. Add taxes, insurance, PMI, rental income, or extra payments. See the impact instantly and save your plans for later.
 
 No spreadsheets. No account required. No ads.
 

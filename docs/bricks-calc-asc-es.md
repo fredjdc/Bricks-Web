@@ -81,20 +81,25 @@ Combinaciones que ayuda a formar:
 
 Primero decir qué hace:
 
-Calcula cuotas de crédito hipotecario y compara escenarios.
+Estima la cuota real de un crédito hipotecario, y luego compara, ajusta y lleva un control de lo que cambia con el tiempo.
 
 Luego decir por qué importa:
 
-Permite revisar amortización, pagos adelantados, refinanciamiento, impuestos, seguro, PMI e ingresos por alquiler sin depender de hojas de cálculo.
+Bricks Calc es tu compañero para planificar tu crédito antes, durante y después del préstamo. Estima rápido, compara escenarios, prueba pagos adelantados, revisa opciones de refinanciamiento y mantén todo organizado en tus dispositivos.
 
 ## Conversión
 
-La ficha en español debe responder rápido:
+La ficha en español debe responder rápido siguiendo el nuevo orden narrativo:
 
-- Qué hace: calcula cuotas y compara créditos hipotecarios.
-- Para quién: compradores, agentes inmobiliarios y profesionales que revisan escenarios con clientes.
-- Por qué confiar: los cálculos se quedan en el dispositivo, no requiere cuenta y no tiene anuncios.
-- Cómo se paga: gratis para probar, con compra dentro de la app y opción de pago único.
+1. **Estimar:** Estima la cuota de tu crédito hipotecario
+2. **Costo Real:** Incluye impuestos, seguro y costos reales
+3. **Comparar:** Revisa escenarios lado a lado
+4. **Entender a largo plazo:** Ve el impacto en el tiempo
+5. **Pagos Adelantados:** Prueba ahorros en tiempo e interés
+6. **Seguimiento y Refinanciamiento:** Actualiza el préstamo a futuro
+
+Enfocar la compra en la continuidad:
+"Guarda cada plan hipotecario. Gratis para probar. Guarda cada escenario hipotecario con una compra dentro de la app, incluyendo opción de pago único."
 
 Evitar prometer “sin suscripción” mientras exista una opción anual visible en App Store.
 
@@ -138,7 +143,7 @@ Racional: concentra los términos locales más útiles sin sonar genérico.
 ### Promotional Text
 
 ```text
-Calcula cuotas de crédito hipotecario, compara escenarios y prueba pagos adelantados o refinanciamiento. Sin crear cuenta.
+Estima tu cuota mensual, incluye impuestos y seguro, compara escenarios y prueba pagos adelantados antes de decidir. Sin crear cuenta.
 ```
 
 ### Description
@@ -146,9 +151,9 @@ Calcula cuotas de crédito hipotecario, compara escenarios y prueba pagos adelan
 ```text
 Planifica tu crédito hipotecario con números claros.
 
-Bricks Calc es una calculadora hipotecaria y de préstamos para iPhone y iPad. Calcula cuotas, compara escenarios y entiende el costo real de un crédito antes de tomar una decisión.
+Bricks Calc es una calculadora hipotecaria y un compañero de planificación para iPhone y iPad. Estima tu cuota, incluye los costos reales, compara escenarios y prueba opciones de refinanciamiento y pagos adelantados antes de decidir.
 
-Ajusta el monto del préstamo, cuota inicial, tasa de interés y plazo. Agrega impuestos, seguro, PMI, ingresos por alquiler o pagos adelantados. Ve el impacto al instante.
+Ajusta el monto del préstamo, cuota inicial, tasa de interés y plazo. Agrega impuestos, seguro, PMI, ingresos por alquiler o pagos adelantados. Ve el impacto al instante y guarda tus planes.
 
 Sin hojas de cálculo. Sin crear cuenta. Sin anuncios.
 
@@ -237,7 +242,7 @@ hipoteca,credito,prestamo,calculadora,amortizacion,cuota,inicial,interes,alquile
 ### Promotional Text
 
 ```text
-Calcula cuotas de crédito hipotecario, compara escenarios y revisa refinanciamiento desde tu Mac. Sin crear cuenta.
+Estima tu cuota mensual, incluye impuestos y seguro, compara escenarios y prueba pagos adelantados antes de decidir. Sin crear cuenta.
 ```
 
 ### Description
@@ -245,9 +250,9 @@ Calcula cuotas de crédito hipotecario, compara escenarios y revisa refinanciami
 ```text
 Planifica tu crédito hipotecario con números claros en Mac.
 
-Bricks Calc es una calculadora hipotecaria y de préstamos para macOS. Calcula cuotas, compara escenarios y entiende el costo real de un crédito antes de tomar una decisión.
+Bricks Calc es una calculadora hipotecaria y un compañero de planificación para macOS. Estima tu cuota, incluye los costos reales, compara escenarios y prueba opciones de refinanciamiento y pagos adelantados antes de decidir.
 
-Ajusta el monto del préstamo, cuota inicial, tasa de interés y plazo. Agrega impuestos, seguro, PMI, ingresos por alquiler o pagos adelantados. Ve el impacto al instante.
+Ajusta el monto del préstamo, cuota inicial, tasa de interés y plazo. Agrega impuestos, seguro, PMI, ingresos por alquiler o pagos adelantados. Ve el impacto al instante y guarda tus planes.
 
 Sin hojas de cálculo. Sin crear cuenta. Sin anuncios.
 
@@ -336,7 +341,7 @@ hipoteca,credito,prestamo,calculadora,amortizacion,cuota,inicial,interes,alquile
 ### Promotional Text
 
 ```text
-Calcula cuotas de crédito hipotecario, compara escenarios y revisa opciones en Apple Vision. Sin crear cuenta.
+Estima tu cuota mensual, incluye impuestos y seguro, compara escenarios y prueba pagos adelantados antes de decidir. Sin crear cuenta.
 ```
 
 ### Description
@@ -344,9 +349,9 @@ Calcula cuotas de crédito hipotecario, compara escenarios y revisa opciones en 
 ```text
 Planifica tu crédito hipotecario con números claros en Apple Vision.
 
-Bricks Calc es una calculadora hipotecaria y de préstamos para Apple Vision. Calcula cuotas, compara escenarios y entiende el costo real de un crédito antes de tomar una decisión.
+Bricks Calc es una calculadora hipotecaria y un compañero de planificación para Apple Vision. Estima tu cuota, incluye los costos reales, compara escenarios y prueba opciones de refinanciamiento y pagos adelantados antes de decidir.
 
-Ajusta el monto del préstamo, cuota inicial, tasa de interés y plazo. Agrega impuestos, seguro, PMI, ingresos por alquiler o pagos adelantados. Ve el impacto al instante.
+Ajusta el monto del préstamo, cuota inicial, tasa de interés y plazo. Agrega impuestos, seguro, PMI, ingresos por alquiler o pagos adelantados. Ve el impacto al instante y guarda tus planes.
 
 Sin hojas de cálculo. Sin crear cuenta. Sin anuncios.
 
