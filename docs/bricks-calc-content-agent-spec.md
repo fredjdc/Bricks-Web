@@ -54,11 +54,10 @@ Use this when the post is for buyers, affordability, monthly payment, or side-by
 
 Highest-confidence claims:
 
-- "See the real monthly cost. Before you commit."
-- "Estimate payment, total loan cost, and side-by-side scenarios."
-- "Know the payment before the paperwork."
-- "Compare scenarios before you choose."
-- "Test extra payments. Check refinance later."
+- "See the real monthly cost of a home before you commit."
+- "Estimate your monthly payment, then plan what changes over time."
+- "Compare, adjust, and track your mortgage before, during, and after the loan."
+- "Save every mortgage plan and extra payment scenario without limits."
 - "Free to try. No account required. One-time unlock available."
 
 Primary landing page for buyer-focused conversion posts:
@@ -71,8 +70,9 @@ Source: `calc.html`.
 
 Use these claims as the highest-confidence public positioning:
 
-- "Mortgage Calculator. Compare real loan options."
-- "Calculate monthly payments, compare mortgage and loan scenarios, and show the impact of rates, terms, prepayments, taxes, PMI, and rental income."
+- "Estimate your monthly payment, then plan what changes over time."
+- "Compare, adjust, and track your mortgage before, during, and after the loan."
+- "Save every mortgage plan and extra payment scenario without limits."
 - "Free to try. No account required. One-time unlock available."
 - "A mortgage calculator should make the next decision clearer."
 - "See the monthly commitment, not just principal and interest."

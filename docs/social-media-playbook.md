@@ -187,7 +187,7 @@ Know the monthly payment before you move forward.
 
 Bricks Calc helps you estimate the loan amount, interest, taxes, and insurance in one place, so the real cost is easier to understand before making a decision.
 
-Calculate before you commit.
+Estimate the payment. Plan what changes.
 Link in bio.
 
 **Hashtags:**
@@ -357,7 +357,7 @@ Use a consistent CTA system. Do not rotate too many calls to action.
 
 | App | CTA |
 |---|---|
-| Bricks Calc | Calculate before you commit. |
+| Bricks Calc | Estimate the payment. Plan what changes. |
 | Bricks Scan | Scan once. Find it instantly. |
 | Bricks Leads | Track every lead from first contact to close. |
 | Bricks Apps | Built for faster decisions, without extra accounts. |
@@ -371,7 +371,7 @@ Use:
 - Try the Bricks Leads beta.
 - See Bricks Calc.
 - Link in bio.
-- Calculate before you commit.
+- Estimate the payment. Plan what changes.
 - Scan once. Find it instantly.
 
 Avoid:
