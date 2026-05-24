@@ -1,0 +1,18 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Radii</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+body{margin:0;padding:24px;font-family:var(--bricks-font-stack);background:#F6F7F8}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:end}
+.b{background:#F6F7F8;box-shadow:var(--bricks-emboss-raised);display:flex;align-items:center;justify-content:center;font-size:12px;color:#55626E}
+.s1{width:72px;height:72px;border-radius:12px}
+.s2{width:110px;height:92px;border-radius:24px}
+.s3{width:140px;height:110px;border-radius:48px}
+.cap{font-family:var(--bricks-font-mono);font-size:11px;color:var(--bricks-text-secondary);margin-top:8px;text-align:center}
+.col{display:flex;flex-direction:column;align-items:center}
+</style></head><body>
+<div class="row">
+  <div class="col"><div class="b s1"></div><div class="cap">r1-small · 12px<br>chips, list items</div></div>
+  <div class="col"><div class="b s2"></div><div class="cap">r2-inner · 24px<br>buttons, fields</div></div>
+  <div class="col"><div class="b s3"></div><div class="cap">r3-primary · 48px<br>cards, wells</div></div>
+</div>
+</body></html>

@@ -1,0 +1,146 @@
+/* ==========================================================================
+   Bricks Apps — Colors & Type Tokens
+   Extracted from Bricks-Page styles.css and brand-system.md
+   Soft-Emboss (Monochrome Bas-Relief) + per-product accent
+   ========================================================================== */
+
+:root {
+  /* ---------- COOL NEUTRAL BASE (Web) ------------------------------------ */
+  --bricks-bg-primary:   #F6F7F8;   /* Off-white base (canvas) */
+  --bricks-bg-white:     #FFFFFF;   /* Pure white — top highlight */
+  --bricks-surface-shadow: #E7ECEF; /* Cool gray — soft shadow side of emboss */
+  --bricks-depth-plane:  #C9D3DA;   /* Cool gray — mid depth / separators */
+  --bricks-edge-def:     #9AA7B2;   /* Cool gray — edge definition, muted UI */
+
+  /* ---------- TEXT ------------------------------------------------------- */
+  --bricks-text-primary:    #0B0F14;              /* Near-black */
+  --bricks-text-secondary:  #55626E;              /* Supporting text */
+  --bricks-text-tertiary:   rgba(11, 15, 20, 0.38); /* Disabled */
+  --bricks-text-on-dark:    rgba(255,255,255,0.97);
+
+  /* ---------- PRODUCT ACCENTS (one per asset, used as inlay/highlight) --- */
+  --bricks-accent-umbrella: #0B0F14;  /* Bricks umbrella — dark */
+  --bricks-accent-teal:     #00A6A1;  /* Bricks Scan — marketing teal */
+  --bricks-accent-teal-vivid:#00C7B2; /* Scan teal — web/hover */
+  --bricks-accent-blue:     #007AFF;  /* Bricks Calc — iOS system blue */
+  --bricks-accent-orange:   #FF9500;  /* Bricks Leads — iOS system orange */
+
+  /* ---------- SEMANTIC --------------------------------------------------- */
+  --bricks-success: #34C85A;
+  --bricks-destructive: #D32F2F;
+  --bricks-amber:   #F59E0B;
+
+  /* ---------- TYPE ------------------------------------------------------- */
+  --bricks-font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter", system-ui, sans-serif;
+  --bricks-font-mono:  "SF Mono", "Menlo", ui-monospace, monospace;
+
+  /* Role-specific (from web styles.css) */
+  --bricks-size-hero: 48px;     --bricks-weight-hero: 900;
+  --bricks-size-h2: 36px;       --bricks-weight-h2: 900;
+  --bricks-size-h3: 22px;       --bricks-weight-h3: 600;
+  --bricks-size-body: 18px;     --bricks-weight-body: 400;
+  --bricks-size-body-sm: 15px;
+  --bricks-size-meta: 14px;
+  --bricks-size-label: 12px;    /* uppercase, tracked */
+
+  --bricks-leading-tight: 1.05;
+  --bricks-leading-body: 1.6;
+  --bricks-track-tight: -0.03em;
+  --bricks-track-wide:  0.05em;
+
+  /* ---------- SPACING ---------------------------------------------------- */
+  --bricks-space-xs: 8px;
+  --bricks-space-s:  16px;
+  --bricks-space-sm: 32px;
+  --bricks-space-md: 64px;
+  --bricks-space-lg: 96px;
+  --bricks-space-xl: 120px;
+
+  /* ---------- RADII (three-tier family) --------------------------------- */
+  --bricks-r1-small:   12px;  /* small details */
+  --bricks-r2-inner:   24px;  /* inner cutouts / buttons / fields */
+  --bricks-r3-primary: 48px;  /* primary silhouette / cards */
+
+  /* ---------- BAS-RELIEF SHADOWS (the signature move) ------------------- */
+  --bricks-emboss-raised:
+    12px 12px 24px var(--bricks-surface-shadow),
+   -12px -12px 24px var(--bricks-bg-white);
+  --bricks-emboss-raised-hover:
+    16px 16px 32px var(--bricks-surface-shadow),
+   -16px -16px 32px var(--bricks-bg-white);
+  --bricks-emboss-recessed:
+    inset 6px 6px 12px var(--bricks-surface-shadow),
+    inset -6px -6px 12px var(--bricks-bg-white);
+  --bricks-emboss-soft:
+    4px 6px 16px var(--bricks-surface-shadow),
+   -2px -2px 6px var(--bricks-bg-white);
+
+  /* Drop shadow (dark/primary buttons only) */
+  --bricks-shadow-dark-btn: 0 12px 32px rgba(11,15,20,.24), 0 4px 8px rgba(11,15,20,.12);
+
+  /* ---------- MOTION ----------------------------------------------------- */
+  --bricks-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --bricks-ease-reveal:   cubic-bezier(0.2, 0.8, 0.2, 1);
+  --bricks-ease-spring:   cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  --bricks-dur-hover: 0.3s;
+  --bricks-dur-reveal: 0.8s;
+}
+
+/* =========================================================================
+   SEMANTIC ROLES — apply .bricks to a root to inherit
+   ========================================================================= */
+
+.bricks {
+  font-family: var(--bricks-font-stack);
+  background-color: var(--bricks-bg-primary);
+  color: var(--bricks-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: var(--bricks-leading-body);
+}
+
+/* Headings */
+.bricks h1, .bricks .h1 {
+  font-size: var(--bricks-size-hero);
+  font-weight: var(--bricks-weight-hero);
+  line-height: var(--bricks-leading-tight);
+  letter-spacing: var(--bricks-track-tight);
+  color: var(--bricks-text-primary);
+}
+.bricks h2, .bricks .h2 {
+  font-size: var(--bricks-size-h2);
+  font-weight: var(--bricks-weight-h2);
+  line-height: 1.12;
+  letter-spacing: var(--bricks-track-tight);
+  color: var(--bricks-text-primary);
+}
+.bricks h3, .bricks .h3 {
+  font-size: var(--bricks-size-h3);
+  font-weight: var(--bricks-weight-h3);
+  letter-spacing: -0.01em;
+  color: var(--bricks-text-primary);
+}
+.bricks .body {
+  font-size: var(--bricks-size-body);
+  color: var(--bricks-text-secondary);
+  line-height: var(--bricks-leading-body);
+}
+.bricks .body-sm  { font-size: var(--bricks-size-body-sm); color: var(--bricks-text-secondary); }
+.bricks .meta     { font-size: var(--bricks-size-meta); color: var(--bricks-text-secondary); }
+.bricks .label {
+  font-size: var(--bricks-size-label);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--bricks-track-wide);
+  color: var(--bricks-text-tertiary);
+}
+.bricks code, .bricks .mono {
+  font-family: var(--bricks-font-mono);
+  font-size: 14px;
+}
+
+/* Per-product accent scoping — add .accent-{name} to a subtree */
+.accent-scan   { --bricks-accent: var(--bricks-accent-teal); }
+.accent-calc   { --bricks-accent: var(--bricks-accent-blue); }
+.accent-leads  { --bricks-accent: var(--bricks-accent-orange); }
+.accent-umbrella { --bricks-accent: var(--bricks-accent-umbrella); }

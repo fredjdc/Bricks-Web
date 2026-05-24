@@ -8,11 +8,11 @@ Bricks Page is the static public web surface for Bricks Apps. Its primary domain
 
 Before editing any web content, read these:
 
-1. [`Bricks-Documentation/apps/bricks-website/product/overview.md`](../Bricks-Documentation/apps/bricks-website/product/overview.md) — what the site covers
-2. [`Bricks-Documentation/shared/brand/brand-foundation.md`](../Bricks-Documentation/shared/brand/brand-foundation.md) — brand voice and personality
-3. [`Bricks-Documentation/shared/brand/brand-system.md`](../Bricks-Documentation/shared/brand/brand-system.md) — visual system, colors, typography
-4. [`Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md`](../Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md) — site structure, routing, and deployment
-5. [`docs/README.md`](./docs/README.md) — local setup and site map
+1. [`docs/_canonical/apps/bricks-website/product/overview.md`](./_canonical/apps/bricks-website/product/overview.md) — what the site covers
+2. [`docs/_canonical/shared/brand/brand-foundation.md`](./_canonical/shared/brand/brand-foundation.md) — brand voice and personality
+3. [`docs/_canonical/shared/brand/brand-system.md`](./_canonical/shared/brand/brand-system.md) — visual system, colors, typography
+4. [`docs/_canonical/apps/bricks-website/engineering/dev-guide.md`](./_canonical/apps/bricks-website/engineering/dev-guide.md) — site structure, routing, and deployment
+5. [`README.md`](README.md) — local setup and site map
 
 ---
 
@@ -31,7 +31,7 @@ Before editing any web content, read these:
 
 - Do not use hardcoded hex colors — reference CSS custom properties or the values defined in `brand-system.md`.
 - Do not introduce JavaScript frameworks (React, Vue, etc.) — the site uses vanilla JS.
-- Do not add copy that contradicts product positioning — check `Bricks-Documentation/apps/[product]/product/positioning.md` before writing product descriptions.
+- Do not add copy that contradicts product positioning — check the vendored canonical docs under `docs/_canonical/apps/` before writing product descriptions.
 
 ---
 
@@ -41,7 +41,7 @@ Documentation is part of the deliverable. The task is not complete until code an
 
 When implementation changes behavior, structure, workflow, or limits:
 
-- Identify the affected canonical docs in `Bricks-Documentation`.
+- Identify the affected canonical docs in `docs/_canonical/`.
 - Update those canonical docs in the same pass.
 - Update local `docs/` files only when repo-specific workflow changed.
 - Add new canonical docs only if they fit the approved structure, then update `docs-manifest.yaml` and `documentation-backlog.md` in the same pass.
@@ -61,6 +61,6 @@ Update docs when changes affect any of:
 
 ## Product & Brand Context
 
-For brand voice: [`Bricks-Documentation/shared/brand/brand-foundation.md`](../Bricks-Documentation/shared/brand/brand-foundation.md)
+For brand voice: [`docs/_canonical/shared/brand/brand-foundation.md`](./_canonical/shared/brand/brand-foundation.md)
 
-For product positioning: [`Bricks-Documentation/apps/bricks-scan/product/positioning.md`](../Bricks-Documentation/apps/bricks-scan/product/positioning.md), [`Bricks-Documentation/apps/bricks-calc/product/positioning.md`](../Bricks-Documentation/apps/bricks-calc/product/positioning.md)
+For product positioning: use the vendored canonical app docs under `docs/_canonical/apps/`.

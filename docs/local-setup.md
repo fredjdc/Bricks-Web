@@ -46,4 +46,4 @@ Note:
 - This repo snapshot was prepared in an environment without `node` or `npm`, so the build script was added but not executed here.
 
 For full development guidance, use:
-[`Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md`](../../Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md)
+[`docs/_canonical/apps/bricks-website/engineering/dev-guide.md`](./_canonical/apps/bricks-website/engineering/dev-guide.md)

@@ -4,10 +4,10 @@ Local repo guidance for Bricks Page contributors.
 
 ## Read First
 
-1. [`Bricks-Documentation/apps/bricks-website/product/overview.md`](../../Bricks-Documentation/apps/bricks-website/product/overview.md)
-2. [`Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md`](../../Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md)
-3. [`Bricks-Documentation/shared/brand/brand-foundation.md`](../../Bricks-Documentation/shared/brand/brand-foundation.md)
-4. [`Bricks-Documentation/shared/brand/brand-system.md`](../../Bricks-Documentation/shared/brand/brand-system.md)
+1. [`docs/_canonical/apps/bricks-website/product/overview.md`](./_canonical/apps/bricks-website/product/overview.md)
+2. [`docs/_canonical/apps/bricks-website/engineering/dev-guide.md`](./_canonical/apps/bricks-website/engineering/dev-guide.md)
+3. [`docs/_canonical/shared/brand/brand-foundation.md`](./_canonical/shared/brand/brand-foundation.md)
+4. [`docs/_canonical/shared/brand/brand-system.md`](./_canonical/shared/brand/brand-system.md)
 
 ## Local Docs Only
 

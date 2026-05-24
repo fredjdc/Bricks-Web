@@ -81,12 +81,12 @@ Fast map of the website repository.
 | `seo-validation-checklist.md` | Post-change checklist for Search Console, Rich Results Test, and Lighthouse |
 | `local-setup.md` | Local development environment setup instructions |
 | `content-agent-base.md` | Base specification shared by all per-app content agents |
-| `brics-calc-content-agent-spec.md` | Content agent spec — Bricks Calc |
-| `brics-scan-content-agent-spec.md` | Content agent spec — Bricks Scan (stub) |
-| `brics-leads-content-agent-spec.md` | Content agent spec — Bricks Leads (stub) |
-| `brics-calc-asc-en.md` | App Store Connect metadata — Bricks Calc (English) |
-| `brics-calc-asc-es.md` | App Store Connect metadata — Bricks Calc (Spanish) |
-| `brics-scan-asc-en.md` | App Store Connect metadata — Bricks Scan (English) |
+| `bricks-calc-content-agent-spec.md` | Content agent spec — Bricks Calc |
+| `bricks-scan-content-agent-spec.md` | Content agent spec — Bricks Scan (stub) |
+| `bricks-leads-content-agent-spec.md` | Content agent spec — Bricks Leads (stub) |
+| `bricks-calc-asc-en.md` | App Store Connect metadata — Bricks Calc (English) |
+| `bricks-calc-asc-es.md` | App Store Connect metadata — Bricks Calc (Spanish) |
+| `bricks-scan-asc-en.md` | App Store Connect metadata — Bricks Scan (English) |
 
 ## CI / GitHub
 
@@ -99,4 +99,4 @@ Fast map of the website repository.
 ---
 
 For the canonical engineering explanation, use:
-[`Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md`](../../Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md)
+[`docs/_canonical/apps/bricks-website/engineering/dev-guide.md`](./_canonical/apps/bricks-website/engineering/dev-guide.md)

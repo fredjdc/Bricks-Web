@@ -2,16 +2,16 @@
 
 This folder is for repo-specific workflow docs only.
 
-Canonical website documentation now lives in `Bricks-Documentation`.
+Canonical website documentation is vendored into this repo under `docs/_canonical/`.
 
 ## Canonical Docs
 
 | Topic | Canonical file |
 |---|---|
-| Website overview | [`Bricks-Documentation/apps/bricks-website/product/overview.md`](../../Bricks-Documentation/apps/bricks-website/product/overview.md) |
-| Development guide | [`Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md`](../../Bricks-Documentation/apps/bricks-website/engineering/dev-guide.md) |
-| Brand foundation | [`Bricks-Documentation/shared/brand/brand-foundation.md`](../../Bricks-Documentation/shared/brand/brand-foundation.md) |
-| Brand system | [`Bricks-Documentation/shared/brand/brand-system.md`](../../Bricks-Documentation/shared/brand/brand-system.md) |
+| Website overview | [`docs/_canonical/apps/bricks-website/product/overview.md`](./_canonical/apps/bricks-website/product/overview.md) |
+| Development guide | [`docs/_canonical/apps/bricks-website/engineering/dev-guide.md`](./_canonical/apps/bricks-website/engineering/dev-guide.md) |
+| Brand foundation | [`docs/_canonical/shared/brand/brand-foundation.md`](./_canonical/shared/brand/brand-foundation.md) |
+| Brand system | [`docs/_canonical/shared/brand/brand-system.md`](./_canonical/shared/brand/brand-system.md) |
 
 ## Local Docs
 

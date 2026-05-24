@@ -1,0 +1,1300 @@
+documents:
+  - path: README.md
+    title: Bricks Documentation Hub
+    doc_id: docs-root-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/documentation-system-spec.md
+    title: Bricks Documentation System Spec
+    doc_id: docs-governance-system-spec
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/README.md
+    title: Shared Documentation
+    doc_id: shared-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/README.md
+    title: Shared Brand Documentation
+    doc_id: shared-brand-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/CLAUDE.md
+    title: Shared Brand Documentation — Claude Context
+    doc_id: shared-brand-claude-context
+    doc_type: ai
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/CODEX.md
+    title: Shared Brand Documentation — Codex Context
+    doc_id: shared-brand-codex-context
+    doc_type: ai
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/brand-foundation.md
+    title: Brand Foundation
+    doc_id: shared-brand-foundation
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/brand-voice-guide.md
+    title: Brand Voice Guide
+    doc_id: shared-brand-voice-guide
+    doc_type: product
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/brand-system.md
+    title: Bricks Brand System
+    doc_id: shared-brand-system
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/README.md
+    title: Shared Engineering Documentation
+    doc_id: shared-engineering-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/codebase-principles.md
+    title: Codebase Principles and Patterns
+    doc_id: shared-engineering-codebase-principles
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/design-system.md
+    title: Bricks Design System
+    doc_id: shared-brand-design-system
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/design-system-gap-report.md
+    title: Design System Gap Report
+    doc_id: shared-brand-design-system-gap-report
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/tokens.json
+    title: Bricks Design Tokens
+    doc_id: shared-brand-tokens
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/colors_and_type.css
+    title: Bricks CSS Design Tokens
+    doc_id: shared-brand-colors-and-type
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/images_and_illustrations.md
+    title: Bricks Image & Illustration Guide
+    doc_id: shared-brand-images-and-illustrations
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/SKILL.md
+    title: Bricks Design Skill
+    doc_id: shared-brand-skill
+    doc_type: ai
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/mailchimp-asset-library.md
+    title: Mailchimp Asset Library
+    doc_id: shared-brand-mailchimp-asset-library
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/mailchimp-operations-log.md
+    title: Mailchimp Operations Log
+    doc_id: shared-brand-mailchimp-operations-log
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/brand/mailchimp-system-manual.md
+    title: Mailchimp Rules & Standards
+    doc_id: shared-brand-mailchimp-system-manual
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/decisions/README.md
+    title: Shared Engineering Decisions
+    doc_id: shared-engineering-decisions-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/ai/README.md
+    title: Shared AI Documentation
+    doc_id: shared-ai-readme
+    doc_type: meta
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/product/README.md
+    title: Shared Product Documentation
+    doc_id: shared-product-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: apps/README.md
+    title: App Documentation
+    doc_id: apps-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: apps/bricks-scan/README.md
+    title: Bricks Scan Documentation
+    doc_id: bricks-scan-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/product/README.md
+    title: Bricks Scan Product Docs
+    doc_id: bricks-scan-product-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/engineering/README.md
+    title: Bricks Scan Engineering Docs
+    doc_id: bricks-scan-engineering-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/ai/README.md
+    title: Bricks Scan AI Docs
+    doc_id: bricks-scan-ai-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/operations/README.md
+    title: Bricks Scan Operations Docs
+    doc_id: bricks-scan-operations-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/decisions/README.md
+    title: Bricks Scan Decisions
+    doc_id: bricks-scan-decisions-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/meta/README.md
+    title: Bricks Scan Meta Docs
+    doc_id: bricks-scan-meta-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/product/overview.md
+    title: Bricks Scan Overview
+    doc_id: bricks-scan-product-overview
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/product/positioning.md
+    title: Bricks Scan Positioning
+    doc_id: bricks-scan-product-positioning
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/product/app-store-copy.md
+    title: Bricks Scan App Store Copy
+    doc_id: bricks-scan-product-app-store-copy
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/product/roadmap.md
+    title: Bricks Scan Roadmap
+    doc_id: bricks-scan-product-roadmap
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/product/content-strategy.md
+    title: Bricks Scan Content Strategy
+    doc_id: bricks-scan-product-content-strategy
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/engineering/architecture.md
+    title: Bricks Scan Architecture
+    doc_id: bricks-scan-engineering-architecture
+    doc_type: engineering
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/engineering/dev-guide.md
+    title: Bricks Scan Development Guide
+    doc_id: bricks-scan-engineering-dev-guide
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/engineering/quick-reference.md
+    title: Bricks Scan Quick Reference
+    doc_id: bricks-scan-engineering-quick-reference
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/engineering/implementation-details.md
+    title: Bricks Scan Implementation Details
+    doc_id: bricks-scan-engineering-implementation-details
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/engineering/performance.md
+    title: Bricks Scan Performance
+    doc_id: bricks-scan-engineering-performance
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/ai/support-agent-prompt.md
+    title: Bricks Scan Support Agent Prompt
+    doc_id: bricks-scan-ai-support-agent-prompt
+    doc_type: ai
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/operations/support-runbook.md
+    title: Bricks Scan Support Runbook
+    doc_id: bricks-scan-operations-support-runbook
+    doc_type: operations
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/operations/release-notes.md
+    title: Bricks Scan Release Notes
+    doc_id: bricks-scan-operations-release-notes
+    doc_type: operations
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/operations/release-checklist.md
+    title: Bricks Scan Release Checklist
+    doc_id: bricks-scan-operations-release-checklist
+    doc_type: operations
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-scan/meta/development-history.md
+    title: Bricks Scan Development History
+    doc_id: bricks-scan-meta-development-history
+    doc_type: meta
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-calc/README.md
+    title: Bricks Calc Documentation
+    doc_id: bricks-calc-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/README.md
+    title: Bricks Calc Product Docs
+    doc_id: bricks-calc-product-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/overview.md
+    title: Bricks Calc Overview
+    doc_id: bricks-calc-product-overview
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/positioning.md
+    title: Bricks Calc Positioning
+    doc_id: bricks-calc-product-positioning
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/app-store-copy.md
+    title: Bricks Calc App Store Copy
+    doc_id: bricks-calc-product-app-store-copy
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/engineering/README.md
+    title: Bricks Calc Engineering Docs
+    doc_id: bricks-calc-engineering-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/engineering/architecture.md
+    title: Bricks Calc Architecture
+    doc_id: bricks-calc-engineering-architecture
+    doc_type: engineering
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/engineering/dev-guide.md
+    title: Bricks Calc Development Guide
+    doc_id: bricks-calc-engineering-dev-guide
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/engineering/testing-strategy.md
+    title: Bricks Calc Testing Strategy
+    doc_id: bricks-calc-engineering-testing-strategy
+    doc_type: engineering
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/engineering/implementation-details.md
+    title: Bricks Calc Implementation Details
+    doc_id: bricks-calc-engineering-implementation-details
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/engineering/code-reference.md
+    title: Bricks Calc Code Reference
+    doc_id: bricks-calc-engineering-code-reference
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/ai/README.md
+    title: Bricks Calc AI Docs
+    doc_id: bricks-calc-ai-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/operations/README.md
+    title: Bricks Calc Operations Docs
+    doc_id: bricks-calc-operations-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/operations/release-notes.md
+    title: Bricks Calc Release Notes
+    doc_id: bricks-calc-operations-release-notes
+    doc_type: operations
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/decisions/README.md
+    title: Bricks Calc Decisions
+    doc_id: bricks-calc-decisions-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/meta/README.md
+    title: Bricks Calc Meta Docs
+    doc_id: bricks-calc-meta-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-leads/README.md
+    title: Bricks Leads Documentation
+    doc_id: bricks-leads-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/product/README.md
+    title: Bricks Leads Product Docs
+    doc_id: bricks-leads-product-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/product/overview.md
+    title: Bricks Leads Overview
+    doc_id: bricks-leads-product-overview
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/engineering/README.md
+    title: Bricks Leads Engineering Docs
+    doc_id: bricks-leads-engineering-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/engineering/architecture.md
+    title: Bricks Leads Architecture
+    doc_id: bricks-leads-engineering-architecture
+    doc_type: engineering
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/engineering/dev-guide.md
+    title: Bricks Leads Development Guide
+    doc_id: bricks-leads-engineering-dev-guide
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/engineering/testing-strategy.md
+    title: Bricks Leads Testing Strategy
+    doc_id: bricks-leads-engineering-testing-strategy
+    doc_type: engineering
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/ai/README.md
+    title: Bricks Leads AI Docs
+    doc_id: bricks-leads-ai-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/operations/README.md
+    title: Bricks Leads Operations Docs
+    doc_id: bricks-leads-operations-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/decisions/README.md
+    title: Bricks Leads Decisions
+    doc_id: bricks-leads-decisions-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/meta/README.md
+    title: Bricks Leads Meta Docs
+    doc_id: bricks-leads-meta-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-website/README.md
+    title: Bricks Website Documentation
+    doc_id: bricks-website-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: apps/bricks-website/product/README.md
+    title: Bricks Website Product Docs
+    doc_id: bricks-website-product-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: apps/bricks-website/product/overview.md
+    title: Bricks Website Overview
+    doc_id: bricks-website-product-overview
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: apps/bricks-website/engineering/README.md
+    title: Bricks Website Engineering Docs
+    doc_id: bricks-website-engineering-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: apps/bricks-website/engineering/dev-guide.md
+    title: Bricks Website Development Guide
+    doc_id: bricks-website-engineering-dev-guide
+    doc_type: engineering
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: apps/bricks-website/ai/README.md
+    title: Bricks Website AI Docs
+    doc_id: bricks-website-ai-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: apps/bricks-website/operations/README.md
+    title: Bricks Website Operations Docs
+    doc_id: bricks-website-operations-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: apps/bricks-website/decisions/README.md
+    title: Bricks Website Decisions
+    doc_id: bricks-website-decisions-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: apps/bricks-website/meta/README.md
+    title: Bricks Website Meta Docs
+    doc_id: bricks-website-meta-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: archive/README.md
+    title: Documentation Archive
+    doc_id: archive-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: archive/legacy/README.md
+    title: Legacy Documentation Archive
+    doc_id: archive-legacy-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/migration-plan.md
+    title: Bricks Documentation Migration Plan
+    doc_id: docs-governance-migration-plan
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/validation-rules.md
+    title: Documentation Validation Rules
+    doc_id: docs-governance-validation-rules
+    doc_type: meta
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/documentation-backlog.md
+    title: Documentation Backlog
+    doc_id: docs-governance-documentation-backlog
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/CLAUDE.md
+    title: Docs Governance Claude Context
+    doc_id: docs-governance-claude-context
+    doc_type: ai
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/CODEX.md
+    title: Docs Governance Codex Context
+    doc_id: docs-governance-codex-context
+    doc_type: ai
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/README.md
+    title: Documentation Templates
+    doc_id: docs-governance-templates-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/app-overview-template.md
+    title: App Overview Template
+    doc_id: docs-governance-template-app-overview
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/positioning-template.md
+    title: Positioning Template
+    doc_id: docs-governance-template-positioning
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/architecture-template.md
+    title: Architecture Template
+    doc_id: docs-governance-template-architecture
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/testing-strategy-template.md
+    title: Testing Strategy Template
+    doc_id: docs-governance-template-testing-strategy
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/release-notes-template.md
+    title: Release Notes Template
+    doc_id: docs-governance-template-release-notes
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/support-runbook-template.md
+    title: Support Runbook Template
+    doc_id: docs-governance-template-support-runbook
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/adr-template.md
+    title: ADR Template
+    doc_id: docs-governance-template-adr
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/templates/ai-context-template.md
+    title: AI Context Template
+    doc_id: docs-governance-template-ai-context
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/CLAUDE.md
+    title: Shared Documentation Claude Context
+    doc_id: shared-claude-context
+    doc_type: ai
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/CODEX.md
+    title: Shared Documentation Codex Context
+    doc_id: shared-codex-context
+    doc_type: ai
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/decisions/adr-001-documentation-system-structure.md
+    title: ADR-001 Documentation System Structure
+    doc_id: shared-engineering-adr-001-documentation-system-structure
+    doc_type: decisions
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/decisions/adr-002-canonical-vs-local-docs-policy.md
+    title: ADR-002 Canonical vs Local Docs Policy
+    doc_id: shared-engineering-adr-002-canonical-vs-local-docs-policy
+    doc_type: decisions
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/decisions/adr-003-appstate-single-source-of-truth.md
+    title: ADR-003 AppState Single Source of Truth
+    doc_id: shared-engineering-adr-003-appstate-single-source-of-truth
+    doc_type: decisions
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/decisions/adr-004-persistence-and-sync-policy.md
+    title: ADR-004 Persistence and Sync Policy
+    doc_id: shared-engineering-adr-004-persistence-and-sync-policy
+    doc_type: decisions
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/decisions/adr-005-localization-standard.md
+    title: ADR-005 Localization Standard
+    doc_id: shared-engineering-adr-005-localization-standard
+    doc_type: decisions
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/engineering/decisions/adr-006-ai-context-generation-policy.md
+    title: ADR-006 AI Context Generation Policy
+    doc_id: shared-engineering-adr-006-ai-context-generation-policy
+    doc_type: decisions
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: apps/bricks-leads/Bricks-Leads-MVP-Aligned.md
+    title: Bricks Leads MVP Plan
+    doc_id: bricks-leads-mvp-aligned
+    doc_type: product
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-leads/product/leads-content-strategy.md
+    title: Bricks Leads — Content Strategy
+    doc_id: bricks-leads-product-content-strategy
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: shared/brand/ui_kits/calc/README.md
+    title: Bricks Calc UI Kit
+    doc_id: shared-brand-ui-kit-calc
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: shared/brand/ui_kits/leads/README.md
+    title: Bricks Leads UI Kit
+    doc_id: shared-brand-ui-kit-leads
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: shared/brand/ui_kits/scan/README.md
+    title: Bricks Scan UI Kit
+    doc_id: shared-brand-ui-kit-scan
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: shared/brand/ui_kits/website/README.md
+    title: Bricks Website UI Kit
+    doc_id: shared-brand-ui-kit-website
+    doc_type: engineering
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-website
+    replacement_path:
+
+  - path: docs-governance/audits/2026-05-24-big-project-docs-drift-audit.md
+    title: Big Project Docs Drift Audit (2026-05-24)
+    doc_id: docs-governance-big-project-docs-drift-audit-2026-05-24
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: reference
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/audits/2026-05-24-big-project-docs-cleanup-plan.md
+    title: Big Project Docs Cleanup Plan (2026-05-24)
+    doc_id: docs-governance-big-project-docs-cleanup-plan-2026-05-24
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: reference
+    app_scope: shared
+    replacement_path:
+
+  - path: docs-governance/audits/2026-05-24-model-selection-memo.md
+    title: Model Selection Memo — Docs Drift Audit & Cleanup (2026-05-24)
+    doc_id: docs-governance-model-selection-memo-docs-audit-2026-05-24
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: reference
+    app_scope: shared
+    replacement_path:
+
+  - path: apps/bricks-calc/product/screenshot-copy.md
+    title: Bricks Calc Screenshot Copy
+    doc_id: bricks-calc-product-screenshot-copy
+    doc_type: product
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: shared/brand/social-media-playbook.md
+    title: Social Media Playbook
+    doc_id: shared-social-media-playbook
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: shared/ai/content-agent-base.md
+    title: Content Agent Base Spec — Bricks Apps
+    doc_id: shared-ai-content-agent-base
+    doc_type: ai
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: shared
+    replacement_path:
+
+  - path: apps/bricks-calc/ai/content-agent-spec.md
+    title: Content Agent Spec — Bricks Calc
+    doc_id: bricks-calc-ai-content-agent-spec
+    doc_type: ai
+    owner: Freddy
+    status: active
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-scan/ai/content-agent-spec.md
+    title: Content Agent Spec — Bricks Scan
+    doc_id: bricks-scan-ai-content-agent-spec
+    doc_type: ai
+    owner: Freddy
+    status: stub
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: apps/bricks-leads/ai/content-agent-spec.md
+    title: Content Agent Spec — Bricks Leads
+    doc_id: bricks-leads-ai-content-agent-spec
+    doc_type: ai
+    owner: Freddy
+    status: stub
+    role: canonical
+    app_scope: bricks-leads
+    replacement_path:
+
+  - path: apps/bricks-calc/product/conversion-messaging-system.md
+    title: Bricks Calc Conversion Messaging System
+    doc_id: bricks-calc-product-conversion-messaging-system
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/aso-strategy-en.md
+    title: Bricks Calc ASO Strategy (EN)
+    doc_id: bricks-calc-product-aso-strategy-en
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/aso-strategy-es.md
+    title: Bricks Calc ASO Strategy (ES)
+    doc_id: bricks-calc-product-aso-strategy-es
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/keyword-tracking.md
+    title: Bricks Calc Keyword Tracking
+    doc_id: bricks-calc-product-keyword-tracking
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/executive-aso-report.md
+    title: Bricks Calc Executive ASO Report
+    doc_id: bricks-calc-product-executive-aso-report
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/cpp-refinance-en.md
+    title: Bricks Calc Custom Product Page — Refinance (EN)
+    doc_id: bricks-calc-product-cpp-refinance-en
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-calc/product/cpp-refinance-es.md
+    title: Bricks Calc Custom Product Page — Refinance (ES)
+    doc_id: bricks-calc-product-cpp-refinance-es
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-calc
+    replacement_path:
+
+  - path: apps/bricks-scan/product/aso-strategy-en.md
+    title: Bricks Scan ASO Strategy (EN)
+    doc_id: bricks-scan-product-aso-strategy-en
+    doc_type: product
+    owner: Freddy
+    status: needs-review
+    role: canonical
+    app_scope: bricks-scan
+    replacement_path:
+
+  - path: docs-governance/audits/README.md
+    title: Documentation Audits
+    doc_id: docs-governance-audits-readme
+    doc_type: meta
+    owner: Freddy
+    status: draft
+    role: canonical
+    app_scope: shared
+    replacement_path:
