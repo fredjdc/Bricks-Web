@@ -20,7 +20,7 @@ window.MetricCard = function MetricCard({ label, value, detail }) {
     <div className="living-card living-metric-card">
       <div className="living-card-label">{label}</div>
       <div className="living-metric-value">{value}</div>
-      <div className="living-card-detail">{detail}</div>
+      {detail ? <div className="living-card-detail">{detail}</div> : null}
     </div>
   );
 };
