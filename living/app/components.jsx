@@ -251,7 +251,7 @@ window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
           <img src="../images/bricks-dark-logo.svg" alt="Bricks" />
           <span>Living</span>
         </div>
-        <window.Badge status="active" label={window.LIVING_ROLE_LABELS[role]} />
+        <div className="living-sidebar-building">Torres del Parque</div>
       </div>
       <nav className="living-sidebar-nav">
         {items.map((item) => (
@@ -268,11 +268,10 @@ window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
   );
 };
 
-window.TopBar = function TopBar({ account, role, onRoleChange, onLogout, onGoLanding }) {
+window.TopBar = function TopBar({ account, role, onRoleChange, onLogout }) {
   return (
-    <div className="living-topbar living-card">
+    <div className="living-topbar">
       <div>
-        <div className="living-card-label">Sesión activa</div>
         <strong>{account.name}</strong>
         <div className="living-card-detail">{window.LIVING_ROLE_LABELS[role]}</div>
       </div>
@@ -282,7 +281,6 @@ window.TopBar = function TopBar({ account, role, onRoleChange, onLogout, onGoLan
             <option value={accountOption.role} key={accountOption.role}>{window.LIVING_ROLE_LABELS[accountOption.role]}</option>
           ))}
         </select>
-        <button className="living-button living-button-secondary" onClick={onGoLanding}>Ver landing</button>
         <button className="living-button living-button-primary" onClick={onLogout}>Salir</button>
       </div>
     </div>

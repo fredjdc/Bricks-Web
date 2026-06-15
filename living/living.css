@@ -3,11 +3,11 @@
   --living-accent-strong: var(--accent-orange);
   --living-bg: var(--bg-primary);
   --living-surface: var(--bg-white);
-  --living-border: color-mix(in srgb, var(--edge-def) 35%, transparent);
-  --living-border-strong: color-mix(in srgb, var(--edge-def) 60%, transparent);
+  --living-border: color-mix(in srgb, var(--edge-def) 18%, transparent);
+  --living-border-strong: color-mix(in srgb, var(--edge-def) 40%, transparent);
   --living-text: var(--text-primary);
   --living-text-muted: var(--text-secondary);
-  --living-shadow: var(--emboss-raised);
+  --living-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.06);
   --living-shadow-soft: var(--shadow-soft);
 }
 
@@ -26,6 +26,8 @@ body {
   font-family: var(--font-stack);
 }
 
+/* ─── Public landing ─── */
+
 .living-public {
   min-height: 100vh;
   padding: 24px;
@@ -36,10 +38,8 @@ body {
 }
 
 .living-public-header,
-.living-topbar,
 .living-login-card,
-.living-card,
-.living-sidebar {
+.living-card {
   border: 1px solid var(--living-border);
   box-shadow: var(--living-shadow);
 }
@@ -190,6 +190,7 @@ body {
   background: color-mix(in srgb, var(--living-surface) 92%, transparent);
   border-radius: var(--r3-primary);
   padding: 24px;
+  transition: box-shadow 0.24s ease, border-color 0.24s ease;
 }
 
 .living-hero-panel {
@@ -354,6 +355,8 @@ body {
   margin-bottom: 8px;
 }
 
+/* ─── Login ─── */
+
 .living-login-shell {
   min-height: 100vh;
   display: grid;
@@ -422,35 +425,47 @@ body {
   color: var(--living-text-muted);
 }
 
+/* ─── Portal shell ─── */
+
 .living-portal {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 18px;
-  padding: 18px;
+  grid-template-columns: 272px 1fr;
+  gap: 24px;
+  padding: 24px;
 }
 
 .living-sidebar {
   position: sticky;
-  top: 18px;
+  top: 24px;
   align-self: start;
-  min-height: calc(100vh - 36px);
-  padding: 24px 18px;
+  min-height: calc(100vh - 48px);
+  padding: 28px 24px;
   border-radius: var(--r3-primary);
-  background: color-mix(in srgb, var(--living-surface) 94%, transparent);
+  background: color-mix(in srgb, var(--living-surface) 96%, transparent);
+  border: 1px solid var(--living-border);
+  box-shadow: var(--living-shadow);
+  backdrop-filter: blur(16px);
 }
 
 .living-sidebar-header {
   display: grid;
-  gap: 18px;
-  padding-bottom: 20px;
+  gap: 6px;
+  padding-bottom: 24px;
   border-bottom: 1px solid var(--living-border);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+}
+
+.living-sidebar-building {
+  font-size: 12px;
+  color: var(--living-text-muted);
+  letter-spacing: 0.02em;
+  padding-left: 36px;
 }
 
 .living-sidebar-nav {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
 .living-sidebar-link {
@@ -458,38 +473,64 @@ body {
   border: 0;
   background: transparent;
   text-align: left;
-  padding: 12px 14px;
-  border-radius: 16px;
+  padding: 12px 16px;
+  border-radius: 14px;
   color: var(--living-text-muted);
   font: inherit;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.living-sidebar-link:hover {
+  transform: none;
+  background: color-mix(in srgb, var(--living-text) 3%, transparent);
+  color: var(--living-text);
 }
 
 .living-sidebar-link.is-active {
-  background: color-mix(in srgb, var(--living-accent) 10%, var(--living-surface));
+  background: color-mix(in srgb, var(--living-accent) 6%, var(--living-surface));
   color: var(--living-text);
-  box-shadow: var(--micro-seam);
+  font-weight: 600;
 }
 
 .living-main {
   display: grid;
-  gap: 18px;
+  gap: 24px;
+  align-content: start;
 }
 
+/* ─── Portal topbar ─── */
+
 .living-topbar {
-  padding: 18px 22px;
-  border-radius: 32px;
-  background: color-mix(in srgb, var(--living-surface) 95%, transparent);
+  padding: 16px 4px 16px 0;
+  border-radius: 0;
+  background: transparent;
   display: flex;
   justify-content: space-between;
   gap: 18px;
   align-items: center;
+  border: none;
+  box-shadow: none;
+  border-bottom: 1px solid var(--living-border);
 }
+
+.living-topbar .living-card-label {
+  display: none;
+}
+
+.living-topbar select {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+/* ─── Portal screen area ─── */
 
 .living-screen {
   display: grid;
-  gap: 20px;
+  gap: 24px;
 }
 
 .living-table-wrap {
@@ -556,6 +597,142 @@ body {
   align-items: center;
 }
 
+/* ─── Portal-scoped refinements ─── */
+
+.living-portal .living-card {
+  padding: 28px;
+  border-color: var(--living-border);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.living-portal .living-card:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.living-portal .living-eyebrow {
+  font-size: 11px;
+  color: color-mix(in srgb, var(--living-accent) 50%, var(--living-text-muted));
+  margin-bottom: 8px;
+}
+
+.living-portal .living-section-title h1 {
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.living-portal .living-section-title {
+  margin-bottom: 20px;
+}
+
+.living-portal .living-section-title p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--living-text-muted) 80%, transparent);
+}
+
+.living-portal .living-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--living-text-muted);
+  margin-bottom: 8px;
+}
+
+.living-portal .living-card-detail {
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--living-text-muted) 70%, transparent);
+}
+
+.living-portal .living-metric-card {
+  min-height: 130px;
+}
+
+.living-portal .living-metric-value {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 800;
+}
+
+.living-portal .living-card p {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.living-portal .living-list,
+.living-portal .living-ordered-list {
+  font-size: 15px;
+}
+
+.living-portal .living-badge {
+  font-size: 11px;
+  padding: 6px 10px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
+.living-portal .living-button {
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.living-portal .living-button-primary {
+  box-shadow: 0 4px 12px rgba(11, 15, 20, 0.08);
+}
+
+.living-portal .living-kpis {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  margin-bottom: 20px;
+  gap: 16px;
+}
+
+.living-portal .living-dashboard-columns {
+  gap: 20px;
+}
+
+.living-portal .living-card-grid {
+  gap: 16px;
+}
+
+.living-portal .living-tag-row {
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.living-portal .living-checklist {
+  gap: 8px;
+}
+
+.living-portal .living-inline-actions {
+  margin-top: 16px;
+}
+
+.living-portal .living-table th {
+  font-size: 11px;
+  color: color-mix(in srgb, var(--living-text-muted) 70%, transparent);
+}
+
+.living-portal .living-table td {
+  font-size: 14px;
+}
+
+.living-portal .living-table th,
+.living-portal .living-table td {
+  padding: 16px 14px;
+}
+
+.living-portal .living-link-button {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ─── Responsive ─── */
+
 @media (max-width: 1120px) {
   .living-hero,
   .living-kpis,
@@ -569,10 +746,14 @@ body {
   }
 
   .living-public-header,
-  .living-topbar,
   .living-section-title {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .living-topbar {
+    flex-direction: row;
+    align-items: center;
   }
 
   .living-sidebar {
@@ -591,10 +772,14 @@ body {
   .living-public-header,
   .living-card,
   .living-login-card,
-  .living-sidebar,
-  .living-topbar {
+  .living-sidebar {
     border-radius: 28px;
     padding: 18px;
+  }
+
+  .living-topbar {
+    padding: 12px 0;
+    border-radius: 0;
   }
 
   .living-hero-copy h1,

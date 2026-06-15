@@ -80,7 +80,6 @@ window.PortalShell = function PortalShell({
           role={role}
           onRoleChange={onRoleChange}
           onLogout={onLogout}
-          onGoLanding={onGoLanding}
         />
         {screen}
       </div>

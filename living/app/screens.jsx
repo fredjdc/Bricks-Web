@@ -12,23 +12,21 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
 
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Vista general" title="Operación de hoy" body="Colas pendientes, demo principal y estado del edificio en una sola vista." />
+      <window.SectionTitle eyebrow="Vista general" title="Operación de hoy" />
       <div className="living-grid living-kpis">
-        <window.MetricCard label="Pendientes de aprobación" value={kpis.pendingApprovals} detail="Reservas que requieren decisión" />
-        <window.MetricCard label="Pagos pendientes" value={kpis.pendingPayments} detail="Comprobantes por revisar" />
-        <window.MetricCard label="Reservas de hoy" value={kpis.todayReservations} detail="Incluye aprobadas y activas" />
-        <window.MetricCard label="Ingresos del mes" value={window.livingFormatCurrency(kpis.revenueThisMonth)} detail="Cobrado y verificado" />
-        <window.MetricCard label="Garantías retenidas" value={window.livingFormatCurrency(kpis.depositsHeld)} detail="Pendientes de liberación o cierre" />
-        <window.MetricCard label="Incidentes abiertos" value={kpis.incidents} detail="Requieren seguimiento" />
+        <window.MetricCard label="Pendientes" value={kpis.pendingApprovals} detail="Aprobaciones" />
+        <window.MetricCard label="Pagos por revisar" value={kpis.pendingPayments} detail="Comprobantes" />
+        <window.MetricCard label="Reservas hoy" value={kpis.todayReservations} detail="Aprobadas y activas" />
+        <window.MetricCard label="Ingresos del mes" value={window.livingFormatCurrency(kpis.revenueThisMonth)} detail="Verificado" />
       </div>
       <div className="living-dashboard-columns">
         <div className="living-card">
           <div className="living-card-label">Historia demo</div>
           <div className="living-story-header">
             <h3>{storyReservation.code}</h3>
-            <button className="living-link-button" onClick={() => onOpenReservation(storyReservation.id)}>Abrir detalle</button>
+            <button className="living-link-button" onClick={() => onOpenReservation(storyReservation.id)}>Abrir</button>
           </div>
-          <p>Ana García · Terraza · 18 Jul · 17:00–23:00 · 25 invitados</p>
+          <p>Ana García · Terraza · 18 Jul · 17:00–23:00</p>
           <div className="living-checklist">
             {storyline.map((item) => (
               <div className={`living-check-row ${item.done ? "done" : ""}`} key={item.label}>
@@ -42,8 +40,6 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
           <div className="living-card-label">Cola operativa</div>
           <ul className="living-list">
             <li>3 aprobaciones por resolver</li>
-            <li>1 plantilla fallida de WhatsApp</li>
-            <li>2 garantías con liberación pendiente</li>
             <li>{activeTasks.length} tareas de limpieza activas</li>
           </ul>
         </div>
@@ -60,7 +56,7 @@ window.CalendarScreen = function CalendarScreen({ data, onOpenReservation }) {
 
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Calendario" title="Semana operativa" body="Las reservas confirmadas, pendientes y retenidas se muestran sobre la misma agenda." />
+      <window.SectionTitle eyebrow="Calendario" title="Semana operativa" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -82,7 +78,7 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, onApprove, onOpenReser
   const rows = data.reservations.filter((item) => item.status === "pending_approval");
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Aprobaciones" title="Cola de revisión" body="Reservas que requieren validación administrativa antes de confirmarse." />
+      <window.SectionTitle eyebrow="Aprobaciones" title="Cola de revisión" body="Reservas pendientes de validación." />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -115,7 +111,7 @@ window.PaymentsScreen = function PaymentsScreen({ data }) {
   const rows = data.reservations.filter((item) => ["submitted", "verified"].includes(item.paymentStatus)).slice(0, 12);
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Pagos" title="Comprobantes y validación" body="Reserva, monto esperado, monto enviado y estado del comprobante." />
+      <window.SectionTitle eyebrow="Pagos" title="Comprobantes" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -137,7 +133,7 @@ window.DepositsScreen = function DepositsScreen({ data }) {
   const rows = data.reservations.filter((item) => item.amount > 0 && item.depositStatus !== "released").slice(0, 12);
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Garantías" title="Retenciones y liberaciones" body="Seguimiento de depósitos, observaciones e impacto de incidentes." />
+      <window.SectionTitle eyebrow="Garantías" title="Retenciones y liberaciones" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -158,7 +154,7 @@ window.DepositsScreen = function DepositsScreen({ data }) {
 window.AreasScreen = function AreasScreen({ data }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" body="Capacidad, reglas, costos y condiciones operativas por área." />
+      <window.SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" />
       <div className="living-grid living-card-grid">
         {data.areas.map((area) => (
           <div className="living-card" key={area.id}>
@@ -183,7 +179,7 @@ window.ResidentsScreen = function ResidentsScreen({ data }) {
   const rows = data.apartments.slice(0, 18);
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Residentes y departamentos" title="Base del edificio" body="Importación y estado operativo por apartamento." />
+      <window.SectionTitle eyebrow="Residentes" title="Base del edificio" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -205,7 +201,7 @@ window.SecurityScreen = function SecurityScreen({ data, onMarkArrival, onVerifyG
   const reservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Seguridad" title="Vista diaria" body="Reservas activas, lista de invitados y acciones de acceso." />
+      <window.SectionTitle eyebrow="Seguridad" title="Vista diaria" />
       <div className="living-dashboard-columns">
         <div className="living-card">
           <div className="living-card-label">Reserva destacada</div>
@@ -237,13 +233,13 @@ window.SecurityScreen = function SecurityScreen({ data, onMarkArrival, onVerifyG
 window.CleaningScreen = function CleaningScreen({ data, onCompleteTask }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Limpieza" title="Tareas del equipo interno" body="Preparación, cierre e inspección vinculados a cada reserva." />
+      <window.SectionTitle eyebrow="Limpieza" title="Tareas del equipo" />
       <div className="living-grid living-card-grid">
         {data.tasks.map((task) => (
           <div className="living-card" key={task.id}>
             <div className="living-card-label">{task.type}</div>
             <h3>{task.areaName}</h3>
-            <p>{task.reservationCode} · {window.livingFormatDateTime(task.dueTime)}</p>
+            <p>{window.livingFormatDateTime(task.dueTime)}</p>
             <window.Badge status={task.status} />
             <ul className="living-list compact">
               {task.checklist.map((item) => (
@@ -263,7 +259,7 @@ window.CleaningScreen = function CleaningScreen({ data, onCompleteTask }) {
 window.IncidentsScreen = function IncidentsScreen({ data }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Incidentes" title="Trazabilidad operativa" body="Incidentes abiertos, evidencia asociada y efecto sobre la garantía." />
+      <window.SectionTitle eyebrow="Incidentes" title="Trazabilidad operativa" />
       <div className="living-grid living-card-grid">
         {data.incidents.map((incident) => (
           <div className="living-card" key={incident.id}>
@@ -286,7 +282,7 @@ window.ReportsScreen = function ReportsScreen({ data }) {
   const report = data.report;
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Reportes" title={`Resumen ${report.month}`} body="Visión lista para junta: uso, ingresos, incidentes y cumplimiento." />
+      <window.SectionTitle eyebrow="Reportes" title={`Resumen ${report.month}`} />
       <div className="living-grid living-kpis">
         <window.MetricCard label="Reservas" value="90" detail="Totales del mes" />
         <window.MetricCard label="Ingresos" value={window.livingFormatCurrency(5280)} detail="Áreas cobradas" />
@@ -314,7 +310,7 @@ window.ReportsScreen = function ReportsScreen({ data }) {
 window.MessagesScreen = function MessagesScreen({ data }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Mensajes" title="Actividad de WhatsApp" body="Comprobantes, validaciones, plantillas fallidas y seguimiento." />
+      <window.SectionTitle eyebrow="Mensajes" title="Actividad de WhatsApp" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -335,7 +331,7 @@ window.SettingsScreen = function SettingsScreen({ data }) {
   const building = data.building;
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Configuración" title="Perfil del edificio" body="Idioma, pagos, número de WhatsApp, permisos y reglas base." />
+      <window.SectionTitle eyebrow="Configuración" title="Perfil del edificio" />
       <div className="living-grid living-card-grid">
         <div className="living-card">
           <div className="living-card-label">Perfil</div>
@@ -371,7 +367,7 @@ window.SettingsScreen = function SettingsScreen({ data }) {
 window.SuperAdminScreen = function SuperAdminScreen({ data }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Super Admin" title="Edificios, plantillas y soporte" body="Vista central para onboarding, plantillas de WhatsApp y estado de cuenta." />
+      <window.SectionTitle eyebrow="Super Admin" title="Edificios y plantillas" />
       <div className="living-dashboard-columns">
         <div className="living-card">
           <div className="living-card-label">Portafolio de edificios</div>
