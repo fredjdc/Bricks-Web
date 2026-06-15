@@ -33,6 +33,7 @@ The site is authored as static HTML, CSS, and JavaScript, but it is not a single
 1. Introduce the Bricks portfolio and route visitors to the right product page.
 2. Present product-specific landing pages for Bricks Scan, Bricks Calc, and Bricks Leads.
 3. Capture support requests, product feedback, and Bricks Leads sign-up interest through supporting pages and third-party-backed flows.
+4. Host focused demo surfaces that explain and simulate new Bricks products when they need a launch-quality sales or onboarding narrative before a production app exists.
 
 ## Main Features
 
@@ -40,6 +41,7 @@ The site is authored as static HTML, CSS, and JavaScript, but it is not a single
 |---|---|---|
 | Portfolio home page | Introduces the Bricks suite and links into Scan, Calc, and Leads entry points | Sets the umbrella brand, product framing, and top-level navigation |
 | Product landing pages | Dedicated pages for Bricks Scan, Bricks Calc, and Bricks Leads with App Store or landing CTAs | Lets each app carry focused messaging and conversion paths |
+| Bricks Living demo portal | Hosts a Spanish-only public landing and interactive portal demo for the Bricks Living building-operations workflow | Supports pilot sales, onboarding, and product review with a realistic end-to-end operational story |
 | Support and feedback pages | Hosts support, help, survey, purchase-guide, privacy, and terms pages | Gives visitors operational, legal, and product-feedback routes without leaving the site structure |
 | Bilingual presentation | Switches visible English and Spanish copy on shared pages via client-side language handling | Keeps core marketing and support surfaces usable for both audiences without duplicating page files |
 | Analytics and consent flow | Shows a cookie-consent banner and conditionally enables GTM, GA4, and Meta Pixel on major pages | Supports funnel measurement while keeping consent state explicit in the browser |
@@ -49,7 +51,7 @@ The site is authored as static HTML, CSS, and JavaScript, but it is not a single
 
 - Markup: static HTML pages
 - Styling: shared `styles.css`, with one outlier page (`purrfect-yarn.html`) using Tailwind CDN and inline styles
-- Client-side behavior: shared `scripts.js`, page-local inline scripts, and `hero-background.js`
+- Client-side behavior: shared `scripts.js`, page-local inline scripts, `hero-background.js`, and the Bricks Living demo's local React-with-`text/babel` client logic
 - Runtime libraries: Alpine.js on support-oriented pages, GSAP on the Bricks Scan page, and a Typeform embed on the survey page
 - Operational assets: `_headers`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, and Apple App Clip association files
 

@@ -82,6 +82,16 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://bricks.pe/leads.html"/>
         <xhtml:link rel="alternate" hreflang="x-default" href="https://bricks.pe/leads.html"/>
     </url>
+
+    <url>
+        <loc>https://bricks.pe/living/</loc>
+        <lastmod>2026-06-15</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+        <xhtml:link rel="alternate" hreflang="es-PE" href="https://bricks.pe/living/"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://bricks.pe/living/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://bricks.pe/living/"/>
+    </url>
     
     <!-- About Page -->
     <url>

@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bricks Living — Reservas y operación para edificios</title>
+  <meta name="description" content="Bricks Living centraliza reservas, pagos, control de acceso, limpieza e incidentes para edificios residenciales. Demo interactiva del portal y flujo por WhatsApp.">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://bricks.pe/living/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bricks.pe/living/">
+  <meta property="og:title" content="Bricks Living — Operación de reservas para edificios">
+  <meta property="og:description" content="Demo interactiva para administración, seguridad, limpieza y junta. Todo en un flujo operativo claro.">
+  <meta property="og:image" content="https://bricks.pe/images/og-bricks-home.png">
+  <meta property="og:locale" content="es_PE">
+  <meta property="og:site_name" content="Bricks Apps">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bricks Living — Operación de reservas para edificios">
+  <meta name="twitter:description" content="Portal demo para reservas, pagos, seguridad, limpieza, incidentes y reportes.">
+  <meta name="twitter:image" content="https://bricks.pe/images/og-bricks-home.png">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="../images/favicon-32x32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./living.css">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">
+    <h1>Bricks Living para reservas de áreas comunes y operación del edificio</h1>
+    <p>Portal para administrador, asistente, seguridad, limpieza, junta y super admin con flujo de reservas, pagos, depósitos, incidentes y reportes.</p>
+    <h2>Edificio demo: Torres del Parque en Miraflores</h2>
+    <p>La demo muestra reservas por WhatsApp, aprobación administrativa, control de acceso, tareas de limpieza y reportes mensuales.</p>
+    <h2>Flujo principal</h2>
+    <p>Una residente reserva la terraza, sube pago, recibe aprobación, seguridad valida invitados, limpieza ejecuta tareas y la operación queda registrada.</p>
+  </div>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const ROLE_LABELS = {
+      super_admin: "Super Admin",
+      building_admin: "Admin edificio",
+      assistant_admin: "Asistente",
+      security: "Seguridad",
+      cleaning: "Limpieza",
+      junta: "Junta",
+    };
+
+    const STATUS_LABELS = {
+      pending_approval: "Pendiente de aprobación",
+      pending_payment: "Pendiente de pago",
+      approved: "Aprobada",
+      confirmed: "Confirmada",
+      completed: "Completada",
+      cancelled: "Cancelada",
+      rejected: "Rechazada",
+      held: "En garantía",
+      released: "Liberada",
+      retained: "Retenida",
+      pending_resolution: "Pendiente de resolución",
+      open: "Abierto",
+      resolved: "Resuelto",
+      failed: "Fallido",
+      submitted: "Enviado",
+      verified: "Verificado",
+      in_progress: "En curso",
+      pending: "Pendiente",
+      blocked: "Bloqueado",
+      active: "Activo",
+    };
+
+    const NAV_ITEMS = [
+      { id: "dashboard", label: "Dashboard", roles: ["super_admin", "building_admin", "assistant_admin", "security", "cleaning", "junta"] },
+      { id: "calendar", label: "Calendario", roles: ["building_admin", "assistant_admin"] },
+      { id: "approvals", label: "Aprobaciones", roles: ["building_admin", "assistant_admin"] },
+      { id: "payments", label: "Pagos", roles: ["building_admin", "assistant_admin"] },
+      { id: "deposits", label: "Garantías", roles: ["building_admin", "assistant_admin", "junta"] },
+      { id: "areas", label: "Áreas comunes", roles: ["building_admin", "assistant_admin"] },
+      { id: "residents", label: "Residentes", roles: ["building_admin", "assistant_admin"] },
+      { id: "security", label: "Seguridad", roles: ["security", "building_admin", "assistant_admin"] },
+      { id: "cleaning", label: "Limpieza", roles: ["cleaning", "building_admin", "assistant_admin"] },
+      { id: "incidents", label: "Incidentes", roles: ["building_admin", "assistant_admin", "security", "cleaning", "junta"] },
+      { id: "reports", label: "Reportes", roles: ["building_admin", "assistant_admin", "junta"] },
+      { id: "messages", label: "Mensajes", roles: ["building_admin", "assistant_admin"] },
+      { id: "settings", label: "Configuración", roles: ["building_admin", "assistant_admin"] },
+      { id: "superadmin", label: "Super Admin", roles: ["super_admin"] },
+    ];
+
+    const DEMO_ACCOUNTS = [
+      { email: "maria@torresdelparque.pe", password: "demo123", role: "building_admin", name: "María Fernanda Rojas" },
+      { email: "carlos@torresdelparque.pe", password: "demo123", role: "assistant_admin", name: "Carlos Vega" },
+      { email: "puerta@torresdelparque.pe", password: "demo123", role: "security", name: "Seguridad principal" },
+      { email: "limpieza@torresdelparque.pe", password: "demo123", role: "cleaning", name: "Equipo interno" },
+      { email: "junta@torresdelparque.pe", password: "demo123", role: "junta", name: "Junta directiva" },
+      { email: "ops@bricksliving.pe", password: "demo123", role: "super_admin", name: "Freddy Ops" },
+    ];
+
+    function uid(prefix, value) {
+      return `${prefix}-${value}`;
+    }
+
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat("es-PE", {
+        style: "currency",
+        currency: "PEN",
+        maximumFractionDigits: 0,
+      }).format(amount);
+    }
+
+    function formatShortDate(date) {
+      return new Intl.DateTimeFormat("es-PE", {
+        day: "2-digit",
+        month: "short",
+      }).format(new Date(date));
+    }
+
+    function formatDateTime(date) {
+      return new Intl.DateTimeFormat("es-PE", {
+        day: "2-digit",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      }).format(new Date(date));
+    }
+
+    function buildDemoData() {
+      const areas = [
+        {
+          id: "terrace",
+          name: "Terraza",
+          icon: "Terrace",
+          capacity: 40,
+          reservationFee: 120,
+          deposit: 300,
+          requiresApproval: false,
+          requiresGuestList: false,
+          requiresCleaning: true,
+          requiresInspection: true,
+          rules: ["Máximo 6 horas", "Termina antes de las 11:00 PM", "Garantía obligatoria", "Cargo de limpieza obligatorio"],
+          location: "Piso 22",
+          status: "active",
+        },
+        {
+          id: "bbq",
+          name: "Zona BBQ",
+          icon: "BBQ",
+          capacity: 20,
+          reservationFee: 60,
+          deposit: 150,
+          requiresApproval: false,
+          requiresGuestList: false,
+          requiresCleaning: true,
+          requiresInspection: false,
+          rules: ["Máximo 4 horas", "Sin música amplificada"],
+          location: "Piso 22",
+          status: "active",
+        },
+        {
+          id: "event-room",
+          name: "Salón de eventos",
+          icon: "Events",
+          capacity: 60,
+          reservationFee: 200,
+          deposit: 500,
+          requiresApproval: true,
+          requiresGuestList: true,
+          requiresCleaning: true,
+          requiresInspection: true,
+          rules: ["Aprobación previa", "Lista de invitados obligatoria"],
+          location: "Piso 1",
+          status: "active",
+        },
+        {
+          id: "coworking",
+          name: "Coworking",
+          icon: "Coworking",
+          capacity: 12,
+          reservationFee: 0,
+          deposit: 0,
+          requiresApproval: false,
+          requiresGuestList: false,
+          requiresCleaning: false,
+          requiresInspection: false,
+          rules: ["Solo residentes", "Sin garantía"],
+          location: "Piso 2",
+          status: "active",
+        },
+        {
+          id: "gym",
+          name: "Gimnasio",
+          icon: "Gym",
+          capacity: 30,
+          reservationFee: 0,
+          deposit: 0,
+          requiresApproval: false,
+          requiresGuestList: false,
+          requiresCleaning: false,
+          requiresInspection: false,
+          rules: ["No requiere reserva"],
+          location: "Piso 3",
+          status: "active",
+        },
+      ];
+
+      const coreResidents = [
+        { apartment: "402", tower: "A", name: "Ana García", phone: "+51 987 654 321", email: "ana.garcia@example.com", status: "active", debt: 0, relationship: "Propietaria" },
+        { apartment: "605", tower: "A", name: "José Torres", phone: "+51 934 111 222", email: "jose.torres@example.com", status: "active", debt: 0, relationship: "Propietario" },
+        { apartment: "808", tower: "A", name: "Valeria Mendoza", phone: "+51 955 444 777", email: "valeria.mendoza@example.com", status: "active", debt: 0, relationship: "Propietaria" },
+        { apartment: "1203", tower: "B", name: "Miguel Castro", phone: "+51 922 888 333", email: "miguel.castro@example.com", status: "active", debt: 0, relationship: "Propietario" },
+        { apartment: "1507", tower: "B", name: "Lucía Fernández", phone: "+51 977 123 987", email: "lucia.fernandez@example.com", status: "active", debt: 0, relationship: "Propietaria" },
+      ];
+
+      const firstNames = ["Mariana", "Sebastián", "Camila", "Ignacio", "Daniela", "Fernando", "Gabriela", "Andrés", "Carolina", "Renato", "Paola", "Alonso", "Claudia", "Mateo", "Jimena", "Diego", "Sandra", "Rodrigo", "Elena", "Piero"];
+      const lastNames = ["Paredes", "Salas", "Muñoz", "Torres", "Flores", "Ruiz", "León", "Díaz", "Gómez", "Sánchez", "Rivas", "Quispe", "Navarro", "Lozano", "Ramírez", "Luna", "Morales", "Acuña", "Vargas", "Delgado"];
+      const fillerResidents = [];
+      const occupied = new Set(coreResidents.map((resident) => resident.apartment));
+
+      let floor = 2;
+      let unit = 1;
+      let residentIndex = 0;
+      while (fillerResidents.length < 47) {
+        const apartment = `${floor}${String(unit).padStart(2, "0")}`;
+        unit += 1;
+        if (unit > 8) {
+          unit = 1;
+          floor += 1;
+        }
+        if (occupied.has(apartment)) continue;
+        const firstName = firstNames[residentIndex % firstNames.length];
+        const lastName = lastNames[(residentIndex * 3) % lastNames.length];
+        fillerResidents.push({
+          apartment,
+          tower: floor > 11 ? "B" : "A",
+          name: `${firstName} ${lastName}`,
+          phone: `+51 9${String(10000000 + residentIndex * 731).slice(0, 8)}`,
+          email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`,
+          status: residentIndex % 13 === 0 ? "blocked" : "active",
+          debt: residentIndex % 9 === 0 ? 180 : 0,
+          relationship: residentIndex % 5 === 0 ? "Inquilino" : "Propietario",
+        });
+        residentIndex += 1;
+      }
+
+      const residents = [...coreResidents, ...fillerResidents].map((resident) => ({
+        id: uid("resident", resident.apartment),
+        ...resident,
+      }));
+
+      const apartments = Array.from({ length: 168 }, (_, index) => {
+        const floorNumber = Math.floor(index / 8) + 1;
+        const unitNumber = (index % 8) + 1;
+        const apartment = `${floorNumber}${String(unitNumber).padStart(2, "0")}`;
+        const resident = residents.find((item) => item.apartment === apartment);
+        return {
+          id: uid("apartment", apartment),
+          tower: floorNumber > 11 ? "B" : "A",
+          apartment,
+          residentName: resident ? resident.name : "Sin asignar",
+          whatsapp: resident ? resident.phone : "Sin registro",
+          residentStatus: resident ? resident.status : "pending",
+          debtStatus: resident && resident.debt > 0 ? "Deuda" : "Al día",
+        };
+      });
+
+      const guestListAna = [
+        "Andrea Paredes", "Luis Salas", "Diego Muñoz", "Carmen Torres", "Patricia Flores",
+        "Jorge Ruiz", "Sofía León", "Ricardo Díaz", "Elena Gómez", "Pedro Sánchez",
+        "Luciana Rivas", "Álvaro Navarro", "María Quispe", "Ricardo Lozano", "Nadia Vargas",
+        "José Luna", "Silvia Morales", "Diana Acuña", "Tomás Delgado", "Camilo Ramírez",
+        "Paula Torres", "Martín Flores", "Valentina Muñoz", "Renzo Salas", "Daniela Ruiz",
+      ];
+
+      const reservations = [
+        {
+          id: "TRL-2026-0718-0024",
+          code: "TRL-2026-0718-0024",
+          residentId: "resident-402",
+          residentName: "Ana García",
+          apartment: "402",
+          areaId: "terrace",
+          areaName: "Terraza",
+          date: "2026-07-18",
+          start: "17:00",
+          end: "23:00",
+          guestCount: 25,
+          guestList: guestListAna,
+          reason: "Celebración de cumpleaños",
+          status: "pending_approval",
+          paymentStatus: "verified",
+          depositStatus: "held",
+          amount: 420,
+          approvalRequired: true,
+          createdAt: "2026-07-12T08:52:00-05:00",
+          paymentSubmittedAt: "2026-07-12T09:10:00-05:00",
+          approvedBy: null,
+          approvedAt: null,
+          securityResidentArrived: false,
+          securityGuestsVerified: false,
+          cleaningStatus: "pending",
+          messages: ["Reglas aceptadas a las 08:55", "Comprobante Yape validado a las 09:12"],
+        },
+        {
+          id: "EVR-2026-0712-0007",
+          code: "EVR-2026-0712-0007",
+          residentId: "resident-1203",
+          residentName: "Miguel Castro",
+          apartment: "1203",
+          areaId: "event-room",
+          areaName: "Salón de eventos",
+          date: "2026-07-12",
+          start: "18:00",
+          end: "22:00",
+          guestCount: 40,
+          guestList: ["Lista registrada"],
+          reason: "Reunión familiar",
+          status: "completed",
+          paymentStatus: "verified",
+          depositStatus: "retained",
+          amount: 700,
+          approvalRequired: true,
+          createdAt: "2026-07-03T11:00:00-05:00",
+          paymentSubmittedAt: "2026-07-03T13:00:00-05:00",
+          approvedBy: "María Fernanda Rojas",
+          approvedAt: "2026-07-03T16:20:00-05:00",
+          securityResidentArrived: true,
+          securityGuestsVerified: true,
+          cleaningStatus: "completed",
+          messages: ["Post evento con observación de silla dañada"],
+        },
+      ];
+
+      const julyPlan = [
+        { areaId: "terrace", count: 18, baseFee: 120, code: "TRL" },
+        { areaId: "bbq", count: 22, baseFee: 60, code: "BBQ" },
+        { areaId: "event-room", count: 9, baseFee: 200, code: "EVR" },
+        { areaId: "coworking", count: 41, baseFee: 0, code: "COW" },
+      ];
+
+      let reservationCounter = 1;
+      julyPlan.forEach((plan, areaIndex) => {
+        for (let i = 0; i < plan.count; i += 1) {
+          const code = `${plan.code}-2026-07-${String((i % 28) + 1).padStart(2, "0")}-${String(reservationCounter).padStart(4, "0")}`;
+          if (code === "TRL-2026-07-18-0024") {
+            reservationCounter += 1;
+            continue;
+          }
+          const resident = residents[(areaIndex * 11 + i) % residents.length];
+          const area = areas.find((item) => item.id === plan.areaId);
+          const statuses = ["approved", "completed", "confirmed"];
+          reservations.push({
+            id: code,
+            code,
+            residentId: resident.id,
+            residentName: resident.name,
+            apartment: resident.apartment,
+            areaId: area.id,
+            areaName: area.name,
+            date: `2026-07-${String((i % 28) + 1).padStart(2, "0")}`,
+            start: area.id === "coworking" ? "09:00" : i % 2 === 0 ? "17:00" : "12:00",
+            end: area.id === "coworking" ? "12:00" : i % 2 === 0 ? "21:00" : "16:00",
+            guestCount: area.id === "coworking" ? 1 : Math.min(area.capacity - 2, 6 + (i % 14)),
+            guestList: area.requiresGuestList ? ["Lista validada"] : [],
+            reason: area.id === "coworking" ? "Bloque de trabajo" : "Reserva de uso común",
+            status: statuses[i % statuses.length],
+            paymentStatus: plan.baseFee === 0 ? "verified" : "verified",
+            depositStatus: area.deposit > 0 ? (i % 12 === 0 ? "retained" : i % 3 === 0 ? "released" : "held") : "released",
+            amount: plan.baseFee + area.deposit,
+            approvalRequired: area.requiresApproval,
+            createdAt: `2026-07-${String((i % 28) + 1).padStart(2, "0")}T09:00:00-05:00`,
+            paymentSubmittedAt: `2026-07-${String((i % 28) + 1).padStart(2, "0")}T10:00:00-05:00`,
+            approvedBy: area.requiresApproval ? "María Fernanda Rojas" : null,
+            approvedAt: area.requiresApproval ? `2026-07-${String((i % 28) + 1).padStart(2, "0")}T12:00:00-05:00` : null,
+            securityResidentArrived: i % 5 !== 0,
+            securityGuestsVerified: i % 6 !== 0,
+            cleaningStatus: area.requiresCleaning ? (i % 4 === 0 ? "pending" : "completed") : "completed",
+            messages: [],
+          });
+          reservationCounter += 1;
+        }
+      });
+
+      reservations.push(
+        {
+          id: "TRL-2026-0716-0091",
+          code: "TRL-2026-0716-0091",
+          residentId: "resident-605",
+          residentName: "José Torres",
+          apartment: "605",
+          areaId: "terrace",
+          areaName: "Terraza",
+          date: "2026-07-16",
+          start: "18:00",
+          end: "22:00",
+          guestCount: 18,
+          guestList: [],
+          reason: "Cena de cumpleaños",
+          status: "pending_approval",
+          paymentStatus: "verified",
+          depositStatus: "held",
+          amount: 420,
+          approvalRequired: true,
+          createdAt: "2026-07-13T08:14:00-05:00",
+          paymentSubmittedAt: "2026-07-13T08:40:00-05:00",
+          approvedBy: null,
+          approvedAt: null,
+          securityResidentArrived: false,
+          securityGuestsVerified: false,
+          cleaningStatus: "pending",
+          messages: ["Solicita equipo de sonido apagado a las 10:00 PM"],
+        },
+        {
+          id: "EVR-2026-0719-0094",
+          code: "EVR-2026-0719-0094",
+          residentId: "resident-808",
+          residentName: "Valeria Mendoza",
+          apartment: "808",
+          areaId: "event-room",
+          areaName: "Salón de eventos",
+          date: "2026-07-19",
+          start: "16:00",
+          end: "21:00",
+          guestCount: 32,
+          guestList: ["Pendiente de carga"],
+          reason: "Baby shower",
+          status: "pending_approval",
+          paymentStatus: "submitted",
+          depositStatus: "held",
+          amount: 700,
+          approvalRequired: true,
+          createdAt: "2026-07-14T14:20:00-05:00",
+          paymentSubmittedAt: "2026-07-14T16:00:00-05:00",
+          approvedBy: null,
+          approvedAt: null,
+          securityResidentArrived: false,
+          securityGuestsVerified: false,
+          cleaningStatus: "pending",
+          messages: ["Lista de invitados incompleta"],
+        }
+      );
+
+      const tasks = [
+        {
+          id: "task-prep-ana",
+          type: "Preparación",
+          reservationId: "TRL-2026-0718-0024",
+          reservationCode: "TRL-2026-0718-0024",
+          areaName: "Terraza",
+          dueTime: "2026-07-18T15:00:00-05:00",
+          assignedUser: "Equipo interno",
+          status: "pending",
+          notes: "Checklist previo antes de la reserva.",
+          checklist: ["Mesas instaladas", "Sillas instaladas", "Contenedores listos", "Baño inspeccionado"],
+          completedItems: [],
+        },
+        {
+          id: "task-clean-ana",
+          type: "Limpieza post evento",
+          reservationId: "TRL-2026-0718-0024",
+          reservationCode: "TRL-2026-0718-0024",
+          areaName: "Terraza",
+          dueTime: "2026-07-18T23:15:00-05:00",
+          assignedUser: "Equipo interno",
+          status: "pending",
+          notes: "Cierre y limpieza posterior.",
+          checklist: ["Basura retirada", "Mesas limpias", "Piso limpio", "Luces revisadas", "Área cerrada"],
+          completedItems: [],
+        },
+        {
+          id: "task-event-room-issue",
+          type: "Inspección",
+          reservationId: "EVR-2026-0712-0007",
+          reservationCode: "EVR-2026-0712-0007",
+          areaName: "Salón de eventos",
+          dueTime: "2026-07-12T22:30:00-05:00",
+          assignedUser: "Equipo interno",
+          status: "completed",
+          notes: "Se detectó silla rota.",
+          checklist: ["Mobiliario revisado", "Fotos cargadas", "Incidente escalado"],
+          completedItems: ["Mobiliario revisado", "Fotos cargadas", "Incidente escalado"],
+        },
+      ];
+
+      const incidents = [
+        {
+          id: "incident-chair",
+          type: "Silla dañada",
+          reservationId: "EVR-2026-0712-0007",
+          reservationCode: "EVR-2026-0712-0007",
+          areaName: "Salón de eventos",
+          apartment: "1203",
+          residentName: "Miguel Castro",
+          description: "Silla rota detectada durante la inspección posterior al evento.",
+          evidence: ["Foto 1", "Foto 2"],
+          createdBy: "Equipo interno",
+          status: "pending_resolution",
+          estimatedCost: 80,
+          depositImpact: "Retener S/ 80",
+          notes: ["Escalado a administración", "Pendiente validación de reposición"],
+        },
+        {
+          id: "incident-noise",
+          type: "Ruido",
+          reservationId: "TRL-2026-0709-0011",
+          reservationCode: "TRL-2026-0709-0011",
+          areaName: "Terraza",
+          apartment: "1507",
+          residentName: "Lucía Fernández",
+          description: "Queja por música alta después de la hora permitida.",
+          evidence: ["Registro de seguridad"],
+          createdBy: "Puerta principal",
+          status: "open",
+          estimatedCost: 0,
+          depositImpact: "Sin impacto",
+          notes: ["Advertencia enviada al residente"],
+        },
+      ];
+
+      const messages = [
+        {
+          id: "msg-ana",
+          residentName: "Ana García",
+          apartment: "402",
+          relatedReservation: "TRL-2026-0718-0024",
+          type: "Comprobante de pago",
+          status: "verified",
+          summary: "Yape recibido por S/ 420 y validado por administración.",
+          time: "2026-07-12T09:12:00-05:00",
+        },
+        {
+          id: "msg-valeria",
+          residentName: "Valeria Mendoza",
+          apartment: "808",
+          relatedReservation: "EVR-2026-0719-0094",
+          type: "Lista de invitados",
+          status: "pending",
+          summary: "Faltan nombres para completar el aforo declarado.",
+          time: "2026-07-14T16:24:00-05:00",
+        },
+        {
+          id: "msg-failed",
+          residentName: "Sistema",
+          apartment: "N/A",
+          relatedReservation: "TRL-2026-0716-0091",
+          type: "Plantilla fallida",
+          status: "failed",
+          summary: "Falló el envío de la plantilla de aprobación pendiente.",
+          time: "2026-07-14T18:04:00-05:00",
+        },
+      ];
+
+      const report = {
+        month: "Julio 2026",
+        reservationsByArea: [
+          { area: "Terraza", total: 18 },
+          { area: "Zona BBQ", total: 22 },
+          { area: "Salón de eventos", total: 9 },
+          { area: "Coworking", total: 41 },
+        ],
+        revenueByArea: [
+          { area: "Terraza", total: 2160 },
+          { area: "Zona BBQ", total: 1320 },
+          { area: "Salón de eventos", total: 1800 },
+        ],
+        incidents: [
+          { name: "Silla dañada", total: 1 },
+          { name: "Queja por ruido", total: 2 },
+          { name: "Limpieza tardía", total: 1 },
+        ],
+        topAreas: ["Coworking", "Zona BBQ", "Terraza"],
+        satisfaction: 4.7,
+      };
+
+      const superAdmin = {
+        buildings: [
+          { name: "Edificio Torres del Parque", district: "Miraflores", plan: "Pilot 60 días", templates: "9/9 activas", status: "Activo" },
+          { name: "Residencial Alameda 54", district: "San Borja", plan: "Onboarding", templates: "6/9 activas", status: "Configurando" },
+          { name: "Condominio Central Park", district: "Surco", plan: "Prospecto", templates: "0/9 activas", status: "Pendiente" },
+        ],
+        templates: [
+          { name: "Entrada principal", language: "es-PE", status: "Activa" },
+          { name: "Reserva aprobada", language: "es-PE", status: "Activa" },
+          { name: "Pago recibido", language: "es-PE", status: "Activa" },
+          { name: "Comprobante rechazado", language: "es-PE", status: "Activa" },
+        ],
+        supportQueue: [
+          { building: "Torres del Parque", issue: "Revisar plantilla fallida", owner: "Operations", sla: "Hoy" },
+          { building: "Residencial Alameda 54", issue: "Importación de residentes", owner: "Onboarding", sla: "24h" },
+        ],
+      };
+
+      return {
+        building: {
+          name: "Edificio Torres del Parque",
+          district: "Miraflores, Lima",
+          floors: 22,
+          apartmentsCount: 168,
+          basements: 3,
+          administrator: "María Fernanda Rojas",
+          assistant: "Carlos Vega",
+          security: ["Puerta principal", "Puerta secundaria"],
+          cleaning: "Equipo interno",
+          language: "Español LATAM",
+          currency: "PEN",
+        },
+        areas,
+        residents,
+        apartments,
+        reservations,
+        tasks,
+        incidents,
+        messages,
+        report,
+        superAdmin,
+      };
+    }
+
+    function parseHash() {
+      const raw = window.location.hash.replace(/^#/, "");
+      if (!raw) return { area: "landing", page: "landing" };
+      const [area, page, id] = raw.split("/");
+      return { area, page, id };
+    }
+
+    function setHash(next) {
+      window.location.hash = next;
+    }
+
+    function cloneData(data) {
+      return JSON.parse(JSON.stringify(data));
+    }
+
+    function defaultPageForRole(role) {
+      switch (role) {
+        case "super_admin":
+          return "superadmin";
+        case "security":
+          return "security";
+        case "cleaning":
+          return "cleaning";
+        case "junta":
+          return "reports";
+        default:
+          return "dashboard";
+      }
+    }
+
+    function pageAllowedForRole(role, page) {
+      if (page === "reservation") {
+        return ["building_admin", "assistant_admin", "security", "cleaning"].includes(role);
+      }
+      return NAV_ITEMS.some((item) => item.id === page && item.roles.includes(role));
+    }
+
+    function getKpis(data) {
+      const pendingApprovals = data.reservations.filter((item) => item.status === "pending_approval").length;
+      const pendingPayments = data.reservations.filter((item) => item.paymentStatus === "submitted").length;
+      const todayReservations = 8;
+      const upcomingReservations = 24;
+      const depositsHeld = data.reservations.filter((item) => item.depositStatus === "held").reduce((sum, item) => sum + (item.amount - (item.amount - (item.amount > 300 ? 200 : 120))), 2700);
+      return {
+        pendingApprovals,
+        pendingPayments,
+        residentValidations: 4,
+        todayReservations,
+        upcomingReservations,
+        revenueThisMonth: 4820,
+        depositsHeld: 2700,
+        incidents: data.incidents.filter((item) => item.status !== "resolved").length,
+        failedWhatsapp: data.messages.filter((item) => item.status === "failed").length,
+      };
+    }
+
+    function statusTone(status) {
+      if (["approved", "confirmed", "completed", "verified", "released", "resolved", "active"].includes(status)) return "success";
+      if (["pending", "pending_approval", "pending_payment", "pending_resolution", "submitted", "held", "in_progress"].includes(status)) return "warning";
+      if (["rejected", "failed", "retained", "blocked", "cancelled", "open"].includes(status)) return "danger";
+      return "neutral";
+    }
+
+    function Badge({ status, label }) {
+      return <span className={`living-badge tone-${statusTone(status)}`}>{label || STATUS_LABELS[status] || status}</span>;
+    }
+
+    function SectionTitle({ eyebrow, title, body, actions }) {
+      return (
+        <div className="living-section-title">
+          <div>
+            {eyebrow ? <div className="living-eyebrow">{eyebrow}</div> : null}
+            <h1>{title}</h1>
+            {body ? <p>{body}</p> : null}
+          </div>
+          {actions ? <div className="living-actions-row">{actions}</div> : null}
+        </div>
+      );
+    }
+
+    function MetricCard({ label, value, detail }) {
+      return (
+        <div className="living-card living-metric-card">
+          <div className="living-card-label">{label}</div>
+          <div className="living-metric-value">{value}</div>
+          <div className="living-card-detail">{detail}</div>
+        </div>
+      );
+    }
+
+    function DataTable({ columns, rows, empty }) {
+      if (!rows.length) {
+        return <div className="living-empty-state">{empty || "Sin resultados."}</div>;
+      }
+      return (
+        <div className="living-table-wrap">
+          <table className="living-table">
+            <thead>
+              <tr>
+                {columns.map((column) => <th key={column.key}>{column.label}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, index) => (
+                <tr key={row.id || index}>
+                  {columns.map((column) => (
+                    <td key={column.key}>{column.render ? column.render(row) : row[column.key]}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
+    function PublicLanding({ onEnterPortal }) {
+      const kpis = [
+        { label: "Reservas este mes", value: "90", detail: "Entre terraza, BBQ, salón y coworking" },
+        { label: "Pagos verificados", value: formatCurrency(4820), detail: "Cobros manuales con respaldo por WhatsApp" },
+        { label: "Áreas piloto", value: "4", detail: "Gimnasio visible, pero sin reserva" },
+        { label: "Usuarios operativos", value: "6 roles", detail: "Admin, seguridad, limpieza, junta y super admin" },
+      ];
+
+      return (
+        <div className="living-public">
+          <header className="living-public-header">
+            <a href="../index.html" className="living-brand">
+              <img src="../images/bricks-dark-logo.svg" alt="Bricks" />
+              <span>Living</span>
+            </a>
+            <nav className="living-public-nav">
+              <a href="#landing/workflow">Flujo</a>
+              <a href="#landing/roles">Roles</a>
+              <a href="#landing/reportes">Reportes</a>
+              <button className="living-button living-button-primary" onClick={onEnterPortal}>Entrar al portal</button>
+            </nav>
+          </header>
+
+          <main>
+            <section className="living-hero">
+              <div className="living-hero-copy">
+                <div className="living-eyebrow">Bricks Living</div>
+                <h1>Reservas claras. Operación completa. Un solo flujo.</h1>
+                <p>
+                  Bricks Living ordena lo que hoy suele resolverse por WhatsApp y hojas sueltas:
+                  reservas, aprobaciones, pagos, control de acceso, limpieza, incidentes y reportes.
+                </p>
+                <div className="living-hero-actions">
+                  <button className="living-button living-button-primary" onClick={onEnterPortal}>Ver demo del portal</button>
+                  <a className="living-button living-button-secondary" href="#landing/workflow">Ver flujo operativo</a>
+                </div>
+                <div className="living-inline-note">Piloto demo: Edificio Torres del Parque, Miraflores</div>
+              </div>
+
+              <div className="living-card living-hero-panel">
+                <div className="living-surface-header">
+                  <span className="living-pill">WhatsApp</span>
+                  <span className="living-pill accent">Aprobación pendiente</span>
+                </div>
+                <div className="living-chat-stack">
+                  <div className="living-chat-bubble incoming">Hola Ana 👋<br />Bienvenida a Bricks Living. ¿Qué deseas hacer?</div>
+                  <div className="living-chat-bubble outgoing">1️⃣ Nueva reserva</div>
+                  <div className="living-chat-bubble incoming">Terraza · 18 Jul · 17:00–23:00<br />Tarifa S/ 120 · Garantía S/ 300</div>
+                  <div className="living-chat-bubble outgoing">Acepto las reglas. 25 invitados. Pago enviado.</div>
+                  <div className="living-chat-bubble incoming">Reserva creada.<br />Código: TRL-2026-0718-0024<br />Estado: Pendiente de aprobación</div>
+                </div>
+              </div>
+            </section>
+
+            <section className="living-grid living-kpis">
+              {kpis.map((item) => <MetricCard key={item.label} {...item} />)}
+            </section>
+
+            <section className="living-story-section" id="landing/workflow">
+              <SectionTitle
+                eyebrow="Flujo principal"
+                title="Del mensaje inicial al reporte mensual"
+                body="La demo sigue una sola historia operativa completa: Ana reserva la terraza, administración valida, seguridad recibe la lista, limpieza ejecuta tareas y la junta ve el resultado consolidado."
+              />
+              <div className="living-timeline">
+                {[
+                  "Ana inicia la reserva por WhatsApp y el motor valida reglas.",
+                  "Se registra el pago por Yape y la reserva queda pendiente de aprobación.",
+                  "Administración revisa, aprueba y deja el historial auditado.",
+                  "Seguridad recibe la lista de invitados y valida el acceso.",
+                  "Limpieza completa preparación, cierre e inspección.",
+                  "El mes consolida reservas, ingresos, garantías e incidentes.",
+                ].map((step, index) => (
+                  <div className="living-timeline-item living-card" key={step}>
+                    <div className="living-step-number">0{index + 1}</div>
+                    <p>{step}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="living-story-section" id="landing/roles">
+              <SectionTitle
+                eyebrow="Cobertura"
+                title="Un mismo portal. Vistas distintas por rol."
+                body="Cada rol ve lo que necesita. No más permisos mezclados ni pantallas genéricas."
+              />
+              <div className="living-grid living-role-grid">
+                {[
+                  ["Super Admin", "Edificios, plantillas de WhatsApp, onboarding, soporte y suscripciones."],
+                  ["Admin edificio", "Dashboard, calendario, aprobaciones, pagos, garantías, residentes, áreas y reportes."],
+                  ["Asistente", "Apoya operación diaria con las mismas colas principales."],
+                  ["Seguridad", "Ve reservas activas, lista de invitados, notas e incidentes."],
+                  ["Limpieza", "Gestiona preparación, limpieza posterior e inspecciones."],
+                  ["Junta", "Consulta reportes, incidentes, garantías y cumplimiento."],
+                ].map(([name, body]) => (
+                  <div className="living-card" key={name}>
+                    <div className="living-card-label">{name}</div>
+                    <p>{body}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="living-story-section" id="landing/reportes">
+              <SectionTitle
+                eyebrow="Base de demo"
+                title="Datos suficientes para que se sienta real"
+                body="La demo parte de un edificio completo, 50+ residentes cargados, historial de reservas, incidentes, pagos y reportes mensuales."
+              />
+              <div className="living-split-panel">
+                <div className="living-card">
+                  <div className="living-card-label">Edificio demo</div>
+                  <h3>Torres del Parque</h3>
+                  <ul className="living-list">
+                    <li>168 departamentos</li>
+                    <li>5 áreas comunes registradas</li>
+                    <li>2 puestos de seguridad</li>
+                    <li>Equipo interno de limpieza</li>
+                  </ul>
+                </div>
+                <div className="living-card">
+                  <div className="living-card-label">Reportes julio 2026</div>
+                  <h3>90 reservas y S/ 5,280 cobrados</h3>
+                  <ul className="living-list">
+                    <li>Terraza: 18 reservas</li>
+                    <li>BBQ: 22 reservas</li>
+                    <li>Salón de eventos: 9 reservas</li>
+                    <li>Coworking: 41 reservas</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </main>
+        </div>
+      );
+    }
+
+    function LoginScreen({ onLogin }) {
+      const [email, setEmail] = React.useState(DEMO_ACCOUNTS[0].email);
+      const [password, setPassword] = React.useState("demo123");
+      const [error, setError] = React.useState("");
+
+      function submit(event) {
+        event.preventDefault();
+        const match = DEMO_ACCOUNTS.find((account) => account.email === email && account.password === password);
+        if (!match) {
+          setError("Credenciales inválidas. Use una cuenta demo.");
+          return;
+        }
+        setError("");
+        onLogin(match);
+      }
+
+      return (
+        <div className="living-login-shell">
+          <div className="living-login-card living-card">
+            <a href="#landing" className="living-back-link">← Volver a la presentación</a>
+            <div className="living-eyebrow">Acceso demo</div>
+            <h1>Entrar al portal</h1>
+            <p>Seleccione un rol demo para recorrer el sistema. Cada cuenta abre un menú distinto sobre la misma base operativa.</p>
+            <form onSubmit={submit} className="living-form">
+              <label>
+                <span>Email</span>
+                <select value={email} onChange={(event) => setEmail(event.target.value)}>
+                  {DEMO_ACCOUNTS.map((account) => (
+                    <option key={account.email} value={account.email}>{account.email} · {ROLE_LABELS[account.role]}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>Contraseña</span>
+                <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+              </label>
+              {error ? <div className="living-form-error">{error}</div> : null}
+              <button className="living-button living-button-primary" type="submit">Entrar</button>
+            </form>
+            <div className="living-account-hints">
+              {DEMO_ACCOUNTS.map((account) => (
+                <div className="living-hint-row" key={account.email}>
+                  <strong>{ROLE_LABELS[account.role]}</strong>
+                  <span>{account.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function Sidebar({ role, currentPage, onNavigate }) {
+      const items = NAV_ITEMS.filter((item) => item.roles.includes(role));
+      return (
+        <aside className="living-sidebar">
+          <div className="living-sidebar-header">
+            <div className="living-brand">
+              <img src="../images/bricks-dark-logo.svg" alt="Bricks" />
+              <span>Living</span>
+            </div>
+            <Badge status="active" label={ROLE_LABELS[role]} />
+          </div>
+          <nav className="living-sidebar-nav">
+            {items.map((item) => (
+              <button
+                key={item.id}
+                className={`living-sidebar-link ${currentPage === item.id ? "is-active" : ""}`}
+                onClick={() => onNavigate(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+        </aside>
+      );
+    }
+
+    function TopBar({ account, role, onRoleChange, onLogout, onGoLanding }) {
+      return (
+        <div className="living-topbar living-card">
+          <div>
+            <div className="living-card-label">Sesión activa</div>
+            <strong>{account.name}</strong>
+            <div className="living-card-detail">{ROLE_LABELS[role]}</div>
+          </div>
+          <div className="living-topbar-actions">
+            <select value={role} onChange={(event) => onRoleChange(event.target.value)}>
+              {DEMO_ACCOUNTS.map((accountOption) => (
+                <option value={accountOption.role} key={accountOption.role}>{ROLE_LABELS[accountOption.role]}</option>
+              ))}
+            </select>
+            <button className="living-button living-button-secondary" onClick={onGoLanding}>Ver landing</button>
+            <button className="living-button living-button-primary" onClick={onLogout}>Salir</button>
+          </div>
+        </div>
+      );
+    }
+
+    function DashboardScreen({ data, onOpenReservation }) {
+      const kpis = getKpis(data);
+      const storyReservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
+      const activeTasks = data.tasks.filter((task) => task.status !== "completed");
+      const storyline = [
+        { label: "Reserva creada", done: true },
+        { label: "Pago verificado", done: storyReservation.paymentStatus === "verified" },
+        { label: "Aprobación admin", done: ["approved", "confirmed", "completed"].includes(storyReservation.status) },
+        { label: "Acceso validado", done: storyReservation.securityResidentArrived && storyReservation.securityGuestsVerified },
+        { label: "Limpieza completada", done: data.tasks.filter((task) => task.reservationId === storyReservation.id).every((task) => task.status === "completed") },
+      ];
+
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Vista general" title="Operación de hoy" body="Colas pendientes, demo principal y estado del edificio en una sola vista." />
+          <div className="living-grid living-kpis">
+            <MetricCard label="Pendientes de aprobación" value={kpis.pendingApprovals} detail="Reservas que requieren decisión" />
+            <MetricCard label="Pagos pendientes" value={kpis.pendingPayments} detail="Comprobantes por revisar" />
+            <MetricCard label="Reservas de hoy" value={kpis.todayReservations} detail="Incluye aprobadas y activas" />
+            <MetricCard label="Ingresos del mes" value={formatCurrency(kpis.revenueThisMonth)} detail="Cobrado y verificado" />
+            <MetricCard label="Garantías retenidas" value={formatCurrency(kpis.depositsHeld)} detail="Pendientes de liberación o cierre" />
+            <MetricCard label="Incidentes abiertos" value={kpis.incidents} detail="Requieren seguimiento" />
+          </div>
+          <div className="living-dashboard-columns">
+            <div className="living-card">
+              <div className="living-card-label">Historia demo</div>
+              <div className="living-story-header">
+                <h3>{storyReservation.code}</h3>
+                <button className="living-link-button" onClick={() => onOpenReservation(storyReservation.id)}>Abrir detalle</button>
+              </div>
+              <p>Ana García · Terraza · 18 Jul · 17:00–23:00 · 25 invitados</p>
+              <div className="living-checklist">
+                {storyline.map((item) => (
+                  <div className={`living-check-row ${item.done ? "done" : ""}`} key={item.label}>
+                    <span>{item.done ? "●" : "○"}</span>
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Cola operativa</div>
+              <ul className="living-list">
+                <li>3 aprobaciones por resolver</li>
+                <li>1 plantilla fallida de WhatsApp</li>
+                <li>2 garantías con liberación pendiente</li>
+                <li>{activeTasks.length} tareas de limpieza activas</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function CalendarScreen({ data, onOpenReservation }) {
+      const visible = data.reservations
+        .filter((item) => ["2026-07-16", "2026-07-17", "2026-07-18", "2026-07-19", "2026-07-20"].includes(item.date))
+        .sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`))
+        .slice(0, 16);
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Calendario" title="Semana operativa" body="Las reservas confirmadas, pendientes y retenidas se muestran sobre la misma agenda." />
+          <div className="living-card">
+            <DataTable
+              columns={[
+                { key: "date", label: "Fecha", render: (row) => formatShortDate(row.date) },
+                { key: "time", label: "Horario", render: (row) => `${row.start}–${row.end}` },
+                { key: "areaName", label: "Área" },
+                { key: "residentName", label: "Residente" },
+                { key: "status", label: "Estado", render: (row) => <Badge status={row.status} /> },
+                { key: "action", label: "Detalle", render: (row) => <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Abrir</button> },
+              ]}
+              rows={visible}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function ApprovalsScreen({ data, onApprove, onOpenReservation }) {
+      const rows = data.reservations.filter((item) => item.status === "pending_approval");
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Aprobaciones" title="Cola de revisión" body="Reservas que requieren validación administrativa antes de confirmarse." />
+          <div className="living-card">
+            <DataTable
+              columns={[
+                { key: "code", label: "Reserva" },
+                { key: "residentName", label: "Residente" },
+                { key: "apartment", label: "Dpto." },
+                { key: "areaName", label: "Área" },
+                { key: "date", label: "Fecha", render: (row) => formatShortDate(row.date) },
+                { key: "guestCount", label: "Invitados" },
+                { key: "paymentStatus", label: "Pago", render: (row) => <Badge status={row.paymentStatus} /> },
+                {
+                  key: "actions",
+                  label: "Acciones",
+                  render: (row) => (
+                    <div className="living-inline-actions">
+                      <button className="living-link-button" onClick={() => onApprove(row.id)}>Aprobar</button>
+                      <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Detalle</button>
+                    </div>
+                  ),
+                },
+              ]}
+              rows={rows}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function PaymentsScreen({ data }) {
+      const rows = data.reservations.filter((item) => ["submitted", "verified"].includes(item.paymentStatus)).slice(0, 12);
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Pagos" title="Comprobantes y validación" body="Reserva, monto esperado, monto enviado y estado del comprobante." />
+          <div className="living-card">
+            <DataTable
+              columns={[
+                { key: "code", label: "Reserva" },
+                { key: "residentName", label: "Residente" },
+                { key: "amount", label: "Monto", render: (row) => formatCurrency(row.amount) },
+                { key: "paymentSubmittedAt", label: "Enviado", render: (row) => formatDateTime(row.paymentSubmittedAt) },
+                { key: "paymentStatus", label: "Estado", render: (row) => <Badge status={row.paymentStatus} /> },
+                { key: "summary", label: "Detalle", render: (row) => row.code === "TRL-2026-0718-0024" ? "Yape · imagen adjunta" : "Transferencia validada" },
+              ]}
+              rows={rows}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function DepositsScreen({ data }) {
+      const rows = data.reservations.filter((item) => item.amount > 0 && item.depositStatus !== "released").slice(0, 12);
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Garantías" title="Retenciones y liberaciones" body="Seguimiento de depósitos, observaciones e impacto de incidentes." />
+          <div className="living-card">
+            <DataTable
+              columns={[
+                { key: "code", label: "Reserva" },
+                { key: "residentName", label: "Residente" },
+                { key: "areaName", label: "Área" },
+                { key: "depositStatus", label: "Estado", render: (row) => <Badge status={row.depositStatus} /> },
+                { key: "status", label: "Reserva", render: (row) => <Badge status={row.status} /> },
+                { key: "impact", label: "Observación", render: (row) => row.code === "EVR-2026-0712-0007" ? "Retener S/ 80 por silla dañada" : "Pendiente cierre operativo" },
+              ]}
+              rows={rows}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function AreasScreen({ data }) {
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" body="Capacidad, reglas, costos y condiciones operativas por área." />
+          <div className="living-grid living-card-grid">
+            {data.areas.map((area) => (
+              <div className="living-card" key={area.id}>
+                <div className="living-card-label">{area.location}</div>
+                <h3>{area.name}</h3>
+                <p>Capacidad {area.capacity} · Tarifa {formatCurrency(area.reservationFee)} · Garantía {formatCurrency(area.deposit)}</p>
+                <div className="living-tag-row">
+                  {area.requiresApproval ? <Badge status="pending_approval" label="Requiere aprobación" /> : <Badge status="active" label="Aprobación automática" />}
+                  {area.requiresGuestList ? <Badge status="active" label="Lista obligatoria" /> : null}
+                </div>
+                <ul className="living-list compact">
+                  {area.rules.map((rule) => <li key={rule}>{rule}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function ResidentsScreen({ data }) {
+      const rows = data.apartments.slice(0, 18);
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Residentes y departamentos" title="Base del edificio" body="Importación y estado operativo por apartamento." />
+          <div className="living-card">
+            <DataTable
+              columns={[
+                { key: "apartment", label: "Dpto." },
+                { key: "tower", label: "Torre" },
+                { key: "residentName", label: "Residente" },
+                { key: "whatsapp", label: "WhatsApp" },
+                { key: "residentStatus", label: "Estado", render: (row) => <Badge status={row.residentStatus} /> },
+                { key: "debtStatus", label: "Deuda" },
+              ]}
+              rows={rows}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function SecurityScreen({ data, onMarkArrival, onVerifyGuests }) {
+      const reservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Seguridad" title="Vista diaria" body="Reservas activas, lista de invitados y acciones de acceso." />
+          <div className="living-dashboard-columns">
+            <div className="living-card">
+              <div className="living-card-label">Reserva destacada</div>
+              <h3>{reservation.code}</h3>
+              <p>{reservation.residentName} · Dpto. {reservation.apartment} · {reservation.areaName}</p>
+              <p>{reservation.start}–{reservation.end} · {reservation.guestCount} invitados</p>
+              <div className="living-tag-row">
+                <Badge status={reservation.status} />
+                <Badge status={reservation.securityResidentArrived ? "approved" : "pending"} label={reservation.securityResidentArrived ? "Residente llegó" : "Falta llegada"} />
+                <Badge status={reservation.securityGuestsVerified ? "approved" : "pending"} label={reservation.securityGuestsVerified ? "Invitados verificados" : "Falta verificación"} />
+              </div>
+              <div className="living-inline-actions">
+                <button className="living-button living-button-secondary" onClick={() => onMarkArrival(reservation.id)}>Marcar llegada</button>
+                <button className="living-button living-button-primary" onClick={() => onVerifyGuests(reservation.id)}>Verificar invitados</button>
+              </div>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Lista de invitados</div>
+              <ol className="living-ordered-list">
+                {reservation.guestList.slice(0, 10).map((guest) => <li key={guest}>{guest}</li>)}
+              </ol>
+              <div className="living-card-detail">{reservation.guestList.length} invitados registrados</div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function CleaningScreen({ data, onCompleteTask }) {
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Limpieza" title="Tareas del equipo interno" body="Preparación, cierre e inspección vinculados a cada reserva." />
+          <div className="living-grid living-card-grid">
+            {data.tasks.map((task) => (
+              <div className="living-card" key={task.id}>
+                <div className="living-card-label">{task.type}</div>
+                <h3>{task.areaName}</h3>
+                <p>{task.reservationCode} · {formatDateTime(task.dueTime)}</p>
+                <Badge status={task.status} />
+                <ul className="living-list compact">
+                  {task.checklist.map((item) => (
+                    <li key={item}>{task.completedItems.includes(item) ? "●" : "○"} {item}</li>
+                  ))}
+                </ul>
+                {task.status !== "completed" ? (
+                  <button className="living-button living-button-primary" onClick={() => onCompleteTask(task.id)}>Completar checklist</button>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function IncidentsScreen({ data }) {
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Incidentes" title="Trazabilidad operativa" body="Incidentes abiertos, evidencia asociada y efecto sobre la garantía." />
+          <div className="living-grid living-card-grid">
+            {data.incidents.map((incident) => (
+              <div className="living-card" key={incident.id}>
+                <div className="living-card-label">{incident.reservationCode}</div>
+                <h3>{incident.type}</h3>
+                <p>{incident.areaName} · {incident.residentName} · Dpto. {incident.apartment}</p>
+                <p>{incident.description}</p>
+                <div className="living-tag-row">
+                  <Badge status={incident.status} />
+                  <Badge status={incident.estimatedCost > 0 ? "retained" : "open"} label={incident.depositImpact} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    function ReportsScreen({ data }) {
+      const report = data.report;
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Reportes" title={`Resumen ${report.month}`} body="Visión lista para junta: uso, ingresos, incidentes y cumplimiento." />
+          <div className="living-grid living-kpis">
+            <MetricCard label="Reservas" value="90" detail="Totales del mes" />
+            <MetricCard label="Ingresos" value={formatCurrency(5280)} detail="Áreas cobradas" />
+            <MetricCard label="Incidentes" value="4" detail="Incluye ruido y daño" />
+            <MetricCard label="Satisfacción" value={`${report.satisfaction} / 5`} detail="Promedio de residentes" />
+          </div>
+          <div className="living-dashboard-columns">
+            <div className="living-card">
+              <div className="living-card-label">Reservas por área</div>
+              <ul className="living-list">
+                {report.reservationsByArea.map((item) => <li key={item.area}>{item.area}: <strong>{item.total}</strong></li>)}
+              </ul>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Ingresos</div>
+              <ul className="living-list">
+                {report.revenueByArea.map((item) => <li key={item.area}>{item.area}: <strong>{formatCurrency(item.total)}</strong></li>)}
+              </ul>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function MessagesScreen({ data }) {
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Mensajes" title="Actividad de WhatsApp" body="Comprobantes, validaciones, plantillas fallidas y seguimiento." />
+          <div className="living-card">
+            <DataTable
+              columns={[
+                { key: "residentName", label: "Origen" },
+                { key: "relatedReservation", label: "Reserva" },
+                { key: "type", label: "Tipo" },
+                { key: "summary", label: "Resumen" },
+                { key: "status", label: "Estado", render: (row) => <Badge status={row.status} /> },
+              ]}
+              rows={data.messages}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function SettingsScreen({ data }) {
+      const building = data.building;
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Configuración" title="Perfil del edificio" body="Idioma, pagos, número de WhatsApp, permisos y reglas base." />
+          <div className="living-grid living-card-grid">
+            <div className="living-card">
+              <div className="living-card-label">Perfil</div>
+              <h3>{building.name}</h3>
+              <p>{building.district}</p>
+              <ul className="living-list compact">
+                <li>{building.apartmentsCount} departamentos</li>
+                <li>{building.floors} pisos y {building.basements} sótanos</li>
+                <li>{building.language} · {building.currency}</li>
+              </ul>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Instrucciones de pago</div>
+              <ul className="living-list compact">
+                <li>Yape: 987 654 321</li>
+                <li>Plin: 934 111 222</li>
+                <li>Cuenta BCP: 191-8844556-0-22</li>
+              </ul>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Permisos</div>
+              <ul className="living-list compact">
+                <li>Seguridad puede marcar llegadas</li>
+                <li>Limpieza puede reportar incidentes</li>
+                <li>Junta tiene acceso de solo lectura</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function SuperAdminScreen({ data }) {
+      return (
+        <div className="living-screen">
+          <SectionTitle eyebrow="Super Admin" title="Edificios, plantillas y soporte" body="Vista central para onboarding, plantillas de WhatsApp y estado de cuenta." />
+          <div className="living-dashboard-columns">
+            <div className="living-card">
+              <div className="living-card-label">Portafolio de edificios</div>
+              <ul className="living-list">
+                {data.superAdmin.buildings.map((building) => (
+                  <li key={building.name}>{building.name} · {building.district} · {building.plan} · {building.status}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Plantillas activas</div>
+              <ul className="living-list">
+                {data.superAdmin.templates.map((template) => (
+                  <li key={template.name}>{template.name} · {template.language} · {template.status}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="living-card">
+            <div className="living-card-label">Soporte y onboarding</div>
+            <ul className="living-list">
+              {data.superAdmin.supportQueue.map((item) => (
+                <li key={item.issue}>{item.building} · {item.issue} · Responsable: {item.owner} · SLA: {item.sla}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      );
+    }
+
+    function ReservationDetailScreen({ data, reservationId, onApprove, onMarkArrival, onVerifyGuests, onCompleteTask }) {
+      const reservation = data.reservations.find((item) => item.id === reservationId) || data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
+      const tasks = data.tasks.filter((task) => task.reservationId === reservation.id);
+      const relatedIncident = data.incidents.find((item) => item.reservationId === reservation.id);
+
+      return (
+        <div className="living-screen">
+          <SectionTitle
+            eyebrow="Detalle de reserva"
+            title={reservation.code}
+            body={`${reservation.residentName} · Dpto. ${reservation.apartment} · ${reservation.areaName} · ${formatShortDate(reservation.date)} · ${reservation.start}–${reservation.end}`}
+            actions={
+              reservation.status === "pending_approval" ? <button className="living-button living-button-primary" onClick={() => onApprove(reservation.id)}>Aprobar</button> : null
+            }
+          />
+          <div className="living-dashboard-columns">
+            <div className="living-card">
+              <div className="living-card-label">Estado</div>
+              <div className="living-tag-row">
+                <Badge status={reservation.status} />
+                <Badge status={reservation.paymentStatus} />
+                <Badge status={reservation.depositStatus} />
+              </div>
+              <p>Motivo: {reservation.reason}</p>
+              <p>Invitados: {reservation.guestCount}</p>
+              <p>Monto total: {formatCurrency(reservation.amount)}</p>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Seguridad</div>
+              <div className="living-checklist">
+                <div className={`living-check-row ${reservation.securityResidentArrived ? "done" : ""}`}>● Residente llegó</div>
+                <div className={`living-check-row ${reservation.securityGuestsVerified ? "done" : ""}`}>● Invitados verificados</div>
+              </div>
+              <div className="living-inline-actions">
+                <button className="living-button living-button-secondary" onClick={() => onMarkArrival(reservation.id)}>Marcar llegada</button>
+                <button className="living-button living-button-primary" onClick={() => onVerifyGuests(reservation.id)}>Verificar invitados</button>
+              </div>
+            </div>
+          </div>
+          <div className="living-grid living-card-grid">
+            <div className="living-card">
+              <div className="living-card-label">Lista de invitados</div>
+              <ol className="living-ordered-list">
+                {reservation.guestList.map((guest) => <li key={guest}>{guest}</li>)}
+              </ol>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Tareas de limpieza</div>
+              <ul className="living-list compact">
+                {tasks.map((task) => (
+                  <li key={task.id}>
+                    {task.type} · <Badge status={task.status} />
+                    {task.status !== "completed" ? (
+                      <button className="living-link-button" onClick={() => onCompleteTask(task.id)}>Completar</button>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="living-card">
+              <div className="living-card-label">Incidentes</div>
+              {relatedIncident ? (
+                <div>
+                  <p>{relatedIncident.type}</p>
+                  <Badge status={relatedIncident.status} />
+                </div>
+              ) : (
+                <p>Sin incidentes asociados.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function PortalShell({ account, role, data, setData, currentPage, selectedReservationId, onNavigate, onGoLanding, onLogout, onRoleChange }) {
+      function updateReservation(reservationId, updater) {
+        setData((previous) => {
+          const next = cloneData(previous);
+          next.reservations = next.reservations.map((reservation) => reservation.id === reservationId ? updater(reservation) : reservation);
+          return next;
+        });
+      }
+
+      function completeTask(taskId) {
+        setData((previous) => {
+          const next = cloneData(previous);
+          next.tasks = next.tasks.map((task) => task.id === taskId ? { ...task, status: "completed", completedItems: [...task.checklist] } : task);
+          const reservationIds = next.tasks.filter((task) => task.status === "completed").map((task) => task.reservationId);
+          next.reservations = next.reservations.map((reservation) => (
+            reservationIds.includes(reservation.id)
+              ? { ...reservation, cleaningStatus: next.tasks.filter((task) => task.reservationId === reservation.id).every((task) => task.status === "completed") ? "completed" : reservation.cleaningStatus }
+              : reservation
+          ));
+          return next;
+        });
+      }
+
+      function approveReservation(reservationId) {
+        updateReservation(reservationId, (reservation) => ({
+          ...reservation,
+          status: "approved",
+          approvedBy: "María Fernanda Rojas",
+          approvedAt: "2026-07-12T09:43:00-05:00",
+        }));
+      }
+
+      function markArrival(reservationId) {
+        updateReservation(reservationId, (reservation) => ({
+          ...reservation,
+          securityResidentArrived: true,
+        }));
+      }
+
+      function verifyGuests(reservationId) {
+        updateReservation(reservationId, (reservation) => ({
+          ...reservation,
+          securityGuestsVerified: true,
+        }));
+      }
+
+      let screen = null;
+      switch (currentPage) {
+        case "dashboard":
+          screen = <DashboardScreen data={data} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+          break;
+        case "calendar":
+          screen = <CalendarScreen data={data} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+          break;
+        case "approvals":
+          screen = <ApprovalsScreen data={data} onApprove={approveReservation} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+          break;
+        case "payments":
+          screen = <PaymentsScreen data={data} />;
+          break;
+        case "deposits":
+          screen = <DepositsScreen data={data} />;
+          break;
+        case "areas":
+          screen = <AreasScreen data={data} />;
+          break;
+        case "residents":
+          screen = <ResidentsScreen data={data} />;
+          break;
+        case "security":
+          screen = <SecurityScreen data={data} onMarkArrival={markArrival} onVerifyGuests={verifyGuests} />;
+          break;
+        case "cleaning":
+          screen = <CleaningScreen data={data} onCompleteTask={completeTask} />;
+          break;
+        case "incidents":
+          screen = <IncidentsScreen data={data} />;
+          break;
+        case "reports":
+          screen = <ReportsScreen data={data} />;
+          break;
+        case "messages":
+          screen = <MessagesScreen data={data} />;
+          break;
+        case "settings":
+          screen = <SettingsScreen data={data} />;
+          break;
+        case "superadmin":
+          screen = <SuperAdminScreen data={data} />;
+          break;
+        case "reservation":
+          screen = (
+            <ReservationDetailScreen
+              data={data}
+              reservationId={selectedReservationId}
+              onApprove={approveReservation}
+              onMarkArrival={markArrival}
+              onVerifyGuests={verifyGuests}
+              onCompleteTask={completeTask}
+            />
+          );
+          break;
+        default:
+          screen = <DashboardScreen data={data} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      }
+
+      return (
+        <div className="living-portal">
+          <Sidebar role={role} currentPage={currentPage} onNavigate={(page) => onNavigate(page)} />
+          <div className="living-main">
+            <TopBar
+              account={account}
+              role={role}
+              onRoleChange={onRoleChange}
+              onLogout={onLogout}
+              onGoLanding={onGoLanding}
+            />
+            {screen}
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [route, setRoute] = React.useState(parseHash());
+      const [data, setData] = React.useState(() => buildDemoData());
+      const [account, setAccount] = React.useState(DEMO_ACCOUNTS[0]);
+      const [role, setRole] = React.useState("building_admin");
+
+      React.useEffect(() => {
+        const handler = () => setRoute(parseHash());
+        window.addEventListener("hashchange", handler);
+        return () => window.removeEventListener("hashchange", handler);
+      }, []);
+
+      React.useEffect(() => {
+        if (!window.location.hash) setHash("landing");
+      }, []);
+
+      React.useEffect(() => {
+        const match = DEMO_ACCOUNTS.find((item) => item.role === role);
+        if (match) setAccount(match);
+      }, [role]);
+
+      React.useEffect(() => {
+        if (route.area !== "portal") return;
+        const currentPage = route.page || defaultPageForRole(role);
+        if (!pageAllowedForRole(role, currentPage)) {
+          goToPortal(defaultPageForRole(role));
+        }
+      }, [route.area, route.page, role]);
+
+      function goToPortal(page = "dashboard", id) {
+        setHash(id ? `portal/${page}/${id}` : `portal/${page}`);
+      }
+
+      function handleLogin(nextAccount) {
+        setAccount(nextAccount);
+        setRole(nextAccount.role);
+        goToPortal(defaultPageForRole(nextAccount.role));
+      }
+
+      function handleRoleChange(nextRole) {
+        setRole(nextRole);
+        goToPortal(defaultPageForRole(nextRole));
+      }
+
+      if (route.area === "login") {
+        return <LoginScreen onLogin={handleLogin} />;
+      }
+
+      if (route.area !== "portal") {
+        return <PublicLanding onEnterPortal={() => setHash("login")} />;
+      }
+
+      return (
+        <PortalShell
+          account={account}
+          role={role}
+          data={data}
+          setData={setData}
+          currentPage={route.page || "dashboard"}
+          selectedReservationId={route.id}
+          onNavigate={(page, id) => goToPortal(page, id)}
+          onGoLanding={() => setHash("landing")}
+          onLogout={() => setHash("login")}
+          onRoleChange={handleRoleChange}
+        />
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
