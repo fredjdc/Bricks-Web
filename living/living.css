@@ -299,9 +299,26 @@ body {
   max-width: 760px;
 }
 
+.living-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.living-section-heading-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  color: color-mix(in srgb, var(--living-accent) 84%, var(--living-text));
+}
+
 .living-section-title h1 {
   font-size: clamp(34px, 4.6vw, 56px);
-  margin-bottom: 14px;
+  margin-bottom: 0;
   max-width: none;
 }
 
@@ -701,8 +718,36 @@ body {
   border-bottom: 1px solid var(--living-border);
 }
 
+.living-topbar-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.living-topbar-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 52px;
+  border: 1px solid color-mix(in srgb, var(--living-border-strong) 78%, transparent);
+  box-shadow: 0 6px 16px rgba(11, 15, 20, 0.08);
+}
+
+.living-topbar-account {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
 .living-topbar .living-card-label {
   display: none;
+}
+
+.living-topbar-account strong {
+  font-size: 14px;
+  line-height: 1.2;
 }
 
 .living-topbar select {
@@ -908,10 +953,20 @@ body {
 }
 
 .living-portal .living-section-title h1 {
-  margin-bottom: 8px;
   font-size: clamp(22px, 2.8vw, 32px);
   font-weight: 800;
   letter-spacing: -0.03em;
+}
+
+.living-portal .living-section-heading {
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.living-portal .living-section-heading-icon {
+  width: 20px;
+  height: 20px;
+  flex-basis: 20px;
 }
 
 .living-portal .living-section-title p {
@@ -967,6 +1022,15 @@ body {
 
 .living-portal .living-button-primary {
   box-shadow: 0 4px 12px rgba(11, 15, 20, 0.08);
+}
+
+.living-portal .living-topbar-actions {
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+
+.living-portal .living-topbar-actions .living-button {
+  flex: 0 0 auto;
 }
 
 .living-portal .living-kpis {
@@ -1092,6 +1156,17 @@ body {
     line-height: 1.02;
   }
 
+  .living-section-heading {
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .living-section-heading-icon {
+    width: 20px;
+    height: 20px;
+    flex-basis: 20px;
+  }
+
   .living-hero-copy p,
   .living-section-title p,
   .living-card p,
@@ -1141,6 +1216,10 @@ body {
     padding: 12px 0;
   }
 
+  .living-topbar-profile {
+    gap: 12px;
+  }
+
   .living-sidebar-nav {
     display: flex;
     gap: 10px;
@@ -1176,6 +1255,12 @@ body {
 
   .living-button {
     padding: 12px 16px;
+  }
+
+  .living-topbar-avatar {
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
   }
 
   .living-whatsapp-copy h2 {

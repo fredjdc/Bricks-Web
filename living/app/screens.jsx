@@ -66,7 +66,7 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
 
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Vista general" title="Operación de hoy" />
+      <window.SectionTitle eyebrow="Vista general" title="Operación de hoy" iconName="dashboard" />
       <div className="living-grid living-kpis">
         <window.MetricCard label="Pendientes" value={kpis.pendingApprovals} detail="Aprobaciones" icon={dashboardIcons.pending} />
         <window.MetricCard label="Pagos por revisar" value={kpis.pendingPayments} detail="Comprobantes" icon={dashboardIcons.payments} />
@@ -125,7 +125,7 @@ window.CalendarScreen = function CalendarScreen({ data, onOpenReservation }) {
 
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Calendario" title="Semana operativa" />
+      <window.SectionTitle eyebrow="Calendario" title="Semana operativa" iconName="calendar" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -147,7 +147,7 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, onApprove, onOpenReser
   const rows = data.reservations.filter((item) => item.status === "pending_approval");
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Aprobaciones" title="Cola de revisión" body="Reservas pendientes de validación." />
+      <window.SectionTitle eyebrow="Aprobaciones" title="Cola de revisión" body="Reservas pendientes de validación." iconName="approvals" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -180,7 +180,7 @@ window.PaymentsScreen = function PaymentsScreen({ data }) {
   const rows = data.reservations.filter((item) => ["submitted", "verified"].includes(item.paymentStatus)).slice(0, 12);
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Pagos" title="Comprobantes" />
+      <window.SectionTitle eyebrow="Pagos" title="Comprobantes" iconName="payments" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -202,7 +202,7 @@ window.DepositsScreen = function DepositsScreen({ data }) {
   const rows = data.reservations.filter((item) => item.amount > 0 && item.depositStatus !== "released").slice(0, 12);
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Garantías" title="Retenciones y liberaciones" />
+      <window.SectionTitle eyebrow="Garantías" title="Retenciones y liberaciones" iconName="deposits" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -223,7 +223,7 @@ window.DepositsScreen = function DepositsScreen({ data }) {
 window.AreasScreen = function AreasScreen({ data }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" />
+      <window.SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" iconName="areas" />
       <div className="living-grid living-card-grid">
         {data.areas.map((area) => (
           <div className="living-card" key={area.id}>
@@ -248,7 +248,7 @@ window.ResidentsScreen = function ResidentsScreen({ data }) {
   const rows = data.apartments.slice(0, 18);
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Residentes" title="Base del edificio" />
+      <window.SectionTitle eyebrow="Residentes" title="Base del edificio" iconName="residents" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -270,7 +270,7 @@ window.SecurityScreen = function SecurityScreen({ data, onMarkArrival, onVerifyG
   const reservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Seguridad" title="Vista diaria" />
+      <window.SectionTitle eyebrow="Seguridad" title="Vista diaria" iconName="security" />
       <div className="living-dashboard-columns">
         <div className="living-card">
           <div className="living-card-label">Reserva destacada</div>
@@ -302,7 +302,7 @@ window.SecurityScreen = function SecurityScreen({ data, onMarkArrival, onVerifyG
 window.CleaningScreen = function CleaningScreen({ data, onCompleteTask }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Limpieza" title="Tareas del equipo" />
+      <window.SectionTitle eyebrow="Limpieza" title="Tareas del equipo" iconName="cleaning" />
       <div className="living-grid living-card-grid">
         {data.tasks.map((task) => (
           <div className="living-card" key={task.id}>
@@ -328,7 +328,7 @@ window.CleaningScreen = function CleaningScreen({ data, onCompleteTask }) {
 window.IncidentsScreen = function IncidentsScreen({ data }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Incidentes" title="Trazabilidad operativa" />
+      <window.SectionTitle eyebrow="Incidentes" title="Trazabilidad operativa" iconName="incidents" />
       <div className="living-grid living-card-grid">
         {data.incidents.map((incident) => (
           <div className="living-card" key={incident.id}>
@@ -351,7 +351,7 @@ window.ReportsScreen = function ReportsScreen({ data }) {
   const report = data.report;
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Reportes" title={`Resumen ${report.month}`} />
+      <window.SectionTitle eyebrow="Reportes" title={`Resumen ${report.month}`} iconName="reports" />
       <div className="living-grid living-kpis">
         <window.MetricCard label="Reservas" value="90" detail="Totales del mes" />
         <window.MetricCard label="Ingresos" value={window.livingFormatCurrency(5280)} detail="Áreas cobradas" />
@@ -379,7 +379,7 @@ window.ReportsScreen = function ReportsScreen({ data }) {
 window.MessagesScreen = function MessagesScreen({ data }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Mensajes" title="Actividad de WhatsApp" />
+      <window.SectionTitle eyebrow="Mensajes" title="Actividad de WhatsApp" iconName="messages" />
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -400,7 +400,7 @@ window.SettingsScreen = function SettingsScreen({ data }) {
   const building = data.building;
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Configuración" title="Perfil del edificio" />
+      <window.SectionTitle eyebrow="Configuración" title="Perfil del edificio" iconName="settings" />
       <div className="living-grid living-card-grid">
         <div className="living-card">
           <div className="living-card-label">Perfil</div>
@@ -436,7 +436,7 @@ window.SettingsScreen = function SettingsScreen({ data }) {
 window.SuperAdminScreen = function SuperAdminScreen({ data }) {
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Super Admin" title="Edificios y plantillas" />
+      <window.SectionTitle eyebrow="Super Admin" title="Edificios y plantillas" iconName="superadmin" />
       <div className="living-dashboard-columns">
         <div className="living-card">
           <div className="living-card-label">Portafolio de edificios</div>
