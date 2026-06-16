@@ -469,6 +469,29 @@ window.PublicLanding = function PublicLanding({ onEnterPortal }) {
             </div>
           </section>
         </main>
+        <window.Footer
+          t={{
+            footer: {
+              tag: 'Focused apps for real estate agents on Apple.',
+              sections: [
+                { h: 'Apps', l: [{ label: 'Bricks Scan', href: '../scan.html' }, { label: 'Bricks Calc', href: '../calc.html' }, { label: 'Bricks Leads', href: '../leads.html' }] },
+                { h: 'Business', l: [{ label: 'About', href: '../about.html' }, { label: 'Purchase guide', href: '../purchase-guide-01.html' }, { label: 'hello@bricks.pe', href: 'mailto:hello@bricks.pe' }] },
+                { h: 'Support', l: [{ label: 'Contact', href: '../support.html' }, { label: 'Vote on features', href: 'https://bricksapps.userjot.com' }, { label: 'Guides', href: '../help.html' }, { label: 'Survey', href: '../survey.html' }] },
+              ],
+              legal: [{ label: 'Privacy Policy', href: '../privacy.html' }, { label: 'Terms of Service', href: '../terms.html' }],
+              copyright: '© 2026 Bricks Apps. Made with care.',
+              language: 'Language',
+              appearance: 'Appearance',
+              light: 'Light',
+              dark: 'Dark',
+              auto: 'System',
+            }
+          }}
+          lang="en"
+          setLang={() => {}}
+          theme="auto"
+          setTheme={() => {}}
+        />
       </div>
     </div>
   );
