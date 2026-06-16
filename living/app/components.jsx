@@ -2,6 +2,138 @@ window.Badge = function Badge({ status, label }) {
   return <span className={`living-badge tone-${window.livingStatusTone(status)}`}>{label || window.LIVING_STATUS_LABELS[status] || status}</span>;
 };
 
+window.LivingNavIcon = function LivingNavIcon({ name }) {
+  const common = {
+    width: 18,
+    height: 18,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    "aria-hidden": "true",
+  };
+
+  switch (name) {
+    case "dashboard":
+      return (
+        <svg {...common}>
+          <rect x="3" y="3" width="8" height="8" rx="2" />
+          <rect x="13" y="3" width="8" height="5" rx="2" />
+          <rect x="13" y="10" width="8" height="11" rx="2" />
+          <rect x="3" y="13" width="8" height="8" rx="2" />
+        </svg>
+      );
+    case "calendar":
+      return (
+        <svg {...common}>
+          <rect x="3" y="4" width="18" height="17" rx="3" />
+          <line x1="8" y1="2.5" x2="8" y2="6.5" />
+          <line x1="16" y1="2.5" x2="16" y2="6.5" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      );
+    case "approvals":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="9" />
+          <path d="M8.5 12.5l2.4 2.4 4.8-5.1" />
+        </svg>
+      );
+    case "payments":
+      return (
+        <svg {...common}>
+          <path d="M12 2v20" />
+          <path d="M17 6.5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6.5" />
+        </svg>
+      );
+    case "deposits":
+      return (
+        <svg {...common}>
+          <path d="M12 3l7 4v5c0 4.5-2.8 7.6-7 9-4.2-1.4-7-4.5-7-9V7l7-4z" />
+          <path d="M9.5 12.5l1.8 1.8 3.6-3.8" />
+        </svg>
+      );
+    case "areas":
+      return (
+        <svg {...common}>
+          <path d="M4 20V10.5L12 4l8 6.5V20" />
+          <path d="M9 20v-5h6v5" />
+        </svg>
+      );
+    case "residents":
+      return (
+        <svg {...common}>
+          <circle cx="9" cy="8" r="3.25" />
+          <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
+          <path d="M16 8h4" />
+          <path d="M18 6v4" />
+        </svg>
+      );
+    case "security":
+      return (
+        <svg {...common}>
+          <rect x="4" y="11" width="16" height="9" rx="2.5" />
+          <path d="M7.5 11V8a4.5 4.5 0 0 1 9 0v3" />
+        </svg>
+      );
+    case "cleaning":
+      return (
+        <svg {...common}>
+          <path d="M8 4h8" />
+          <path d="M10 4v4" />
+          <path d="M14 4v4" />
+          <path d="M6 9h12" />
+          <path d="M8 9l1.2 10h5.6L16 9" />
+        </svg>
+      );
+    case "incidents":
+      return (
+        <svg {...common}>
+          <path d="M12 4l8 14H4L12 4z" />
+          <path d="M12 9v4" />
+          <circle cx="12" cy="16.5" r="0.8" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "reports":
+      return (
+        <svg {...common}>
+          <path d="M5 20V10" />
+          <path d="M12 20V4" />
+          <path d="M19 20v-7" />
+        </svg>
+      );
+    case "messages":
+      return (
+        <svg {...common}>
+          <path d="M5 6.5h14A2.5 2.5 0 0 1 21.5 9v7A2.5 2.5 0 0 1 19 18.5H9l-4.5 3V9A2.5 2.5 0 0 1 7 6.5" />
+          <path d="M8.5 11.5h7" />
+          <path d="M8.5 14.5h4.5" />
+        </svg>
+      );
+    case "settings":
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a2 2 0 0 1-4 0v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a2 2 0 0 1 0-4h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4a2 2 0 0 1 4 0v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2a2 2 0 0 1 0 4h-.2a1 1 0 0 0-.9.6z" />
+        </svg>
+      );
+    case "superadmin":
+      return (
+        <svg {...common}>
+          <path d="M12 3l2.6 5.2 5.7.8-4.1 4 1 5.7L12 16l-5.2 2.7 1-5.7-4.1-4 5.7-.8L12 3z" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...common}>
+          <circle cx="12" cy="12" r="8" />
+        </svg>
+      );
+  }
+};
+
 window.SectionTitle = function SectionTitle({ eyebrow, title, body, actions }) {
   return (
     <div className="living-section-title">
@@ -406,7 +538,10 @@ window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
             className={`living-sidebar-link ${currentPage === item.id ? "is-active" : ""}`}
             onClick={() => onNavigate(item.id)}
           >
-            {item.label}
+            <span className="living-sidebar-link-icon">
+              <window.LivingNavIcon name={item.icon || item.id} />
+            </span>
+            <span className="living-sidebar-link-label">{item.label}</span>
           </button>
         ))}
       </nav>

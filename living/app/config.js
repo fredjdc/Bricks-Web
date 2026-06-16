@@ -31,20 +31,20 @@ window.LIVING_STATUS_LABELS = {
 };
 
 window.LIVING_NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard", roles: ["super_admin", "building_admin", "assistant_admin", "security", "cleaning", "junta"] },
-  { id: "calendar", label: "Calendario", roles: ["building_admin", "assistant_admin"] },
-  { id: "approvals", label: "Aprobaciones", roles: ["building_admin", "assistant_admin"] },
-  { id: "payments", label: "Pagos", roles: ["building_admin", "assistant_admin"] },
-  { id: "deposits", label: "Garantías", roles: ["building_admin", "assistant_admin", "junta"] },
-  { id: "areas", label: "Áreas comunes", roles: ["building_admin", "assistant_admin"] },
-  { id: "residents", label: "Residentes", roles: ["building_admin", "assistant_admin"] },
-  { id: "security", label: "Seguridad", roles: ["security", "building_admin", "assistant_admin"] },
-  { id: "cleaning", label: "Limpieza", roles: ["cleaning", "building_admin", "assistant_admin"] },
-  { id: "incidents", label: "Incidentes", roles: ["building_admin", "assistant_admin", "security", "cleaning", "junta"] },
-  { id: "reports", label: "Reportes", roles: ["building_admin", "assistant_admin", "junta"] },
-  { id: "messages", label: "Mensajes", roles: ["building_admin", "assistant_admin"] },
-  { id: "settings", label: "Configuración", roles: ["building_admin", "assistant_admin"] },
-  { id: "superadmin", label: "Super Admin", roles: ["super_admin"] },
+  { id: "dashboard", label: "Dashboard", icon: "dashboard", roles: ["super_admin", "building_admin", "assistant_admin", "security", "cleaning", "junta"] },
+  { id: "calendar", label: "Calendario", icon: "calendar", roles: ["building_admin", "assistant_admin"] },
+  { id: "approvals", label: "Aprobaciones", icon: "approvals", roles: ["building_admin", "assistant_admin"] },
+  { id: "payments", label: "Pagos", icon: "payments", roles: ["building_admin", "assistant_admin"] },
+  { id: "deposits", label: "Garantías", icon: "deposits", roles: ["building_admin", "assistant_admin", "junta"] },
+  { id: "areas", label: "Áreas comunes", icon: "areas", roles: ["building_admin", "assistant_admin"] },
+  { id: "residents", label: "Residentes", icon: "residents", roles: ["building_admin", "assistant_admin"] },
+  { id: "security", label: "Seguridad", icon: "security", roles: ["security", "building_admin", "assistant_admin"] },
+  { id: "cleaning", label: "Limpieza", icon: "cleaning", roles: ["cleaning", "building_admin", "assistant_admin"] },
+  { id: "incidents", label: "Incidentes", icon: "incidents", roles: ["building_admin", "assistant_admin", "security", "cleaning", "junta"] },
+  { id: "reports", label: "Reportes", icon: "reports", roles: ["building_admin", "assistant_admin", "junta"] },
+  { id: "messages", label: "Mensajes", icon: "messages", roles: ["building_admin", "assistant_admin"] },
+  { id: "settings", label: "Configuración", icon: "settings", roles: ["building_admin", "assistant_admin"] },
+  { id: "superadmin", label: "Super Admin", icon: "superadmin", roles: ["super_admin"] },
 ];
 
 window.LIVING_DEMO_ACCOUNTS = [
