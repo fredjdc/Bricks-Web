@@ -109,21 +109,22 @@ window.PublicLanding = function PublicLanding({ onEnterPortal }) {
 
   return (
     <div className="living-public">
-      <header className="living-public-header">
-        <a href="../index.html" className="living-brand">
-          <img src="../images/bricks-dark-logo.svg" alt="Bricks" />
-          <span>Living</span>
-        </a>
-        <nav className="living-public-nav">
-          <a href="#landing/workflow">Operación</a>
-          <a href="#landing/whatsapp">WhatsApp</a>
-          <a href="#landing/roles">Roles</a>
-          <a href="#landing/reportes">Métricas</a>
-          <button className="living-button living-button-primary" onClick={onEnterPortal}>Entrar al portal</button>
-        </nav>
-      </header>
+      <div className="living-public-shell">
+        <header className="living-public-header">
+          <a href="../index.html" className="living-brand">
+            <img src="../images/bricks-dark-logo.svg" alt="Bricks" />
+            <span>Living</span>
+          </a>
+          <nav className="living-public-nav" aria-label="Navegación principal">
+            <a href="#landing/workflow">Operación</a>
+            <a href="#landing/whatsapp">WhatsApp</a>
+            <a href="#landing/roles">Roles</a>
+            <a href="#landing/reportes">Métricas</a>
+            <button className="living-button living-button-primary" onClick={onEnterPortal}>Entrar al portal</button>
+          </nav>
+        </header>
 
-      <main>
+        <main className="living-public-main">
         <section className="living-hero">
           <div className="living-hero-copy">
             <div className="living-eyebrow-container">
@@ -329,7 +330,8 @@ window.PublicLanding = function PublicLanding({ onEnterPortal }) {
             </div>
           </div>
         </section>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
