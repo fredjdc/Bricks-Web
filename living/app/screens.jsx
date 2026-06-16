@@ -9,38 +9,107 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
     { label: "Acceso validado", done: storyReservation.securityResidentArrived && storyReservation.securityGuestsVerified },
     { label: "Limpieza completada", done: data.tasks.filter((task) => task.reservationId === storyReservation.id).every((task) => task.status === "completed") },
   ];
+  const dashboardIcons = {
+    pending: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="8" />
+        <path d="M12 8v4l2.5 2.5" />
+      </svg>
+    ),
+    payments: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 2v20" />
+        <path d="M17 6.5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6.5" />
+      </svg>
+    ),
+    reservations: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="17" rx="3" />
+        <line x1="8" y1="2.5" x2="8" y2="6.5" />
+        <line x1="16" y1="2.5" x2="16" y2="6.5" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+    ),
+    revenue: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 16l5-5 4 4 7-8" />
+        <path d="M20 10V7h-3" />
+      </svg>
+    ),
+    story: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M7 4.5h8a3.5 3.5 0 0 1 3.5 3.5v11l-3-1.8-3 1.8-3-1.8-3 1.8V8A3.5 3.5 0 0 1 7 4.5z" />
+        <path d="M9 9.5h6" />
+        <path d="M9 13h4.5" />
+      </svg>
+    ),
+    queue: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M6 7h12" />
+        <path d="M6 12h12" />
+        <path d="M6 17h8" />
+      </svg>
+    ),
+    open: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M7 17L17 7" />
+        <path d="M9 7h8v8" />
+      </svg>
+    ),
+    task: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="8" />
+        <path d="M9 12.5l2 2 4-4.5" />
+      </svg>
+    ),
+  };
 
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Vista general" title="Operación de hoy" />
       <div className="living-grid living-kpis">
-        <window.MetricCard label="Pendientes" value={kpis.pendingApprovals} detail="Aprobaciones" />
-        <window.MetricCard label="Pagos por revisar" value={kpis.pendingPayments} detail="Comprobantes" />
-        <window.MetricCard label="Reservas hoy" value={kpis.todayReservations} detail="Aprobadas y activas" />
-        <window.MetricCard label="Ingresos del mes" value={window.livingFormatCurrency(kpis.revenueThisMonth)} detail="Verificado" />
+        <window.MetricCard label="Pendientes" value={kpis.pendingApprovals} detail="Aprobaciones" icon={dashboardIcons.pending} />
+        <window.MetricCard label="Pagos por revisar" value={kpis.pendingPayments} detail="Comprobantes" icon={dashboardIcons.payments} />
+        <window.MetricCard label="Reservas hoy" value={kpis.todayReservations} detail="Aprobadas y activas" icon={dashboardIcons.reservations} />
+        <window.MetricCard label="Ingresos del mes" value={window.livingFormatCurrency(kpis.revenueThisMonth)} detail="Verificado" icon={dashboardIcons.revenue} />
       </div>
       <div className="living-dashboard-columns">
         <div className="living-card">
-          <div className="living-card-label">Historia demo</div>
+          <div className="living-card-label living-dashboard-label">
+            <span className="living-dashboard-label-icon">{dashboardIcons.story}</span>
+            <span>Historia demo</span>
+          </div>
           <div className="living-story-header">
             <h3>{storyReservation.code}</h3>
-            <button className="living-link-button" onClick={() => onOpenReservation(storyReservation.id)}>Abrir</button>
+            <button className="living-link-button living-link-button-inline" onClick={() => onOpenReservation(storyReservation.id)}>
+              <span>Abrir</span>
+              <span className="living-link-button-icon">{dashboardIcons.open}</span>
+            </button>
           </div>
           <p>Ana García · Terraza · 18 Jul · 17:00–23:00</p>
           <div className="living-checklist">
             {storyline.map((item) => (
               <div className={`living-check-row ${item.done ? "done" : ""}`} key={item.label}>
-                <span>{item.done ? "●" : "○"}</span>
+                <span className="living-check-icon" aria-hidden="true">{item.done ? "●" : "○"}</span>
                 <span>{item.label}</span>
               </div>
             ))}
           </div>
         </div>
         <div className="living-card">
-          <div className="living-card-label">Cola operativa</div>
-          <ul className="living-list">
-            <li>3 aprobaciones por resolver</li>
-            <li>{activeTasks.length} tareas de limpieza activas</li>
+          <div className="living-card-label living-dashboard-label">
+            <span className="living-dashboard-label-icon">{dashboardIcons.queue}</span>
+            <span>Cola operativa</span>
+          </div>
+          <ul className="living-list living-queue-list">
+            <li>
+              <span className="living-queue-icon">{dashboardIcons.pending}</span>
+              <span>3 aprobaciones por resolver</span>
+            </li>
+            <li>
+              <span className="living-queue-icon">{dashboardIcons.task}</span>
+              <span>{activeTasks.length} tareas de limpieza activas</span>
+            </li>
           </ul>
         </div>
       </div>

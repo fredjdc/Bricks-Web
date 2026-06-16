@@ -809,6 +809,9 @@ body {
 }
 
 .living-check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: var(--living-text-muted);
 }
 
@@ -817,11 +820,71 @@ body {
   font-weight: 600;
 }
 
+.living-check-icon {
+  width: 14px;
+  flex: 0 0 14px;
+  color: color-mix(in srgb, var(--living-text-muted) 75%, transparent);
+}
+
+.living-check-row.done .living-check-icon {
+  color: color-mix(in srgb, var(--living-accent) 85%, var(--living-text));
+}
+
 .living-story-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+.living-dashboard-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.living-dashboard-label-icon,
+.living-queue-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: color-mix(in srgb, var(--living-accent) 82%, var(--living-text));
+}
+
+.living-dashboard-label-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.living-link-button-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.living-link-button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.living-queue-list {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.living-queue-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.living-queue-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
 }
 
 .living-portal .living-card {
