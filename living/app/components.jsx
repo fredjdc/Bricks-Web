@@ -244,8 +244,7 @@ window.PublicLanding = function PublicLanding({ onEnterPortal }) {
       <div className="living-public-shell">
         <header className="living-public-header">
           <a href="../index.html" className="living-brand">
-            <img src="../images/bricks-dark-logo.svg" alt="Bricks" />
-            <span>Living</span>
+            <img src="images/bricks-living-logo.svg" alt="Bricks Living" />
           </a>
           <nav className="living-public-nav" aria-label="Navegación principal">
             <a href="#landing/workflow">Operación</a>
@@ -526,8 +525,7 @@ window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
     <aside className="living-sidebar">
       <div className="living-sidebar-header">
         <div className="living-brand">
-          <img src="../images/bricks-dark-logo.svg" alt="Bricks" />
-          <span>Living</span>
+          <img src="images/bricks-living-logo.svg" alt="Bricks Living" />
         </div>
         <div className="living-sidebar-building">Torres del Parque</div>
       </div>
