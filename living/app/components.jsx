@@ -555,10 +555,20 @@ window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
 };
 
 window.TopBar = function TopBar({ account, role, onRoleChange, onLogout }) {
+  const avatarMap = {
+    building_admin: "images/user-profile-admin.jpg",
+    assistant_admin: "images/user-profile-asistant.jpg",
+    security: "images/user-profile-security.jpg",
+    cleaning: "images/user-progile-cleaning.jpg",
+    junta: "images/user-profile-junta.jpg",
+    super_admin: "images/user-super-admin.jpg",
+  };
+  const avatarSrc = avatarMap[role] || "images/user-profile-asistant.jpg";
+
   return (
     <div className="living-topbar">
       <div className="living-topbar-profile">
-        <img className="living-topbar-avatar" src="images/user-profile-asistant.jpg" alt={account.name} />
+        <img className="living-topbar-avatar" src={avatarSrc} alt={account.name} />
         <div className="living-topbar-account">
           <strong>{account.name}</strong>
           <div className="living-card-detail">{window.LIVING_ROLE_LABELS[role]}</div>
