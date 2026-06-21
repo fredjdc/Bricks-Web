@@ -9,29 +9,16 @@ window.livingSetHash = function livingSetHash(next) {
   window.location.hash = next;
 };
 
-window.cloneLivingData = function cloneLivingData(data) {
-  return JSON.parse(JSON.stringify(data));
-};
-
 window.defaultLivingPageForRole = function defaultLivingPageForRole(role) {
-  switch (role) {
-    case "super_admin":
-      return "superadmin";
-    case "security":
-      return "security";
-    case "cleaning":
-      return "cleaning";
-    case "junta":
-      return "reports";
-    default:
-      return "dashboard";
-  }
+  if (role === "super_admin") return "superadmin";
+  if (role === "security") return "security";
+  if (role === "cleaning") return "cleaning";
+  if (role === "junta") return "reports";
+  return "dashboard";
 };
 
 window.pageAllowedForLivingRole = function pageAllowedForLivingRole(role, page) {
-  if (page === "reservation") {
-    return ["building_admin", "assistant_admin", "security", "cleaning"].includes(role);
-  }
+  if (page === "reservation") return ["building_admin", "assistant_admin", "security", "cleaning"].includes(role);
   return window.LIVING_NAV_ITEMS.some((item) => item.id === page && item.roles.includes(role));
 };
 
@@ -56,61 +43,39 @@ window.livingStatusTone = function livingStatusTone(status) {
   return "neutral";
 };
 
-window.createLivingActions = function createLivingActions(setData) {
-  function updateReservation(reservationId, updater) {
-    setData((previous) => {
-      const next = window.cloneLivingData(previous);
-      next.reservations = next.reservations.map((reservation) => reservation.id === reservationId ? updater(reservation) : reservation);
-      return next;
-    });
-  }
+window.livingActionKey = function livingActionKey(action) {
+  return `${action.type}:${action.reservationId || action.taskId}`;
+};
 
-  function completeTask(taskId) {
-    setData((previous) => {
-      const next = window.cloneLivingData(previous);
-      next.tasks = next.tasks.map((task) => task.id === taskId ? { ...task, status: "completed", completedItems: [...task.checklist] } : task);
-      const updatedReservationIds = next.tasks.filter((task) => task.status === "completed").map((task) => task.reservationId);
-      next.reservations = next.reservations.map((reservation) => (
-        updatedReservationIds.includes(reservation.id)
-          ? {
-              ...reservation,
-              cleaningStatus: next.tasks.filter((task) => task.reservationId === reservation.id).every((task) => task.status === "completed")
-                ? "completed"
-                : reservation.cleaningStatus,
-            }
-          : reservation
-      ));
-      return next;
-    });
-  }
-
-  function approveReservation(reservationId) {
-    updateReservation(reservationId, (reservation) => ({
-      ...reservation,
-      status: "approved",
-      approvedBy: "María Fernanda Rojas",
-      approvedAt: "2026-07-12T09:43:00-05:00",
-    }));
-  }
-
-  function markArrival(reservationId) {
-    updateReservation(reservationId, (reservation) => ({
-      ...reservation,
-      securityResidentArrived: true,
-    }));
-  }
-
-  function verifyGuests(reservationId) {
-    updateReservation(reservationId, (reservation) => ({
-      ...reservation,
-      securityGuestsVerified: true,
-    }));
+window.createLivingActions = function createLivingActions({ getData, getRole, getAccount, service, setData, setPending, setFeedback }) {
+  async function run(action) {
+    const key = window.livingActionKey(action);
+    setPending((current) => ({ ...current, [key]: true }));
+    try {
+      const result = await service.execute(getData, action, {
+        role: getRole(),
+        account: getAccount(),
+        now: "2026-07-12T09:43:00-05:00",
+      });
+      setData(result.data);
+      setFeedback({ tone: "success", message: result.message });
+      return result;
+    } catch (error) {
+      setFeedback({ tone: "danger", message: error.message || "No se pudo completar la acción." });
+      return null;
+    } finally {
+      setPending((current) => {
+        const next = { ...current };
+        delete next[key];
+        return next;
+      });
+    }
   }
 
   return {
-    approveReservation,
-    completeTask,
-    markArrival,
-    verifyGuests,
+    approveReservation: (reservationId) => run({ type: "approve_reservation", reservationId }),
+    markArrival: (reservationId) => run({ type: "mark_arrival", reservationId }),
+    verifyGuests: (reservationId) => run({ type: "verify_guests", reservationId }),
+    completeTask: (taskId) => run({ type: "complete_task", taskId }),
   };
 };

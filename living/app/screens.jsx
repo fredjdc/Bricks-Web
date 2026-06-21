@@ -143,7 +143,7 @@ window.CalendarScreen = function CalendarScreen({ data, onOpenReservation }) {
   );
 };
 
-window.ApprovalsScreen = function ApprovalsScreen({ data, onApprove, onOpenReservation }) {
+window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onApprove, onOpenReservation }) {
   const rows = data.reservations.filter((item) => item.status === "pending_approval");
   return (
     <div className="living-screen">
@@ -163,7 +163,9 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, onApprove, onOpenReser
               label: "Acciones",
               render: (row) => (
                 <div className="living-inline-actions">
-                  <button className="living-link-button" onClick={() => onApprove(row.id)}>Aprobar</button>
+                  <button className="living-link-button" disabled={Boolean(pendingActions[`approve_reservation:${row.id}`])} onClick={() => onApprove(row.id)}>
+                    {pendingActions[`approve_reservation:${row.id}`] ? "Aprobando…" : "Aprobar"}
+                  </button>
                   <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Detalle</button>
                 </div>
               ),
@@ -266,7 +268,7 @@ window.ResidentsScreen = function ResidentsScreen({ data }) {
   );
 };
 
-window.SecurityScreen = function SecurityScreen({ data, onMarkArrival, onVerifyGuests }) {
+window.SecurityScreen = function SecurityScreen({ data, pendingActions, onMarkArrival, onVerifyGuests }) {
   const reservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
   return (
     <div className="living-screen">
@@ -283,8 +285,12 @@ window.SecurityScreen = function SecurityScreen({ data, onMarkArrival, onVerifyG
             <window.Badge status={reservation.securityGuestsVerified ? "approved" : "pending"} label={reservation.securityGuestsVerified ? "Invitados verificados" : "Falta verificación"} />
           </div>
           <div className="living-inline-actions">
-            <button className="living-button living-button-secondary" onClick={() => onMarkArrival(reservation.id)}>Marcar llegada</button>
-            <button className="living-button living-button-primary" onClick={() => onVerifyGuests(reservation.id)}>Verificar invitados</button>
+            <button className="living-button living-button-secondary" disabled={reservation.securityResidentArrived || Boolean(pendingActions[`mark_arrival:${reservation.id}`])} onClick={() => onMarkArrival(reservation.id)}>
+              {pendingActions[`mark_arrival:${reservation.id}`] ? "Registrando…" : reservation.securityResidentArrived ? "Llegada registrada" : "Marcar llegada"}
+            </button>
+            <button className="living-button living-button-primary" disabled={reservation.securityGuestsVerified || Boolean(pendingActions[`verify_guests:${reservation.id}`])} onClick={() => onVerifyGuests(reservation.id)}>
+              {pendingActions[`verify_guests:${reservation.id}`] ? "Verificando…" : reservation.securityGuestsVerified ? "Invitados verificados" : "Verificar invitados"}
+            </button>
           </div>
         </div>
         <div className="living-card">
@@ -299,7 +305,7 @@ window.SecurityScreen = function SecurityScreen({ data, onMarkArrival, onVerifyG
   );
 };
 
-window.CleaningScreen = function CleaningScreen({ data, onCompleteTask }) {
+window.CleaningScreen = function CleaningScreen({ data, pendingActions, onCompleteTask }) {
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Limpieza" title="Tareas del equipo" iconName="cleaning" />
@@ -316,7 +322,9 @@ window.CleaningScreen = function CleaningScreen({ data, onCompleteTask }) {
               ))}
             </ul>
             {task.status !== "completed" ? (
-              <button className="living-button living-button-primary" onClick={() => onCompleteTask(task.id)}>Completar checklist</button>
+              <button className="living-button living-button-primary" disabled={Boolean(pendingActions[`complete_task:${task.id}`])} onClick={() => onCompleteTask(task.id)}>
+                {pendingActions[`complete_task:${task.id}`] ? "Guardando…" : "Completar checklist"}
+              </button>
             ) : null}
           </div>
         ))}
@@ -467,7 +475,7 @@ window.SuperAdminScreen = function SuperAdminScreen({ data }) {
   );
 };
 
-window.ReservationDetailScreen = function ReservationDetailScreen({ data, reservationId, onApprove, onMarkArrival, onVerifyGuests, onCompleteTask }) {
+window.ReservationDetailScreen = function ReservationDetailScreen({ data, role, reservationId, pendingActions, onApprove, onMarkArrival, onVerifyGuests, onCompleteTask }) {
   const reservation = data.reservations.find((item) => item.id === reservationId) || data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
   const tasks = data.tasks.filter((task) => task.reservationId === reservation.id);
   const relatedIncident = data.incidents.find((item) => item.reservationId === reservation.id);
@@ -479,7 +487,11 @@ window.ReservationDetailScreen = function ReservationDetailScreen({ data, reserv
         title={reservation.code}
         body={`${reservation.residentName} · Dpto. ${reservation.apartment} · ${reservation.areaName} · ${window.livingFormatShortDate(reservation.date)} · ${reservation.start}–${reservation.end}`}
         actions={
-          reservation.status === "pending_approval" ? <button className="living-button living-button-primary" onClick={() => onApprove(reservation.id)}>Aprobar</button> : null
+          reservation.status === "pending_approval" && ["building_admin", "assistant_admin"].includes(role) ? (
+            <button className="living-button living-button-primary" disabled={Boolean(pendingActions[`approve_reservation:${reservation.id}`])} onClick={() => onApprove(reservation.id)}>
+              {pendingActions[`approve_reservation:${reservation.id}`] ? "Aprobando…" : "Aprobar"}
+            </button>
+          ) : null
         }
       />
       <div className="living-dashboard-columns">
@@ -500,10 +512,16 @@ window.ReservationDetailScreen = function ReservationDetailScreen({ data, reserv
             <div className={`living-check-row ${reservation.securityResidentArrived ? "done" : ""}`}>● Residente llegó</div>
             <div className={`living-check-row ${reservation.securityGuestsVerified ? "done" : ""}`}>● Invitados verificados</div>
           </div>
-          <div className="living-inline-actions">
-            <button className="living-button living-button-secondary" onClick={() => onMarkArrival(reservation.id)}>Marcar llegada</button>
-            <button className="living-button living-button-primary" onClick={() => onVerifyGuests(reservation.id)}>Verificar invitados</button>
-          </div>
+          {["building_admin", "assistant_admin", "security"].includes(role) ? (
+            <div className="living-inline-actions">
+              <button className="living-button living-button-secondary" disabled={reservation.securityResidentArrived || Boolean(pendingActions[`mark_arrival:${reservation.id}`])} onClick={() => onMarkArrival(reservation.id)}>
+                {pendingActions[`mark_arrival:${reservation.id}`] ? "Registrando…" : reservation.securityResidentArrived ? "Llegada registrada" : "Marcar llegada"}
+              </button>
+              <button className="living-button living-button-primary" disabled={reservation.securityGuestsVerified || Boolean(pendingActions[`verify_guests:${reservation.id}`])} onClick={() => onVerifyGuests(reservation.id)}>
+                {pendingActions[`verify_guests:${reservation.id}`] ? "Verificando…" : reservation.securityGuestsVerified ? "Invitados verificados" : "Verificar invitados"}
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
       <div className="living-grid living-card-grid">
@@ -519,8 +537,10 @@ window.ReservationDetailScreen = function ReservationDetailScreen({ data, reserv
             {tasks.map((task) => (
               <li key={task.id}>
                 {task.type} · <window.Badge status={task.status} />
-                {task.status !== "completed" ? (
-                  <button className="living-link-button" onClick={() => onCompleteTask(task.id)}>Completar</button>
+                {task.status !== "completed" && ["building_admin", "assistant_admin", "cleaning"].includes(role) ? (
+                  <button className="living-link-button" disabled={Boolean(pendingActions[`complete_task:${task.id}`])} onClick={() => onCompleteTask(task.id)}>
+                    {pendingActions[`complete_task:${task.id}`] ? "Guardando…" : "Completar"}
+                  </button>
                 ) : null}
               </li>
             ))}

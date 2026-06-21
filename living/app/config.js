@@ -69,10 +69,12 @@ window.livingFormatCurrency = function livingFormatCurrency(amount) {
 };
 
 window.livingFormatShortDate = function livingFormatShortDate(date) {
+  const value = /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(`${date}T12:00:00-05:00`) : new Date(date);
   return new Intl.DateTimeFormat("es-PE", {
     day: "2-digit",
     month: "short",
-  }).format(new Date(date));
+    timeZone: "America/Lima",
+  }).format(value);
 };
 
 window.livingFormatDateTime = function livingFormatDateTime(date) {
@@ -81,5 +83,6 @@ window.livingFormatDateTime = function livingFormatDateTime(date) {
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "America/Lima",
   }).format(new Date(date));
 };

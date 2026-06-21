@@ -486,5 +486,6 @@ window.buildLivingDemoData = function buildLivingDemoData() {
     messages,
     report,
     superAdmin,
+    auditLog: [],
   };
 };

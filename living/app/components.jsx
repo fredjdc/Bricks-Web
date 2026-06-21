@@ -577,7 +577,17 @@ window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
   );
 };
 
-window.TopBar = function TopBar({ account, role, onRoleChange, onLogout }) {
+window.ActionFeedback = function ActionFeedback({ feedback, onDismiss }) {
+  if (!feedback) return null;
+  return (
+    <div className={`living-feedback living-feedback-${feedback.tone}`} role="status" aria-live="polite">
+      <span>{feedback.message}</span>
+      <button type="button" onClick={onDismiss} aria-label="Cerrar aviso">Cerrar</button>
+    </div>
+  );
+};
+
+window.TopBar = function TopBar({ account, role, onRoleChange, onLogout, onResetDemo }) {
   const avatarMap = {
     building_admin: "images/user-profile-admin.jpg",
     assistant_admin: "images/user-profile-asistant.jpg",
@@ -603,6 +613,7 @@ window.TopBar = function TopBar({ account, role, onRoleChange, onLogout }) {
             <option value={accountOption.role} key={accountOption.role}>{window.LIVING_ROLE_LABELS[accountOption.role]}</option>
           ))}
         </select>
+        <button className="living-button living-button-secondary" onClick={onResetDemo}>Restablecer demo</button>
         <button className="living-button living-button-primary" onClick={onLogout}>Salir</button>
       </div>
     </div>
