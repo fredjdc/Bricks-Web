@@ -194,11 +194,65 @@ window.DataTable = function DataTable({ columns, rows, empty }) {
   );
 };
 
-window.PublicLanding = function PublicLanding({ onEnterPortal }) {
+window.CollectionToolbar = function CollectionToolbar({ query, onQueryChange, placeholder, filter, onFilterChange, options = [], resultCount }) {
+  return (
+    <div className="living-collection-toolbar">
+      <label className="living-search-field">
+        <span className="living-sr-only">Buscar</span>
+        <input type="search" value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder={placeholder || "Buscar"} />
+      </label>
+      {options.length ? (
+        <label className="living-filter-field">
+          <span className="living-sr-only">Filtrar</span>
+          <select value={filter} onChange={(event) => onFilterChange(event.target.value)}>
+            {options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+          </select>
+        </label>
+      ) : null}
+      <span className="living-result-count">{resultCount} resultados</span>
+    </div>
+  );
+};
+
+window.Pagination = function Pagination({ page, pageCount, onPageChange }) {
+  if (pageCount <= 1) return null;
+  return (
+    <nav className="living-pagination" aria-label="Paginación">
+      <button className="living-button living-button-secondary" disabled={page === 1} onClick={() => onPageChange(page - 1)}>Anterior</button>
+      <span>Página {page} de {pageCount}</span>
+      <button className="living-button living-button-secondary" disabled={page === pageCount} onClick={() => onPageChange(page + 1)}>Siguiente</button>
+    </nav>
+  );
+};
+
+window.FormPanel = function FormPanel({ title, description, children, onCancel }) {
+  const panelRef = React.useRef(null);
+  const returnFocusRef = React.useRef(document.activeElement);
+  React.useEffect(() => {
+    panelRef.current?.focus();
+    return () => returnFocusRef.current?.focus?.();
+  }, []);
+  return (
+    <section ref={panelRef} className="living-card living-form-panel" role="dialog" aria-modal="false" aria-label={title} tabIndex="-1">
+      <div className="living-story-header">
+        <div>
+          <div className="living-card-label">Acción</div>
+          <h3>{title}</h3>
+          {description ? <p>{description}</p> : null}
+        </div>
+        {onCancel ? <button className="living-link-button" type="button" onClick={onCancel}>Cerrar</button> : null}
+      </div>
+      {children}
+    </section>
+  );
+};
+
+window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
+  const report = window.livingSelectors.report(data);
   const kpis = [
     {
       label: "Reservas este mes",
-      value: "90",
+      value: String(report.totalReservations),
       detail: "Terraza, BBQ, salón y coworking",
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -211,7 +265,7 @@ window.PublicLanding = function PublicLanding({ onEnterPortal }) {
     },
     {
       label: "Pagos verificados",
-      value: window.livingFormatCurrency(4820),
+      value: window.livingFormatCurrency(report.totalRevenue),
       detail: "Con comprobante por WhatsApp",
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -222,7 +276,7 @@ window.PublicLanding = function PublicLanding({ onEnterPortal }) {
     },
     {
       label: "Áreas configuradas",
-      value: "5",
+      value: String(data.areas.length),
       detail: "Gimnasio, Terraza, BBQ, etc.",
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -233,7 +287,7 @@ window.PublicLanding = function PublicLanding({ onEnterPortal }) {
     },
     {
       label: "Roles operativos",
-      value: "6",
+      value: String(Object.keys(window.LIVING_ROLE_LABELS).length),
       detail: "Admin, seguridad, limpieza y más",
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -458,12 +512,12 @@ window.PublicLanding = function PublicLanding({ onEnterPortal }) {
               </div>
               <div className="living-card">
                 <div className="living-card-label">Historial del mes</div>
-                <h3>90 reservas confirmadas</h3>
+                <h3>{report.totalReservations} reservas registradas</h3>
                 <ul className="living-list">
-                  <li>Terraza: 18 reservas (S/ 2,160 recaudados)</li>
-                  <li>BBQ: 22 reservas (S/ 1,760 recaudados)</li>
-                  <li>Salón de eventos: 9 reservas (S/ 1,350 recaudados)</li>
-                  <li>Coworking: 41 reservas (Uso gratuito regulado)</li>
+                  {report.reservationsByArea.map((item) => {
+                    const revenue = report.revenueByArea.find((entry) => entry.area === item.area)?.total || 0;
+                    return <li key={item.area}>{item.area}: {item.total} reservas ({revenue ? `${window.livingFormatCurrency(revenue)} recaudados` : "Uso gratuito regulado"})</li>;
+                  })}
                 </ul>
               </div>
             </div>

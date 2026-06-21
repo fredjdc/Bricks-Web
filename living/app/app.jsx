@@ -27,16 +27,16 @@ window.PortalShell = function PortalShell({
       screen = <window.ApprovalsScreen data={data} pendingActions={pendingActions} onApprove={actions.approveReservation} onOpenReservation={(id) => onNavigate("reservation", id)} />;
       break;
     case "payments":
-      screen = <window.PaymentsScreen data={data} />;
+      screen = <window.PaymentsScreen data={data} pendingActions={pendingActions} onVerify={actions.verifyPayment} onReject={actions.rejectPayment} />;
       break;
     case "deposits":
-      screen = <window.DepositsScreen data={data} />;
+      screen = <window.DepositsScreen data={data} role={role} pendingActions={pendingActions} onRelease={actions.releaseDeposit} onRetain={actions.retainDeposit} />;
       break;
     case "areas":
-      screen = <window.AreasScreen data={data} />;
+      screen = <window.AreasScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateArea} />;
       break;
     case "residents":
-      screen = <window.ResidentsScreen data={data} />;
+      screen = <window.ResidentsScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateResident} />;
       break;
     case "security":
       screen = <window.SecurityScreen data={data} pendingActions={pendingActions} onMarkArrival={actions.markArrival} onVerifyGuests={actions.verifyGuests} />;
@@ -45,10 +45,13 @@ window.PortalShell = function PortalShell({
       screen = <window.CleaningScreen data={data} pendingActions={pendingActions} onCompleteTask={actions.completeTask} />;
       break;
     case "incidents":
-      screen = <window.IncidentsScreen data={data} />;
+      screen = <window.IncidentsScreen data={data} role={role} pendingActions={pendingActions} onCreate={actions.createIncident} onResolve={actions.resolveIncident} />;
       break;
     case "reports":
       screen = <window.ReportsScreen data={data} />;
+      break;
+    case "audit":
+      screen = <window.AuditScreen data={data} role={role} />;
       break;
     case "messages":
       screen = <window.MessagesScreen data={data} />;
@@ -57,7 +60,7 @@ window.PortalShell = function PortalShell({
       screen = <window.SettingsScreen data={data} />;
       break;
     case "superadmin":
-      screen = <window.SuperAdminScreen data={data} />;
+      screen = <window.SuperAdminScreen data={data} pendingActions={pendingActions} onUpdateTemplate={actions.updateTemplate} onAdvanceOnboarding={actions.advanceOnboarding} onUpdateSubscription={actions.updateSubscription} onResolveSupport={actions.resolveSupport} />;
       break;
     case "reservation":
       screen = (
@@ -98,22 +101,31 @@ window.PortalShell = function PortalShell({
 window.LivingApp = function LivingApp() {
   const [route, setRoute] = React.useState(window.livingParseHash());
   const [data, setData] = React.useState(() => window.loadLivingDemoState() || window.buildLivingDemoData());
-  const [account, setAccount] = React.useState(window.LIVING_DEMO_ACCOUNTS[0]);
-  const [role, setRole] = React.useState("building_admin");
+  const [role, setRole] = React.useState(() => window.loadLivingSessionRole());
+  const [account, setAccount] = React.useState(() => window.LIVING_DEMO_ACCOUNTS.find((item) => item.role === window.loadLivingSessionRole()) || window.LIVING_DEMO_ACCOUNTS[0]);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(() => window.sessionStorage.getItem("bricks-living-authenticated") === "true");
   const [pendingActions, setPendingActions] = React.useState({});
   const [feedback, setFeedback] = React.useState(null);
   const dataRef = React.useRef(data);
   const roleRef = React.useRef(role);
   const accountRef = React.useRef(account);
+  const commandGenerationRef = React.useRef(0);
   dataRef.current = data;
   roleRef.current = role;
   accountRef.current = account;
   const [service] = React.useState(() => window.createLivingMockService());
-  const [actions] = React.useState(() => window.createLivingActions({
+  const [repository] = React.useState(() => window.createLivingRepository({
     getData: () => dataRef.current,
-    getRole: () => roleRef.current,
-    getAccount: () => accountRef.current,
+    getContext: (command) => ({
+      role: roleRef.current,
+      account: accountRef.current,
+      now: window.livingDemoActionTime(command, dataRef.current),
+    }),
     service,
+  }));
+  const [actions] = React.useState(() => window.createLivingActions({
+    repository,
+    getCommandGeneration: () => commandGenerationRef.current,
     setData,
     setPending: setPendingActions,
     setFeedback,
@@ -140,6 +152,10 @@ window.LivingApp = function LivingApp() {
   }, []);
 
   React.useEffect(() => {
+    if (route.area === "portal" && !isAuthenticated) window.livingSetHash("login");
+  }, [route.area, isAuthenticated]);
+
+  React.useEffect(() => {
     const match = window.LIVING_DEMO_ACCOUNTS.find((item) => item.role === role);
     if (match) setAccount(match);
   }, [role]);
@@ -157,32 +173,55 @@ window.LivingApp = function LivingApp() {
   }, [route.area, route.page, role]);
 
   function handleLogin(nextAccount) {
+    commandGenerationRef.current += 1;
+    repository.invalidate();
     setAccount(nextAccount);
     setRole(nextAccount.role);
+    setIsAuthenticated(true);
+    window.saveLivingSession(nextAccount.role);
     goToPortal(window.defaultLivingPageForRole(nextAccount.role));
   }
 
   function handleRoleChange(nextRole) {
+    commandGenerationRef.current += 1;
+    repository.invalidate();
+    setPendingActions({});
     const nextAccount = window.LIVING_DEMO_ACCOUNTS.find((item) => item.role === nextRole);
     if (nextAccount) setAccount(nextAccount);
     setRole(nextRole);
+    window.saveLivingSession(nextRole);
     goToPortal(window.defaultLivingPageForRole(nextRole));
   }
 
   function handleResetDemo() {
     if (!window.confirm("¿Restablecer todos los datos y avances de la demo?")) return;
+    commandGenerationRef.current += 1;
+    repository.invalidate();
     window.resetLivingDemoState();
     setData(window.buildLivingDemoData());
     setPendingActions({});
     setFeedback({ tone: "success", message: "La demo volvió a su estado inicial." });
   }
 
+  function handleLogout() {
+    commandGenerationRef.current += 1;
+    repository.invalidate();
+    setPendingActions({});
+    setIsAuthenticated(false);
+    window.clearLivingSession();
+    window.livingSetHash("login");
+  }
+
   if (route.area === "login") {
     return <window.LoginScreen onLogin={handleLogin} />;
   }
 
+  if (route.area === "portal" && !isAuthenticated) {
+    return <window.LoginScreen onLogin={handleLogin} />;
+  }
+
   if (route.area !== "portal") {
-    return <window.PublicLanding onEnterPortal={() => window.livingSetHash("login")} />;
+    return <window.PublicLanding data={data} onEnterPortal={() => window.livingSetHash("login")} />;
   }
 
   return (
@@ -197,7 +236,7 @@ window.LivingApp = function LivingApp() {
       selectedReservationId={route.id}
       onNavigate={(page, id) => goToPortal(page, id)}
       onGoLanding={() => window.livingSetHash("landing")}
-      onLogout={() => window.livingSetHash("login")}
+      onLogout={handleLogout}
       onRoleChange={handleRoleChange}
       onResetDemo={handleResetDemo}
       onDismissFeedback={() => setFeedback(null)}
@@ -206,3 +245,4 @@ window.LivingApp = function LivingApp() {
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(<window.LivingApp />);
+    commandGenerationRef.current += 1;

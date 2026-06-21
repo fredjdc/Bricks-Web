@@ -1,3 +1,21 @@
+window.useLivingPagedRows = function useLivingPagedRows(items, searchText, filterValue, filterKey, pageSize = 8) {
+  const [query, setQuery] = React.useState("");
+  const [filter, setFilter] = React.useState("all");
+  const [page, setPage] = React.useState(1);
+  const deferredQuery = React.useDeferredValue(query.trim().toLowerCase());
+  const filtered = items.filter((item) => {
+    const matchesQuery = !deferredQuery || searchText(item).toLowerCase().includes(deferredQuery);
+    const matchesFilter = filter === "all" || !filterKey || item[filterKey] === filter;
+    return matchesQuery && matchesFilter;
+  });
+  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const safePage = Math.min(page, pageCount);
+  const rows = filtered.slice((safePage - 1) * pageSize, safePage * pageSize);
+  function changeQuery(value) { setQuery(value); setPage(1); }
+  function changeFilter(value) { setFilter(value); setPage(1); }
+  return { query, setQuery: changeQuery, filter, setFilter: changeFilter, page: safePage, setPage, pageCount, rows, total: filtered.length };
+};
+
 window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
   const kpis = window.livingGetKpis(data);
   const storyReservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
@@ -104,7 +122,7 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
           <ul className="living-list living-queue-list">
             <li>
               <span className="living-queue-icon">{dashboardIcons.pending}</span>
-              <span>3 aprobaciones por resolver</span>
+              <span>{kpis.pendingApprovals} aprobaciones por resolver</span>
             </li>
             <li>
               <span className="living-queue-icon">{dashboardIcons.task}</span>
@@ -178,12 +196,29 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onAppr
   );
 };
 
-window.PaymentsScreen = function PaymentsScreen({ data }) {
-  const rows = data.reservations.filter((item) => ["submitted", "verified"].includes(item.paymentStatus)).slice(0, 12);
+window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify, onReject }) {
+  const [selected, setSelected] = React.useState(null);
+  const [reason, setReason] = React.useState("");
+  const collection = window.useLivingPagedRows(window.livingSelectors.payments(data), (item) => `${item.code} ${item.residentName} ${item.apartment} ${item.paymentMethod || ""}`, "", "paymentStatus");
+  async function submitRejection(event) {
+    event.preventDefault();
+    if (reason.trim().length < 5) return;
+    const result = await onReject(selected.id, reason);
+    if (result) { setSelected(null); setReason(""); }
+  }
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Pagos" title="Comprobantes" iconName="payments" />
+      <window.SectionTitle eyebrow="Pagos" title="Comprobantes" body="Verificación manual con trazabilidad de cada decisión." iconName="payments" />
+      {selected ? (
+        <window.FormPanel title={`Rechazar ${selected.code}`} description="El motivo será visible en el historial operativo." onCancel={() => setSelected(null)}>
+          <form className="living-form" onSubmit={submitRejection}>
+            <label><span>Motivo</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} required minLength="5" /></label>
+            <button className="living-button living-button-primary" disabled={reason.trim().length < 5 || Boolean(pendingActions[`reject_payment:${selected.id}`])}>Confirmar rechazo</button>
+          </form>
+        </window.FormPanel>
+      ) : null}
       <div className="living-card">
+        <window.CollectionToolbar query={collection.query} onQueryChange={collection.setQuery} placeholder="Reserva, residente o método" filter={collection.filter} onFilterChange={collection.setFilter} resultCount={collection.total} options={[{ value: "all", label: "Todos" }, { value: "submitted", label: "Enviados" }, { value: "verified", label: "Verificados" }, { value: "rejected", label: "Rechazados" }]} />
         <window.DataTable
           columns={[
             { key: "code", label: "Reserva" },
@@ -191,21 +226,34 @@ window.PaymentsScreen = function PaymentsScreen({ data }) {
             { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) },
             { key: "paymentSubmittedAt", label: "Enviado", render: (row) => window.livingFormatDateTime(row.paymentSubmittedAt) },
             { key: "paymentStatus", label: "Estado", render: (row) => <window.Badge status={row.paymentStatus} /> },
-            { key: "summary", label: "Detalle", render: (row) => row.code === "TRL-2026-0718-0024" ? "Yape · imagen adjunta" : "Transferencia validada" },
+            { key: "summary", label: "Detalle", render: (row) => `${row.paymentMethod || "Transferencia"}${row.paymentProof ? ` · ${row.paymentProof.name}` : ""}` },
+            { key: "actions", label: "Acciones", render: (row) => row.paymentStatus === "submitted" ? <div className="living-inline-actions"><button className="living-link-button" disabled={Boolean(pendingActions[`verify_payment:${row.id}`])} onClick={() => window.confirm(`¿Verificar el pago de ${row.code}?`) && onVerify(row.id)}>Verificar</button><button className="living-link-button" onClick={() => setSelected(row)}>Rechazar</button></div> : "Procesado" },
           ]}
-          rows={rows}
+          rows={collection.rows}
+          empty="No hay comprobantes con estos filtros."
         />
+        <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>
     </div>
   );
 };
 
-window.DepositsScreen = function DepositsScreen({ data }) {
-  const rows = data.reservations.filter((item) => item.amount > 0 && item.depositStatus !== "released").slice(0, 12);
+window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, onRelease, onRetain }) {
+  const [selected, setSelected] = React.useState(null);
+  const [amount, setAmount] = React.useState("");
+  const [reason, setReason] = React.useState("");
+  const collection = window.useLivingPagedRows(window.livingSelectors.deposits(data), (item) => `${item.code} ${item.residentName} ${item.areaName}`, "", "depositStatus");
+  async function submitRetention(event) {
+    event.preventDefault();
+    const result = await onRetain(selected.id, amount, reason);
+    if (result) { setSelected(null); setAmount(""); setReason(""); }
+  }
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Garantías" title="Retenciones y liberaciones" iconName="deposits" />
+      {selected ? <window.FormPanel title={`Retener garantía · ${selected.code}`} onCancel={() => setSelected(null)}><form className="living-form" onSubmit={submitRetention}><label><span>Monto</span><input type="number" min="1" value={amount} onChange={(event) => setAmount(event.target.value)} required /></label><label><span>Motivo</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} required minLength="5" /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`retain_deposit:${selected.id}`])}>Registrar retención</button></form></window.FormPanel> : null}
       <div className="living-card">
+        <window.CollectionToolbar query={collection.query} onQueryChange={collection.setQuery} placeholder="Reserva, residente o área" filter={collection.filter} onFilterChange={collection.setFilter} resultCount={collection.total} options={[{ value: "all", label: "Todas" }, { value: "held", label: "En garantía" }, { value: "retained", label: "Retenidas" }, { value: "released", label: "Liberadas" }]} />
         <window.DataTable
           columns={[
             { key: "code", label: "Reserva" },
@@ -214,18 +262,32 @@ window.DepositsScreen = function DepositsScreen({ data }) {
             { key: "depositStatus", label: "Estado", render: (row) => <window.Badge status={row.depositStatus} /> },
             { key: "status", label: "Reserva", render: (row) => <window.Badge status={row.status} /> },
             { key: "impact", label: "Observación", render: (row) => row.code === "EVR-2026-0712-0007" ? "Retener S/ 80 por silla dañada" : "Pendiente cierre operativo" },
+            { key: "actions", label: "Acciones", render: (row) => role === "junta" ? "Solo lectura" : row.status === "completed" && ["held", "retained"].includes(row.depositStatus) ? row.depositStatus === "retained" && role !== "building_admin" ? "Requiere administrador" : <div className="living-inline-actions"><button className="living-link-button" disabled={Boolean(pendingActions[`release_deposit:${row.id}`])} onClick={() => window.confirm(`¿Liberar la garantía de ${row.code}?`) && onRelease(row.id)}>Liberar</button>{role === "building_admin" ? <button className="living-link-button" onClick={() => setSelected(row)}>Retener</button> : null}</div> : "Esperando cierre" },
           ]}
-          rows={rows}
+          rows={collection.rows}
         />
+        <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>
     </div>
   );
 };
 
-window.AreasScreen = function AreasScreen({ data }) {
+window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate }) {
+  const [selected, setSelected] = React.useState(null);
+  const [values, setValues] = React.useState({ capacity: "", reservationFee: "", deposit: "" });
+  function open(area) {
+    setSelected(area);
+    setValues({ capacity: String(area.capacity), reservationFee: String(area.reservationFee), deposit: String(area.deposit) });
+  }
+  async function submit(event) {
+    event.preventDefault();
+    const result = await onUpdate(selected.id, values);
+    if (result) setSelected(null);
+  }
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" iconName="areas" />
+      {selected ? <window.FormPanel title={`Editar ${selected.name}`} onCancel={() => setSelected(null)}><form className="living-form" onSubmit={submit}><label><span>Capacidad</span><input type="number" min="1" value={values.capacity} onChange={(event) => setValues((current) => ({ ...current, capacity: event.target.value }))} required /></label><label><span>Tarifa</span><input type="number" min="0" value={values.reservationFee} onChange={(event) => setValues((current) => ({ ...current, reservationFee: event.target.value }))} required /></label><label><span>Garantía</span><input type="number" min="0" value={values.deposit} onChange={(event) => setValues((current) => ({ ...current, deposit: event.target.value }))} required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`update_area:${selected.id}`])}>Guardar cambios</button></form></window.FormPanel> : null}
       <div className="living-grid living-card-grid">
         {data.areas.map((area) => (
           <div className="living-card" key={area.id}>
@@ -239,6 +301,7 @@ window.AreasScreen = function AreasScreen({ data }) {
             <ul className="living-list compact">
               {area.rules.map((rule) => <li key={rule}>{rule}</li>)}
             </ul>
+            <button className="living-button living-button-secondary" onClick={() => open(area)}>Editar operación</button>
           </div>
         ))}
       </div>
@@ -246,23 +309,36 @@ window.AreasScreen = function AreasScreen({ data }) {
   );
 };
 
-window.ResidentsScreen = function ResidentsScreen({ data }) {
-  const rows = data.apartments.slice(0, 18);
+window.ResidentsScreen = function ResidentsScreen({ data, pendingActions, onUpdate }) {
+  const [selected, setSelected] = React.useState(null);
+  const [phone, setPhone] = React.useState("");
+  const [status, setStatus] = React.useState("active");
+  const collection = window.useLivingPagedRows(data.residents, (item) => `${item.name} ${item.apartment} ${item.phone}`, "", "status", 10);
+  function open(resident) { setSelected(resident); setPhone(resident.phone); setStatus(resident.status); }
+  async function submit(event) {
+    event.preventDefault();
+    const result = await onUpdate(selected.id, { phone, status });
+    if (result) setSelected(null);
+  }
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Residentes" title="Base del edificio" iconName="residents" />
+      {selected ? <window.FormPanel title={`Editar ${selected.name}`} onCancel={() => setSelected(null)}><form className="living-form" onSubmit={submit}><label><span>WhatsApp</span><input value={phone} onChange={(event) => setPhone(event.target.value)} pattern="\+51 9[0-9]{2} [0-9]{3} [0-9]{3}" required /></label><label><span>Estado</span><select value={status} onChange={(event) => setStatus(event.target.value)}><option value="active">Activo</option><option value="blocked">Bloqueado</option></select></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`update_resident:${selected.id}`])}>Guardar residente</button></form></window.FormPanel> : null}
       <div className="living-card">
+        <window.CollectionToolbar query={collection.query} onQueryChange={collection.setQuery} placeholder="Nombre, departamento o teléfono" filter={collection.filter} onFilterChange={collection.setFilter} resultCount={collection.total} options={[{ value: "all", label: "Todos" }, { value: "active", label: "Activos" }, { value: "blocked", label: "Bloqueados" }]} />
         <window.DataTable
           columns={[
             { key: "apartment", label: "Dpto." },
             { key: "tower", label: "Torre" },
-            { key: "residentName", label: "Residente" },
-            { key: "whatsapp", label: "WhatsApp" },
-            { key: "residentStatus", label: "Estado", render: (row) => <window.Badge status={row.residentStatus} /> },
-            { key: "debtStatus", label: "Deuda" },
+            { key: "name", label: "Residente" },
+            { key: "phone", label: "WhatsApp" },
+            { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> },
+            { key: "debt", label: "Deuda", render: (row) => row.debt ? window.livingFormatCurrency(row.debt) : "Al día" },
+            { key: "actions", label: "Acciones", render: (row) => <button className="living-link-button" onClick={() => open(row)}>Editar</button> },
           ]}
-          rows={rows}
+          rows={collection.rows}
         />
+        <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>
     </div>
   );
@@ -270,6 +346,7 @@ window.ResidentsScreen = function ResidentsScreen({ data }) {
 
 window.SecurityScreen = function SecurityScreen({ data, pendingActions, onMarkArrival, onVerifyGuests }) {
   const reservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
+  const canOperate = ["approved", "confirmed"].includes(reservation.status);
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Seguridad" title="Vista diaria" iconName="security" />
@@ -285,11 +362,11 @@ window.SecurityScreen = function SecurityScreen({ data, pendingActions, onMarkAr
             <window.Badge status={reservation.securityGuestsVerified ? "approved" : "pending"} label={reservation.securityGuestsVerified ? "Invitados verificados" : "Falta verificación"} />
           </div>
           <div className="living-inline-actions">
-            <button className="living-button living-button-secondary" disabled={reservation.securityResidentArrived || Boolean(pendingActions[`mark_arrival:${reservation.id}`])} onClick={() => onMarkArrival(reservation.id)}>
-              {pendingActions[`mark_arrival:${reservation.id}`] ? "Registrando…" : reservation.securityResidentArrived ? "Llegada registrada" : "Marcar llegada"}
+            <button className="living-button living-button-secondary" disabled={!canOperate || reservation.securityResidentArrived || Boolean(pendingActions[`mark_arrival:${reservation.id}`])} onClick={() => onMarkArrival(reservation.id)}>
+              {!canOperate ? "Esperando aprobación" : pendingActions[`mark_arrival:${reservation.id}`] ? "Registrando…" : reservation.securityResidentArrived ? "Llegada registrada" : "Marcar llegada"}
             </button>
-            <button className="living-button living-button-primary" disabled={reservation.securityGuestsVerified || Boolean(pendingActions[`verify_guests:${reservation.id}`])} onClick={() => onVerifyGuests(reservation.id)}>
-              {pendingActions[`verify_guests:${reservation.id}`] ? "Verificando…" : reservation.securityGuestsVerified ? "Invitados verificados" : "Verificar invitados"}
+            <button className="living-button living-button-primary" disabled={!canOperate || reservation.securityGuestsVerified || Boolean(pendingActions[`verify_guests:${reservation.id}`])} onClick={() => onVerifyGuests(reservation.id)}>
+              {!canOperate ? "Esperando aprobación" : pendingActions[`verify_guests:${reservation.id}`] ? "Verificando…" : reservation.securityGuestsVerified ? "Invitados verificados" : "Verificar invitados"}
             </button>
           </div>
         </div>
@@ -306,6 +383,11 @@ window.SecurityScreen = function SecurityScreen({ data, pendingActions, onMarkAr
 };
 
 window.CleaningScreen = function CleaningScreen({ data, pendingActions, onCompleteTask }) {
+  function canComplete(task) {
+    const reservation = data.reservations.find((item) => item.id === task.reservationId);
+    if (!reservation || !["approved", "confirmed", "completed"].includes(reservation.status)) return false;
+    return task.type !== "Limpieza post evento" || (reservation.securityResidentArrived && reservation.securityGuestsVerified);
+  }
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Limpieza" title="Tareas del equipo" iconName="cleaning" />
@@ -322,8 +404,8 @@ window.CleaningScreen = function CleaningScreen({ data, pendingActions, onComple
               ))}
             </ul>
             {task.status !== "completed" ? (
-              <button className="living-button living-button-primary" disabled={Boolean(pendingActions[`complete_task:${task.id}`])} onClick={() => onCompleteTask(task.id)}>
-                {pendingActions[`complete_task:${task.id}`] ? "Guardando…" : "Completar checklist"}
+              <button className="living-button living-button-primary" disabled={!canComplete(task) || Boolean(pendingActions[`complete_task:${task.id}`])} onClick={() => onCompleteTask(task.id)}>
+                {!canComplete(task) ? "Esperando operación" : pendingActions[`complete_task:${task.id}`] ? "Guardando…" : "Completar checklist"}
               </button>
             ) : null}
           </div>
@@ -333,12 +415,38 @@ window.CleaningScreen = function CleaningScreen({ data, pendingActions, onComple
   );
 };
 
-window.IncidentsScreen = function IncidentsScreen({ data }) {
+window.IncidentsScreen = function IncidentsScreen({ data, role, pendingActions, onCreate, onResolve }) {
+  const [showCreate, setShowCreate] = React.useState(false);
+  const [resolutionIncident, setResolutionIncident] = React.useState(null);
+  const [resolution, setResolution] = React.useState("");
+  const [values, setValues] = React.useState({ reservationId: "TRL-2026-0718-0024", incidentType: "", description: "", estimatedCost: "", evidenceName: "" });
+  const [fileError, setFileError] = React.useState("");
+  const collection = window.useLivingPagedRows(data.incidents, (item) => `${item.type} ${item.residentName} ${item.reservationCode} ${item.description}`, "", "status", 6);
+  function chooseFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "application/pdf"].includes(file.type) || file.size > 5 * 1024 * 1024) { setFileError("Use JPG, PNG o PDF de hasta 5 MB."); return; }
+    setFileError("");
+    setValues((current) => ({ ...current, evidenceName: file.name }));
+  }
+  async function submitIncident(event) {
+    event.preventDefault();
+    const result = await onCreate(values);
+    if (result) { setShowCreate(false); setValues({ reservationId: "TRL-2026-0718-0024", incidentType: "", description: "", estimatedCost: "", evidenceName: "" }); }
+  }
+  async function submitResolution(event) {
+    event.preventDefault();
+    const result = await onResolve(resolutionIncident.id, resolution);
+    if (result) { setResolutionIncident(null); setResolution(""); }
+  }
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Incidentes" title="Trazabilidad operativa" iconName="incidents" />
+      <window.SectionTitle eyebrow="Incidentes" title="Trazabilidad operativa" iconName="incidents" actions={role !== "junta" ? <button className="living-button living-button-primary" onClick={() => setShowCreate(true)}>Nuevo incidente</button> : null} />
+      {showCreate ? <window.FormPanel title="Registrar incidente" description="La evidencia queda simulada localmente hasta conectar almacenamiento." onCancel={() => setShowCreate(false)}><form className="living-form" onSubmit={submitIncident}><label><span>Reserva</span><select value={values.reservationId} onChange={(event) => setValues((current) => ({ ...current, reservationId: event.target.value }))}>{data.reservations.slice(0, 20).map((item) => <option key={item.id} value={item.id}>{item.code} · {item.areaName}</option>)}</select></label><label><span>Tipo</span><input value={values.incidentType} onChange={(event) => setValues((current) => ({ ...current, incidentType: event.target.value }))} required /></label><label><span>Descripción</span><textarea value={values.description} onChange={(event) => setValues((current) => ({ ...current, description: event.target.value }))} minLength="10" required /></label><label><span>Costo estimado</span><input type="number" min="0" value={values.estimatedCost} onChange={(event) => setValues((current) => ({ ...current, estimatedCost: event.target.value }))} /></label><label><span>Evidencia</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseFile} /></label>{fileError ? <div className="living-form-error">{fileError}</div> : null}<button className="living-button living-button-primary" disabled={Boolean(pendingActions[`create_incident:${values.reservationId}`]) || Boolean(fileError)}>Registrar incidente</button></form></window.FormPanel> : null}
+      {resolutionIncident ? <window.FormPanel title={`Resolver ${resolutionIncident.type}`} onCancel={() => setResolutionIncident(null)}><form className="living-form" onSubmit={submitResolution}><label><span>Resolución</span><textarea value={resolution} onChange={(event) => setResolution(event.target.value)} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`resolve_incident:${resolutionIncident.id}`])}>Cerrar incidente</button></form></window.FormPanel> : null}
+      <div className="living-card"><window.CollectionToolbar query={collection.query} onQueryChange={collection.setQuery} placeholder="Tipo, reserva o residente" filter={collection.filter} onFilterChange={collection.setFilter} resultCount={collection.total} options={[{ value: "all", label: "Todos" }, { value: "open", label: "Abiertos" }, { value: "pending_resolution", label: "Pendientes" }, { value: "resolved", label: "Resueltos" }]} /></div>
       <div className="living-grid living-card-grid">
-        {data.incidents.map((incident) => (
+        {collection.rows.map((incident) => (
           <div className="living-card" key={incident.id}>
             <div className="living-card-label">{incident.reservationCode}</div>
             <h3>{incident.type}</h3>
@@ -348,22 +456,25 @@ window.IncidentsScreen = function IncidentsScreen({ data }) {
               <window.Badge status={incident.status} />
               <window.Badge status={incident.estimatedCost > 0 ? "retained" : "open"} label={incident.depositImpact} />
             </div>
+            {role === "building_admin" && incident.status !== "resolved" ? <button className="living-button living-button-secondary" onClick={() => setResolutionIncident(incident)}>Resolver</button> : null}
           </div>
         ))}
       </div>
+      {!collection.rows.length ? <div className="living-empty-state">No hay incidentes con estos filtros.</div> : null}
+      <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
     </div>
   );
 };
 
 window.ReportsScreen = function ReportsScreen({ data }) {
-  const report = data.report;
+  const report = window.livingSelectors.report(data);
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Reportes" title={`Resumen ${report.month}`} iconName="reports" />
       <div className="living-grid living-kpis">
-        <window.MetricCard label="Reservas" value="90" detail="Totales del mes" />
-        <window.MetricCard label="Ingresos" value={window.livingFormatCurrency(5280)} detail="Áreas cobradas" />
-        <window.MetricCard label="Incidentes" value="4" detail="Incluye ruido y daño" />
+        <window.MetricCard label="Reservas" value={report.totalReservations} detail="Totales del mes" />
+        <window.MetricCard label="Ingresos" value={window.livingFormatCurrency(report.totalRevenue)} detail="Áreas cobradas" />
+        <window.MetricCard label="Incidentes" value={report.totalIncidents} detail="Registrados en el sistema" />
         <window.MetricCard label="Satisfacción" value={`${report.satisfaction} / 5`} detail="Promedio de residentes" />
       </div>
       <div className="living-dashboard-columns">
@@ -379,6 +490,27 @@ window.ReportsScreen = function ReportsScreen({ data }) {
             {report.revenueByArea.map((item) => <li key={item.area}>{item.area}: <strong>{window.livingFormatCurrency(item.total)}</strong></li>)}
           </ul>
         </div>
+      </div>
+    </div>
+  );
+};
+
+window.AuditScreen = function AuditScreen({ data, role }) {
+  const entries = window.livingSelectors.audit(data, role);
+  const collection = window.useLivingPagedRows(entries, (item) => `${item.label} ${item.entityType} ${item.actorName || ""} ${item.detail || ""}`, "", "actorRole", 10);
+  return (
+    <div className="living-screen">
+      <window.SectionTitle eyebrow="Auditoría" title="Historial de acciones" body={role === "junta" ? "Resumen de cambios operativos. Los datos personales del actor están ocultos." : "Registro inmutable de decisiones y cambios sensibles de la demo."} iconName="reports" />
+      <div className="living-card">
+        <window.CollectionToolbar query={collection.query} onQueryChange={collection.setQuery} placeholder="Acción, entidad o actor" filter={collection.filter} onFilterChange={collection.setFilter} resultCount={collection.total} options={role === "junta" ? [] : [{ value: "all", label: "Todos los roles" }, ...Object.entries(window.LIVING_ROLE_LABELS).map(([value, label]) => ({ value, label }))]} />
+        <window.DataTable columns={[
+          { key: "createdAt", label: "Fecha", render: (row) => window.livingFormatDateTime(row.createdAt) },
+          { key: "label", label: "Acción" },
+          { key: "entityType", label: "Entidad" },
+          { key: "actorName", label: "Actor", render: (row) => row.actorName || "Oculto para Junta" },
+          { key: "detail", label: "Detalle", render: (row) => row.detail || "Sin observación" },
+        ]} rows={collection.rows} empty="Todavía no hay acciones auditadas." />
+        <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>
     </div>
   );
@@ -441,44 +573,56 @@ window.SettingsScreen = function SettingsScreen({ data }) {
   );
 };
 
-window.SuperAdminScreen = function SuperAdminScreen({ data }) {
+window.SuperAdminScreen = function SuperAdminScreen({ data, pendingActions, onUpdateTemplate, onAdvanceOnboarding, onUpdateSubscription, onResolveSupport }) {
+  const [template, setTemplate] = React.useState(null);
+  const [templateBody, setTemplateBody] = React.useState("");
+  const [templateStatus, setTemplateStatus] = React.useState("Activa");
+  const [subscription, setSubscription] = React.useState(null);
+  const [plan, setPlan] = React.useState("");
+  const [subscriptionStatus, setSubscriptionStatus] = React.useState("active");
+  function editTemplate(item) { setTemplate(item); setTemplateBody(item.body); setTemplateStatus(item.status); }
+  function editSubscription(item) { setSubscription(item); setPlan(item.plan); setSubscriptionStatus(item.status); }
+  async function submitTemplate(event) { event.preventDefault(); const result = await onUpdateTemplate(template.id, { body: templateBody, status: templateStatus }); if (result) setTemplate(null); }
+  async function submitSubscription(event) { event.preventDefault(); const result = await onUpdateSubscription(subscription.id, { plan, status: subscriptionStatus }); if (result) setSubscription(null); }
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Super Admin" title="Edificios y plantillas" iconName="superadmin" />
+      <window.SectionTitle eyebrow="Super Admin" title="Operación de la plataforma" body="Edificios, WhatsApp, onboarding, suscripciones y soporte en un mismo espacio." iconName="superadmin" />
+      {template ? <window.FormPanel title={`Editar ${template.name}`} onCancel={() => setTemplate(null)}><form className="living-form" onSubmit={submitTemplate}><label><span>Contenido</span><textarea value={templateBody} onChange={(event) => setTemplateBody(event.target.value)} minLength="10" required /></label><label><span>Estado</span><select value={templateStatus} onChange={(event) => setTemplateStatus(event.target.value)}><option>Activa</option><option>Pausada</option></select></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`update_template:${template.id}`])}>Guardar plantilla</button></form></window.FormPanel> : null}
+      {subscription ? <window.FormPanel title={`Suscripción · ${subscription.building}`} onCancel={() => setSubscription(null)}><form className="living-form" onSubmit={submitSubscription}><label><span>Plan</span><select value={plan} onChange={(event) => setPlan(event.target.value)}><option>Piloto</option><option>Living Base</option><option>Living Pro</option></select></label><label><span>Estado</span><select value={subscriptionStatus} onChange={(event) => setSubscriptionStatus(event.target.value)}><option value="trial">Piloto</option><option value="active">Activa</option><option value="pending">Pendiente</option><option value="paused">Pausada</option></select></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`update_subscription:${subscription.id}`])}>Actualizar suscripción</button></form></window.FormPanel> : null}
       <div className="living-dashboard-columns">
         <div className="living-card">
-          <div className="living-card-label">Portafolio de edificios</div>
+          <div className="living-card-label">Onboarding de edificios</div>
           <ul className="living-list">
             {data.superAdmin.buildings.map((building) => (
-              <li key={building.name}>{building.name} · {building.district} · {building.plan} · {building.status}</li>
+              <li key={building.id}><strong>{building.name}</strong> · {building.district} · Paso {building.onboardingStep}/5 · {building.status} {building.onboardingStep < 5 ? <button className="living-link-button" disabled={Boolean(pendingActions[`advance_onboarding:${building.id}`])} onClick={() => onAdvanceOnboarding(building.id)}>Avanzar</button> : null}</li>
             ))}
           </ul>
         </div>
         <div className="living-card">
-          <div className="living-card-label">Plantillas activas</div>
+          <div className="living-card-label">Plantillas de WhatsApp</div>
           <ul className="living-list">
             {data.superAdmin.templates.map((template) => (
-              <li key={template.name}>{template.name} · {template.language} · {template.status}</li>
+              <li key={template.id}><strong>{template.name}</strong> · {template.language} · {template.status} <button className="living-link-button" onClick={() => editTemplate(template)}>Editar</button></li>
             ))}
           </ul>
         </div>
       </div>
-      <div className="living-card">
-        <div className="living-card-label">Soporte y onboarding</div>
-        <ul className="living-list">
-          {data.superAdmin.supportQueue.map((item) => (
-            <li key={item.issue}>{item.building} · {item.issue} · Responsable: {item.owner} · SLA: {item.sla}</li>
-          ))}
-        </ul>
+      <div className="living-dashboard-columns">
+        <div className="living-card"><div className="living-card-label">Suscripciones</div><ul className="living-list">{data.superAdmin.subscriptions.map((item) => <li key={item.id}><strong>{item.building}</strong> · {item.plan} · <window.Badge status={item.status} /> <button className="living-link-button" onClick={() => editSubscription(item)}>Gestionar</button></li>)}</ul></div>
+        <div className="living-card"><div className="living-card-label">Soporte</div><ul className="living-list">{data.superAdmin.supportQueue.map((item) => <li key={item.id}><strong>{item.building}</strong> · {item.issue} · SLA {item.sla} · <window.Badge status={item.status} /> {item.status !== "resolved" ? <button className="living-link-button" disabled={Boolean(pendingActions[`resolve_support:${item.id}`])} onClick={() => window.confirm("¿Marcar este caso como resuelto?") && onResolveSupport(item.id)}>Resolver</button> : null}</li>)}</ul></div>
       </div>
     </div>
   );
 };
 
 window.ReservationDetailScreen = function ReservationDetailScreen({ data, role, reservationId, pendingActions, onApprove, onMarkArrival, onVerifyGuests, onCompleteTask }) {
-  const reservation = data.reservations.find((item) => item.id === reservationId) || data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
+  const reservation = data.reservations.find((item) => item.id === reservationId);
+  if (!reservation) {
+    return <div className="living-screen"><window.SectionTitle eyebrow="Detalle de reserva" title="Reserva no encontrada" body="El código solicitado no existe o ya no está disponible." /><div className="living-card living-empty-state">Revise el enlace o vuelva al calendario.</div></div>;
+  }
   const tasks = data.tasks.filter((task) => task.reservationId === reservation.id);
   const relatedIncident = data.incidents.find((item) => item.reservationId === reservation.id);
+  const canOperateSecurity = ["approved", "confirmed"].includes(reservation.status);
 
   return (
     <div className="living-screen">
@@ -514,10 +658,10 @@ window.ReservationDetailScreen = function ReservationDetailScreen({ data, role, 
           </div>
           {["building_admin", "assistant_admin", "security"].includes(role) ? (
             <div className="living-inline-actions">
-              <button className="living-button living-button-secondary" disabled={reservation.securityResidentArrived || Boolean(pendingActions[`mark_arrival:${reservation.id}`])} onClick={() => onMarkArrival(reservation.id)}>
+              <button className="living-button living-button-secondary" disabled={!canOperateSecurity || reservation.securityResidentArrived || Boolean(pendingActions[`mark_arrival:${reservation.id}`])} onClick={() => onMarkArrival(reservation.id)}>
                 {pendingActions[`mark_arrival:${reservation.id}`] ? "Registrando…" : reservation.securityResidentArrived ? "Llegada registrada" : "Marcar llegada"}
               </button>
-              <button className="living-button living-button-primary" disabled={reservation.securityGuestsVerified || Boolean(pendingActions[`verify_guests:${reservation.id}`])} onClick={() => onVerifyGuests(reservation.id)}>
+              <button className="living-button living-button-primary" disabled={!canOperateSecurity || reservation.securityGuestsVerified || Boolean(pendingActions[`verify_guests:${reservation.id}`])} onClick={() => onVerifyGuests(reservation.id)}>
                 {pendingActions[`verify_guests:${reservation.id}`] ? "Verificando…" : reservation.securityGuestsVerified ? "Invitados verificados" : "Verificar invitados"}
               </button>
             </div>

@@ -597,6 +597,7 @@ body {
 
 .living-form input,
 .living-form select,
+.living-form textarea,
 .living-topbar select {
   width: 100%;
   border: 1px solid var(--living-border-strong);
@@ -605,6 +606,60 @@ body {
   font: inherit;
   background: color-mix(in srgb, var(--living-surface) 80%, transparent);
   color: var(--living-text);
+}
+
+.living-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.living-collection-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(160px, 220px) auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.living-search-field input,
+.living-filter-field select {
+  width: 100%;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: color-mix(in srgb, var(--living-surface) 80%, transparent);
+  color: var(--living-text);
+  font: inherit;
+}
+
+.living-result-count,
+.living-pagination {
+  color: var(--living-text-muted);
+  font-size: 13px;
+}
+
+.living-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.living-form-panel {
+  border-color: color-mix(in srgb, var(--living-accent) 26%, var(--living-border));
+}
+
+.living-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .living-form-error {
@@ -1122,7 +1177,7 @@ body {
   .living-split-panel,
   .living-dashboard-columns,
   .living-portal {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .living-public-header,
@@ -1139,6 +1194,9 @@ body {
   .living-sidebar {
     position: static;
     min-height: auto;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
   .living-sidebar-nav {
@@ -1298,6 +1356,14 @@ body {
   .living-story-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .living-collection-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .living-pagination {
+    justify-content: space-between;
   }
 }
 

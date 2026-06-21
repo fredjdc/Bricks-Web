@@ -28,10 +28,13 @@ window.LIVING_STATUS_LABELS = {
   pending: "Pendiente",
   blocked: "Bloqueado",
   active: "Activo",
+  trial: "Piloto",
+  lead: "Prospecto",
+  paused: "Pausada",
 };
 
 window.LIVING_NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard", icon: "dashboard", roles: ["super_admin", "building_admin", "assistant_admin", "security", "cleaning", "junta"] },
+  { id: "dashboard", label: "Dashboard", icon: "dashboard", roles: ["building_admin", "assistant_admin"] },
   { id: "calendar", label: "Calendario", icon: "calendar", roles: ["building_admin", "assistant_admin"] },
   { id: "approvals", label: "Aprobaciones", icon: "approvals", roles: ["building_admin", "assistant_admin"] },
   { id: "payments", label: "Pagos", icon: "payments", roles: ["building_admin", "assistant_admin"] },
@@ -42,6 +45,7 @@ window.LIVING_NAV_ITEMS = [
   { id: "cleaning", label: "Limpieza", icon: "cleaning", roles: ["cleaning", "building_admin", "assistant_admin"] },
   { id: "incidents", label: "Incidentes", icon: "incidents", roles: ["building_admin", "assistant_admin", "security", "cleaning", "junta"] },
   { id: "reports", label: "Reportes", icon: "reports", roles: ["building_admin", "assistant_admin", "junta"] },
+  { id: "audit", label: "Auditoría", icon: "reports", roles: ["super_admin", "building_admin", "assistant_admin", "junta"] },
   { id: "messages", label: "Mensajes", icon: "messages", roles: ["building_admin", "assistant_admin"] },
   { id: "settings", label: "Configuración", icon: "settings", roles: ["building_admin", "assistant_admin"] },
   { id: "superadmin", label: "Super Admin", icon: "superadmin", roles: ["super_admin"] },
