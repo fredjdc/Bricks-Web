@@ -1,13 +1,13 @@
 (function registerLivingStorage(global) {
   const STORAGE_KEY = "bricks-living-demo-state";
-  const SCHEMA_VERSION = 3;
+  const SCHEMA_VERSION = 4;
 
   function isValidData(data) {
     return global.validateLivingData(data).valid;
   }
 
   function migrate(envelope) {
-    if (![1, 2].includes(envelope.version) || !envelope.data) return null;
+    if (![1, 2, 3].includes(envelope.version) || !envelope.data) return null;
     const seed = global.buildLivingDemoData();
     const data = JSON.parse(JSON.stringify(envelope.data));
     data.auditLog = Array.isArray(data.auditLog) ? data.auditLog : [];
@@ -21,12 +21,17 @@
         depositAmount: reservation.depositAmount ?? seedReservation?.depositAmount ?? area?.deposit ?? 0,
         paymentMethod: reservation.paymentMethod ?? seedReservation?.paymentMethod ?? "Transferencia",
         paymentProof: reservation.paymentProof ?? seedReservation?.paymentProof ?? null,
+        lifecycle: Array.isArray(reservation.lifecycle) ? reservation.lifecycle : seedReservation?.lifecycle || [],
+        refundStatus: reservation.refundStatus || "not_applicable",
       };
     });
     data.incidents = (data.incidents || []).map((incident) => ({
       ...incident,
       createdAt: incident.createdAt || seed.incidents.find((item) => item.id === incident.id)?.createdAt || "2026-07-01T12:00:00-05:00",
     }));
+    data.paymentLedger = Array.isArray(data.paymentLedger) ? data.paymentLedger : seed.paymentLedger;
+    data.depositLedger = Array.isArray(data.depositLedger) ? data.depositLedger : seed.depositLedger;
+    data.maintenanceBlocks = Array.isArray(data.maintenanceBlocks) ? data.maintenanceBlocks : seed.maintenanceBlocks;
     const previousSuperAdmin = data.superAdmin || {};
     data.superAdmin = {
       ...seed.superAdmin,

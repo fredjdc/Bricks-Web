@@ -4,7 +4,7 @@ import vm from "node:vm";
 
 globalThis.window = globalThis;
 
-for (const file of ["app/config.js", "app/data.js", "app/models.js", "app/selectors.js", "app/domain.js", "app/storage.js", "app/services.js", "app/repositories.js"]) {
+for (const file of ["app/config.js", "app/data.js", "app/models.js", "app/selectors.js", "app/domain.js", "app/storage.js", "app/services.js", "app/api-contracts.js", "app/repositories.js"]) {
   const source = fs.readFileSync(new URL(`../${file}`, import.meta.url), "utf8");
   vm.runInThisContext(source, { filename: file });
 }
@@ -120,6 +120,67 @@ assert.equal(platformResult.data.superAdmin.buildings.find((item) => item.id ===
 platformResult = apply(platformResult.data, { type: "update_template", templateId: "template-approved", body: "Tu reserva {{codigo}} está aprobada y lista.", status: "Activa" }, "super_admin", { name: "Freddy Ops" });
 assert.match(platformResult.data.superAdmin.templates.find((item) => item.id === "template-approved").body, /lista/);
 assert.equal(livingSelectors.audit(platformResult.data, "junta")[0].actorName, undefined);
+
+const lifecycleSource = buildLivingDemoData();
+const createCommand = {
+  type: "create_reservation",
+  residentId: "resident-402",
+  areaId: "terrace",
+  date: "2026-07-22",
+  start: "17:00",
+  end: "20:00",
+  guestCount: 12,
+  reason: "Reunión familiar",
+  paymentMethod: "Yape",
+  paymentProofName: "pago.jpg",
+  paymentProofType: "image/jpeg",
+  paymentProofSize: 120000,
+};
+let lifecycleResult = apply(lifecycleSource, createCommand, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T11:00:00-05:00");
+const createdReservation = lifecycleResult.data.reservations[0];
+assert.equal(createdReservation.status, "pending_approval");
+assert.equal(lifecycleResult.data.paymentLedger[0].type, "payment_submitted");
+assert.equal(lifecycleResult.data.depositLedger[0].type, "deposit_held");
+
+lifecycleResult = apply(lifecycleResult.data, { type: "reschedule_reservation", reservationId: createdReservation.id, date: "2026-07-23", start: "08:00", end: "10:00" }, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T11:10:00-05:00");
+assert.equal(lifecycleResult.data.reservations.find((item) => item.id === createdReservation.id).date, "2026-07-23");
+
+assert.throws(
+  () => apply(buildLivingDemoData(), { ...createCommand, date: "2026-07-18", start: "17:00", end: "20:00" }, "building_admin", admin),
+  (error) => error.code === "schedule_conflict"
+);
+
+let cancellationData = apply(buildLivingDemoData(), { type: "cancel_reservation", reservationId: anaId, reason: "Cambio de planes" }, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T11:00:00-05:00").data;
+assert.equal(cancellationData.reservations.find((item) => item.id === anaId).refundStatus, "pending");
+assert.throws(
+  () => apply(cancellationData, { type: "refund_payment", reservationId: anaId, reference: "REF-001" }, "assistant_admin", { name: "Carlos Vega" }),
+  (error) => error.code === "forbidden"
+);
+cancellationData = apply(cancellationData, { type: "refund_payment", reservationId: anaId, reference: "REF-001" }, "building_admin", admin, "2026-07-19T00:30:00-05:00").data;
+assert.equal(cancellationData.reservations.find((item) => item.id === anaId).refundStatus, "refunded");
+assert.equal(cancellationData.paymentLedger[0].amount, -420);
+
+let noShowData = apply(buildLivingDemoData(), { type: "approve_reservation", reservationId: anaId }, "building_admin", admin).data;
+noShowData = apply(noShowData, { type: "mark_no_show", reservationId: anaId }, "security", security, "2026-07-19T00:30:00-05:00").data;
+assert.equal(noShowData.reservations.find((item) => item.id === anaId).status, "no_show");
+
+const maintenanceSource = buildLivingDemoData();
+let maintenanceResult = apply(maintenanceSource, { type: "create_maintenance", areaId: "bbq", date: "2026-07-23", start: "08:00", end: "10:00", reason: "Limpieza profunda" }, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T11:00:00-05:00");
+const createdMaintenance = maintenanceResult.data.maintenanceBlocks[0];
+assert.equal(createdMaintenance.status, "active");
+maintenanceResult = apply(maintenanceResult.data, { type: "remove_maintenance", maintenanceId: createdMaintenance.id }, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T12:00:00-05:00");
+assert.equal(maintenanceResult.data.maintenanceBlocks[0].status, "cancelled");
+
+assert.deepEqual(livingBuildApiRequest({ type: "reschedule_reservation", reservationId: anaId, date: "2026-07-22", start: "10:00", end: "12:00" }), {
+  method: "PATCH",
+  path: `/v1/reservations/${anaId}/schedule`,
+  body: { date: "2026-07-22", start: "10:00", end: "12:00" },
+});
+assert.deepEqual(Object.keys(LIVING_ACTION_PERMISSIONS).sort(), Object.keys(LIVING_API_CONTRACTS).sort());
+assert.throws(
+  () => apply(buildLivingDemoData(), { type: "create_maintenance", areaId: "bbq", date: "2026-07-23", start: "25:00", end: "26:00", reason: "Limpieza profunda" }, "assistant_admin", { name: "Carlos Vega" }),
+  (error) => error.code === "validation_error"
+);
 
 let repositoryData = buildLivingDemoData();
 const repository = createLivingRepository({

@@ -243,6 +243,8 @@ body {
   background: color-mix(in srgb, var(--living-surface) 92%, transparent);
   border-radius: var(--living-card-radius);
   padding: clamp(22px, 3vw, 28px);
+  min-width: 0;
+  max-width: 100%;
   transition: box-shadow 0.24s ease, border-color 0.24s ease, transform 0.24s ease;
 }
 
@@ -613,6 +615,12 @@ body {
   resize: vertical;
 }
 
+.living-form-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .living-collection-toolbar {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(160px, 220px) auto;
@@ -875,6 +883,8 @@ body {
 }
 
 .living-table-wrap {
+  width: 100%;
+  max-width: 100%;
   overflow: auto;
 }
 
@@ -1360,6 +1370,10 @@ body {
 
   .living-collection-toolbar {
     grid-template-columns: 1fr;
+  }
+
+  .living-form-columns {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .living-pagination {

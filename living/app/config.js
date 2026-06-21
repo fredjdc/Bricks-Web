@@ -31,6 +31,9 @@ window.LIVING_STATUS_LABELS = {
   trial: "Piloto",
   lead: "Prospecto",
   paused: "Pausada",
+  no_show: "No se presentó",
+  refunded: "Reembolsado",
+  not_applicable: "No aplica",
 };
 
 window.LIVING_NAV_ITEMS = [

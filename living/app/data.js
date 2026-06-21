@@ -333,6 +333,47 @@ window.buildLivingDemoData = function buildLivingDemoData() {
     }
   );
 
+  reservations.forEach((reservation) => {
+    reservation.lifecycle = [
+      { status: "created", label: "Reserva creada", createdAt: reservation.createdAt, actor: reservation.residentName },
+      ...(reservation.status !== "pending_approval" ? [{ status: reservation.status, label: `Estado inicial: ${reservation.status}`, createdAt: reservation.approvedAt || reservation.createdAt, actor: reservation.approvedBy || "Sistema" }] : []),
+    ];
+    reservation.refundStatus = "not_applicable";
+  });
+
+  const paymentLedger = reservations
+    .filter((reservation) => reservation.amount > 0)
+    .map((reservation) => ({
+      id: `payment-${reservation.id}-initial`,
+      reservationId: reservation.id,
+      reservationCode: reservation.code,
+      type: reservation.paymentStatus === "verified" ? "payment_verified" : "payment_submitted",
+      amount: reservation.amount,
+      method: reservation.paymentMethod || "Transferencia",
+      status: reservation.paymentStatus,
+      createdAt: reservation.paymentSubmittedAt || reservation.createdAt,
+      actor: reservation.paymentStatus === "verified" ? "Administración" : reservation.residentName,
+    }));
+
+  const depositLedger = reservations
+    .filter((reservation) => reservation.depositAmount > 0)
+    .map((reservation) => ({
+      id: `deposit-${reservation.id}-initial`,
+      reservationId: reservation.id,
+      reservationCode: reservation.code,
+      type: `deposit_${reservation.depositStatus}`,
+      amount: reservation.depositAmount,
+      status: reservation.depositStatus,
+      createdAt: reservation.paymentSubmittedAt || reservation.createdAt,
+      actor: "Administración",
+      reason: reservation.depositStatus === "retained" ? "Retención histórica" : null,
+    }));
+
+  const maintenanceBlocks = [
+    { id: "maintenance-bbq-0720", areaId: "bbq", areaName: "Zona BBQ", date: "2026-07-20", start: "08:00", end: "14:00", reason: "Mantenimiento preventivo de parrillas", status: "active", createdBy: "María Fernanda Rojas", createdAt: "2026-07-15T10:00:00-05:00" },
+    { id: "maintenance-gym-0721", areaId: "gym", areaName: "Gimnasio", date: "2026-07-21", start: "07:00", end: "18:00", reason: "Revisión de equipos", status: "active", createdBy: "Carlos Vega", createdAt: "2026-07-16T11:30:00-05:00" },
+  ];
+
   const tasks = [
     {
       id: "task-prep-ana",
@@ -510,6 +551,9 @@ window.buildLivingDemoData = function buildLivingDemoData() {
     tasks,
     incidents,
     messages,
+    paymentLedger,
+    depositLedger,
+    maintenanceBlocks,
     report,
     superAdmin,
     auditLog: [],

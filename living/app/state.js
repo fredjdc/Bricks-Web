@@ -49,7 +49,7 @@ window.livingStatusTone = function livingStatusTone(status) {
 };
 
 window.livingActionKey = function livingActionKey(action) {
-  const entityId = action.reservationId || action.taskId || action.incidentId || action.residentId || action.areaId || action.templateId || action.buildingId || action.subscriptionId || action.supportId || "new";
+  const entityId = action.reservationId || action.taskId || action.incidentId || action.residentId || action.areaId || action.maintenanceId || action.templateId || action.buildingId || action.subscriptionId || action.supportId || "new";
   return `${action.type}:${entityId}`;
 };
 
@@ -60,6 +60,8 @@ window.livingDemoActionTime = function livingDemoActionTime(action, data) {
   }
   if (["mark_arrival", "verify_guests"].includes(action.type)) return "2026-07-18T17:05:00-05:00";
   if (["create_incident", "resolve_incident", "release_deposit", "retain_deposit"].includes(action.type)) return "2026-07-18T23:40:00-05:00";
+  if (["mark_no_show", "refund_payment"].includes(action.type)) return "2026-07-19T00:30:00-05:00";
+  if (["create_reservation", "reschedule_reservation", "cancel_reservation", "reject_reservation", "create_maintenance", "remove_maintenance"].includes(action.type)) return "2026-07-17T11:00:00-05:00";
   return "2026-07-12T09:43:00-05:00";
 };
 
@@ -104,5 +106,13 @@ window.createLivingActions = function createLivingActions({ repository, getComma
     advanceOnboarding: (buildingId) => run({ type: "advance_onboarding", buildingId }),
     updateSubscription: (subscriptionId, values) => run({ type: "update_subscription", subscriptionId, ...values }),
     resolveSupport: (supportId) => run({ type: "resolve_support", supportId }),
+    createReservation: (values) => run({ type: "create_reservation", ...values }),
+    rescheduleReservation: (reservationId, values) => run({ type: "reschedule_reservation", reservationId, ...values }),
+    cancelReservation: (reservationId, reason) => run({ type: "cancel_reservation", reservationId, reason }),
+    rejectReservation: (reservationId, reason) => run({ type: "reject_reservation", reservationId, reason }),
+    refundPayment: (reservationId, reference) => run({ type: "refund_payment", reservationId, reference }),
+    markNoShow: (reservationId) => run({ type: "mark_no_show", reservationId }),
+    createMaintenance: (values) => run({ type: "create_maintenance", ...values }),
+    removeMaintenance: (maintenanceId) => run({ type: "remove_maintenance", maintenanceId }),
   };
 };

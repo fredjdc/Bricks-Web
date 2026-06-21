@@ -135,15 +135,32 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
   );
 };
 
-window.CalendarScreen = function CalendarScreen({ data, onOpenReservation }) {
+window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreateReservation, onOpenReservation }) {
+  const [showCreate, setShowCreate] = React.useState(false);
+  const [fileError, setFileError] = React.useState("");
+  const [values, setValues] = React.useState({ residentId: "resident-402", areaId: "terrace", date: "2026-07-22", start: "17:00", end: "21:00", guestCount: "10", reason: "Reunión de residentes", paymentMethod: "Yape", paymentProofName: "", paymentProofType: "", paymentProofSize: 0 });
   const visible = data.reservations
-    .filter((item) => ["2026-07-16", "2026-07-17", "2026-07-18", "2026-07-19", "2026-07-20"].includes(item.date))
-    .sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`))
-    .slice(0, 16);
+    .filter((item) => item.date >= "2026-07-16" && item.date <= "2026-07-22")
+    .sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`));
+
+  function update(key, value) { setValues((current) => ({ ...current, [key]: value })); }
+  function chooseProof(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "application/pdf"].includes(file.type) || file.size > 5 * 1024 * 1024) { setFileError("Use JPG, PNG o PDF de hasta 5 MB."); return; }
+    setFileError("");
+    setValues((current) => ({ ...current, paymentProofName: file.name, paymentProofType: file.type, paymentProofSize: file.size }));
+  }
+  async function submit(event) {
+    event.preventDefault();
+    const result = await onCreateReservation(values);
+    if (result) setShowCreate(false);
+  }
 
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Calendario" title="Semana operativa" iconName="calendar" />
+      <window.SectionTitle eyebrow="Calendario" title="Semana operativa" iconName="calendar" actions={<button className="living-button living-button-primary" onClick={() => setShowCreate(true)}>Nueva reserva</button>} />
+      {showCreate ? <window.FormPanel title="Crear reserva" description="La disponibilidad se valida contra reservas y mantenimiento." onCancel={() => setShowCreate(false)}><form className="living-form" onSubmit={submit}><label><span>Residente</span><select value={values.residentId} onChange={(event) => update("residentId", event.target.value)}>{data.residents.filter((item) => item.status === "active" && item.debt === 0).map((item) => <option key={item.id} value={item.id}>{item.name} · Dpto. {item.apartment}</option>)}</select></label><label><span>Área</span><select value={values.areaId} onChange={(event) => update("areaId", event.target.value)}>{data.areas.filter((item) => item.id !== "gym").map((item) => <option key={item.id} value={item.id}>{item.name} · {window.livingFormatCurrency(item.reservationFee + item.deposit)}</option>)}</select></label><label><span>Fecha</span><input type="date" value={values.date} onChange={(event) => update("date", event.target.value)} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={values.start} onChange={(event) => update("start", event.target.value)} required /></label><label><span>Fin</span><input type="time" value={values.end} onChange={(event) => update("end", event.target.value)} required /></label></div><label><span>Invitados</span><input type="number" min="0" value={values.guestCount} onChange={(event) => update("guestCount", event.target.value)} required /></label><label><span>Motivo</span><textarea value={values.reason} onChange={(event) => update("reason", event.target.value)} minLength="5" required /></label><label><span>Método de pago</span><select value={values.paymentMethod} onChange={(event) => update("paymentMethod", event.target.value)}><option>Yape</option><option>Plin</option><option>Transferencia</option></select></label><label><span>Comprobante</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseProof} /></label>{fileError ? <div className="living-form-error">{fileError}</div> : null}<button className="living-button living-button-primary" disabled={Boolean(pendingActions["create_reservation:new"]) || Boolean(fileError)}>Crear reserva</button></form></window.FormPanel> : null}
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -200,6 +217,7 @@ window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify
   const [selected, setSelected] = React.useState(null);
   const [reason, setReason] = React.useState("");
   const collection = window.useLivingPagedRows(window.livingSelectors.payments(data), (item) => `${item.code} ${item.residentName} ${item.apartment} ${item.paymentMethod || ""}`, "", "paymentStatus");
+  const ledger = window.livingSelectors.paymentLedger(data).slice(0, 12);
   async function submitRejection(event) {
     event.preventDefault();
     if (reason.trim().length < 5) return;
@@ -234,6 +252,7 @@ window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify
         />
         <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>
+      <div className="living-card"><div className="living-card-label">Libro de pagos y reembolsos</div><window.DataTable columns={[{ key: "createdAt", label: "Fecha", render: (row) => window.livingFormatDateTime(row.createdAt) }, { key: "reservationCode", label: "Reserva" }, { key: "type", label: "Movimiento", render: (row) => ({ payment_submitted: "Pago enviado", payment_verified: "Pago verificado", payment_rejected: "Pago rechazado", refund_pending: "Reembolso pendiente", refund_completed: "Reembolso completado" }[row.type] || row.type) }, { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "actor", label: "Actor" }]} rows={ledger} /></div>
     </div>
   );
 };
@@ -243,6 +262,7 @@ window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, on
   const [amount, setAmount] = React.useState("");
   const [reason, setReason] = React.useState("");
   const collection = window.useLivingPagedRows(window.livingSelectors.deposits(data), (item) => `${item.code} ${item.residentName} ${item.areaName}`, "", "depositStatus");
+  const ledger = window.livingSelectors.depositLedger(data).slice(0, 12);
   async function submitRetention(event) {
     event.preventDefault();
     const result = await onRetain(selected.id, amount, reason);
@@ -268,12 +288,15 @@ window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, on
         />
         <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>
+      <div className="living-card"><div className="living-card-label">Libro de garantías</div><window.DataTable columns={[{ key: "createdAt", label: "Fecha", render: (row) => window.livingFormatDateTime(row.createdAt) }, { key: "reservationCode", label: "Reserva" }, { key: "type", label: "Movimiento", render: (row) => ({ deposit_held: "Garantía recibida", deposit_released: "Garantía liberada", deposit_retained: "Garantía retenida" }[row.type] || row.type) }, { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "reason", label: "Motivo", render: (row) => row.reason || "Sin observación" }]} rows={ledger} /></div>
     </div>
   );
 };
 
-window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate }) {
+window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate, onCreateMaintenance, onRemoveMaintenance }) {
   const [selected, setSelected] = React.useState(null);
+  const [showMaintenance, setShowMaintenance] = React.useState(false);
+  const [maintenance, setMaintenance] = React.useState({ areaId: "bbq", date: "2026-07-23", start: "08:00", end: "12:00", reason: "Mantenimiento preventivo" });
   const [values, setValues] = React.useState({ capacity: "", reservationFee: "", deposit: "" });
   function open(area) {
     setSelected(area);
@@ -284,10 +307,16 @@ window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate }) {
     const result = await onUpdate(selected.id, values);
     if (result) setSelected(null);
   }
+  async function submitMaintenance(event) {
+    event.preventDefault();
+    const result = await onCreateMaintenance(maintenance);
+    if (result) setShowMaintenance(false);
+  }
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" iconName="areas" />
+      <window.SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" iconName="areas" actions={<button className="living-button living-button-primary" onClick={() => setShowMaintenance(true)}>Programar mantenimiento</button>} />
       {selected ? <window.FormPanel title={`Editar ${selected.name}`} onCancel={() => setSelected(null)}><form className="living-form" onSubmit={submit}><label><span>Capacidad</span><input type="number" min="1" value={values.capacity} onChange={(event) => setValues((current) => ({ ...current, capacity: event.target.value }))} required /></label><label><span>Tarifa</span><input type="number" min="0" value={values.reservationFee} onChange={(event) => setValues((current) => ({ ...current, reservationFee: event.target.value }))} required /></label><label><span>Garantía</span><input type="number" min="0" value={values.deposit} onChange={(event) => setValues((current) => ({ ...current, deposit: event.target.value }))} required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`update_area:${selected.id}`])}>Guardar cambios</button></form></window.FormPanel> : null}
+      {showMaintenance ? <window.FormPanel title="Programar mantenimiento" description="No puede cruzarse con una reserva o bloqueo activo." onCancel={() => setShowMaintenance(false)}><form className="living-form" onSubmit={submitMaintenance}><label><span>Área</span><select value={maintenance.areaId} onChange={(event) => setMaintenance((current) => ({ ...current, areaId: event.target.value }))}>{data.areas.map((area) => <option key={area.id} value={area.id}>{area.name}</option>)}</select></label><label><span>Fecha</span><input type="date" value={maintenance.date} onChange={(event) => setMaintenance((current) => ({ ...current, date: event.target.value }))} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={maintenance.start} onChange={(event) => setMaintenance((current) => ({ ...current, start: event.target.value }))} required /></label><label><span>Fin</span><input type="time" value={maintenance.end} onChange={(event) => setMaintenance((current) => ({ ...current, end: event.target.value }))} required /></label></div><label><span>Motivo</span><textarea value={maintenance.reason} onChange={(event) => setMaintenance((current) => ({ ...current, reason: event.target.value }))} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`create_maintenance:${maintenance.areaId}`])}>Programar</button></form></window.FormPanel> : null}
       <div className="living-grid living-card-grid">
         {data.areas.map((area) => (
           <div className="living-card" key={area.id}>
@@ -305,6 +334,7 @@ window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate }) {
           </div>
         ))}
       </div>
+      <div className="living-card"><div className="living-card-label">Bloqueos de mantenimiento</div><window.DataTable columns={[{ key: "date", label: "Fecha", render: (row) => window.livingFormatShortDate(row.date) }, { key: "areaName", label: "Área" }, { key: "schedule", label: "Horario", render: (row) => `${row.start}–${row.end}` }, { key: "reason", label: "Motivo" }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "actions", label: "Acciones", render: (row) => row.status === "active" ? <button className="living-link-button" disabled={Boolean(pendingActions[`remove_maintenance:${row.id}`])} onClick={() => window.confirm("¿Cancelar este mantenimiento?") && onRemoveMaintenance(row.id)}>Cancelar bloqueo</button> : "Cancelado" }]} rows={data.maintenanceBlocks} /></div>
     </div>
   );
 };
@@ -344,7 +374,7 @@ window.ResidentsScreen = function ResidentsScreen({ data, pendingActions, onUpda
   );
 };
 
-window.SecurityScreen = function SecurityScreen({ data, pendingActions, onMarkArrival, onVerifyGuests }) {
+window.SecurityScreen = function SecurityScreen({ data, pendingActions, onMarkArrival, onVerifyGuests, onMarkNoShow }) {
   const reservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
   const canOperate = ["approved", "confirmed"].includes(reservation.status);
   return (
@@ -368,6 +398,7 @@ window.SecurityScreen = function SecurityScreen({ data, pendingActions, onMarkAr
             <button className="living-button living-button-primary" disabled={!canOperate || reservation.securityGuestsVerified || Boolean(pendingActions[`verify_guests:${reservation.id}`])} onClick={() => onVerifyGuests(reservation.id)}>
               {!canOperate ? "Esperando aprobación" : pendingActions[`verify_guests:${reservation.id}`] ? "Verificando…" : reservation.securityGuestsVerified ? "Invitados verificados" : "Verificar invitados"}
             </button>
+            {canOperate ? <button className="living-button living-button-secondary" disabled={Boolean(pendingActions[`mark_no_show:${reservation.id}`])} onClick={() => window.confirm("¿Registrar que el residente no se presentó?") && onMarkNoShow(reservation.id)}>No se presentó</button> : null}
           </div>
         </div>
         <div className="living-card">
@@ -615,14 +646,38 @@ window.SuperAdminScreen = function SuperAdminScreen({ data, pendingActions, onUp
   );
 };
 
-window.ReservationDetailScreen = function ReservationDetailScreen({ data, role, reservationId, pendingActions, onApprove, onMarkArrival, onVerifyGuests, onCompleteTask }) {
-  const reservation = data.reservations.find((item) => item.id === reservationId);
+window.ReservationDetailScreen = function ReservationDetailScreen(props) {
+  const reservation = props.data.reservations.find((item) => item.id === props.reservationId);
   if (!reservation) {
     return <div className="living-screen"><window.SectionTitle eyebrow="Detalle de reserva" title="Reserva no encontrada" body="El código solicitado no existe o ya no está disponible." /><div className="living-card living-empty-state">Revise el enlace o vuelva al calendario.</div></div>;
   }
+  return <window.ReservationDetailContent key={reservation.id} {...props} reservation={reservation} />;
+};
+
+window.ReservationDetailContent = function ReservationDetailContent({ data, role, reservation, pendingActions, onApprove, onRejectReservation, onReschedule, onCancelReservation, onRefund, onMarkNoShow, onMarkArrival, onVerifyGuests, onCompleteTask }) {
   const tasks = data.tasks.filter((task) => task.reservationId === reservation.id);
   const relatedIncident = data.incidents.find((item) => item.reservationId === reservation.id);
   const canOperateSecurity = ["approved", "confirmed"].includes(reservation.status);
+  const [mode, setMode] = React.useState(null);
+  const [reason, setReason] = React.useState("");
+  const [refundReference, setRefundReference] = React.useState("");
+  const [schedule, setSchedule] = React.useState({ date: reservation.date, start: reservation.start, end: reservation.end });
+  const canChange = ["pending_approval", "approved", "confirmed"].includes(reservation.status);
+  async function submitReason(event) {
+    event.preventDefault();
+    const result = mode === "reject" ? await onRejectReservation(reservation.id, reason) : await onCancelReservation(reservation.id, reason);
+    if (result) { setMode(null); setReason(""); }
+  }
+  async function submitSchedule(event) {
+    event.preventDefault();
+    const result = await onReschedule(reservation.id, schedule);
+    if (result) setMode(null);
+  }
+  async function submitRefund(event) {
+    event.preventDefault();
+    const result = await onRefund(reservation.id, refundReference);
+    if (result) { setMode(null); setRefundReference(""); }
+  }
 
   return (
     <div className="living-screen">
@@ -631,13 +686,19 @@ window.ReservationDetailScreen = function ReservationDetailScreen({ data, role, 
         title={reservation.code}
         body={`${reservation.residentName} · Dpto. ${reservation.apartment} · ${reservation.areaName} · ${window.livingFormatShortDate(reservation.date)} · ${reservation.start}–${reservation.end}`}
         actions={
-          reservation.status === "pending_approval" && ["building_admin", "assistant_admin"].includes(role) ? (
-            <button className="living-button living-button-primary" disabled={Boolean(pendingActions[`approve_reservation:${reservation.id}`])} onClick={() => onApprove(reservation.id)}>
-              {pendingActions[`approve_reservation:${reservation.id}`] ? "Aprobando…" : "Aprobar"}
-            </button>
-          ) : null
+          <>
+            {reservation.status === "pending_approval" ? <button className="living-button living-button-primary" disabled={Boolean(pendingActions[`approve_reservation:${reservation.id}`])} onClick={() => onApprove(reservation.id)}>{pendingActions[`approve_reservation:${reservation.id}`] ? "Aprobando…" : "Aprobar"}</button> : null}
+            {reservation.status === "pending_approval" ? <button className="living-button living-button-secondary" onClick={() => setMode("reject")}>Rechazar</button> : null}
+            {canChange ? <button className="living-button living-button-secondary" onClick={() => setMode("reschedule")}>Reprogramar</button> : null}
+            {canChange ? <button className="living-button living-button-secondary" onClick={() => setMode("cancel")}>Cancelar</button> : null}
+            {reservation.refundStatus === "pending" && role === "building_admin" ? <button className="living-button living-button-primary" onClick={() => setMode("refund")}>Procesar reembolso</button> : null}
+            {canOperateSecurity ? <button className="living-button living-button-secondary" disabled={Boolean(pendingActions[`mark_no_show:${reservation.id}`])} onClick={() => window.confirm("¿Registrar que el residente no se presentó?") && onMarkNoShow(reservation.id)}>No se presentó</button> : null}
+          </>
         }
       />
+      {mode === "reschedule" ? <window.FormPanel title="Reprogramar reserva" onCancel={() => setMode(null)}><form className="living-form" onSubmit={submitSchedule}><label><span>Fecha</span><input type="date" value={schedule.date} onChange={(event) => setSchedule((current) => ({ ...current, date: event.target.value }))} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={schedule.start} onChange={(event) => setSchedule((current) => ({ ...current, start: event.target.value }))} required /></label><label><span>Fin</span><input type="time" value={schedule.end} onChange={(event) => setSchedule((current) => ({ ...current, end: event.target.value }))} required /></label></div><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`reschedule_reservation:${reservation.id}`])}>Guardar horario</button></form></window.FormPanel> : null}
+      {["cancel", "reject"].includes(mode) ? <window.FormPanel title={mode === "reject" ? "Rechazar reserva" : "Cancelar reserva"} description="Si existe un pago verificado, se abrirá un reembolso pendiente." onCancel={() => setMode(null)}><form className="living-form" onSubmit={submitReason}><label><span>Motivo</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`${mode === "reject" ? "reject" : "cancel"}_reservation:${reservation.id}`])}>Confirmar</button></form></window.FormPanel> : null}
+      {mode === "refund" ? <window.FormPanel title="Procesar reembolso" description={`Monto: ${window.livingFormatCurrency(reservation.amount)}`} onCancel={() => setMode(null)}><form className="living-form" onSubmit={submitRefund}><label><span>Referencia bancaria</span><input value={refundReference} onChange={(event) => setRefundReference(event.target.value)} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`refund_payment:${reservation.id}`])}>Completar reembolso</button></form></window.FormPanel> : null}
       <div className="living-dashboard-columns">
         <div className="living-card">
           <div className="living-card-label">Estado</div>
@@ -650,6 +711,7 @@ window.ReservationDetailScreen = function ReservationDetailScreen({ data, role, 
           <p>Invitados: {reservation.guestCount}</p>
           <p>Monto total: {window.livingFormatCurrency(reservation.amount)}</p>
         </div>
+        <div className="living-card"><div className="living-card-label">Historial de ciclo de vida</div><ol className="living-ordered-list">{reservation.lifecycle.map((entry, index) => <li key={`${entry.createdAt}-${index}`}><strong>{entry.label}</strong> · {window.livingFormatDateTime(entry.createdAt)} · {entry.actor}{entry.detail ? ` · ${entry.detail}` : ""}</li>)}</ol></div>
         <div className="living-card">
           <div className="living-card-label">Seguridad</div>
           <div className="living-checklist">

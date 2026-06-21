@@ -21,7 +21,7 @@ window.PortalShell = function PortalShell({
       screen = <window.DashboardScreen data={data} onOpenReservation={(id) => onNavigate("reservation", id)} />;
       break;
     case "calendar":
-      screen = <window.CalendarScreen data={data} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.CalendarScreen data={data} pendingActions={pendingActions} onCreateReservation={actions.createReservation} onOpenReservation={(id) => onNavigate("reservation", id)} />;
       break;
     case "approvals":
       screen = <window.ApprovalsScreen data={data} pendingActions={pendingActions} onApprove={actions.approveReservation} onOpenReservation={(id) => onNavigate("reservation", id)} />;
@@ -33,13 +33,13 @@ window.PortalShell = function PortalShell({
       screen = <window.DepositsScreen data={data} role={role} pendingActions={pendingActions} onRelease={actions.releaseDeposit} onRetain={actions.retainDeposit} />;
       break;
     case "areas":
-      screen = <window.AreasScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateArea} />;
+      screen = <window.AreasScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateArea} onCreateMaintenance={actions.createMaintenance} onRemoveMaintenance={actions.removeMaintenance} />;
       break;
     case "residents":
       screen = <window.ResidentsScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateResident} />;
       break;
     case "security":
-      screen = <window.SecurityScreen data={data} pendingActions={pendingActions} onMarkArrival={actions.markArrival} onVerifyGuests={actions.verifyGuests} />;
+      screen = <window.SecurityScreen data={data} pendingActions={pendingActions} onMarkArrival={actions.markArrival} onVerifyGuests={actions.verifyGuests} onMarkNoShow={actions.markNoShow} />;
       break;
     case "cleaning":
       screen = <window.CleaningScreen data={data} pendingActions={pendingActions} onCompleteTask={actions.completeTask} />;
@@ -69,6 +69,11 @@ window.PortalShell = function PortalShell({
           role={role}
           reservationId={selectedReservationId}
           onApprove={actions.approveReservation}
+          onRejectReservation={actions.rejectReservation}
+          onReschedule={actions.rescheduleReservation}
+          onCancelReservation={actions.cancelReservation}
+          onRefund={actions.refundPayment}
+          onMarkNoShow={actions.markNoShow}
           onMarkArrival={actions.markArrival}
           onVerifyGuests={actions.verifyGuests}
           onCompleteTask={actions.completeTask}
@@ -245,4 +250,3 @@ window.LivingApp = function LivingApp() {
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(<window.LivingApp />);
-    commandGenerationRef.current += 1;

@@ -6,6 +6,10 @@
     return Number(reservation.reservationFee) || 0;
   }
 
+  function overlaps(startA, endA, startB, endB) {
+    return startA < endB && startB < endA;
+  }
+
   global.livingSelectors = {
     dashboard(data) {
       const monthReservations = data.reservations.filter((item) => item.date.startsWith(MONTH_PREFIX));
@@ -44,6 +48,17 @@
     },
     deposits(data) {
       return data.reservations.filter((item) => (Number(item.depositAmount) || 0) > 0);
+    },
+    paymentLedger(data) {
+      return [...data.paymentLedger].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    },
+    depositLedger(data) {
+      return [...data.depositLedger].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    },
+    isSlotAvailable(data, { areaId, date, start, end, excludeReservationId = null }) {
+      const reservationConflict = data.reservations.some((item) => item.id !== excludeReservationId && item.areaId === areaId && item.date === date && !["cancelled", "rejected", "no_show"].includes(item.status) && overlaps(start, end, item.start, item.end));
+      const maintenanceConflict = data.maintenanceBlocks.some((item) => item.areaId === areaId && item.date === date && item.status === "active" && overlaps(start, end, item.start, item.end));
+      return !reservationConflict && !maintenanceConflict;
     },
     audit(data, role) {
       const entries = data.auditLog || [];

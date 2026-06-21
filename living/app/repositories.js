@@ -28,6 +28,9 @@
       select(selector, ...args) {
         return selector(getData(), ...args);
       },
+      requestFor(command) {
+        return global.livingBuildApiRequest(command);
+      },
     };
   };
 })(window);
