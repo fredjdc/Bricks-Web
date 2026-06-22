@@ -1,0 +1,115 @@
+ # Dependencies
+node_modules/
+.pnpm-store/
+.yarn/
+.npm/
+
+# Build output
+.next/
+.nuxt/
+dist/
+build/
+out/
+.vercel/
+.netlify/
+.cache/
+coverage/
+
+# Public/static assets
+public/
+assets/
+static/
+media/
+images/
+img/
+icons/
+screenshots/
+uploads/
+
+# Docs/content
+docs/
+content/
+posts/
+articles/
+blog/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Git / OS
+.git/
+.DS_Store
+
+# Images / media
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.svg
+*.ico
+*.heic
+*.mp4
+*.mov
+*.m4v
+*.webm
+
+# Documents
+*.md
+*.mdx
+*.txt
+*.pdf
+*.docx
+*.pptx
+*.xlsx
+*.csv
+*.rtf
+
+# Strict doc ignores
+docs/**
+./docs/**
+**/*.md
+**/*.mdx
+**/*.txt
+**/*.pdf
+**/*.docx
+**/*.pptx
+**/*.xlsx
+**/*.csv
+**/*.rtf
+
+# Root/project instruction docs
+README*
+CHANGELOG*
+LICENSE*
+CONTRIBUTING*
+CODE_OF_CONDUCT*
+SECURITY*
+AGENTS.md
+CLAUDE.md
+CODEX.md
+
+# Agent/AI instruction folders
+.agents/
+.claude/
+.cursor/
+
+# Web metadata docs
+robots.txt
+sitemap.xml
+
+# Lockfiles
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lockb
+
+# Graphify output
+graphify-out/
+
+# Web crawl metadata
+robots.txt
+./robots.txt
+**/robots.txt
