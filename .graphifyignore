@@ -66,3 +66,45 @@ blog/
 *.xlsx
 *.csv
 *.rtf
+
+# Strict doc ignores
+docs/**
+./docs/**
+**/*.md
+**/*.mdx
+**/*.txt
+**/*.pdf
+**/*.docx
+**/*.pptx
+**/*.xlsx
+**/*.csv
+**/*.rtf
+
+# Root/project instruction docs
+README*
+CHANGELOG*
+LICENSE*
+CONTRIBUTING*
+CODE_OF_CONDUCT*
+SECURITY*
+AGENTS.md
+CLAUDE.md
+CODEX.md
+
+# Agent/AI instruction folders
+.agents/
+.claude/
+.cursor/
+
+# Web metadata docs
+robots.txt
+sitemap.xml
+
+# Lockfiles
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lockb
+
+# Graphify output
+graphify-out/
