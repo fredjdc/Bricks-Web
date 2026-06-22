@@ -424,36 +424,24 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
 
             <div className="living-whatsapp-gallery">
               <div className="whatsapp-mock">
-                <div className="whatsapp-header">
-                  <div className="whatsapp-title">Bricks Living Chat</div>
-                </div>
                 <div className="whatsapp-body">
                   <img src="images/whatsapp-01.png" alt="Paso 1: Selección de áreas" className="whatsapp-screen" />
                 </div>
                 <div className="whatsapp-footer">Paso 1: Selección de área</div>
               </div>
               <div className="whatsapp-mock">
-                <div className="whatsapp-header">
-                  <div className="whatsapp-title">Bricks Living Chat</div>
-                </div>
                 <div className="whatsapp-body">
                   <img src="images/whatsapp-02.png" alt="Paso 2: Reglas y tarifas" className="whatsapp-screen" />
                 </div>
                 <div className="whatsapp-footer">Paso 2: Reglamento y costos</div>
               </div>
               <div className="whatsapp-mock">
-                <div className="whatsapp-header">
-                  <div className="whatsapp-title">Bricks Living Chat</div>
-                </div>
                 <div className="whatsapp-body">
                   <img src="images/whatsapp-03.png" alt="Paso 3: Envío de comprobante" className="whatsapp-screen" />
                 </div>
                 <div className="whatsapp-footer">Paso 3: Envío de pago</div>
               </div>
               <div className="whatsapp-mock">
-                <div className="whatsapp-header">
-                  <div className="whatsapp-title">Bricks Living Chat</div>
-                </div>
                 <div className="whatsapp-body">
                   <img src="images/whatsapp-04.png" alt="Paso 4: Confirmación y acceso" className="whatsapp-screen" />
                 </div>
@@ -597,16 +585,28 @@ window.LoginScreen = function LoginScreen({ onLogin }) {
   );
 };
 
-window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
+window.Sidebar = function Sidebar({ role, currentPage, collapsed, onToggleCollapsed, onNavigate }) {
   const items = window.LIVING_NAV_ITEMS.filter((item) => item.roles.includes(role));
   const groups = [...new Set(items.map((item) => item.group))];
+  const primaryGroups = new Set(["Inicio", "Reservas", "Operación"]);
+  function renderLink(item) {
+    return (
+      <button key={item.id} className={`living-sidebar-link ${currentPage === item.id ? "is-active" : ""}`} onClick={() => onNavigate(item.id)} aria-label={collapsed ? item.label : undefined} title={collapsed ? item.label : undefined}>
+        <span className="living-sidebar-link-icon"><window.LivingNavIcon name={item.icon || item.id} /></span>
+        {!collapsed ? <span className="living-sidebar-link-label">{item.label}</span> : null}
+      </button>
+    );
+  }
   return (
-    <aside className="living-sidebar">
+    <aside className={`living-sidebar ${collapsed ? "is-collapsed" : ""}`}>
       <div className="living-sidebar-header">
         <div className="living-brand">
           <img src="images/bricks-living-logo.svg" alt="Bricks Living" />
         </div>
         <div className="living-sidebar-building">Torres del Parque</div>
+        <button type="button" className="living-sidebar-collapse" onClick={onToggleCollapsed} aria-label={collapsed ? "Expandir menú" : "Minimizar menú"} title={collapsed ? "Expandir menú" : "Minimizar menú"}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={collapsed ? "M9 18l6-6-6-6" : "M15 18l-6-6 6-6"} /></svg>
+        </button>
       </div>
       <label className="living-mobile-nav">
         <span>Ir a</span>
@@ -616,15 +616,20 @@ window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
         </select>
       </label>
       <nav className="living-sidebar-nav" aria-label="Portal">
-        {groups.map((group) => (
-          <details className="living-nav-group" key={group} open={items.some((item) => item.group === group && item.id === currentPage)}>
+        {collapsed ? groups.filter((group) => primaryGroups.has(group)).map((group) => (
+          <div className="living-collapsed-nav-group" key={group} aria-label={group}>
+            <span className="living-nav-group-label living-collapsed-nav-label" aria-hidden="true">{group}</span>
+            {items.filter((item) => item.group === group).map(renderLink)}
+          </div>
+        )) : groups.map((group) => primaryGroups.has(group) ? (
+          <section className="living-nav-group living-nav-group-fixed" key={group} aria-labelledby={`living-nav-${group}`}>
+            <div className="living-nav-group-label" id={`living-nav-${group}`}>{group}</div>
+            {items.filter((item) => item.group === group).map(renderLink)}
+          </section>
+        ) : (
+          <details className="living-nav-group" key={group} defaultOpen={items.some((item) => item.group === group && item.id === currentPage)}>
             <summary className="living-nav-group-label">{group}</summary>
-            {items.filter((item) => item.group === group).map((item) => (
-              <button key={item.id} className={`living-sidebar-link ${currentPage === item.id ? "is-active" : ""}`} onClick={() => onNavigate(item.id)}>
-                <span className="living-sidebar-link-icon"><window.LivingNavIcon name={item.icon || item.id} /></span>
-                <span className="living-sidebar-link-label">{item.label}</span>
-              </button>
-            ))}
+            {items.filter((item) => item.group === group).map(renderLink)}
           </details>
         ))}
       </nav>

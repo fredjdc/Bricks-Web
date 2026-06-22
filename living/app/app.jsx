@@ -16,6 +16,14 @@ window.PortalShell = function PortalShell({
   onResetDemo,
   onDismissFeedback,
 }) {
+  const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
+  React.useEffect(() => {
+    const compactLayout = window.matchMedia("(max-width: 1180px)");
+    const expandForCompactLayout = (event) => { if (event.matches) setSidebarCollapsed(false); };
+    expandForCompactLayout(compactLayout);
+    compactLayout.addEventListener("change", expandForCompactLayout);
+    return () => compactLayout.removeEventListener("change", expandForCompactLayout);
+  }, []);
   let screen = null;
 
   switch (currentPage) {
@@ -90,8 +98,8 @@ window.PortalShell = function PortalShell({
   }
 
   return (
-    <div className="living-portal">
-      <window.Sidebar role={role} currentPage={currentPage} onNavigate={(page) => onNavigate(page)} />
+    <div className={`living-portal ${sidebarCollapsed ? "has-collapsed-sidebar" : ""}`}>
+      <window.Sidebar role={role} currentPage={currentPage} collapsed={sidebarCollapsed} onToggleCollapsed={() => setSidebarCollapsed((current) => !current)} onNavigate={(page) => onNavigate(page)} />
       <div className="living-main">
         <window.TopBar
           account={account}
