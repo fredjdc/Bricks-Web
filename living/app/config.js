@@ -37,6 +37,63 @@ window.LIVING_STATUS_LABELS = {
 };
 
 window.LIVING_DEMO_TODAY = "2026-07-18";
+
+// Shared table columns lead every table in the same order. Screen-specific
+// columns retain their declared order after this common group.
+window.LIVING_TABLE_COLUMN_ORDER = [
+  "Reserva",
+  "Residente",
+  "Dpto.",
+  "Área",
+  "Fecha",
+  "Estado",
+  "Monto",
+  "Pago",
+  "Movimiento",
+  "Invitados",
+  "Horario",
+  "Motivo",
+  "Detalle",
+  "Actor",
+];
+
+window.livingOrderTableColumns = function livingOrderTableColumns(columns) {
+  const priorities = new Map(window.LIVING_TABLE_COLUMN_ORDER.map((label, index) => [label, index]));
+  const actionsPriority = window.LIVING_TABLE_COLUMN_ORDER.length + 2;
+  const uniquePriority = window.LIVING_TABLE_COLUMN_ORDER.length + 1;
+
+  return columns
+    .map((column, index) => ({ column, index }))
+    .sort((left, right) => {
+      const leftPriority = left.column.key === "actions" ? actionsPriority : (priorities.get(left.column.label) ?? uniquePriority);
+      const rightPriority = right.column.key === "actions" ? actionsPriority : (priorities.get(right.column.label) ?? uniquePriority);
+      return leftPriority - rightPriority || left.index - right.index;
+    })
+    .map(({ column }) => column);
+};
+
+window.livingTableColumnKind = function livingTableColumnKind(column) {
+  if (["code", "reservationCode", "relatedReservation"].includes(column.key)) return "reservation";
+  if (["residentName", "name"].includes(column.key)) return "resident";
+  if (["createdAt", "date", "paymentSubmittedAt"].includes(column.key)) return "date";
+  if (["status", "paymentStatus", "depositStatus"].includes(column.key)) return "status";
+  if (column.key === "amount") return "amount";
+  if (column.key === "actions") return "actions";
+  return "default";
+};
+
+window.livingTableColumnWidth = function livingTableColumnWidth(column) {
+  return {
+    reservation: 148,
+    resident: 168,
+    date: 128,
+    status: 144,
+    amount: 104,
+    actions: 176,
+    default: 136,
+  }[window.livingTableColumnKind(column)];
+};
+
 window.LIVING_CURRENT_DATE = (() => {
   const parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/Lima", year: "numeric", month: "2-digit", day: "2-digit" })
     .formatToParts(new Date())

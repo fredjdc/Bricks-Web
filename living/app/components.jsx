@@ -173,19 +173,26 @@ window.DataTable = function DataTable({ columns, rows, empty }) {
     return <div className="living-empty-state">{empty || "Sin resultados."}</div>;
   }
 
+  const orderedColumns = window.livingOrderTableColumns(columns);
+  const sourceOrder = new Map(columns.map((column, index) => [column.key, index]));
+  const tableWidth = orderedColumns.reduce((total, column) => total + window.livingTableColumnWidth(column), 0);
+
   return (
     <div className="living-table-wrap">
-      <table className="living-table">
+      <table className="living-table" style={{ width: `${tableWidth}px` }}>
+        <colgroup>
+          {orderedColumns.map((column) => <col key={column.key} style={{ width: `${window.livingTableColumnWidth(column)}px` }} />)}
+        </colgroup>
         <thead>
           <tr>
-            {columns.map((column) => <th key={column.key}>{column.label}</th>)}
+            {orderedColumns.map((column) => <th key={column.key} data-column-kind={window.livingTableColumnKind(column)}>{column.label}</th>)}
           </tr>
         </thead>
         <tbody>
           {rows.map((row, index) => (
             <tr key={row.id || index}>
-              {columns.map((column) => (
-                <td key={column.key} data-label={column.label}>{column.render ? column.render(row) : row[column.key]}</td>
+              {orderedColumns.map((column) => (
+                <td key={column.key} data-label={column.label} data-column-kind={window.livingTableColumnKind(column)} style={{ "--living-mobile-order": sourceOrder.get(column.key) }}>{column.render ? column.render(row) : row[column.key]}</td>
               ))}
             </tr>
           ))}

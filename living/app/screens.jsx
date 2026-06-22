@@ -563,7 +563,7 @@ window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, on
             { key: "residentName", label: "Residente" },
             { key: "areaName", label: "Área" },
             { key: "depositStatus", label: "Estado", render: (row) => <window.Badge status={row.depositStatus} /> },
-            { key: "status", label: "Reserva", render: (row) => <window.Badge status={row.status} /> },
+            { key: "status", label: "Estado reserva", render: (row) => <window.Badge status={row.status} /> },
             { key: "impact", label: "Observación", render: (row) => row.code === "EVR-2026-0712-0007" ? "Retener S/ 80 por silla dañada" : "Pendiente cierre operativo" },
             { key: "actions", label: "Acciones", render: renderActions },
           ]}

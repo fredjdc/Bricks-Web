@@ -1380,9 +1380,33 @@ body {
 }
 
 .living-table {
-  width: 100%;
-  min-width: 760px;
+  table-layout: fixed;
   border-collapse: collapse;
+}
+
+.living-table [data-column-kind="reservation"] {
+  width: 148px;
+}
+
+.living-table [data-column-kind="resident"] {
+  width: 168px;
+}
+
+.living-table [data-column-kind="date"] {
+  width: 128px;
+}
+
+.living-table [data-column-kind="status"] {
+  width: 144px;
+}
+
+.living-table [data-column-kind="amount"] {
+  width: 104px;
+  font-variant-numeric: tabular-nums;
+}
+
+.living-table [data-column-kind="actions"] {
+  width: 176px;
 }
 
 .living-table th,
@@ -2159,6 +2183,7 @@ button.living-calendar-event:focus-visible {
   }
 
   .living-table {
+    width: 100% !important;
     min-width: 0;
   }
 
@@ -2167,6 +2192,8 @@ button.living-calendar-event:focus-visible {
   }
 
   .living-table tr {
+    display: flex;
+    flex-direction: column;
     padding: 10px 0;
     border-bottom: 1px solid var(--living-border);
   }
@@ -2175,8 +2202,13 @@ button.living-calendar-event:focus-visible {
     display: grid;
     grid-template-columns: minmax(96px, 0.42fr) minmax(0, 1fr);
     gap: 12px;
+    order: var(--living-mobile-order);
     padding: 7px 0;
     border: 0;
+  }
+
+  .living-table td[data-column-kind] {
+    width: 100%;
   }
 
   .living-table td::before {
