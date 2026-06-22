@@ -517,19 +517,10 @@ body {
   flex-direction: column;
   min-width: 0;
   overflow: hidden;
-  border-radius: 22px;
+  border-radius: var(--living-card-radius);
   border: 1px solid var(--living-border-strong);
   background: #f0f2f5;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
-}
-
-.whatsapp-header {
-  background: #075e54;
-  color: #fff;
-  padding: 10px 12px;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .whatsapp-body {
