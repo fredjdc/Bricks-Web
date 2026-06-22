@@ -524,19 +524,14 @@ body {
 }
 
 .whatsapp-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  background: #efeae2;
+  display: block;
+  padding: 0;
 }
 
 .whatsapp-screen {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .whatsapp-footer {
@@ -571,6 +566,10 @@ body {
   display: grid;
   place-items: center;
   padding: var(--living-gutter);
+}
+
+.living-portal.has-collapsed-sidebar {
+  grid-template-columns: 76px minmax(0, 1fr);
 }
 
 .living-login-card {
@@ -959,14 +958,72 @@ body {
   border-radius: var(--living-card-radius);
   background: color-mix(in srgb, var(--living-surface) 96%, transparent);
   backdrop-filter: blur(16px);
+  transition: width 0.2s ease, padding 0.2s ease;
 }
 
 .living-sidebar-header {
+  position: relative;
   display: grid;
   gap: 6px;
   padding-bottom: 24px;
   border-bottom: 1px solid var(--living-border);
   margin-bottom: 20px;
+}
+
+.living-sidebar-collapse {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--living-border);
+  border-radius: 10px;
+  background: var(--living-surface);
+  color: var(--living-text-muted);
+  cursor: pointer;
+}
+
+.living-sidebar-collapse:hover,
+.living-sidebar-collapse:focus-visible {
+  color: var(--living-text);
+  border-color: var(--living-border-strong);
+}
+
+.living-sidebar.is-collapsed {
+  width: 76px;
+  padding: 26px 12px;
+}
+
+.living-sidebar.is-collapsed .living-sidebar-header {
+  display: grid;
+  padding-bottom: 24px;
+  margin-bottom: 20px;
+}
+
+.living-sidebar.is-collapsed .living-brand,
+.living-sidebar.is-collapsed .living-sidebar-building {
+  visibility: hidden;
+}
+
+.living-sidebar.is-collapsed .living-sidebar-collapse {
+  top: -5px;
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.living-sidebar.is-collapsed .living-sidebar-nav {
+  gap: 18px;
+}
+
+.living-sidebar.is-collapsed .living-sidebar-link {
+  justify-content: center;
+  width: 50px;
+  min-height: 42px;
+  padding: 12px 16px;
 }
 
 .living-sidebar-building {
@@ -1010,6 +1067,38 @@ body {
 
 .living-nav-group[open] .living-nav-group-label::after {
   content: "−";
+}
+
+.living-nav-group-fixed .living-nav-group-label {
+  color: var(--living-text);
+  cursor: default;
+}
+
+.living-nav-group-fixed .living-nav-group-label::after {
+  content: none;
+}
+
+.living-nav-group-fixed + .living-nav-group-fixed {
+  padding-top: 18px;
+  border-top: 1px solid var(--living-border);
+}
+
+.living-collapsed-nav-group {
+  display: grid;
+  gap: 5px;
+}
+
+.living-collapsed-nav-label {
+  visibility: hidden;
+}
+
+.living-collapsed-nav-label::after {
+  content: none;
+}
+
+.living-collapsed-nav-group + .living-collapsed-nav-group {
+  padding-top: 18px;
+  border-top: 1px solid var(--living-border);
 }
 
 .living-sidebar-link {
@@ -1865,6 +1954,14 @@ button.living-calendar-event:focus-visible {
   .living-dashboard-columns,
   .living-portal {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .living-portal.has-collapsed-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .living-sidebar-collapse {
+    display: none;
   }
 
   .living-public-header,
