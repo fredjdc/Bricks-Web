@@ -97,8 +97,9 @@
     return slots;
   }
 
-  function availableReservationDates(data, areaId, startDate, days = 45) {
-    return Array.from({ length: days }, (_item, index) => addDays(startDate, index))
+  function availableReservationDates(data, areaId, startDate, days = null) {
+    const dateCount = days ?? Math.round((new Date(`${addMonths(startDate, 1)}T12:00:00Z`) - new Date(`${startDate}T12:00:00Z`)) / 86400000) + 1;
+    return Array.from({ length: dateCount }, (_item, index) => addDays(startDate, index))
       .filter((date) => availableReservationSlots(data, areaId, date).length);
   }
 

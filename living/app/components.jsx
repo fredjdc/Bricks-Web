@@ -399,66 +399,65 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
           </section>
 
           <section className="living-story-section" id="landing/whatsapp">
-            <div className="living-split-whatsapp">
-              <div className="living-whatsapp-copy">
-                <span className="living-eyebrow">Canal Conversacional</span>
-                <h2>La forma más simple de reservar para tus residentes</h2>
-                <p>
-                  Sin descargar aplicaciones pesadas ni recordar contraseñas. El chatbot de Bricks Living guía a los residentes en un flujo rápido de consulta, aceptación de reglamento y envío de constancias de pago.
-                </p>
-                <div className="living-whatsapp-features">
-                  <div className="feature-item">
-                    <strong>⚡ Consulta instantánea</strong>
-                    <span>Disponibilidad en tiempo real para todas las áreas comunes.</span>
-                  </div>
-                  <div className="feature-item">
-                    <strong>🧾 Validación integrada</strong>
-                    <span>Sube fotos de transferencias, Yape o Plin directamente en el chat.</span>
-                  </div>
-                  <div className="feature-item">
-                    <strong>🔒 Reglas y Aforos</strong>
-                    <span>El motor valida deudas, límites de reservas y aforos del reglamento.</span>
-                  </div>
-                </div>
-              </div>
+            <div className="living-whatsapp-copy">
+              <span className="living-eyebrow">Canal Conversacional</span>
+              <h2>La forma más simple de reservar para tus residentes</h2>
+              <p>
+                Sin descargar aplicaciones pesadas ni recordar contraseñas. El chatbot de Bricks Living guía a los residentes en un flujo rápido de consulta, aceptación de reglamento y envío de constancias de pago.
+              </p>
+            </div>
 
-              <div className="living-whatsapp-gallery">
-                <div className="whatsapp-mock">
-                  <div className="whatsapp-header">
-                    <div className="whatsapp-title">Bricks Living Chat</div>
-                  </div>
-                  <div className="whatsapp-body">
-                    <img src="images/whatsapp-01.png" alt="Paso 1: Selección de áreas" className="whatsapp-screen" />
-                  </div>
-                  <div className="whatsapp-footer">Paso 1: Selección de área</div>
+            <div className="living-whatsapp-features">
+              <div className="feature-item">
+                <strong>⚡ Consulta instantánea</strong>
+                <span>Disponibilidad en tiempo real para todas las áreas comunes.</span>
+              </div>
+              <div className="feature-item">
+                <strong>🧾 Validación integrada</strong>
+                <span>Sube fotos de transferencias, Yape o Plin directamente en el chat.</span>
+              </div>
+              <div className="feature-item">
+                <strong>🔒 Reglas y Aforos</strong>
+                <span>El motor valida deudas, límites de reservas y aforos del reglamento.</span>
+              </div>
+            </div>
+
+            <div className="living-whatsapp-gallery">
+              <div className="whatsapp-mock">
+                <div className="whatsapp-header">
+                  <div className="whatsapp-title">Bricks Living Chat</div>
                 </div>
-                <div className="whatsapp-mock">
-                  <div className="whatsapp-header">
-                    <div className="whatsapp-title">Bricks Living Chat</div>
-                  </div>
-                  <div className="whatsapp-body">
-                    <img src="images/whatsapp-02.png" alt="Paso 2: Reglas y tarifas" className="whatsapp-screen" />
-                  </div>
-                  <div className="whatsapp-footer">Paso 2: Reglamento y costos</div>
+                <div className="whatsapp-body">
+                  <img src="images/whatsapp-01.png" alt="Paso 1: Selección de áreas" className="whatsapp-screen" />
                 </div>
-                <div className="whatsapp-mock">
-                  <div className="whatsapp-header">
-                    <div className="whatsapp-title">Bricks Living Chat</div>
-                  </div>
-                  <div className="whatsapp-body">
-                    <img src="images/whatsapp-03.png" alt="Paso 3: Envío de comprobante" className="whatsapp-screen" />
-                  </div>
-                  <div className="whatsapp-footer">Paso 3: Envío de pago</div>
+                <div className="whatsapp-footer">Paso 1: Selección de área</div>
+              </div>
+              <div className="whatsapp-mock">
+                <div className="whatsapp-header">
+                  <div className="whatsapp-title">Bricks Living Chat</div>
                 </div>
-                <div className="whatsapp-mock">
-                  <div className="whatsapp-header">
-                    <div className="whatsapp-title">Bricks Living Chat</div>
-                  </div>
-                  <div className="whatsapp-body">
-                    <img src="images/whatsapp-04.png" alt="Paso 4: Confirmación y acceso" className="whatsapp-screen" />
-                  </div>
-                  <div className="whatsapp-footer">Paso 4: Confirmación y acceso</div>
+                <div className="whatsapp-body">
+                  <img src="images/whatsapp-02.png" alt="Paso 2: Reglas y tarifas" className="whatsapp-screen" />
                 </div>
+                <div className="whatsapp-footer">Paso 2: Reglamento y costos</div>
+              </div>
+              <div className="whatsapp-mock">
+                <div className="whatsapp-header">
+                  <div className="whatsapp-title">Bricks Living Chat</div>
+                </div>
+                <div className="whatsapp-body">
+                  <img src="images/whatsapp-03.png" alt="Paso 3: Envío de comprobante" className="whatsapp-screen" />
+                </div>
+                <div className="whatsapp-footer">Paso 3: Envío de pago</div>
+              </div>
+              <div className="whatsapp-mock">
+                <div className="whatsapp-header">
+                  <div className="whatsapp-title">Bricks Living Chat</div>
+                </div>
+                <div className="whatsapp-body">
+                  <img src="images/whatsapp-04.png" alt="Paso 4: Confirmación y acceso" className="whatsapp-screen" />
+                </div>
+                <div className="whatsapp-footer">Paso 4: Confirmación y acceso</div>
               </div>
             </div>
           </section>

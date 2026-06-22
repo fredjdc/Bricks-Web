@@ -151,6 +151,10 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
   const [focusDate, setFocusDate] = React.useState(today);
   const [selectedDate, setSelectedDate] = React.useState(today);
   const [values, setValues] = React.useState({ residentId: "resident-402", areaId: "terrace", date: "2026-07-22", start: "17:00", end: "21:00", guestCount: "10", reason: "Reunión de residentes", paymentMethod: "Yape", paymentProofName: "", paymentProofType: "", paymentProofSize: 0 });
+  const [residentQuery, setResidentQuery] = React.useState("Ana García · Torre A · Dpto. 402");
+  const [residentSearchOpen, setResidentSearchOpen] = React.useState(false);
+  const [guestListText, setGuestListText] = React.useState("");
+  const proofInputRef = React.useRef(null);
   const entries = window.livingSelectors.calendarEntries(data);
   const weekStart = window.livingSelectors.startOfWeek(focusDate);
   const weekDates = Array.from({ length: 7 }, (_item, index) => window.livingSelectors.addDays(weekStart, index));
@@ -159,9 +163,13 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
   const selectedEntries = entries.filter((entry) => entry.date === selectedDate);
   const monthPrefix = focusDate.slice(0, 7);
   const title = view === "week" ? `${calendarDateLabel(weekDates[0], { day: "numeric", month: "short" })} – ${calendarDateLabel(weekDates[6], { day: "numeric", month: "short", year: "numeric" })}` : calendarDateLabel(`${monthPrefix}-01`, { month: "long", year: "numeric" });
-  const eligibleResidents = data.residents.filter((item) => item.status === "active" && item.debt === 0);
-  const selectedResident = eligibleResidents.find((item) => item.id === values.residentId) || eligibleResidents[0];
-  const areaAvailability = data.areas.map((area) => ({ area, dates: window.livingSelectors.availableReservationDates(data, area.id, today) })).filter((item) => item.dates.length);
+  const residentLabel = (resident) => `${resident.name} · Torre ${resident.tower} · Dpto. ${resident.apartment}`;
+  const normalizedResidentQuery = residentQuery.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  const residentMatches = data.residents.filter((resident) => `${resident.name} ${resident.apartment} ${resident.tower}`.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(normalizedResidentQuery)).slice(0, 8);
+  const selectedResident = data.residents.find((item) => item.id === values.residentId) || null;
+  const residentEligible = Boolean(selectedResident && selectedResident.status === "active" && selectedResident.debt === 0);
+  const areaChoices = data.areas.map((area) => ({ area, dates: window.livingSelectors.availableReservationDates(data, area.id, today) }));
+  const areaAvailability = areaChoices.filter((item) => item.dates.length);
   const selectedAvailability = areaAvailability.find((item) => item.area.id === values.areaId) || areaAvailability[0];
   const selectedArea = selectedAvailability?.area;
   const availableDates = selectedAvailability?.dates || [];
@@ -170,8 +178,55 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
   const effectiveSlot = availableSlots.find((slot) => slot.start === values.start && slot.end === values.end) || availableSlots[0] || null;
   const selectedPolicy = selectedArea && effectiveDate ? window.livingSelectors.areaPolicyOnDate(selectedArea, effectiveDate) : null;
   const acceptedMethods = selectedPolicy ? window.livingSelectors.paymentMethodsForPolicy(selectedPolicy) : [];
+  const reservationFee = selectedPolicy?.payment.enabled ? Number(selectedPolicy.payment.amount) : 0;
+  const depositAmount = selectedPolicy?.guarantee.enabled ? Number(selectedPolicy.guarantee.amount) : 0;
+  const totalAmount = reservationFee + depositAmount;
+  const paymentRequired = totalAmount > 0;
+  const guestList = guestListText.split("\n").map((name) => name.trim()).filter(Boolean);
+  const guestCount = Number(values.guestCount) || 0;
+  const guestListValid = !selectedPolicy?.requirements.guestList || guestList.length === guestCount;
+  const availableStarts = [...new Set(availableSlots.map((slot) => slot.start))];
+  const effectiveStart = availableStarts.includes(effectiveSlot?.start) ? effectiveSlot.start : availableStarts[0] || "";
+  const durationSlots = availableSlots.filter((slot) => slot.start === effectiveStart);
+  const activeSlot = durationSlots.find((slot) => slot.end === effectiveSlot?.end) || durationSlots[0] || null;
+  const submitting = Boolean(pendingActions["create_reservation:new"]);
+
+  function unavailableAreaReason(area, policy) {
+    if (!policy?.reservable) return "No admite reservas";
+    if (policy.status !== "active") return policy.closureReason || "Área cerrada";
+    const monthEnd = window.livingSelectors.addMonths(today, 1);
+    if ((data.areaClosures || []).some((item) => item.areaId === area.id && item.status === "active" && item.date >= today && item.date <= monthEnd)) return "Cierre programado";
+    if (data.maintenanceBlocks.some((item) => item.areaId === area.id && item.status === "active" && item.date >= today && item.date <= monthEnd)) return "Mantenimiento programado";
+    return "Sin horarios libres este mes";
+  }
 
   function update(key, value) { setValues((current) => ({ ...current, [key]: value })); }
+  function updateResidentQuery(value) {
+    setResidentQuery(value);
+    const resident = data.residents.find((item) => residentLabel(item) === value);
+    update("residentId", resident?.id || "");
+  }
+  function selectResident(resident) {
+    setResidentQuery(residentLabel(resident));
+    setResidentSearchOpen(false);
+    update("residentId", resident.id);
+  }
+  function resetReservationDraft() {
+    if (proofInputRef.current) proofInputRef.current.value = "";
+    setResidentSearchOpen(false);
+    setGuestListText("");
+    setFileError("");
+    setValues((current) => ({ ...current, paymentProofName: "", paymentProofType: "", paymentProofSize: 0 }));
+  }
+  function closeCreate() {
+    resetReservationDraft();
+    setShowCreate(false);
+  }
+  function openCreate() {
+    resetReservationDraft();
+    setValues((current) => ({ ...current, date: selectedDate, start: "", end: "" }));
+    setShowCreate(true);
+  }
   function selectDate(date) {
     setFocusDate(date);
     setSelectedDate(date);
@@ -204,6 +259,10 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
     const [start, end] = value.split("|");
     setValues((current) => ({ ...current, start, end }));
   }
+  function updateStart(start) {
+    const slot = availableSlots.find((item) => item.start === start);
+    setValues((current) => ({ ...current, start: slot?.start || "", end: slot?.end || "" }));
+  }
   function chooseProof(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -211,18 +270,93 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
     setFileError("");
     setValues((current) => ({ ...current, paymentProofName: file.name, paymentProofType: file.type, paymentProofSize: file.size }));
   }
+  function clearProof() {
+    if (proofInputRef.current) proofInputRef.current.value = "";
+    setFileError("");
+    setValues((current) => ({ ...current, paymentProofName: "", paymentProofType: "", paymentProofSize: 0 }));
+  }
   async function submit(event) {
     event.preventDefault();
-    if (!effectiveDate || !effectiveSlot) return;
-    if (!selectedResident) return;
-    const result = await onCreateReservation({ ...values, residentId: selectedResident.id, date: effectiveDate, start: effectiveSlot.start, end: effectiveSlot.end, areaId: selectedArea?.id || values.areaId, paymentMethod: acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0] || values.paymentMethod });
-    if (result) setShowCreate(false);
+    if (!effectiveDate || !activeSlot || !residentEligible || !guestListValid) return;
+    if (paymentRequired && !values.paymentProofName) return;
+    const result = await onCreateReservation({ ...values, guestList, residentId: selectedResident.id, date: effectiveDate, start: activeSlot.start, end: activeSlot.end, areaId: selectedArea?.id || values.areaId, paymentMethod: acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0] || values.paymentMethod });
+    if (result) closeCreate();
   }
 
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Calendario" title={title} body="Reservas, mantenimiento y cierres en una sola línea operativa." iconName="calendar" actions={<button className="living-button living-button-primary" onClick={() => { setValues((current) => ({ ...current, date: selectedDate })); setShowCreate(true); }}>Nueva reserva</button>} />
-      {showCreate ? <window.FormPanel title="Crear reserva" description="La disponibilidad se valida contra políticas, reservas, mantenimiento y cierres." onCancel={() => setShowCreate(false)}><form className="living-form" onSubmit={submit}><label><span>Residente</span><select value={selectedResident?.id || ""} onChange={(event) => update("residentId", event.target.value)}>{eligibleResidents.map((item) => <option key={item.id} value={item.id}>{item.name} · Dpto. {item.apartment}</option>)}</select></label>{!selectedResident ? <div className="living-form-error">No hay residentes habilitados para reservar.</div> : null}<label><span>Área</span><select value={selectedArea?.id || ""} onChange={(event) => updateArea(event.target.value)}>{areaAvailability.map(({ area, dates }) => { const policy = window.livingSelectors.areaPolicyOnDate(area, dates[0]); return <option key={area.id} value={area.id}>{policy.name} · {window.livingFormatCurrency((policy.payment.amount || 0) + (policy.guarantee.amount || 0))}</option>; })}</select></label>{selectedPolicy ? <div className="living-form-hint">Disponible {selectedPolicy.availability.start}–{selectedPolicy.availability.end} · bloques de {selectedPolicy.availability.blockMinutes / 60} h · máximo {selectedPolicy.availability.maxDurationMinutes / 60} h</div> : null}<div className="living-form-columns"><label><span>Fecha disponible</span><select value={effectiveDate} onChange={(event) => updateDate(event.target.value)} required>{availableDates.map((date) => <option key={date} value={date}>{calendarDateLabel(date, { weekday: "short", day: "numeric", month: "short" })}</option>)}</select></label><label><span>Bloque disponible</span><select value={effectiveSlot ? `${effectiveSlot.start}|${effectiveSlot.end}` : ""} onChange={(event) => updateSlot(event.target.value)} required>{availableSlots.map((slot) => <option key={`${slot.start}-${slot.end}`} value={`${slot.start}|${slot.end}`}>{slot.start}–{slot.end}</option>)}</select></label></div>{!availableDates.length ? <div className="living-form-error">No hay fechas disponibles en los próximos 45 días.</div> : null}<label><span>Invitados</span><input type="number" min="0" max={selectedPolicy?.capacity || undefined} value={values.guestCount} onChange={(event) => update("guestCount", event.target.value)} required /></label><label><span>Motivo</span><textarea value={values.reason} onChange={(event) => update("reason", event.target.value)} minLength="5" required /></label>{acceptedMethods.length ? <label><span>Método de pago</span><select value={acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0]} onChange={(event) => update("paymentMethod", event.target.value)}>{acceptedMethods.map((method) => <option key={method}>{method}</option>)}</select></label> : null}{acceptedMethods.length ? <label><span>Comprobante</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseProof} /></label> : null}{fileError ? <div className="living-form-error">{fileError}</div> : null}<button className="living-button living-button-primary" disabled={!selectedResident || !selectedPolicy || !effectiveSlot || Boolean(pendingActions["create_reservation:new"]) || Boolean(fileError)}>Crear reserva</button></form></window.FormPanel> : null}
+      <window.SectionTitle eyebrow="Calendario" title={title} body="Reservas, mantenimiento y cierres en una sola línea operativa." iconName="calendar" actions={<button className="living-button living-button-primary" onClick={openCreate}>Nueva reserva</button>} />
+      {showCreate ? <window.FormPanel title="Crear reserva" description="Completa los datos en una sola ventana. La disponibilidad y el importe se actualizan automáticamente." onCancel={closeCreate}>
+        <form className="living-form living-reservation-form" onSubmit={submit}>
+          <section className="living-form-section" aria-labelledby="reservation-party-title">
+            <h4 id="reservation-party-title">Residente y área</h4>
+            <label>
+              <span>Buscar residente</span>
+              <input type="search" value={residentQuery} onFocus={() => setResidentSearchOpen(true)} onChange={(event) => { updateResidentQuery(event.target.value); setResidentSearchOpen(true); }} placeholder="Nombre, departamento o torre" autoComplete="off" role="combobox" aria-autocomplete="list" aria-expanded={residentSearchOpen} aria-controls="reservation-resident-results" required />
+            </label>
+            {residentSearchOpen ? <div id="reservation-resident-results" className="living-resident-results" role="listbox" aria-label="Resultados de residentes">
+              {residentMatches.length ? residentMatches.map((resident) => {
+                const eligibility = resident.status !== "active" ? "Bloqueado" : resident.debt > 0 ? `Deuda: ${window.livingFormatCurrency(resident.debt)}` : "Habilitado";
+                return <button key={resident.id} type="button" role="option" aria-selected={resident.id === selectedResident?.id} onMouseDown={(event) => event.preventDefault()} onClick={() => selectResident(resident)}><span>{resident.name}<small>Torre {resident.tower} · Dpto. {resident.apartment}</small></span><small>{eligibility}</small></button>;
+              }) : <div className="living-form-hint">No se encontraron residentes.</div>}
+            </div> : null}
+            {selectedResident && !residentEligible ? <div className="living-form-error">{selectedResident.status !== "active" ? "Este residente está bloqueado y no puede reservar." : `Este residente mantiene una deuda de ${window.livingFormatCurrency(selectedResident.debt)}.`}</div> : null}
+            {residentQuery && !selectedResident ? <div className="living-form-hint">Selecciona una coincidencia para continuar.</div> : null}
+            <label>
+              <span>Área común</span>
+              <select value={selectedArea?.id || ""} onChange={(event) => updateArea(event.target.value)} required>
+                {areaChoices.map(({ area, dates }) => {
+                  const policyDate = dates.includes(values.date) ? values.date : dates[0] || today;
+                  const policy = window.livingSelectors.areaPolicyOnDate(area, policyDate);
+                  const unavailableReason = unavailableAreaReason(area, policy);
+                  return <option key={area.id} value={area.id} disabled={!dates.length}>{policy?.name || area.name} · {policy?.location || area.location}{!dates.length ? ` · ${unavailableReason}` : ""}</option>;
+                })}
+              </select>
+            </label>
+            {selectedPolicy ? <div className="living-reservation-rules" aria-live="polite">
+              <strong>{selectedPolicy.name} · {selectedPolicy.location}</strong>
+              <span>Horario {selectedPolicy.availability.start}–{selectedPolicy.availability.end} · bloques de {selectedPolicy.availability.blockMinutes / 60} h · máximo {selectedPolicy.availability.maxDurationMinutes / 60} h · aforo {selectedPolicy.capacity}</span>
+              <span>{selectedPolicy.requirements.approval ? "Requiere aprobación" : "Aprobación automática"}{selectedPolicy.requirements.guestList ? " · Lista de invitados obligatoria" : ""}</span>
+              {selectedPolicy.rules.length ? <ul>{selectedPolicy.rules.map((rule) => <li key={rule}>{rule}</li>)}</ul> : null}
+            </div> : null}
+          </section>
+
+          <section className="living-form-section" aria-labelledby="reservation-schedule-title">
+            <h4 id="reservation-schedule-title">Fecha y horario</h4>
+            <label><span>Fecha disponible · próximo mes</span><select value={effectiveDate} onChange={(event) => updateDate(event.target.value)} required>{availableDates.map((date) => <option key={date} value={date}>{calendarDateLabel(date, { weekday: "short", day: "numeric", month: "short" })}</option>)}</select></label>
+            <div className="living-form-columns">
+              <label><span>Hora de inicio</span><select value={effectiveStart} onChange={(event) => updateStart(event.target.value)} required>{availableStarts.map((start) => <option key={start}>{start}</option>)}</select></label>
+              <label><span>Duración</span><select value={activeSlot ? `${activeSlot.start}|${activeSlot.end}` : ""} onChange={(event) => updateSlot(event.target.value)} required>{durationSlots.map((slot) => { const hours = (Number(slot.end.slice(0, 2)) * 60 + Number(slot.end.slice(3)) - Number(slot.start.slice(0, 2)) * 60 - Number(slot.start.slice(3))) / 60; return <option key={`${slot.start}-${slot.end}`} value={`${slot.start}|${slot.end}`}>{hours} h · hasta {slot.end}</option>; })}</select></label>
+            </div>
+            {activeSlot ? <div className="living-form-hint" role="status">Disponible el {calendarDateLabel(effectiveDate, { weekday: "long", day: "numeric", month: "long" })}, de {activeSlot.start} a {activeSlot.end}. Validado contra reservas, mantenimiento y cierres.</div> : <div className="living-form-error">No hay fechas disponibles durante el próximo mes.</div>}
+          </section>
+
+          <section className="living-form-section" aria-labelledby="reservation-details-title">
+            <h4 id="reservation-details-title">Detalles y pago</h4>
+            <label><span>Número de invitados · máximo {selectedPolicy?.capacity || 0}</span><input type="number" min="0" max={selectedPolicy?.capacity || undefined} value={values.guestCount} onChange={(event) => update("guestCount", event.target.value)} required /></label>
+            {selectedPolicy?.requirements.guestList ? <label><span>Lista de invitados · uno por línea</span><textarea value={guestListText} onChange={(event) => setGuestListText(event.target.value)} placeholder="Nombre y apellido" required /><small className={guestListValid ? "living-field-help" : "living-field-help living-field-help-error"}>{guestList.length} de {guestCount} invitados registrados</small></label> : null}
+            <label><span>Motivo de la reserva</span><textarea value={values.reason} onChange={(event) => update("reason", event.target.value)} placeholder="Ej. reunión familiar" minLength="5" required /></label>
+            {acceptedMethods.length ? <label><span>Método de pago</span><select value={acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0]} onChange={(event) => update("paymentMethod", event.target.value)}>{acceptedMethods.map((method) => <option key={method}>{method}</option>)}</select></label> : null}
+            {paymentRequired ? <label><span>Comprobante de pago · obligatorio</span><input ref={proofInputRef} type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseProof} required={!values.paymentProofName} /><small className="living-field-help">JPG, PNG o PDF de hasta 5 MB.</small></label> : null}
+            {values.paymentProofName ? <div className="living-file-summary"><span>{values.paymentProofName}</span><button type="button" className="living-link-button" onClick={clearProof}>Quitar</button></div> : null}
+            {fileError ? <div className="living-form-error">{fileError}</div> : null}
+          </section>
+
+          <section className="living-reservation-summary" aria-label="Resumen de la reserva" aria-live="polite">
+            <h4>Resumen</h4>
+            <dl>
+              <div><dt>Residente</dt><dd>{selectedResident ? `${selectedResident.name} · ${selectedResident.tower}-${selectedResident.apartment}` : "Pendiente"}</dd></div>
+              <div><dt>Área</dt><dd>{selectedPolicy ? `${selectedPolicy.name} · ${selectedPolicy.location}` : "Pendiente"}</dd></div>
+              <div><dt>Horario</dt><dd>{activeSlot ? `${calendarDateLabel(effectiveDate, { day: "numeric", month: "short" })} · ${activeSlot.start}–${activeSlot.end}` : "Pendiente"}</dd></div>
+              <div><dt>Tarifa</dt><dd>{window.livingFormatCurrency(reservationFee)}</dd></div>
+              <div><dt>Garantía</dt><dd>{window.livingFormatCurrency(depositAmount)}</dd></div>
+              <div className="living-reservation-total"><dt>Total</dt><dd>{window.livingFormatCurrency(totalAmount)}</dd></div>
+              <div><dt>Siguiente paso</dt><dd>{paymentRequired ? selectedPolicy?.requirements.approval ? "Verificar pago; luego aprobar" : "Verificar pago" : selectedPolicy?.requirements.approval ? "Aprobar reserva" : "Reserva aprobada"}</dd></div>
+            </dl>
+          </section>
+          <button className="living-button living-button-primary living-reservation-submit" disabled={!residentEligible || !selectedPolicy || !activeSlot || !guestListValid || (paymentRequired && !values.paymentProofName) || submitting || Boolean(fileError)}>{submitting ? "Creando reserva…" : `Crear reserva · ${window.livingFormatCurrency(totalAmount)}`}</button>
+        </form>
+      </window.FormPanel> : null}
       <div className="living-calendar-toolbar">
         <div className="living-calendar-nav"><button type="button" className="living-button living-button-secondary" onClick={() => movePeriod(-1)} aria-label="Periodo anterior">Anterior</button><button type="button" className="living-button living-button-secondary" onClick={goToday}>Hoy (demo)</button><button type="button" className="living-button living-button-secondary" onClick={() => movePeriod(1)} aria-label="Periodo siguiente">Siguiente</button></div>
         <div className="living-segmented" aria-label="Vista del calendario"><button type="button" aria-pressed={view === "week"} className={view === "week" ? "is-active" : ""} onClick={() => setView("week")}>Semana</button><button type="button" aria-pressed={view === "month"} className={view === "month" ? "is-active" : ""} onClick={() => setView("month")}>Mes</button></div>

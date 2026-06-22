@@ -12,7 +12,7 @@ window.buildLivingDemoData = function buildLivingDemoData() {
       requiresCleaning: true,
       requiresInspection: true,
       rules: ["Máximo 6 horas", "Termina antes de las 11:00 PM", "Garantía obligatoria", "Cargo de limpieza obligatorio"],
-      location: "Piso 22",
+      location: "Torre A · Piso 22",
       status: "active",
     },
     {
@@ -27,7 +27,7 @@ window.buildLivingDemoData = function buildLivingDemoData() {
       requiresCleaning: true,
       requiresInspection: false,
       rules: ["Máximo 4 horas", "Sin música amplificada"],
-      location: "Piso 22",
+      location: "Torre B · Piso 22",
       status: "active",
     },
     {
@@ -42,7 +42,7 @@ window.buildLivingDemoData = function buildLivingDemoData() {
       requiresCleaning: true,
       requiresInspection: true,
       rules: ["Aprobación previa", "Lista de invitados obligatoria"],
-      location: "Piso 1",
+      location: "Torre A · Piso 1",
       status: "active",
     },
     {
@@ -57,7 +57,7 @@ window.buildLivingDemoData = function buildLivingDemoData() {
       requiresCleaning: false,
       requiresInspection: false,
       rules: ["Solo residentes", "Sin garantía"],
-      location: "Piso 2",
+      location: "Torre A · Piso 2",
       status: "active",
     },
     {
@@ -72,7 +72,7 @@ window.buildLivingDemoData = function buildLivingDemoData() {
       requiresCleaning: false,
       requiresInspection: false,
       rules: ["No requiere reserva"],
-      location: "Piso 3",
+      location: "Torre B · Piso 3",
       status: "active",
     },
   ];

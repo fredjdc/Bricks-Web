@@ -418,6 +418,8 @@
     if (action.type === "create_reservation") {
       const { area, policy, resident, guestCount } = validateSchedule(data, action);
       if (action.reason?.trim().length < 5) throw new LivingDomainError("Indique el motivo de la reserva.", "validation_error");
+      const guestList = Array.isArray(action.guestList) ? action.guestList.map((name) => String(name).trim()).filter(Boolean) : [];
+      if (policy.requirements.guestList && guestList.length !== guestCount) throw new LivingDomainError(`Registre los ${guestCount} invitados requeridos para esta área.`, "missing_guest_list");
       const reservationFee = policy.payment.enabled ? policy.payment.amount : 0;
       const depositAmount = policy.guarantee.enabled ? policy.guarantee.amount : 0;
       const amount = reservationFee + depositAmount;
@@ -439,7 +441,7 @@
         start: action.start,
         end: action.end,
         guestCount,
-        guestList: [],
+        guestList,
         reason: action.reason.trim(),
         status: amount > 0 ? (policy.requirements.approval ? "pending_approval" : "pending_payment") : (policy.requirements.approval ? "pending_approval" : "approved"),
         paymentStatus: amount > 0 ? "submitted" : "verified",
@@ -468,7 +470,8 @@
       if (reservation.amount > 0) addPaymentEntry(data, reservation, "payment_submitted", reservation.amount, "submitted", resolvedContext);
       if (reservation.depositAmount > 0) addDepositEntry(data, reservation, "deposit_held", reservation.depositAmount, "held", resolvedContext);
       addAuditEntry(data, action, resolvedContext, reservation);
-      return { data, message: `Reserva ${code} creada.` };
+      const nextStatus = amount > 0 ? policy.requirements.approval ? "Pago por verificar; luego aprobación" : "Pago por verificar" : policy.requirements.approval ? "Pendiente de aprobación" : "Aprobada";
+      return { data, message: `Reserva ${code} creada · ${nextStatus}.` };
     }
 
     if (action.type === "reschedule_reservation") {

@@ -46,6 +46,8 @@ const terraceSlots = livingSelectors.availableReservationSlots(data, "terrace", 
 assert.ok(terraceSlots.length > 0);
 assert.equal(terraceSlots.some((slot) => slot.start < "23:00" && "17:00" < slot.end), false);
 assert.ok(livingSelectors.availableReservationDates(data, "terrace", "2026-07-18", 7).length > 0);
+const monthlyDates = livingSelectors.availableReservationDates(data, "terrace", "2026-07-18");
+assert.ok(monthlyDates.every((date) => date <= "2026-08-18"));
 assert.equal(livingSelectors.report(data).totalReservations, data.reservations.filter((item) => item.date.startsWith("2026-07") && !["cancelled", "rejected"].includes(item.status)).length);
 assert.equal(livingSelectors.report(data).totalReservations, 98);
 assert.equal(livingSelectors.report(data).totalRevenue, 6320);
@@ -148,6 +150,26 @@ assert.match(platformResult.data.superAdmin.templates.find((item) => item.id ===
 assert.equal(livingSelectors.audit(platformResult.data, "junta")[0].actorName, undefined);
 
 const lifecycleSource = buildLivingDemoData();
+const guestListDates = livingSelectors.availableReservationDates(lifecycleSource, "event-room", LIVING_DEMO_TODAY);
+const guestListSlot = livingSelectors.availableReservationSlots(lifecycleSource, "event-room", guestListDates[0])[0];
+const guestListCommand = {
+  type: "create_reservation",
+  residentId: "resident-402",
+  areaId: "event-room",
+  date: guestListDates[0],
+  start: guestListSlot.start,
+  end: guestListSlot.end,
+  guestCount: 2,
+  guestList: ["Invitado Uno", "Invitado Dos"],
+  reason: "Reunión familiar",
+  paymentMethod: "Yape",
+  paymentProofName: "pago.jpg",
+  paymentProofType: "image/jpeg",
+  paymentProofSize: 120000,
+};
+assert.throws(() => apply(lifecycleSource, { ...guestListCommand, guestList: [] }, "assistant_admin", { name: "Carlos Vega" }), /Registre los 2 invitados/);
+const guestListResult = apply(lifecycleSource, guestListCommand, "assistant_admin", { name: "Carlos Vega" });
+assert.deepEqual(guestListResult.data.reservations[0].guestList, guestListCommand.guestList);
 const createCommand = {
   type: "create_reservation",
   residentId: "resident-402",

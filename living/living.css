@@ -471,16 +471,10 @@ body {
   object-fit: cover;
 }
 
-.living-split-whatsapp {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: clamp(24px, 4vw, 48px);
-  align-items: start;
-}
-
 .living-whatsapp-copy {
   display: grid;
   gap: 18px;
+  max-width: 800px;
 }
 
 .living-whatsapp-copy h2 {
@@ -492,7 +486,8 @@ body {
 
 .living-whatsapp-features {
   display: grid;
-  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 24px);
 }
 
 .feature-item {
@@ -799,6 +794,146 @@ body {
   color: var(--living-text-muted);
   font-size: 13px;
   line-height: 1.45;
+}
+
+.living-reservation-form h4 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.living-reservation-rules {
+  display: grid;
+  gap: 7px;
+  padding: 14px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--living-accent) 7%, var(--living-surface));
+  color: var(--living-text-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.living-reservation-rules strong {
+  color: var(--living-text);
+}
+
+.living-resident-results {
+  display: grid;
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 16px;
+  background: var(--living-surface);
+}
+
+.living-resident-results > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--living-border);
+  background: transparent;
+  color: var(--living-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.living-resident-results > button:last-child {
+  border-bottom: 0;
+}
+
+.living-resident-results > button:hover,
+.living-resident-results > button:focus-visible,
+.living-resident-results > button[aria-selected="true"] {
+  background: color-mix(in srgb, var(--living-accent) 8%, var(--living-surface));
+}
+
+.living-resident-results > button span {
+  display: grid;
+  gap: 2px;
+}
+
+.living-resident-results small {
+  color: var(--living-text-muted);
+  font-size: 12px;
+}
+
+.living-reservation-rules ul {
+  margin: 2px 0 0;
+  padding-left: 18px;
+}
+
+.living-field-help {
+  color: var(--living-text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.living-field-help-error {
+  color: var(--living-text);
+  font-weight: 650;
+}
+
+.living-file-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--living-border);
+  border-radius: 14px;
+  color: var(--living-text-muted);
+  font-size: 13px;
+}
+
+.living-reservation-summary {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 20px;
+  background: var(--living-surface);
+}
+
+.living-reservation-summary h4,
+.living-reservation-summary dl {
+  margin: 0;
+}
+
+.living-reservation-summary dl {
+  display: grid;
+  gap: 8px;
+}
+
+.living-reservation-summary dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  color: var(--living-text-muted);
+  font-size: 13px;
+}
+
+.living-reservation-summary dd {
+  margin: 0;
+  color: var(--living-text);
+  text-align: right;
+}
+
+.living-reservation-summary .living-reservation-total {
+  padding-top: 10px;
+  border-top: 1px solid var(--living-border);
+  color: var(--living-text);
+  font-weight: 750;
+}
+
+.living-reservation-submit {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -10px 24px color-mix(in srgb, var(--living-surface) 92%, transparent);
 }
 
 .living-account-hints {
@@ -1727,8 +1862,7 @@ button.living-calendar-event:focus-visible {
 }
 
 @media (max-width: 1180px) {
-  .living-hero,
-  .living-split-whatsapp {
+  .living-hero {
     grid-template-columns: 1fr;
   }
 
@@ -1769,6 +1903,10 @@ button.living-calendar-event:focus-visible {
 @media (max-width: 900px) {
   .living-whatsapp-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .living-whatsapp-features {
+    grid-template-columns: 1fr;
   }
 
   .living-section-title > div:first-child {
