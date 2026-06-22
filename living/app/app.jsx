@@ -7,6 +7,8 @@ window.PortalShell = function PortalShell({
   feedback,
   currentPage,
   selectedReservationId,
+  returnPage,
+  originPage,
   onNavigate,
   onGoLanding,
   onLogout,
@@ -18,19 +20,19 @@ window.PortalShell = function PortalShell({
 
   switch (currentPage) {
     case "dashboard":
-      screen = <window.DashboardScreen data={data} onNavigate={onNavigate} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.DashboardScreen data={data} onNavigate={onNavigate} onOpenReservation={(id) => onNavigate("reservation", id, "dashboard")} />;
       break;
     case "calendar":
-      screen = <window.CalendarScreen data={data} pendingActions={pendingActions} onCreateReservation={actions.createReservation} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.CalendarScreen data={data} pendingActions={pendingActions} onCreateReservation={actions.createReservation} onOpenReservation={(id) => onNavigate("reservation", id, "calendar")} />;
       break;
     case "approvals":
-      screen = <window.ApprovalsScreen data={data} pendingActions={pendingActions} onApprove={actions.approveReservation} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.ApprovalsScreen data={data} pendingActions={pendingActions} onApprove={actions.approveReservation} onReviewPayment={(id) => onNavigate("payments", id, "approvals")} onOpenReservation={(id) => onNavigate("reservation", id, "approvals")} />;
       break;
     case "payments":
-      screen = <window.PaymentsScreen data={data} pendingActions={pendingActions} onVerify={actions.verifyPayment} onReject={actions.rejectPayment} onResubmit={actions.resubmitPayment} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.PaymentsScreen data={data} initialReservationId={selectedReservationId} pendingActions={pendingActions} onVerify={actions.verifyPayment} onApprove={actions.approveReservation} onReject={actions.rejectPayment} onResubmit={actions.resubmitPayment} onCloseReview={() => returnPage === "approvals" ? onNavigate("approvals") : returnPage === "reservation" ? onNavigate("reservation", selectedReservationId, originPage || "calendar") : onNavigate("payments")} onOpenReservation={(id) => onNavigate("reservation", id, "payments")} />;
       break;
     case "deposits":
-      screen = <window.DepositsScreen data={data} role={role} pendingActions={pendingActions} onRelease={actions.releaseDeposit} onRetain={actions.retainDeposit} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.DepositsScreen data={data} role={role} pendingActions={pendingActions} onRelease={actions.releaseDeposit} onRetain={actions.retainDeposit} onOpenReservation={(id) => onNavigate("reservation", id, "deposits")} />;
       break;
     case "areas":
       screen = <window.AreasScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateArea} onCreateMaintenance={actions.createMaintenance} onRemoveMaintenance={actions.removeMaintenance} onCreateClosure={actions.createAreaClosure} onRemoveClosure={actions.removeAreaClosure} />;
@@ -77,12 +79,14 @@ window.PortalShell = function PortalShell({
           onMarkArrival={actions.markArrival}
           onVerifyGuests={actions.verifyGuests}
           onCompleteTask={actions.completeTask}
+          onReviewPayment={() => onNavigate("payments", selectedReservationId, "reservation", returnPage || "calendar")}
           pendingActions={pendingActions}
+          onBack={() => onNavigate(returnPage || "calendar")}
         />
       );
       break;
     default:
-      screen = <window.DashboardScreen data={data} onNavigate={onNavigate} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.DashboardScreen data={data} onNavigate={onNavigate} onOpenReservation={(id) => onNavigate("reservation", id, "dashboard")} />;
   }
 
   return (
@@ -165,8 +169,8 @@ window.LivingApp = function LivingApp() {
     if (match) setAccount(match);
   }, [role]);
 
-  function goToPortal(page = "dashboard", id) {
-    window.livingSetHash(id ? `portal/${page}/${id}` : `portal/${page}`);
+  function goToPortal(page = "dashboard", id, from, origin) {
+    window.livingSetHash(id ? `portal/${page}/${id}${from ? `/${from}` : ""}${origin ? `/${origin}` : ""}` : `portal/${page}`);
   }
 
   React.useEffect(() => {
@@ -239,7 +243,9 @@ window.LivingApp = function LivingApp() {
       feedback={feedback}
       currentPage={route.page || "dashboard"}
       selectedReservationId={route.id}
-      onNavigate={(page, id) => goToPortal(page, id)}
+      returnPage={route.from}
+      originPage={route.origin}
+      onNavigate={goToPortal}
       onGoLanding={() => window.livingSetHash("landing")}
       onLogout={handleLogout}
       onRoleChange={handleRoleChange}

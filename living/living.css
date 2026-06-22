@@ -721,6 +721,55 @@ body {
 
 .living-form-panel {
   border-color: color-mix(in srgb, var(--living-accent) 26%, var(--living-border));
+  width: min(620px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+}
+
+.living-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: color-mix(in srgb, var(--living-text) 28%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.living-role-choices {
+  display: grid;
+  gap: 10px;
+}
+
+.living-role-choice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 16px;
+  background: var(--living-surface);
+  color: var(--living-text);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.living-role-choice span:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.living-role-choice small,
+.living-role-choice span:last-child {
+  color: var(--living-text-muted);
+}
+
+.living-mobile-nav {
+  display: none;
 }
 
 .living-sr-only {
@@ -803,7 +852,38 @@ body {
 
 .living-sidebar-nav {
   display: grid;
-  gap: 6px;
+  gap: 18px;
+}
+
+.living-nav-group {
+  display: grid;
+  gap: 5px;
+}
+
+.living-nav-group-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px 3px;
+  color: var(--living-text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.living-nav-group[open] .living-nav-group-label {
+  color: var(--living-text);
+}
+
+.living-nav-group-label::after {
+  content: "+";
+  font-size: 14px;
+}
+
+.living-nav-group[open] .living-nav-group-label::after {
+  content: "−";
 }
 
 .living-sidebar-link {
@@ -907,6 +987,128 @@ body {
   padding: 10px 14px;
   border-radius: 12px;
   font-size: 13px;
+}
+
+.living-account-menu {
+  position: relative;
+}
+
+.living-account-menu summary {
+  padding: 10px 14px;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 12px;
+  color: var(--living-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.living-account-menu-panel {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 8px);
+  right: 0;
+  display: grid;
+  gap: 10px;
+  width: min(280px, calc(100vw - 28px));
+  padding: 14px;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 16px;
+  background: var(--living-surface);
+  box-shadow: var(--living-shadow);
+}
+
+.living-account-menu-panel label {
+  display: grid;
+  gap: 6px;
+  color: var(--living-text-muted);
+  font-size: 12px;
+}
+
+.living-proof-preview {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  min-height: 160px;
+  padding: 24px;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--living-surface) 90%, var(--living-accent));
+}
+
+.living-proof-preview > div:last-child {
+  display: grid;
+  gap: 6px;
+}
+
+.living-proof-preview strong {
+  font-size: 28px;
+}
+
+.living-proof-preview span,
+.living-proof-preview small {
+  overflow-wrap: anywhere;
+  color: var(--living-text-muted);
+}
+
+.living-proof-mark {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 76px;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 12px;
+  background: var(--living-surface);
+  color: var(--living-accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.living-back-button {
+  justify-self: start;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.living-overflow-menu {
+  position: relative;
+}
+
+.living-overflow-menu summary {
+  padding: 10px 16px;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.living-overflow-menu > div {
+  position: absolute;
+  z-index: 8;
+  top: calc(100% + 6px);
+  right: 0;
+  display: grid;
+  width: 210px;
+  padding: 8px;
+  border: 1px solid var(--living-border-strong);
+  border-radius: 14px;
+  background: var(--living-surface);
+  box-shadow: var(--living-shadow);
+}
+
+.living-overflow-menu button {
+  border: 0;
+  padding: 10px;
+  background: transparent;
+  color: var(--living-text);
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
 }
 
 .living-screen {
@@ -1696,21 +1898,72 @@ button.living-calendar-event:focus-visible {
   }
 
   .living-sidebar-nav {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-
-  .living-sidebar-nav::-webkit-scrollbar {
     display: none;
   }
 
-  .living-sidebar-link {
-    flex: 0 0 auto;
-    white-space: nowrap;
+  .living-mobile-nav {
+    display: grid;
+    gap: 6px;
+    color: var(--living-text-muted);
+    font-size: 12px;
+  }
+
+  .living-mobile-nav select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--living-border-strong);
+    border-radius: 14px;
+    background: var(--living-surface);
+    color: var(--living-text);
+    font: inherit;
+  }
+
+  .living-account-menu-panel {
+    position: static;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .living-table,
+  .living-table tbody,
+  .living-table tr,
+  .living-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .living-table {
+    min-width: 0;
+  }
+
+  .living-table thead {
+    display: none;
+  }
+
+  .living-table tr {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--living-border);
+  }
+
+  .living-table td {
+    display: grid;
+    grid-template-columns: minmax(96px, 0.42fr) minmax(0, 1fr);
+    gap: 12px;
+    padding: 7px 0;
+    border: 0;
+  }
+
+  .living-table td::before {
+    content: attr(data-label);
+    color: var(--living-text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .living-table td .living-inline-actions {
+    margin-top: 0;
   }
 
   .living-story-header {
@@ -1805,7 +2058,4 @@ button.living-calendar-event:focus-visible {
     margin-bottom: 14px;
   }
 
-  .living-table {
-    min-width: 640px;
-  }
 }

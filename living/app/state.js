@@ -1,8 +1,8 @@
 window.livingParseHash = function livingParseHash() {
   const raw = window.location.hash.replace(/^#/, "");
   if (!raw) return { area: "landing", page: "landing" };
-  const [area, page, id] = raw.split("/");
-  return { area, page, id };
+  const [area, page, id, from, origin] = raw.split("/");
+  return { area, page, id, from, origin };
 };
 
 window.livingSetHash = function livingSetHash(next) {

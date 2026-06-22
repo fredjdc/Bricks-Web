@@ -79,6 +79,29 @@
     return [...reservations, ...maintenance, ...closures].sort((a, b) => `${a.date}${a.start}${a.title}`.localeCompare(`${b.date}${b.start}${b.title}`));
   }
 
+  function availableReservationSlots(data, areaId, date) {
+    const area = data.areas.find((item) => item.id === areaId);
+    const policy = area ? areaPolicyOnDate(area, date) : null;
+    if (!policy?.reservable || policy.status !== "active") return [];
+    const opening = minutes(policy.availability.start);
+    const closing = minutes(policy.availability.end);
+    const block = policy.availability.blockMinutes;
+    const format = (value) => `${String(Math.floor(value / 60)).padStart(2, "0")}:${String(value % 60).padStart(2, "0")}`;
+    const slots = [];
+    for (let start = opening; start + block <= closing; start += block) {
+      for (let duration = block; duration <= policy.availability.maxDurationMinutes && start + duration <= closing; duration += block) {
+        const candidate = { start: format(start), end: format(start + duration) };
+        if (availabilityForSlot(data, { areaId, date, ...candidate }).available) slots.push(candidate);
+      }
+    }
+    return slots;
+  }
+
+  function availableReservationDates(data, areaId, startDate, days = 45) {
+    return Array.from({ length: days }, (_item, index) => addDays(startDate, index))
+      .filter((date) => availableReservationSlots(data, areaId, date).length);
+  }
+
   function availabilityForSlot(data, { areaId, date, start, end, excludeReservationId = null }) {
     const area = data.areas.find((item) => item.id === areaId);
     if (!area) return { available: false, reason: "No se encontró el área." };
@@ -163,6 +186,8 @@
     addMonths,
     monthGrid,
     calendarEntries,
+    availableReservationSlots,
+    availableReservationDates,
     availabilityForSlot,
     isSlotAvailable(data, { areaId, date, start, end, excludeReservationId = null }) {
       return availabilityForSlot(data, { areaId, date, start, end, excludeReservationId }).available;

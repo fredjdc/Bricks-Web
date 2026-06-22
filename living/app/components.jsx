@@ -185,7 +185,7 @@ window.DataTable = function DataTable({ columns, rows, empty }) {
           {rows.map((row, index) => (
             <tr key={row.id || index}>
               {columns.map((column) => (
-                <td key={column.key}>{column.render ? column.render(row) : row[column.key]}</td>
+                <td key={column.key} data-label={column.label}>{column.render ? column.render(row) : row[column.key]}</td>
               ))}
             </tr>
           ))}
@@ -231,20 +231,35 @@ window.FormPanel = function FormPanel({ title, description, children, onCancel }
   const returnFocusRef = React.useRef(document.activeElement);
   React.useEffect(() => {
     panelRef.current?.focus();
-    return () => returnFocusRef.current?.focus?.();
+    const background = [...document.querySelectorAll(".living-sidebar, .living-topbar, .living-screen > :not(.living-dialog-backdrop)")];
+    background.forEach((element) => element.setAttribute("inert", ""));
+    function handleKey(event) {
+      if (event.key === "Escape") onCancel?.();
+      if (event.key !== "Tab") return;
+      const focusable = [...panelRef.current.querySelectorAll("button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], summary")];
+      if (!focusable.length) return;
+      const edge = event.shiftKey ? focusable[0] : focusable[focusable.length - 1];
+      if (document.activeElement !== edge) return;
+      event.preventDefault();
+      (event.shiftKey ? focusable[focusable.length - 1] : focusable[0]).focus();
+    }
+    document.addEventListener("keydown", handleKey);
+    return () => { background.forEach((element) => element.removeAttribute("inert")); document.removeEventListener("keydown", handleKey); returnFocusRef.current?.focus?.(); };
   }, []);
   return (
-    <section ref={panelRef} className="living-card living-form-panel" role="dialog" aria-modal="false" aria-label={title} tabIndex="-1">
-      <div className="living-story-header">
-        <div>
-          <div className="living-card-label">Acción</div>
-          <h3>{title}</h3>
-          {description ? <p>{description}</p> : null}
+    <div className="living-dialog-backdrop">
+      <section ref={panelRef} className="living-card living-form-panel" role="dialog" aria-modal="true" aria-label={title} tabIndex="-1">
+        <div className="living-story-header">
+          <div>
+            <div className="living-card-label">Acción</div>
+            <h3>{title}</h3>
+            {description ? <p>{description}</p> : null}
+          </div>
+          {onCancel ? <button className="living-link-button" type="button" onClick={onCancel}>Cancelar</button> : null}
         </div>
-        {onCancel ? <button className="living-link-button" type="button" onClick={onCancel}>Cerrar</button> : null}
-      </div>
-      {children}
-    </section>
+        {children}
+      </section>
+    </div>
   );
 };
 
@@ -525,6 +540,7 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
           </section>
         </main>
         <window.Footer
+          assetPrefix="../"
           t={{
             footer: {
               tag: 'Focused apps for real estate agents on Apple.',
@@ -553,50 +569,19 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
 };
 
 window.LoginScreen = function LoginScreen({ onLogin }) {
-  const [email, setEmail] = React.useState(window.LIVING_DEMO_ACCOUNTS[0].email);
-  const [password, setPassword] = React.useState("demo123");
-  const [error, setError] = React.useState("");
-
-  function submit(event) {
-    event.preventDefault();
-    const match = window.LIVING_DEMO_ACCOUNTS.find((account) => account.email === email && account.password === password);
-    if (!match) {
-      setError("Credenciales inválidas. Use una cuenta demo.");
-      return;
-    }
-    setError("");
-    onLogin(match);
-  }
-
   return (
     <div className="living-login-shell">
       <div className="living-login-card living-card">
         <a href="#landing" className="living-back-link">← Volver a la presentación</a>
         <div className="living-eyebrow">Acceso demo</div>
         <h1>Entrar al portal</h1>
-        <p>Seleccione un rol demo para recorrer el sistema. Cada cuenta abre un menú distinto sobre la misma base operativa.</p>
-        <form onSubmit={submit} className="living-form">
-          <label>
-            <span>Email</span>
-            <select value={email} onChange={(event) => setEmail(event.target.value)}>
-              {window.LIVING_DEMO_ACCOUNTS.map((account) => (
-                <option key={account.email} value={account.email}>{account.email} · {window.LIVING_ROLE_LABELS[account.role]}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            <span>Contraseña</span>
-            <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-          </label>
-          {error ? <div className="living-form-error">{error}</div> : null}
-          <button className="living-button living-button-primary" type="submit">Entrar</button>
-        </form>
-        <div className="living-account-hints">
+        <p>Elija una vista. Cada rol abre solo las tareas que necesita.</p>
+        <div className="living-role-choices">
           {window.LIVING_DEMO_ACCOUNTS.map((account) => (
-            <div className="living-hint-row" key={account.email}>
-              <strong>{window.LIVING_ROLE_LABELS[account.role]}</strong>
-              <span>{account.name}</span>
-            </div>
+            <button type="button" className="living-role-choice" key={account.email} onClick={() => onLogin(account)}>
+              <span><strong>{window.LIVING_ROLE_LABELS[account.role]}</strong><small>{account.name}</small></span>
+              <span aria-hidden="true">Continuar</span>
+            </button>
           ))}
         </div>
       </div>
@@ -606,6 +591,7 @@ window.LoginScreen = function LoginScreen({ onLogin }) {
 
 window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
   const items = window.LIVING_NAV_ITEMS.filter((item) => item.roles.includes(role));
+  const groups = [...new Set(items.map((item) => item.group))];
   return (
     <aside className="living-sidebar">
       <div className="living-sidebar-header">
@@ -614,18 +600,24 @@ window.Sidebar = function Sidebar({ role, currentPage, onNavigate }) {
         </div>
         <div className="living-sidebar-building">Torres del Parque</div>
       </div>
-      <nav className="living-sidebar-nav">
-        {items.map((item) => (
-          <button
-            key={item.id}
-            className={`living-sidebar-link ${currentPage === item.id ? "is-active" : ""}`}
-            onClick={() => onNavigate(item.id)}
-          >
-            <span className="living-sidebar-link-icon">
-              <window.LivingNavIcon name={item.icon || item.id} />
-            </span>
-            <span className="living-sidebar-link-label">{item.label}</span>
-          </button>
+      <label className="living-mobile-nav">
+        <span>Ir a</span>
+        <select value={currentPage} onChange={(event) => onNavigate(event.target.value)}>
+          {currentPage === "reservation" ? <option value="reservation">Detalle de reserva</option> : null}
+          {groups.map((group) => <optgroup label={group} key={group}>{items.filter((item) => item.group === group).map((item) => <option value={item.id} key={item.id}>{item.label}</option>)}</optgroup>)}
+        </select>
+      </label>
+      <nav className="living-sidebar-nav" aria-label="Portal">
+        {groups.map((group) => (
+          <details className="living-nav-group" key={group} open={items.some((item) => item.group === group && item.id === currentPage)}>
+            <summary className="living-nav-group-label">{group}</summary>
+            {items.filter((item) => item.group === group).map((item) => (
+              <button key={item.id} className={`living-sidebar-link ${currentPage === item.id ? "is-active" : ""}`} onClick={() => onNavigate(item.id)}>
+                <span className="living-sidebar-link-icon"><window.LivingNavIcon name={item.icon || item.id} /></span>
+                <span className="living-sidebar-link-label">{item.label}</span>
+              </button>
+            ))}
+          </details>
         ))}
       </nav>
     </aside>
@@ -662,15 +654,14 @@ window.TopBar = function TopBar({ account, role, onRoleChange, onLogout, onReset
           <div className="living-card-detail">{window.LIVING_ROLE_LABELS[role]}</div>
         </div>
       </div>
-      <div className="living-topbar-actions">
-        <select value={role} onChange={(event) => onRoleChange(event.target.value)}>
-          {window.LIVING_DEMO_ACCOUNTS.map((accountOption) => (
-            <option value={accountOption.role} key={accountOption.role}>{window.LIVING_ROLE_LABELS[accountOption.role]}</option>
-          ))}
-        </select>
-        <button className="living-button living-button-secondary" onClick={onResetDemo}>Restablecer demo</button>
-        <button className="living-button living-button-primary" onClick={onLogout}>Salir</button>
-      </div>
+      <details className="living-account-menu">
+        <summary>Cuenta demo</summary>
+        <div className="living-account-menu-panel">
+          <label><span>Ver como</span><select value={role} onChange={(event) => onRoleChange(event.target.value)}>{window.LIVING_DEMO_ACCOUNTS.map((accountOption) => <option value={accountOption.role} key={accountOption.role}>{window.LIVING_ROLE_LABELS[accountOption.role]}</option>)}</select></label>
+          <button className="living-button living-button-secondary" onClick={onResetDemo}>Restablecer datos</button>
+          <button className="living-button living-button-secondary" onClick={onLogout}>Salir del portal</button>
+        </div>
+      </details>
     </div>
   );
 };

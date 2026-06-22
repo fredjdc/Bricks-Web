@@ -219,11 +219,11 @@ window.useTheme = function useTheme() {
 // ThemeLogo
 // ==========================================================================
 
-window.ThemeLogo = function ThemeLogo({ height = 24 }) {
+window.ThemeLogo = function ThemeLogo({ height = 24, assetPrefix = "" }) {
   return (
     <React.Fragment>
-      <img src="images/bricks-dark-logo.svg"  alt="Bricks" className="logo-light-theme" style={{ height }} />
-      <img src="images/bricks-light-logo.svg" alt="Bricks" className="logo-dark-theme"  style={{ height }} />
+      <img src={`${assetPrefix}images/bricks-dark-logo.svg`}  alt="Bricks" className="logo-light-theme" style={{ height }} />
+      <img src={`${assetPrefix}images/bricks-light-logo.svg`} alt="Bricks" className="logo-dark-theme"  style={{ height }} />
     </React.Fragment>
   );
 };
@@ -625,7 +625,7 @@ window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, ac
 // Footer
 // ==========================================================================
 
-window.Footer = function Footer({ t, lang, setLang, theme, setTheme }) {
+window.Footer = function Footer({ t, lang, setLang, theme, setTheme, assetPrefix = "" }) {
   const isMobile = window.useIsMobile();
   return (
     <footer style={{
@@ -640,7 +640,7 @@ window.Footer = function Footer({ t, lang, setLang, theme, setTheme }) {
         marginBottom: isMobile ? 40 : 56,
       }}>
         <div style={{ gridColumn: isMobile ? '1 / -1' : undefined }}>
-          <window.ThemeLogo />
+          <window.ThemeLogo assetPrefix={assetPrefix} />
           <p style={{ fontSize: 14, color: 'var(--b-text-2)', lineHeight: 1.6, margin: '16px 0 24px', maxWidth: 300 }}>
             {t.footer.tag}
           </p>

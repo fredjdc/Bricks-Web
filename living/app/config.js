@@ -39,21 +39,21 @@ window.LIVING_STATUS_LABELS = {
 window.LIVING_DEMO_TODAY = "2026-07-18";
 
 window.LIVING_NAV_ITEMS = [
-  { id: "dashboard", label: "Dashboard", icon: "dashboard", roles: ["building_admin", "assistant_admin"] },
-  { id: "calendar", label: "Calendario", icon: "calendar", roles: ["building_admin", "assistant_admin"] },
-  { id: "approvals", label: "Aprobaciones", icon: "approvals", roles: ["building_admin", "assistant_admin"] },
-  { id: "payments", label: "Pagos", icon: "payments", roles: ["building_admin", "assistant_admin"] },
-  { id: "deposits", label: "Garantías", icon: "deposits", roles: ["building_admin", "assistant_admin", "junta"] },
-  { id: "areas", label: "Áreas comunes", icon: "areas", roles: ["building_admin", "assistant_admin"] },
-  { id: "residents", label: "Residentes", icon: "residents", roles: ["building_admin", "assistant_admin"] },
-  { id: "security", label: "Seguridad", icon: "security", roles: ["security", "building_admin", "assistant_admin"] },
-  { id: "cleaning", label: "Limpieza", icon: "cleaning", roles: ["cleaning", "building_admin", "assistant_admin"] },
-  { id: "incidents", label: "Incidentes", icon: "incidents", roles: ["building_admin", "assistant_admin", "security", "cleaning", "junta"] },
-  { id: "reports", label: "Reportes", icon: "reports", roles: ["building_admin", "assistant_admin", "junta"] },
-  { id: "audit", label: "Auditoría", icon: "reports", roles: ["super_admin", "building_admin", "assistant_admin", "junta"] },
-  { id: "messages", label: "Mensajes", icon: "messages", roles: ["building_admin", "assistant_admin"] },
-  { id: "settings", label: "Configuración", icon: "settings", roles: ["building_admin", "assistant_admin"] },
-  { id: "superadmin", label: "Super Admin", icon: "superadmin", roles: ["super_admin"] },
+  { id: "dashboard", label: "Inicio", group: "Inicio", icon: "dashboard", roles: ["building_admin", "assistant_admin"] },
+  { id: "calendar", label: "Calendario", group: "Reservas", icon: "calendar", roles: ["building_admin", "assistant_admin"] },
+  { id: "approvals", label: "Por revisar", group: "Reservas", icon: "approvals", roles: ["building_admin", "assistant_admin"] },
+  { id: "payments", label: "Comprobantes", group: "Reservas", icon: "payments", roles: ["building_admin", "assistant_admin"] },
+  { id: "deposits", label: "Garantías", group: "Reservas", icon: "deposits", roles: ["building_admin", "assistant_admin", "junta"] },
+  { id: "security", label: "Accesos", group: "Operación", icon: "security", roles: ["security", "building_admin", "assistant_admin"] },
+  { id: "cleaning", label: "Limpieza", group: "Operación", icon: "cleaning", roles: ["cleaning", "building_admin", "assistant_admin"] },
+  { id: "incidents", label: "Incidentes", group: "Operación", icon: "incidents", roles: ["building_admin", "assistant_admin", "security", "cleaning", "junta"] },
+  { id: "messages", label: "Mensajes", group: "Operación", icon: "messages", roles: ["building_admin", "assistant_admin"] },
+  { id: "residents", label: "Residentes", group: "Personas", icon: "residents", roles: ["building_admin", "assistant_admin"] },
+  { id: "reports", label: "Reportes", group: "Gestión", icon: "reports", roles: ["building_admin", "assistant_admin", "junta"] },
+  { id: "audit", label: "Auditoría", group: "Gestión", icon: "reports", roles: ["super_admin", "building_admin", "assistant_admin", "junta"] },
+  { id: "areas", label: "Áreas comunes", group: "Ajustes", icon: "areas", roles: ["building_admin", "assistant_admin"] },
+  { id: "settings", label: "Edificio", group: "Ajustes", icon: "settings", roles: ["building_admin", "assistant_admin"] },
+  { id: "superadmin", label: "Plataforma", group: "Gestión", icon: "superadmin", roles: ["super_admin"] },
 ];
 
 window.LIVING_DEMO_ACCOUNTS = [

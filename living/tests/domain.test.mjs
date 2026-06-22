@@ -3,8 +3,10 @@ import fs from "node:fs";
 import vm from "node:vm";
 
 globalThis.window = globalThis;
+globalThis.location = { hash: "" };
+globalThis.sessionStorage = { getItem: () => null, setItem: () => {}, removeItem: () => {} };
 
-for (const file of ["app/config.js", "app/data.js", "app/models.js", "app/selectors.js", "app/domain.js", "app/storage.js", "app/services.js", "app/api-contracts.js", "app/repositories.js"]) {
+for (const file of ["app/config.js", "app/data.js", "app/models.js", "app/selectors.js", "app/domain.js", "app/storage.js", "app/services.js", "app/api-contracts.js", "app/repositories.js", "app/state.js"]) {
   const source = fs.readFileSync(new URL(`../${file}`, import.meta.url), "utf8");
   vm.runInThisContext(source, { filename: file });
 }
@@ -15,6 +17,9 @@ const cleaning = { name: "Rosa Huamán" };
 const now = "2026-07-12T09:43:00-05:00";
 
 assert.match(livingFormatShortDate("2026-07-18"), /18/);
+location.hash = "#portal/reservation/TRL-2026-0718-0024/payments";
+assert.deepEqual(livingParseHash(), { area: "portal", page: "reservation", id: "TRL-2026-0718-0024", from: "payments", origin: undefined });
+assert.ok(LIVING_NAV_ITEMS.every((item) => item.group));
 
 function apply(data, action, role, account, actionNow = now) {
   return livingApplyDomainAction(data, action, { role, account, now: actionNow });
@@ -37,6 +42,10 @@ assert.ok(calendarEntries.some((item) => item.id === anaId && item.type === "res
 assert.ok(calendarEntries.some((item) => item.type === "maintenance"));
 assert.ok(calendarEntries.some((item) => item.type === "closure"));
 assert.deepEqual(calendarEntries, [...calendarEntries].sort((a, b) => `${a.date}${a.start}${a.title}`.localeCompare(`${b.date}${b.start}${b.title}`)));
+const terraceSlots = livingSelectors.availableReservationSlots(data, "terrace", "2026-07-18");
+assert.ok(terraceSlots.length > 0);
+assert.equal(terraceSlots.some((slot) => slot.start < "23:00" && "17:00" < slot.end), false);
+assert.ok(livingSelectors.availableReservationDates(data, "terrace", "2026-07-18", 7).length > 0);
 assert.equal(livingSelectors.report(data).totalReservations, data.reservations.filter((item) => item.date.startsWith("2026-07") && !["cancelled", "rejected"].includes(item.status)).length);
 assert.equal(livingSelectors.report(data).totalReservations, 98);
 assert.equal(livingSelectors.report(data).totalRevenue, 6320);

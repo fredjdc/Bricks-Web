@@ -1,7 +1,9 @@
-window.useLivingPagedRows = function useLivingPagedRows(items, searchText, filterValue, filterKey, pageSize = 8) {
-  const [query, setQuery] = React.useState("");
-  const [filter, setFilter] = React.useState(filterValue || "all");
-  const [page, setPage] = React.useState(1);
+window.useLivingPagedRows = function useLivingPagedRows(items, searchText, filterValue, filterKey, pageSize = 8, storageKey = "") {
+  const saved = React.useMemo(() => { try { return storageKey ? JSON.parse(window.sessionStorage.getItem(`living-list:${storageKey}`)) || {} : {}; } catch { return {}; } }, [storageKey]);
+  const [query, setQuery] = React.useState(saved.query || "");
+  const [filter, setFilter] = React.useState(saved.filter || filterValue || "all");
+  const [page, setPage] = React.useState(saved.page || 1);
+  React.useEffect(() => { if (storageKey) window.sessionStorage.setItem(`living-list:${storageKey}`, JSON.stringify({ query, filter, page })); }, [storageKey, query, filter, page]);
   const deferredQuery = React.useDeferredValue(query.trim().toLowerCase());
   const filtered = items.filter((item) => {
     const matchesQuery = !deferredQuery || searchText(item).toLowerCase().includes(deferredQuery);
@@ -100,7 +102,7 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation, onN
           <div className="living-story-header">
             <h3>{storyReservation.code}</h3>
             <button className="living-link-button living-link-button-inline" onClick={() => onOpenReservation(storyReservation.id)}>
-              <span>Abrir</span>
+              <span>Ver reserva</span>
               <span className="living-link-button-icon">{dashboardIcons.open}</span>
             </button>
           </div>
@@ -157,9 +159,16 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
   const selectedEntries = entries.filter((entry) => entry.date === selectedDate);
   const monthPrefix = focusDate.slice(0, 7);
   const title = view === "week" ? `${calendarDateLabel(weekDates[0], { day: "numeric", month: "short" })} – ${calendarDateLabel(weekDates[6], { day: "numeric", month: "short", year: "numeric" })}` : calendarDateLabel(`${monthPrefix}-01`, { month: "long", year: "numeric" });
-  const reservableAreas = data.areas.filter((area) => { const policy = window.livingSelectors.areaPolicyOnDate(area, values.date); return policy?.status === "active" && policy.reservable; });
-  const selectedArea = reservableAreas.find((area) => area.id === values.areaId) || reservableAreas[0];
-  const selectedPolicy = selectedArea ? window.livingSelectors.areaPolicyOnDate(selectedArea, values.date) : null;
+  const eligibleResidents = data.residents.filter((item) => item.status === "active" && item.debt === 0);
+  const selectedResident = eligibleResidents.find((item) => item.id === values.residentId) || eligibleResidents[0];
+  const areaAvailability = data.areas.map((area) => ({ area, dates: window.livingSelectors.availableReservationDates(data, area.id, today) })).filter((item) => item.dates.length);
+  const selectedAvailability = areaAvailability.find((item) => item.area.id === values.areaId) || areaAvailability[0];
+  const selectedArea = selectedAvailability?.area;
+  const availableDates = selectedAvailability?.dates || [];
+  const effectiveDate = availableDates.includes(values.date) ? values.date : availableDates[0] || "";
+  const availableSlots = selectedArea && effectiveDate ? window.livingSelectors.availableReservationSlots(data, selectedArea.id, effectiveDate) : [];
+  const effectiveSlot = availableSlots.find((slot) => slot.start === values.start && slot.end === values.end) || availableSlots[0] || null;
+  const selectedPolicy = selectedArea && effectiveDate ? window.livingSelectors.areaPolicyOnDate(selectedArea, effectiveDate) : null;
   const acceptedMethods = selectedPolicy ? window.livingSelectors.paymentMethodsForPolicy(selectedPolicy) : [];
 
   function update(key, value) { setValues((current) => ({ ...current, [key]: value })); }
@@ -179,10 +188,21 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
     React.startTransition(() => selectDate(today));
   }
   function updateArea(areaId) {
+    const dates = window.livingSelectors.availableReservationDates(data, areaId, today);
+    const date = dates.includes(values.date) ? values.date : dates[0] || "";
+    const slot = window.livingSelectors.availableReservationSlots(data, areaId, date)[0];
     const area = data.areas.find((item) => item.id === areaId);
-    const policy = area ? window.livingSelectors.areaPolicyOnDate(area, values.date) : null;
+    const policy = area && date ? window.livingSelectors.areaPolicyOnDate(area, date) : null;
     const methods = policy ? window.livingSelectors.paymentMethodsForPolicy(policy) : [];
-    setValues((current) => ({ ...current, areaId, paymentMethod: methods[0] || "Transferencia" }));
+    setValues((current) => ({ ...current, areaId, date, start: slot?.start || "", end: slot?.end || "", paymentMethod: methods[0] || "Transferencia" }));
+  }
+  function updateDate(date) {
+    const slot = window.livingSelectors.availableReservationSlots(data, selectedArea.id, date)[0];
+    setValues((current) => ({ ...current, date, start: slot?.start || "", end: slot?.end || "" }));
+  }
+  function updateSlot(value) {
+    const [start, end] = value.split("|");
+    setValues((current) => ({ ...current, start, end }));
   }
   function chooseProof(event) {
     const file = event.target.files[0];
@@ -193,14 +213,16 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
   }
   async function submit(event) {
     event.preventDefault();
-    const result = await onCreateReservation({ ...values, areaId: selectedArea?.id || values.areaId, paymentMethod: acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0] || values.paymentMethod });
+    if (!effectiveDate || !effectiveSlot) return;
+    if (!selectedResident) return;
+    const result = await onCreateReservation({ ...values, residentId: selectedResident.id, date: effectiveDate, start: effectiveSlot.start, end: effectiveSlot.end, areaId: selectedArea?.id || values.areaId, paymentMethod: acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0] || values.paymentMethod });
     if (result) setShowCreate(false);
   }
 
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Calendario" title={title} body="Reservas, mantenimiento y cierres en una sola línea operativa." iconName="calendar" actions={<button className="living-button living-button-primary" onClick={() => { setValues((current) => ({ ...current, date: selectedDate })); setShowCreate(true); }}>Nueva reserva</button>} />
-      {showCreate ? <window.FormPanel title="Crear reserva" description="La disponibilidad se valida contra políticas, reservas, mantenimiento y cierres." onCancel={() => setShowCreate(false)}><form className="living-form" onSubmit={submit}><label><span>Residente</span><select value={values.residentId} onChange={(event) => update("residentId", event.target.value)}>{data.residents.filter((item) => item.status === "active" && item.debt === 0).map((item) => <option key={item.id} value={item.id}>{item.name} · Dpto. {item.apartment}</option>)}</select></label><label><span>Área</span><select value={selectedArea?.id || ""} onChange={(event) => updateArea(event.target.value)}>{reservableAreas.map((area) => { const policy = window.livingSelectors.areaPolicyOnDate(area, values.date); return <option key={area.id} value={area.id}>{policy.name} · {window.livingFormatCurrency((policy.payment.amount || 0) + (policy.guarantee.amount || 0))}</option>; })}</select></label>{selectedPolicy ? <div className="living-form-hint">Disponible {selectedPolicy.availability.start}–{selectedPolicy.availability.end} · bloques de {selectedPolicy.availability.blockMinutes / 60} h · máximo {selectedPolicy.availability.maxDurationMinutes / 60} h</div> : null}<label><span>Fecha</span><input type="date" value={values.date} onChange={(event) => update("date", event.target.value)} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={values.start} onChange={(event) => update("start", event.target.value)} required /></label><label><span>Fin</span><input type="time" value={values.end} onChange={(event) => update("end", event.target.value)} required /></label></div><label><span>Invitados</span><input type="number" min="0" max={selectedPolicy?.capacity || undefined} value={values.guestCount} onChange={(event) => update("guestCount", event.target.value)} required /></label><label><span>Motivo</span><textarea value={values.reason} onChange={(event) => update("reason", event.target.value)} minLength="5" required /></label>{acceptedMethods.length ? <label><span>Método de pago</span><select value={acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0]} onChange={(event) => update("paymentMethod", event.target.value)}>{acceptedMethods.map((method) => <option key={method}>{method}</option>)}</select></label> : null}{acceptedMethods.length ? <label><span>Comprobante</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseProof} /></label> : null}{fileError ? <div className="living-form-error">{fileError}</div> : null}<button className="living-button living-button-primary" disabled={!selectedPolicy || Boolean(pendingActions["create_reservation:new"]) || Boolean(fileError)}>Crear reserva</button></form></window.FormPanel> : null}
+      {showCreate ? <window.FormPanel title="Crear reserva" description="La disponibilidad se valida contra políticas, reservas, mantenimiento y cierres." onCancel={() => setShowCreate(false)}><form className="living-form" onSubmit={submit}><label><span>Residente</span><select value={selectedResident?.id || ""} onChange={(event) => update("residentId", event.target.value)}>{eligibleResidents.map((item) => <option key={item.id} value={item.id}>{item.name} · Dpto. {item.apartment}</option>)}</select></label>{!selectedResident ? <div className="living-form-error">No hay residentes habilitados para reservar.</div> : null}<label><span>Área</span><select value={selectedArea?.id || ""} onChange={(event) => updateArea(event.target.value)}>{areaAvailability.map(({ area, dates }) => { const policy = window.livingSelectors.areaPolicyOnDate(area, dates[0]); return <option key={area.id} value={area.id}>{policy.name} · {window.livingFormatCurrency((policy.payment.amount || 0) + (policy.guarantee.amount || 0))}</option>; })}</select></label>{selectedPolicy ? <div className="living-form-hint">Disponible {selectedPolicy.availability.start}–{selectedPolicy.availability.end} · bloques de {selectedPolicy.availability.blockMinutes / 60} h · máximo {selectedPolicy.availability.maxDurationMinutes / 60} h</div> : null}<div className="living-form-columns"><label><span>Fecha disponible</span><select value={effectiveDate} onChange={(event) => updateDate(event.target.value)} required>{availableDates.map((date) => <option key={date} value={date}>{calendarDateLabel(date, { weekday: "short", day: "numeric", month: "short" })}</option>)}</select></label><label><span>Bloque disponible</span><select value={effectiveSlot ? `${effectiveSlot.start}|${effectiveSlot.end}` : ""} onChange={(event) => updateSlot(event.target.value)} required>{availableSlots.map((slot) => <option key={`${slot.start}-${slot.end}`} value={`${slot.start}|${slot.end}`}>{slot.start}–{slot.end}</option>)}</select></label></div>{!availableDates.length ? <div className="living-form-error">No hay fechas disponibles en los próximos 45 días.</div> : null}<label><span>Invitados</span><input type="number" min="0" max={selectedPolicy?.capacity || undefined} value={values.guestCount} onChange={(event) => update("guestCount", event.target.value)} required /></label><label><span>Motivo</span><textarea value={values.reason} onChange={(event) => update("reason", event.target.value)} minLength="5" required /></label>{acceptedMethods.length ? <label><span>Método de pago</span><select value={acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0]} onChange={(event) => update("paymentMethod", event.target.value)}>{acceptedMethods.map((method) => <option key={method}>{method}</option>)}</select></label> : null}{acceptedMethods.length ? <label><span>Comprobante</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseProof} /></label> : null}{fileError ? <div className="living-form-error">{fileError}</div> : null}<button className="living-button living-button-primary" disabled={!selectedResident || !selectedPolicy || !effectiveSlot || Boolean(pendingActions["create_reservation:new"]) || Boolean(fileError)}>Crear reserva</button></form></window.FormPanel> : null}
       <div className="living-calendar-toolbar">
         <div className="living-calendar-nav"><button type="button" className="living-button living-button-secondary" onClick={() => movePeriod(-1)} aria-label="Periodo anterior">Anterior</button><button type="button" className="living-button living-button-secondary" onClick={goToday}>Hoy (demo)</button><button type="button" className="living-button living-button-secondary" onClick={() => movePeriod(1)} aria-label="Periodo siguiente">Siguiente</button></div>
         <div className="living-segmented" aria-label="Vista del calendario"><button type="button" aria-pressed={view === "week"} className={view === "week" ? "is-active" : ""} onClick={() => setView("week")}>Semana</button><button type="button" aria-pressed={view === "month"} className={view === "month" ? "is-active" : ""} onClick={() => setView("month")}>Mes</button></div>
@@ -236,7 +258,7 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
   );
 };
 
-window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onApprove, onOpenReservation }) {
+window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onApprove, onReviewPayment, onOpenReservation }) {
   const rows = data.reservations.filter((item) => item.status === "pending_approval");
   const recentlyApproved = window.livingSelectors.recentApprovals(data);
   return (
@@ -257,10 +279,8 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onAppr
               label: "Acciones",
               render: (row) => (
                 <div className="living-inline-actions">
-                  <button className="living-link-button" disabled={row.paymentStatus !== "verified" || Boolean(pendingActions[`approve_reservation:${row.id}`])} onClick={() => onApprove(row.id)}>
-                    {row.paymentStatus !== "verified" ? "Verificar pago" : pendingActions[`approve_reservation:${row.id}`] ? "Aprobando…" : "Aprobar"}
-                  </button>
-                  <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Detalle</button>
+                  {row.paymentStatus !== "verified" ? <button className="living-link-button" onClick={() => onReviewPayment(row.id)}>Revisar comprobante</button> : <button className="living-link-button" disabled={Boolean(pendingActions[`approve_reservation:${row.id}`])} onClick={() => onApprove(row.id)}>{pendingActions[`approve_reservation:${row.id}`] ? "Aprobando…" : "Aprobar reserva"}</button>}
+                  <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Ver reserva</button>
                 </div>
               ),
             },
@@ -284,7 +304,7 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onAppr
             { key: "guestCount", label: "Invitados" },
             { key: "paymentStatus", label: "Pago", render: (row) => <window.Badge status={row.paymentStatus} /> },
             { key: "approval", label: "Aprobación", render: (row) => <span>{window.livingFormatDateTime(row.approvedAt)} · {row.approvedBy}</span> },
-            { key: "actions", label: "Acciones", render: (row) => <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Abrir</button> },
+            { key: "actions", label: "Acciones", render: (row) => <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Ver reserva</button> },
           ]}
           rows={recentlyApproved}
           empty="Todavía no hay aprobaciones registradas."
@@ -294,13 +314,16 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onAppr
   );
 };
 
-window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify, onReject, onResubmit, onOpenReservation }) {
+window.PaymentsScreen = function PaymentsScreen({ data, initialReservationId, pendingActions, onVerify, onApprove, onReject, onResubmit, onCloseReview, onOpenReservation }) {
+  const payments = window.livingSelectors.payments(data);
+  const [reviewingId, setReviewingId] = React.useState(initialReservationId || null);
   const [selected, setSelected] = React.useState(null);
   const [resubmitting, setResubmitting] = React.useState(null);
   const [proof, setProof] = React.useState(null);
   const [proofError, setProofError] = React.useState("");
   const [reason, setReason] = React.useState("");
-  const collection = window.useLivingPagedRows(window.livingSelectors.payments(data), (item) => `${item.code} ${item.residentName} ${item.apartment} ${item.paymentMethod || ""}`, "submitted", "paymentStatus");
+  const reviewing = payments.find((item) => item.id === reviewingId);
+  const collection = window.useLivingPagedRows(payments, (item) => `${item.code} ${item.residentName} ${item.apartment} ${item.paymentMethod || ""}`, "submitted", "paymentStatus", 8, "payments");
   const ledger = window.livingSelectors.paymentLedger(data).slice(0, 12);
   async function submitRejection(event) {
     event.preventDefault();
@@ -321,9 +344,24 @@ window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify
     const result = await onResubmit(resubmitting.id, proof);
     if (result) { setResubmitting(null); setProof(null); }
   }
+  function closeReview() { setReviewingId(null); onCloseReview(); }
+  function startRejection(row) { setReviewingId(null); setSelected(row); }
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Pagos" title="Comprobantes" body="Verificación manual con trazabilidad de cada decisión." iconName="payments" />
+      {reviewing ? <window.FormPanel title={`Revisar comprobante · ${reviewing.code}`} description={`${reviewing.residentName} · Dpto. ${reviewing.apartment} · ${reviewing.areaName}`} onCancel={closeReview}>
+        <div className="living-proof-preview" aria-label="Comprobante de demostración">
+          <div className="living-proof-mark">{reviewing.paymentProof?.type === "application/pdf" ? "PDF" : "IMG"}</div>
+          <div><strong>{window.livingFormatCurrency(reviewing.amount)}</strong><span>{reviewing.paymentMethod || "Transferencia"} · {reviewing.paymentProof?.name || "Sin archivo"}</span><small>De {reviewing.residentName} a Torres del Parque</small><small>{reviewing.paymentSubmittedAt ? window.livingFormatDateTime(reviewing.paymentSubmittedAt) : "Sin fecha de recepción"} · Op. {reviewing.id.slice(-8)}</small></div>
+        </div>
+        <div className="living-form-hint">Comprobante simulado para validar el flujo de la demo.</div>
+        <div className="living-inline-actions">
+          {reviewing.paymentStatus === "submitted" ? <><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`verify_payment:${reviewing.id}`])} onClick={() => onVerify(reviewing.id)}>Verificar pago</button><button className="living-button living-button-secondary" onClick={() => startRejection(reviewing)}>Rechazar pago</button></> : null}
+          {reviewing.paymentStatus === "verified" && reviewing.status === "pending_approval" ? <button className="living-button living-button-primary" disabled={Boolean(pendingActions[`approve_reservation:${reviewing.id}`])} onClick={() => onApprove(reviewing.id)}>Aprobar reserva</button> : null}
+          {reviewing.paymentStatus === "rejected" ? <button className="living-button living-button-primary" onClick={() => { setReviewingId(null); setResubmitting(reviewing); }}>Registrar nuevo comprobante</button> : null}
+          <button className="living-button living-button-secondary" onClick={() => onOpenReservation(reviewing.id)}>Ver reserva completa</button>
+        </div>
+      </window.FormPanel> : null}
       {selected ? (
         <window.FormPanel title={`Rechazar ${selected.code}`} description="El motivo será visible en el historial operativo." onCancel={() => setSelected(null)}>
           <form className="living-form" onSubmit={submitRejection}>
@@ -343,7 +381,7 @@ window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify
             { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) },
             { key: "paymentStatus", label: "Estado", render: (row) => <window.Badge status={row.paymentStatus} /> },
             { key: "summary", label: "Detalle", render: (row) => `${row.paymentMethod || "Transferencia"}${row.paymentProof ? ` · ${row.paymentProof.name}` : ""}` },
-            { key: "actions", label: "Acciones", render: (row) => <div className="living-inline-actions">{row.paymentStatus === "submitted" ? <><button className="living-link-button" disabled={Boolean(pendingActions[`verify_payment:${row.id}`])} onClick={() => window.confirm(`¿Verificar el pago de ${row.code}?`) && onVerify(row.id)}>Verificar</button><button className="living-link-button" onClick={() => setSelected(row)}>Rechazar</button></> : null}{row.paymentStatus === "rejected" ? <button className="living-link-button" onClick={() => setResubmitting(row)}>Nuevo comprobante</button> : null}<button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Abrir</button></div> },
+            { key: "actions", label: "Acciones", render: (row) => <div className="living-inline-actions"><button className="living-link-button" onClick={() => setReviewingId(row.id)}>Revisar comprobante</button>{row.paymentStatus === "rejected" ? <button className="living-link-button" onClick={() => setResubmitting(row)}>Registrar nuevo</button> : null}<button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Ver reserva</button></div> },
           ]}
           rows={collection.rows}
           empty="No hay comprobantes con estos filtros."
@@ -359,7 +397,7 @@ window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, on
   const [selected, setSelected] = React.useState(null);
   const [amount, setAmount] = React.useState("");
   const [reason, setReason] = React.useState("");
-  const collection = window.useLivingPagedRows(window.livingSelectors.deposits(data), (item) => `${item.code} ${item.residentName} ${item.areaName}`, "", "depositStatus");
+  const collection = window.useLivingPagedRows(window.livingSelectors.deposits(data), (item) => `${item.code} ${item.residentName} ${item.areaName}`, "", "depositStatus", 8, "deposits");
   const ledger = window.livingSelectors.depositLedger(data).slice(0, 12);
   async function submitRetention(event) {
     event.preventDefault();
@@ -375,7 +413,7 @@ window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, on
         {role === "building_admin" && canResolve ? <button className="living-link-button" onClick={() => setSelected(row)}>Retener</button> : null}
         {role !== "junta" && !canResolve ? <span className="living-table-note">Esperando cierre</span> : null}
         {role !== "junta" && requiresAdmin ? <span className="living-table-note">Requiere administrador</span> : null}
-        <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Abrir</button>
+        <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Ver reserva</button>
       </div>
     );
   }
@@ -473,7 +511,7 @@ window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate, onCr
             <ul className="living-list compact">
               {policy.rules.map((rule) => <li key={rule}>{rule}</li>)}
             </ul>
-            <button className="living-button living-button-secondary" onClick={() => open(area)}>Nueva versión</button>
+            <button className="living-button living-button-secondary" onClick={() => open(area)}>Editar política</button>
           </div>
         ); })}
       </div>
@@ -793,12 +831,12 @@ window.SuperAdminScreen = function SuperAdminScreen({ data, pendingActions, onUp
 window.ReservationDetailScreen = function ReservationDetailScreen(props) {
   const reservation = props.data.reservations.find((item) => item.id === props.reservationId);
   if (!reservation) {
-    return <div className="living-screen"><window.SectionTitle eyebrow="Detalle de reserva" title="Reserva no encontrada" body="El código solicitado no existe o ya no está disponible." /><div className="living-card living-empty-state">Revise el enlace o vuelva al calendario.</div></div>;
+    return <div className="living-screen"><window.SectionTitle eyebrow="Detalle de reserva" title="Reserva no encontrada" body="El código solicitado no existe o ya no está disponible." /><div className="living-card living-empty-state"><p>Revise el enlace o vuelva a la lista anterior.</p><button className="living-button living-button-primary" onClick={props.onBack}>Volver</button></div></div>;
   }
   return <window.ReservationDetailContent key={reservation.id} {...props} reservation={reservation} />;
 };
 
-window.ReservationDetailContent = function ReservationDetailContent({ data, role, reservation, pendingActions, onApprove, onRejectReservation, onReschedule, onCancelReservation, onRefund, onMarkNoShow, onMarkArrival, onVerifyGuests, onCompleteTask }) {
+window.ReservationDetailContent = function ReservationDetailContent({ data, role, reservation, pendingActions, onApprove, onReviewPayment, onRejectReservation, onReschedule, onCancelReservation, onRefund, onMarkNoShow, onMarkArrival, onVerifyGuests, onCompleteTask, onBack }) {
   const tasks = data.tasks.filter((task) => task.reservationId === reservation.id);
   const relatedIncident = data.incidents.find((item) => item.reservationId === reservation.id);
   const canOperateSecurity = ["approved", "confirmed"].includes(reservation.status);
@@ -825,23 +863,22 @@ window.ReservationDetailContent = function ReservationDetailContent({ data, role
 
   return (
     <div className="living-screen">
+      <button type="button" className="living-back-link living-back-button" onClick={onBack}>← Volver a la lista</button>
       <window.SectionTitle
         eyebrow="Detalle de reserva"
         title={reservation.code}
         body={`${reservation.residentName} · Dpto. ${reservation.apartment} · ${reservation.areaName} · ${window.livingFormatShortDate(reservation.date)} · ${reservation.start}–${reservation.end}`}
         actions={
           <>
-            {reservation.status === "pending_approval" ? <button className="living-button living-button-primary" disabled={reservation.paymentStatus !== "verified" || Boolean(pendingActions[`approve_reservation:${reservation.id}`])} onClick={() => onApprove(reservation.id)}>{reservation.paymentStatus !== "verified" ? "Verifique el pago primero" : pendingActions[`approve_reservation:${reservation.id}`] ? "Aprobando…" : "Aprobar"}</button> : null}
-            {reservation.status === "pending_approval" ? <button className="living-button living-button-secondary" onClick={() => setMode("reject")}>Rechazar</button> : null}
-            {canChange ? <button className="living-button living-button-secondary" onClick={() => setMode("reschedule")}>Reprogramar</button> : null}
-            {canChange ? <button className="living-button living-button-secondary" onClick={() => setMode("cancel")}>Cancelar</button> : null}
+            {reservation.status === "pending_approval" && reservation.paymentStatus !== "verified" ? <button className="living-button living-button-primary" onClick={onReviewPayment}>Revisar comprobante</button> : null}
+            {reservation.status === "pending_approval" && reservation.paymentStatus === "verified" ? <button className="living-button living-button-primary" disabled={Boolean(pendingActions[`approve_reservation:${reservation.id}`])} onClick={() => onApprove(reservation.id)}>{pendingActions[`approve_reservation:${reservation.id}`] ? "Aprobando…" : "Aprobar reserva"}</button> : null}
             {reservation.refundStatus === "pending" && role === "building_admin" ? <button className="living-button living-button-primary" onClick={() => setMode("refund")}>Procesar reembolso</button> : null}
-            {canOperateSecurity ? <button className="living-button living-button-secondary" disabled={Boolean(pendingActions[`mark_no_show:${reservation.id}`])} onClick={() => window.confirm("¿Registrar que el residente no se presentó?") && onMarkNoShow(reservation.id)}>No se presentó</button> : null}
+            {(canChange || canOperateSecurity) ? <details className="living-overflow-menu"><summary>Más acciones</summary><div>{reservation.status === "pending_approval" ? <button onClick={() => setMode("reject")}>Rechazar reserva</button> : null}{canChange ? <button onClick={() => setMode("reschedule")}>Reprogramar reserva</button> : null}{canChange ? <button onClick={() => setMode("cancel")}>Cancelar reserva</button> : null}{canOperateSecurity ? <button disabled={Boolean(pendingActions[`mark_no_show:${reservation.id}`])} onClick={() => window.confirm("¿Registrar que el residente no se presentó?") && onMarkNoShow(reservation.id)}>Registrar inasistencia</button> : null}</div></details> : null}
           </>
         }
       />
       {mode === "reschedule" ? <window.FormPanel title="Reprogramar reserva" onCancel={() => setMode(null)}><form className="living-form" onSubmit={submitSchedule}><label><span>Fecha</span><input type="date" value={schedule.date} onChange={(event) => setSchedule((current) => ({ ...current, date: event.target.value }))} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={schedule.start} onChange={(event) => setSchedule((current) => ({ ...current, start: event.target.value }))} required /></label><label><span>Fin</span><input type="time" value={schedule.end} onChange={(event) => setSchedule((current) => ({ ...current, end: event.target.value }))} required /></label></div><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`reschedule_reservation:${reservation.id}`])}>Guardar horario</button></form></window.FormPanel> : null}
-      {["cancel", "reject"].includes(mode) ? <window.FormPanel title={mode === "reject" ? "Rechazar reserva" : "Cancelar reserva"} description="Si existe un pago verificado, se abrirá un reembolso pendiente." onCancel={() => setMode(null)}><form className="living-form" onSubmit={submitReason}><label><span>Motivo</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`${mode === "reject" ? "reject" : "cancel"}_reservation:${reservation.id}`])}>Confirmar</button></form></window.FormPanel> : null}
+      {["cancel", "reject"].includes(mode) ? <window.FormPanel title={mode === "reject" ? "Rechazar reserva" : "Cancelar reserva"} description="Si existe un pago verificado, se abrirá un reembolso pendiente." onCancel={() => setMode(null)}><form className="living-form" onSubmit={submitReason}><label><span>Motivo</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`${mode === "reject" ? "reject" : "cancel"}_reservation:${reservation.id}`])}>{mode === "reject" ? "Rechazar reserva" : "Cancelar reserva"}</button></form></window.FormPanel> : null}
       {mode === "refund" ? <window.FormPanel title="Procesar reembolso" description={`Monto: ${window.livingFormatCurrency(reservation.amount)}`} onCancel={() => setMode(null)}><form className="living-form" onSubmit={submitRefund}><label><span>Referencia bancaria</span><input value={refundReference} onChange={(event) => setRefundReference(event.target.value)} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`refund_payment:${reservation.id}`])}>Completar reembolso</button></form></window.FormPanel> : null}
       <div className="living-dashboard-columns">
         <div className="living-card">
