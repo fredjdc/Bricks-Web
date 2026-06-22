@@ -452,7 +452,7 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
                 <div className="whatsapp-body">
                   <img src="images/whatsapp-04.png" alt="Paso 4: Confirmación y acceso" className="whatsapp-screen" />
                 </div>
-                <div className="whatsapp-footer">Paso 4: Confirmación y acceso</div>
+                <div className="whatsapp-footer">Paso 4: Confirmación</div>
               </div>
             </div>
           </section>
