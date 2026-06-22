@@ -1,0 +1,51 @@
+.cat > .graphifyignore <<'EOF'
+# Dependencies
+node_modules/
+.pnpm-store/
+.yarn/
+.npm/
+
+# Build output
+.next/
+.nuxt/
+dist/
+build/
+out/
+.vercel/
+.netlify/
+.cache/
+coverage/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Git / OS
+.git/
+.DS_Store
+
+# Images / media that trigger semantic extraction
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.svg
+*.ico
+*.heic
+*.mp4
+*.mov
+*.m4v
+*.webm
+
+# Documents that trigger semantic extraction
+*.md
+*.txt
+*.pdf
+*.docx
+*.pptx
+*.xlsx
+*.csv
+*.rtf
+EOF
