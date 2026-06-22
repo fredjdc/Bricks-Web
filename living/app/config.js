@@ -37,6 +37,12 @@ window.LIVING_STATUS_LABELS = {
 };
 
 window.LIVING_DEMO_TODAY = "2026-07-18";
+window.LIVING_CURRENT_DATE = (() => {
+  const parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/Lima", year: "numeric", month: "2-digit", day: "2-digit" })
+    .formatToParts(new Date())
+    .reduce((result, part) => ({ ...result, [part.type]: part.value }), {});
+  return `${parts.year}-${parts.month}-${parts.day}`;
+})();
 
 window.LIVING_NAV_ITEMS = [
   { id: "dashboard", label: "Inicio", group: "Inicio", icon: "dashboard", roles: ["building_admin", "assistant_admin"] },

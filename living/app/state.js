@@ -54,6 +54,7 @@ window.livingActionKey = function livingActionKey(action) {
 };
 
 window.livingDemoActionTime = function livingDemoActionTime(action, data) {
+  if (action.type === "update_area") return `${window.LIVING_CURRENT_DATE}T09:00:00-05:00`;
   if (action.type === "complete_task") {
     const task = data.tasks.find((item) => item.id === action.taskId);
     return task ? new Date(new Date(task.dueTime).getTime() + 15 * 60 * 1000).toISOString() : "2026-07-18T23:30:00-05:00";
