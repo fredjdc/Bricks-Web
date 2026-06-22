@@ -141,6 +141,12 @@
     payments(data) {
       return data.reservations.filter((item) => ["submitted", "verified", "rejected"].includes(item.paymentStatus));
     },
+    recentApprovals(data, limit = 8) {
+      return data.reservations
+        .filter((item) => item.approvedAt)
+        .sort((a, b) => b.approvedAt.localeCompare(a.approvedAt))
+        .slice(0, limit);
+    },
     deposits(data) {
       return data.reservations.filter((item) => (Number(item.depositAmount) || 0) > 0);
     },

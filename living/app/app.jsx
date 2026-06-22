@@ -30,7 +30,7 @@ window.PortalShell = function PortalShell({
       screen = <window.PaymentsScreen data={data} pendingActions={pendingActions} onVerify={actions.verifyPayment} onReject={actions.rejectPayment} onResubmit={actions.resubmitPayment} onOpenReservation={(id) => onNavigate("reservation", id)} />;
       break;
     case "deposits":
-      screen = <window.DepositsScreen data={data} role={role} pendingActions={pendingActions} onRelease={actions.releaseDeposit} onRetain={actions.retainDeposit} />;
+      screen = <window.DepositsScreen data={data} role={role} pendingActions={pendingActions} onRelease={actions.releaseDeposit} onRetain={actions.retainDeposit} onOpenReservation={(id) => onNavigate("reservation", id)} />;
       break;
     case "areas":
       screen = <window.AreasScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateArea} onCreateMaintenance={actions.createMaintenance} onRemoveMaintenance={actions.removeMaintenance} onCreateClosure={actions.createAreaClosure} onRemoveClosure={actions.removeAreaClosure} />;

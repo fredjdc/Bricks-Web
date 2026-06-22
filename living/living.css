@@ -193,6 +193,12 @@ body {
   color: color-mix(in srgb, var(--living-text-muted) 88%, transparent);
 }
 
+.living-table-note {
+  color: var(--living-text-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
 .living-button {
   appearance: none;
   border: 1px solid var(--living-border-strong);

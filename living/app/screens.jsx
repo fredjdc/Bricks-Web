@@ -238,6 +238,7 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
 
 window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onApprove, onOpenReservation }) {
   const rows = data.reservations.filter((item) => item.status === "pending_approval");
+  const recentlyApproved = window.livingSelectors.recentApprovals(data);
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Aprobaciones" title="Cola de revisión" body="Reservas pendientes de validación." iconName="approvals" />
@@ -265,6 +266,28 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onAppr
             },
           ]}
           rows={rows}
+          empty="No hay reservas pendientes de aprobación."
+        />
+      </div>
+      <div className="living-card">
+        <div className="living-card-header-row">
+          <div><div className="living-card-label">Aprobadas recientemente</div><h3>Últimas decisiones</h3></div>
+          <span className="living-card-detail">{recentlyApproved.length} reservas</span>
+        </div>
+        <window.DataTable
+          columns={[
+            { key: "code", label: "Reserva" },
+            { key: "residentName", label: "Residente" },
+            { key: "apartment", label: "Dpto." },
+            { key: "areaName", label: "Área" },
+            { key: "date", label: "Fecha", render: (row) => window.livingFormatShortDate(row.date) },
+            { key: "guestCount", label: "Invitados" },
+            { key: "paymentStatus", label: "Pago", render: (row) => <window.Badge status={row.paymentStatus} /> },
+            { key: "approval", label: "Aprobación", render: (row) => <span>{window.livingFormatDateTime(row.approvedAt)} · {row.approvedBy}</span> },
+            { key: "actions", label: "Acciones", render: (row) => <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Abrir</button> },
+          ]}
+          rows={recentlyApproved}
+          empty="Todavía no hay aprobaciones registradas."
         />
       </div>
     </div>
@@ -332,7 +355,7 @@ window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify
   );
 };
 
-window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, onRelease, onRetain }) {
+window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, onRelease, onRetain, onOpenReservation }) {
   const [selected, setSelected] = React.useState(null);
   const [amount, setAmount] = React.useState("");
   const [reason, setReason] = React.useState("");
@@ -342,6 +365,19 @@ window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, on
     event.preventDefault();
     const result = await onRetain(selected.id, amount, reason);
     if (result) { setSelected(null); setAmount(""); setReason(""); }
+  }
+  function renderActions(row) {
+    const canResolve = row.status === "completed" && ["held", "retained"].includes(row.depositStatus);
+    const requiresAdmin = row.depositStatus === "retained" && role !== "building_admin";
+    return (
+      <div className="living-inline-actions">
+        {role !== "junta" && canResolve && !requiresAdmin ? <button className="living-link-button" disabled={Boolean(pendingActions[`release_deposit:${row.id}`])} onClick={() => window.confirm(`¿Liberar la garantía de ${row.code}?`) && onRelease(row.id)}>Liberar</button> : null}
+        {role === "building_admin" && canResolve ? <button className="living-link-button" onClick={() => setSelected(row)}>Retener</button> : null}
+        {role !== "junta" && !canResolve ? <span className="living-table-note">Esperando cierre</span> : null}
+        {role !== "junta" && requiresAdmin ? <span className="living-table-note">Requiere administrador</span> : null}
+        <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Abrir</button>
+      </div>
+    );
   }
   return (
     <div className="living-screen">
@@ -357,9 +393,10 @@ window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, on
             { key: "depositStatus", label: "Estado", render: (row) => <window.Badge status={row.depositStatus} /> },
             { key: "status", label: "Reserva", render: (row) => <window.Badge status={row.status} /> },
             { key: "impact", label: "Observación", render: (row) => row.code === "EVR-2026-0712-0007" ? "Retener S/ 80 por silla dañada" : "Pendiente cierre operativo" },
-            { key: "actions", label: "Acciones", render: (row) => role === "junta" ? "Solo lectura" : row.status === "completed" && ["held", "retained"].includes(row.depositStatus) ? row.depositStatus === "retained" && role !== "building_admin" ? "Requiere administrador" : <div className="living-inline-actions"><button className="living-link-button" disabled={Boolean(pendingActions[`release_deposit:${row.id}`])} onClick={() => window.confirm(`¿Liberar la garantía de ${row.code}?`) && onRelease(row.id)}>Liberar</button>{role === "building_admin" ? <button className="living-link-button" onClick={() => setSelected(row)}>Retener</button> : null}</div> : "Esperando cierre" },
+            { key: "actions", label: "Acciones", render: renderActions },
           ]}
           rows={collection.rows}
+          empty="No hay garantías con estos filtros."
         />
         <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>

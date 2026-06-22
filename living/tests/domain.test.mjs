@@ -40,6 +40,10 @@ assert.deepEqual(calendarEntries, [...calendarEntries].sort((a, b) => `${a.date}
 assert.equal(livingSelectors.report(data).totalReservations, data.reservations.filter((item) => item.date.startsWith("2026-07")).length);
 assert.equal(livingSelectors.report(data).totalReservations, 90);
 assert.equal(livingSelectors.report(data).totalRevenue, 5280);
+const recentApprovals = livingSelectors.recentApprovals(data, 5);
+assert.equal(recentApprovals.length, 5);
+assert.ok(recentApprovals.every((item) => item.approvedAt));
+assert.deepEqual(recentApprovals, [...recentApprovals].sort((a, b) => b.approvedAt.localeCompare(a.approvedAt)));
 
 assert.throws(
   () => apply(data, { type: "approve_reservation", reservationId: anaId }, "security", security),
