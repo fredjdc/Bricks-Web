@@ -1,5 +1,5 @@
 (function registerLivingSelectors(global) {
-  const DEMO_TODAY = "2026-07-18";
+  const DEMO_TODAY = global.LIVING_DEMO_TODAY;
   const MONTH_PREFIX = "2026-07";
 
   function areaFee(data, reservation) {
@@ -27,6 +27,56 @@
     if (policy.guarantee.enabled) groups.push(policy.guarantee.methods);
     if (!groups.length) return [];
     return groups[0].filter((method) => groups.every((methods) => methods.includes(method)));
+  }
+
+  function parseDate(date) {
+    return new Date(`${date}T12:00:00Z`);
+  }
+
+  function formatISODate(date) {
+    return date.toISOString().slice(0, 10);
+  }
+
+  function addDays(date, amount) {
+    const value = parseDate(date);
+    value.setUTCDate(value.getUTCDate() + amount);
+    return formatISODate(value);
+  }
+
+  function startOfWeek(date) {
+    const value = parseDate(date);
+    const offset = (value.getUTCDay() + 6) % 7;
+    value.setUTCDate(value.getUTCDate() - offset);
+    return formatISODate(value);
+  }
+
+  function addMonths(date, amount) {
+    const value = parseDate(date);
+    const day = value.getUTCDate();
+    value.setUTCDate(1);
+    value.setUTCMonth(value.getUTCMonth() + amount);
+    const lastDay = new Date(Date.UTC(value.getUTCFullYear(), value.getUTCMonth() + 1, 0)).getUTCDate();
+    value.setUTCDate(Math.min(day, lastDay));
+    return formatISODate(value);
+  }
+
+  function monthGrid(date) {
+    const monthStart = `${date.slice(0, 7)}-01`;
+    const gridStart = startOfWeek(monthStart);
+    return Array.from({ length: 42 }, (_item, index) => addDays(gridStart, index));
+  }
+
+  function calendarEntries(data) {
+    const reservations = data.reservations
+      .filter((item) => !["cancelled", "rejected"].includes(item.status))
+      .map((item) => ({ id: item.id, type: "reservation", date: item.date, start: item.start, end: item.end, areaName: item.areaName, title: `${item.areaName} · ${item.residentName}`, status: item.status, reservationId: item.id }));
+    const maintenance = data.maintenanceBlocks
+      .filter((item) => item.status === "active")
+      .map((item) => ({ id: item.id, type: "maintenance", date: item.date, start: item.start, end: item.end, areaName: item.areaName, title: `${item.areaName} · Mantenimiento`, status: item.status }));
+    const closures = (data.areaClosures || [])
+      .filter((item) => item.status === "active")
+      .map((item) => ({ id: item.id, type: "closure", date: item.date, start: item.start, end: item.end, areaName: item.areaName, title: `${item.areaName} · Cierre`, status: item.status }));
+    return [...reservations, ...maintenance, ...closures].sort((a, b) => `${a.date}${a.start}${a.title}`.localeCompare(`${b.date}${b.start}${b.title}`));
   }
 
   function availabilityForSlot(data, { areaId, date, start, end, excludeReservationId = null }) {
@@ -102,6 +152,11 @@
     },
     areaPolicyOnDate,
     paymentMethodsForPolicy,
+    addDays,
+    startOfWeek,
+    addMonths,
+    monthGrid,
+    calendarEntries,
     availabilityForSlot,
     isSlotAvailable(data, { areaId, date, start, end, excludeReservationId = null }) {
       return availabilityForSlot(data, { areaId, date, start, end, excludeReservationId }).available;

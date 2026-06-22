@@ -154,17 +154,18 @@ window.SectionTitle = function SectionTitle({ eyebrow, title, body, actions, ico
   );
 };
 
-window.MetricCard = function MetricCard({ label, value, detail, icon }) {
-  return (
-    <div className="living-card living-metric-card">
+window.MetricCard = function MetricCard({ label, value, detail, icon, onClick }) {
+  const content = (
+    <>
       <div className="living-card-header-row">
         <div className="living-card-label">{label}</div>
         {icon && <span className="living-metric-icon">{icon}</span>}
       </div>
       <div className="living-metric-value">{value}</div>
       {detail ? <div className="living-card-detail">{detail}</div> : null}
-    </div>
+    </>
   );
+  return onClick ? <button type="button" className="living-card living-metric-card living-metric-card-action" onClick={onClick}>{content}</button> : <div className="living-card living-metric-card">{content}</div>;
 };
 
 window.DataTable = function DataTable({ columns, rows, empty }) {

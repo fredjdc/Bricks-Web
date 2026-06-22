@@ -36,6 +36,8 @@ window.LIVING_STATUS_LABELS = {
   not_applicable: "No aplica",
 };
 
+window.LIVING_DEMO_TODAY = "2026-07-18";
+
 window.LIVING_NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard", icon: "dashboard", roles: ["building_admin", "assistant_admin"] },
   { id: "calendar", label: "Calendario", icon: "calendar", roles: ["building_admin", "assistant_admin"] },

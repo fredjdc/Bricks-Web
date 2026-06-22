@@ -16,7 +16,7 @@ window.useLivingPagedRows = function useLivingPagedRows(items, searchText, filte
   return { query, setQuery: changeQuery, filter, setFilter: changeFilter, page: safePage, setPage, pageCount, rows, total: filtered.length };
 };
 
-window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
+window.DashboardScreen = function DashboardScreen({ data, onOpenReservation, onNavigate }) {
   const kpis = window.livingGetKpis(data);
   const storyReservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
   const activeTasks = data.tasks.filter((task) => task.status !== "completed");
@@ -86,10 +86,10 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
     <div className="living-screen">
       <window.SectionTitle eyebrow="Vista general" title="Operación de hoy" iconName="dashboard" />
       <div className="living-grid living-kpis">
-        <window.MetricCard label="Pendientes" value={kpis.pendingApprovals} detail="Aprobaciones" icon={dashboardIcons.pending} />
-        <window.MetricCard label="Pagos por revisar" value={kpis.pendingPayments} detail="Comprobantes" icon={dashboardIcons.payments} />
-        <window.MetricCard label="Reservas hoy" value={kpis.todayReservations} detail="Aprobadas y activas" icon={dashboardIcons.reservations} />
-        <window.MetricCard label="Ingresos del mes" value={window.livingFormatCurrency(kpis.revenueThisMonth)} detail="Verificado" icon={dashboardIcons.revenue} />
+        <window.MetricCard label="Pendientes" value={kpis.pendingApprovals} detail="Abrir aprobaciones" icon={dashboardIcons.pending} onClick={() => onNavigate("approvals")} />
+        <window.MetricCard label="Pagos por revisar" value={kpis.pendingPayments} detail="Abrir comprobantes" icon={dashboardIcons.payments} onClick={() => onNavigate("payments")} />
+        <window.MetricCard label="Reservas hoy" value={kpis.todayReservations} detail="Abrir calendario" icon={dashboardIcons.reservations} onClick={() => onNavigate("calendar")} />
+        <window.MetricCard label="Ingresos del mes" value={window.livingFormatCurrency(kpis.revenueThisMonth)} detail="Abrir reportes" icon={dashboardIcons.revenue} onClick={() => onNavigate("reports")} />
       </div>
       <div className="living-dashboard-columns">
         <div className="living-card">
@@ -120,14 +120,8 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
             <span>Cola operativa</span>
           </div>
           <ul className="living-list living-queue-list">
-            <li>
-              <span className="living-queue-icon">{dashboardIcons.pending}</span>
-              <span>{kpis.pendingApprovals} aprobaciones por resolver</span>
-            </li>
-            <li>
-              <span className="living-queue-icon">{dashboardIcons.task}</span>
-              <span>{activeTasks.length} tareas de limpieza activas</span>
-            </li>
+            <li><button type="button" className="living-queue-action" onClick={() => onNavigate("approvals")}><span className="living-queue-icon">{dashboardIcons.pending}</span><span>{kpis.pendingApprovals} aprobaciones por resolver</span></button></li>
+            <li><button type="button" className="living-queue-action" onClick={() => onNavigate("cleaning")}><span className="living-queue-icon">{dashboardIcons.task}</span><span>{activeTasks.length} tareas de limpieza activas</span></button></li>
           </ul>
         </div>
       </div>
@@ -135,19 +129,55 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation }) {
   );
 };
 
+const CALENDAR_WEEKDAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+
+function calendarDateLabel(date, options) {
+  return new Intl.DateTimeFormat("es-PE", { timeZone: "UTC", ...options }).format(new Date(`${date}T12:00:00Z`));
+}
+
+window.CalendarEventCard = function CalendarEventCard({ entry, compact, onOpenReservation }) {
+  const content = <><span className="living-calendar-event-time">{entry.start}</span><span className="living-calendar-event-title">{compact ? entry.areaName : entry.title}</span></>;
+  const className = `living-calendar-event living-calendar-event-${entry.type}`;
+  return entry.reservationId ? <button type="button" className={className} onClick={() => onOpenReservation(entry.reservationId)} aria-label={`Abrir ${entry.title} a las ${entry.start}`}>{content}</button> : <div className={className}>{content}</div>;
+};
+
 window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreateReservation, onOpenReservation }) {
+  const today = window.LIVING_DEMO_TODAY;
   const [showCreate, setShowCreate] = React.useState(false);
   const [fileError, setFileError] = React.useState("");
+  const [view, setView] = React.useState("week");
+  const [focusDate, setFocusDate] = React.useState(today);
+  const [selectedDate, setSelectedDate] = React.useState(today);
   const [values, setValues] = React.useState({ residentId: "resident-402", areaId: "terrace", date: "2026-07-22", start: "17:00", end: "21:00", guestCount: "10", reason: "Reunión de residentes", paymentMethod: "Yape", paymentProofName: "", paymentProofType: "", paymentProofSize: 0 });
-  const visible = data.reservations
-    .filter((item) => item.date >= "2026-07-16" && item.date <= "2026-07-22")
-    .sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`));
+  const entries = window.livingSelectors.calendarEntries(data);
+  const weekStart = window.livingSelectors.startOfWeek(focusDate);
+  const weekDates = Array.from({ length: 7 }, (_item, index) => window.livingSelectors.addDays(weekStart, index));
+  const monthDates = window.livingSelectors.monthGrid(focusDate);
+  const monthRows = Array.from({ length: 6 }, (_item, index) => monthDates.slice(index * 7, (index + 1) * 7));
+  const selectedEntries = entries.filter((entry) => entry.date === selectedDate);
+  const monthPrefix = focusDate.slice(0, 7);
+  const title = view === "week" ? `${calendarDateLabel(weekDates[0], { day: "numeric", month: "short" })} – ${calendarDateLabel(weekDates[6], { day: "numeric", month: "short", year: "numeric" })}` : calendarDateLabel(`${monthPrefix}-01`, { month: "long", year: "numeric" });
   const reservableAreas = data.areas.filter((area) => { const policy = window.livingSelectors.areaPolicyOnDate(area, values.date); return policy?.status === "active" && policy.reservable; });
   const selectedArea = reservableAreas.find((area) => area.id === values.areaId) || reservableAreas[0];
   const selectedPolicy = selectedArea ? window.livingSelectors.areaPolicyOnDate(selectedArea, values.date) : null;
   const acceptedMethods = selectedPolicy ? window.livingSelectors.paymentMethodsForPolicy(selectedPolicy) : [];
 
   function update(key, value) { setValues((current) => ({ ...current, [key]: value })); }
+  function selectDate(date) {
+    setFocusDate(date);
+    setSelectedDate(date);
+    setValues((current) => ({ ...current, date }));
+  }
+  function movePeriod(direction) {
+    React.startTransition(() => {
+      const next = view === "week" ? window.livingSelectors.addDays(focusDate, direction * 7) : window.livingSelectors.addMonths(focusDate, direction);
+      setFocusDate(next);
+      selectDate(next);
+    });
+  }
+  function goToday() {
+    React.startTransition(() => selectDate(today));
+  }
   function updateArea(areaId) {
     const area = data.areas.find((item) => item.id === areaId);
     const policy = area ? window.livingSelectors.areaPolicyOnDate(area, values.date) : null;
@@ -169,21 +199,39 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
 
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Calendario" title="Semana operativa" iconName="calendar" actions={<button className="living-button living-button-primary" onClick={() => setShowCreate(true)}>Nueva reserva</button>} />
+      <window.SectionTitle eyebrow="Calendario" title={title} body="Reservas, mantenimiento y cierres en una sola línea operativa." iconName="calendar" actions={<button className="living-button living-button-primary" onClick={() => { setValues((current) => ({ ...current, date: selectedDate })); setShowCreate(true); }}>Nueva reserva</button>} />
       {showCreate ? <window.FormPanel title="Crear reserva" description="La disponibilidad se valida contra políticas, reservas, mantenimiento y cierres." onCancel={() => setShowCreate(false)}><form className="living-form" onSubmit={submit}><label><span>Residente</span><select value={values.residentId} onChange={(event) => update("residentId", event.target.value)}>{data.residents.filter((item) => item.status === "active" && item.debt === 0).map((item) => <option key={item.id} value={item.id}>{item.name} · Dpto. {item.apartment}</option>)}</select></label><label><span>Área</span><select value={selectedArea?.id || ""} onChange={(event) => updateArea(event.target.value)}>{reservableAreas.map((area) => { const policy = window.livingSelectors.areaPolicyOnDate(area, values.date); return <option key={area.id} value={area.id}>{policy.name} · {window.livingFormatCurrency((policy.payment.amount || 0) + (policy.guarantee.amount || 0))}</option>; })}</select></label>{selectedPolicy ? <div className="living-form-hint">Disponible {selectedPolicy.availability.start}–{selectedPolicy.availability.end} · bloques de {selectedPolicy.availability.blockMinutes / 60} h · máximo {selectedPolicy.availability.maxDurationMinutes / 60} h</div> : null}<label><span>Fecha</span><input type="date" value={values.date} onChange={(event) => update("date", event.target.value)} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={values.start} onChange={(event) => update("start", event.target.value)} required /></label><label><span>Fin</span><input type="time" value={values.end} onChange={(event) => update("end", event.target.value)} required /></label></div><label><span>Invitados</span><input type="number" min="0" max={selectedPolicy?.capacity || undefined} value={values.guestCount} onChange={(event) => update("guestCount", event.target.value)} required /></label><label><span>Motivo</span><textarea value={values.reason} onChange={(event) => update("reason", event.target.value)} minLength="5" required /></label>{acceptedMethods.length ? <label><span>Método de pago</span><select value={acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0]} onChange={(event) => update("paymentMethod", event.target.value)}>{acceptedMethods.map((method) => <option key={method}>{method}</option>)}</select></label> : null}{acceptedMethods.length ? <label><span>Comprobante</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseProof} /></label> : null}{fileError ? <div className="living-form-error">{fileError}</div> : null}<button className="living-button living-button-primary" disabled={!selectedPolicy || Boolean(pendingActions["create_reservation:new"]) || Boolean(fileError)}>Crear reserva</button></form></window.FormPanel> : null}
-      <div className="living-card">
-        <window.DataTable
-          columns={[
-            { key: "date", label: "Fecha", render: (row) => window.livingFormatShortDate(row.date) },
-            { key: "time", label: "Horario", render: (row) => `${row.start}–${row.end}` },
-            { key: "areaName", label: "Área" },
-            { key: "residentName", label: "Residente" },
-            { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> },
-            { key: "action", label: "Detalle", render: (row) => <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Abrir</button> },
-          ]}
-          rows={visible}
-        />
+      <div className="living-calendar-toolbar">
+        <div className="living-calendar-nav"><button type="button" className="living-button living-button-secondary" onClick={() => movePeriod(-1)} aria-label="Periodo anterior">Anterior</button><button type="button" className="living-button living-button-secondary" onClick={goToday}>Hoy (demo)</button><button type="button" className="living-button living-button-secondary" onClick={() => movePeriod(1)} aria-label="Periodo siguiente">Siguiente</button></div>
+        <div className="living-segmented" aria-label="Vista del calendario"><button type="button" aria-pressed={view === "week"} className={view === "week" ? "is-active" : ""} onClick={() => setView("week")}>Semana</button><button type="button" aria-pressed={view === "month"} className={view === "month" ? "is-active" : ""} onClick={() => setView("month")}>Mes</button></div>
       </div>
+      <div className="living-calendar-scroll-hint">Deslice horizontalmente para ver todos los días.</div>
+      {view === "week" ? (
+        <div className="living-card living-calendar-shell">
+          <div className="living-calendar-week" role="grid" aria-label={`Semana ${title}`}>
+            <div className="living-calendar-row" role="row">
+              {weekDates.map((date) => {
+                const dayEntries = entries.filter((entry) => entry.date === date);
+                const dateLabel = calendarDateLabel(date, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+                return <section role="gridcell" className={`living-calendar-day ${date === selectedDate ? "is-selected" : ""}`} key={date}><button type="button" className="living-calendar-day-heading" aria-label={dateLabel} aria-pressed={date === selectedDate} aria-current={date === today ? "date" : undefined} onClick={() => selectDate(date)}><span>{calendarDateLabel(date, { weekday: "short" })}</span><strong>{calendarDateLabel(date, { day: "numeric" })}</strong></button><div className="living-calendar-day-events">{dayEntries.length ? dayEntries.map((entry) => <window.CalendarEventCard key={`${entry.type}-${entry.id}`} entry={entry} onOpenReservation={onOpenReservation} />) : <span className="living-calendar-empty-day">Sin actividad</span>}</div></section>;
+              })}
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="living-card living-calendar-shell">
+          <div className="living-calendar-month-weekdays" aria-hidden="true">{CALENDAR_WEEKDAYS.map((day) => <span key={day}>{day}</span>)}</div>
+          <div className="living-calendar-month" role="grid" aria-label={title}>
+            {monthRows.map((row, rowIndex) => <div className="living-calendar-row" role="row" key={`row-${rowIndex}`}>{row.map((date) => {
+              const dayEntries = entries.filter((entry) => entry.date === date);
+              const outside = !date.startsWith(monthPrefix);
+              const dateLabel = calendarDateLabel(date, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+              return <section role="gridcell" className={`living-calendar-month-day ${outside ? "is-outside" : ""} ${date === selectedDate ? "is-selected" : ""}`} key={date}><button type="button" className="living-calendar-month-date" aria-label={dateLabel} aria-pressed={date === selectedDate} aria-current={date === today ? "date" : undefined} onClick={() => selectDate(date)}>{calendarDateLabel(date, { day: "numeric" })}</button><div className="living-calendar-month-events">{dayEntries.slice(0, 3).map((entry) => <window.CalendarEventCard compact key={`${entry.type}-${entry.id}`} entry={entry} onOpenReservation={onOpenReservation} />)}{dayEntries.length > 3 ? <button type="button" className="living-calendar-more" onClick={() => selectDate(date)}>+{dayEntries.length - 3} más</button> : null}</div></section>;
+            })}</div>)}
+          </div>
+        </div>
+      )}
+      <div className="living-card living-calendar-agenda"><div className="living-card-header-row"><div><div className="living-card-label">Agenda del día</div><h3>{calendarDateLabel(selectedDate, { weekday: "long", day: "numeric", month: "long" })}</h3></div><span className="living-card-detail">{selectedEntries.length} eventos</span></div>{selectedEntries.length ? <div className="living-calendar-agenda-list">{selectedEntries.map((entry) => <window.CalendarEventCard key={`agenda-${entry.type}-${entry.id}`} entry={entry} onOpenReservation={onOpenReservation} />)}</div> : <div className="living-empty-state">No hay actividad programada.</div>}</div>
     </div>
   );
 };

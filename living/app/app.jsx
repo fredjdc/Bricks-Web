@@ -18,7 +18,7 @@ window.PortalShell = function PortalShell({
 
   switch (currentPage) {
     case "dashboard":
-      screen = <window.DashboardScreen data={data} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.DashboardScreen data={data} onNavigate={onNavigate} onOpenReservation={(id) => onNavigate("reservation", id)} />;
       break;
     case "calendar":
       screen = <window.CalendarScreen data={data} pendingActions={pendingActions} onCreateReservation={actions.createReservation} onOpenReservation={(id) => onNavigate("reservation", id)} />;
@@ -82,7 +82,7 @@ window.PortalShell = function PortalShell({
       );
       break;
     default:
-      screen = <window.DashboardScreen data={data} onOpenReservation={(id) => onNavigate("reservation", id)} />;
+      screen = <window.DashboardScreen data={data} onNavigate={onNavigate} onOpenReservation={(id) => onNavigate("reservation", id)} />;
   }
 
   return (
