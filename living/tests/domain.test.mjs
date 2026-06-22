@@ -128,7 +128,7 @@ const createCommand = {
   areaId: "terrace",
   date: "2026-07-22",
   start: "17:00",
-  end: "20:00",
+  end: "21:00",
   guestCount: 12,
   reason: "Reunión familiar",
   paymentMethod: "Yape",
@@ -139,14 +139,15 @@ const createCommand = {
 let lifecycleResult = apply(lifecycleSource, createCommand, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T11:00:00-05:00");
 const createdReservation = lifecycleResult.data.reservations[0];
 assert.equal(createdReservation.status, "pending_approval");
+assert.equal(createdReservation.areaPolicySnapshot.version, 1);
 assert.equal(lifecycleResult.data.paymentLedger[0].type, "payment_submitted");
 assert.equal(lifecycleResult.data.depositLedger[0].type, "deposit_held");
 
-lifecycleResult = apply(lifecycleResult.data, { type: "reschedule_reservation", reservationId: createdReservation.id, date: "2026-07-23", start: "08:00", end: "10:00" }, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T11:10:00-05:00");
+lifecycleResult = apply(lifecycleResult.data, { type: "reschedule_reservation", reservationId: createdReservation.id, date: "2026-07-23", start: "09:00", end: "11:00" }, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T11:10:00-05:00");
 assert.equal(lifecycleResult.data.reservations.find((item) => item.id === createdReservation.id).date, "2026-07-23");
 
 assert.throws(
-  () => apply(buildLivingDemoData(), { ...createCommand, date: "2026-07-18", start: "17:00", end: "20:00" }, "building_admin", admin),
+  () => apply(buildLivingDemoData(), { ...createCommand, date: "2026-07-18", start: "17:00", end: "21:00" }, "building_admin", admin),
   (error) => error.code === "schedule_conflict"
 );
 
@@ -158,7 +159,9 @@ assert.throws(
 );
 cancellationData = apply(cancellationData, { type: "refund_payment", reservationId: anaId, reference: "REF-001" }, "building_admin", admin, "2026-07-19T00:30:00-05:00").data;
 assert.equal(cancellationData.reservations.find((item) => item.id === anaId).refundStatus, "refunded");
+assert.equal(cancellationData.reservations.find((item) => item.id === anaId).depositStatus, "released");
 assert.equal(cancellationData.paymentLedger[0].amount, -420);
+assert.equal(cancellationData.depositLedger[0].type, "deposit_refunded");
 
 let noShowData = apply(buildLivingDemoData(), { type: "approve_reservation", reservationId: anaId }, "building_admin", admin).data;
 noShowData = apply(noShowData, { type: "mark_no_show", reservationId: anaId }, "security", security, "2026-07-19T00:30:00-05:00").data;
@@ -171,11 +174,90 @@ assert.equal(createdMaintenance.status, "active");
 maintenanceResult = apply(maintenanceResult.data, { type: "remove_maintenance", maintenanceId: createdMaintenance.id }, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T12:00:00-05:00");
 assert.equal(maintenanceResult.data.maintenanceBlocks[0].status, "cancelled");
 
+const policySource = buildLivingDemoData();
+const bbqPolicy = policySource.areas.find((item) => item.id === "bbq").policyVersions[0];
+const policyCommand = {
+  type: "update_area",
+  areaId: "bbq",
+  name: "Parrillas",
+  location: "Piso 22 norte",
+  effectiveFrom: "2026-07-23",
+  status: "active",
+  closureReason: "",
+  reservable: true,
+  capacity: 24,
+  rules: ["Sin música amplificada", "Dejar el área limpia"],
+  paymentEnabled: true,
+  reservationFee: 80,
+  paymentMethods: ["Yape", "Plin"],
+  guaranteeEnabled: true,
+  deposit: 200,
+  guaranteeMethods: ["Yape", "Plin"],
+  months: bbqPolicy.availability.months,
+  weekdays: bbqPolicy.availability.weekdays,
+  availabilityStart: "08:00",
+  availabilityEnd: "22:00",
+  blockMinutes: 120,
+  maxDurationMinutes: 240,
+  requiresGuestList: false,
+  requiresApproval: false,
+};
+let policyResult = apply(policySource, policyCommand, "building_admin", admin, "2026-07-17T11:00:00-05:00");
+const updatedArea = policyResult.data.areas.find((item) => item.id === "bbq");
+assert.equal(updatedArea.policyVersions.length, 2);
+assert.equal(updatedArea.name, "Zona BBQ");
+assert.equal(livingSelectors.areaPolicyOnDate(updatedArea, "2026-07-22").version, 1);
+assert.equal(livingSelectors.areaPolicyOnDate(updatedArea, "2026-07-23").version, 2);
+let futureCloseData = apply(buildLivingDemoData(), { ...policyCommand, areaId: "terrace", name: "Terraza", location: "Piso 22", status: "closed", effectiveFrom: "2026-07-23" }, "building_admin", admin, "2026-07-17T11:00:00-05:00").data;
+const futureClosedArea = futureCloseData.areas.find((item) => item.id === "terrace");
+assert.equal(futureClosedArea.status, "active");
+assert.equal(livingSelectors.areaPolicyOnDate(futureClosedArea, "2026-07-22").status, "active");
+assert.equal(livingSelectors.areaPolicyOnDate(futureClosedArea, "2026-07-23").status, "closed");
+const autoApprovalCommand = { ...createCommand, areaId: "bbq", date: "2026-08-31", start: "08:00", end: "10:00", paymentMethod: "Plin" };
+policyResult = apply(policyResult.data, autoApprovalCommand, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T12:00:00-05:00");
+const autoReservation = policyResult.data.reservations[0];
+assert.equal(autoReservation.status, "pending_payment");
+assert.equal(autoReservation.reservationFee, 80);
+assert.equal(autoReservation.areaPolicySnapshot.version, 2);
+policyResult = apply(policyResult.data, { type: "verify_payment", reservationId: autoReservation.id }, "assistant_admin", { name: "Carlos Vega" }, "2026-08-30T12:00:00-05:00");
+assert.equal(policyResult.data.reservations.find((item) => item.id === autoReservation.id).status, "approved");
+assert.throws(
+  () => apply(buildLivingDemoData(), { ...policyCommand, paymentMethods: ["Criptomoneda"] }, "building_admin", admin, "2026-07-17T11:00:00-05:00"),
+  (error) => error.code === "validation_error"
+);
+assert.throws(
+  () => apply(buildLivingDemoData(), { ...policyCommand, paymentMethods: ["Yape"], guaranteeMethods: ["Plin"] }, "building_admin", admin, "2026-07-17T11:00:00-05:00"),
+  (error) => error.code === "validation_error"
+);
+
+let rejectedPaymentData = apply(buildLivingDemoData(), { type: "reject_payment", reservationId: "EVR-2026-0719-0094", reason: "Imagen ilegible" }, "assistant_admin", { name: "Carlos Vega" }).data;
+rejectedPaymentData = apply(rejectedPaymentData, { type: "resubmit_payment", reservationId: "EVR-2026-0719-0094", paymentProofName: "nuevo.pdf", paymentProofType: "application/pdf", paymentProofSize: 150000 }, "assistant_admin", { name: "Carlos Vega" }).data;
+assert.equal(rejectedPaymentData.reservations.find((item) => item.id === "EVR-2026-0719-0094").paymentStatus, "submitted");
+assert.equal(rejectedPaymentData.paymentLedger[0].type, "payment_resubmitted");
+
+let closureResult = apply(buildLivingDemoData(), { type: "create_area_closure", areaId: "terrace", date: "2026-08-31", start: "08:00", end: "12:00", reason: "Inspección programada" }, "building_admin", admin, "2026-07-17T11:00:00-05:00");
+const createdClosure = closureResult.data.areaClosures[0];
+assert.equal(livingSelectors.availabilityForSlot(closureResult.data, { areaId: "terrace", date: "2026-08-31", start: "09:00", end: "11:00" }).available, false);
+closureResult = apply(closureResult.data, { type: "remove_area_closure", closureId: createdClosure.id }, "assistant_admin", { name: "Carlos Vega" }, "2026-07-17T12:00:00-05:00");
+assert.equal(closureResult.data.areaClosures[0].status, "cancelled");
+assert.throws(
+  () => apply(buildLivingDemoData(), { type: "create_area_closure", areaId: "terrace", date: "2026-07-18", start: "17:00", end: "21:00", reason: "Cierre extraordinario" }, "building_admin", admin),
+  (error) => error.code === "schedule_conflict"
+);
+assert.throws(
+  () => apply(buildLivingDemoData(), { type: "create_area_closure", areaId: "bbq", date: "2026-07-20", start: "08:00", end: "10:00", reason: "Cierre extraordinario" }, "building_admin", admin),
+  (error) => error.code === "schedule_conflict"
+);
+
 assert.deepEqual(livingBuildApiRequest({ type: "reschedule_reservation", reservationId: anaId, date: "2026-07-22", start: "10:00", end: "12:00" }), {
   method: "PATCH",
   path: `/v1/reservations/${anaId}/schedule`,
   body: { date: "2026-07-22", start: "10:00", end: "12:00" },
 });
+const createApiRequest = livingBuildApiRequest(createCommand);
+assert.equal(createApiRequest.body.residentId, "resident-402");
+assert.equal(createApiRequest.body.areaId, "terrace");
+assert.equal(livingBuildApiRequest({ type: "create_maintenance", areaId: "bbq", date: "2026-08-31", start: "08:00", end: "10:00", reason: "Trabajo técnico" }).body.areaId, "bbq");
 assert.deepEqual(Object.keys(LIVING_ACTION_PERMISSIONS).sort(), Object.keys(LIVING_API_CONTRACTS).sort());
 assert.throws(
   () => apply(buildLivingDemoData(), { type: "create_maintenance", areaId: "bbq", date: "2026-07-23", start: "25:00", end: "26:00", reason: "Limpieza profunda" }, "assistant_admin", { name: "Carlos Vega" }),
@@ -214,6 +296,9 @@ assert.equal(livingSelectors.report(historicalData).totalRevenue, historicalReve
 const corruptData = buildLivingDemoData();
 corruptData.reservations[0].paymentStatus = "unknown";
 assert.equal(validateLivingData(corruptData).valid, false);
+const corruptPolicyData = buildLivingDemoData();
+corruptPolicyData.areas[0].policyVersions[0].availability.months = [13];
+assert.equal(validateLivingData(corruptPolicyData).valid, false);
 assert.deepEqual(LIVING_NAV_ITEMS.find((item) => item.id === "dashboard").roles, ["building_admin", "assistant_admin"]);
 
 const memory = new Map();
@@ -233,6 +318,14 @@ const migratedData = loadLivingDemoState(storage);
 assert.equal(migratedData.reservations[0].status, "approved");
 assert.equal(migratedData.reservations[0].reservationFee, 120);
 assert.ok(Array.isArray(migratedData.superAdmin.subscriptions));
+const versionFourData = buildLivingDemoData();
+versionFourData.areas.forEach((area) => { delete area.policyVersions; });
+delete versionFourData.areaClosures;
+memory.set(LIVING_STORAGE_KEY, JSON.stringify({ version: 4, data: versionFourData }));
+const versionFiveData = loadLivingDemoState(storage);
+assert.equal(versionFiveData.areas.every((area) => area.policyVersions.length === 1), true);
+assert.ok(Array.isArray(versionFiveData.areaClosures));
+assert.equal(versionFiveData.areaClosures.length, 0);
 memory.set(LIVING_STORAGE_KEY, JSON.stringify({ version: 999, data }));
 assert.equal(loadLivingDemoState(storage), null);
 resetLivingDemoState(storage);

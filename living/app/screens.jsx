@@ -1,6 +1,6 @@
 window.useLivingPagedRows = function useLivingPagedRows(items, searchText, filterValue, filterKey, pageSize = 8) {
   const [query, setQuery] = React.useState("");
-  const [filter, setFilter] = React.useState("all");
+  const [filter, setFilter] = React.useState(filterValue || "all");
   const [page, setPage] = React.useState(1);
   const deferredQuery = React.useDeferredValue(query.trim().toLowerCase());
   const filtered = items.filter((item) => {
@@ -142,8 +142,18 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
   const visible = data.reservations
     .filter((item) => item.date >= "2026-07-16" && item.date <= "2026-07-22")
     .sort((a, b) => `${a.date}${a.start}`.localeCompare(`${b.date}${b.start}`));
+  const reservableAreas = data.areas.filter((area) => { const policy = window.livingSelectors.areaPolicyOnDate(area, values.date); return policy?.status === "active" && policy.reservable; });
+  const selectedArea = reservableAreas.find((area) => area.id === values.areaId) || reservableAreas[0];
+  const selectedPolicy = selectedArea ? window.livingSelectors.areaPolicyOnDate(selectedArea, values.date) : null;
+  const acceptedMethods = selectedPolicy ? window.livingSelectors.paymentMethodsForPolicy(selectedPolicy) : [];
 
   function update(key, value) { setValues((current) => ({ ...current, [key]: value })); }
+  function updateArea(areaId) {
+    const area = data.areas.find((item) => item.id === areaId);
+    const policy = area ? window.livingSelectors.areaPolicyOnDate(area, values.date) : null;
+    const methods = policy ? window.livingSelectors.paymentMethodsForPolicy(policy) : [];
+    setValues((current) => ({ ...current, areaId, paymentMethod: methods[0] || "Transferencia" }));
+  }
   function chooseProof(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -153,14 +163,14 @@ window.CalendarScreen = function CalendarScreen({ data, pendingActions, onCreate
   }
   async function submit(event) {
     event.preventDefault();
-    const result = await onCreateReservation(values);
+    const result = await onCreateReservation({ ...values, areaId: selectedArea?.id || values.areaId, paymentMethod: acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0] || values.paymentMethod });
     if (result) setShowCreate(false);
   }
 
   return (
     <div className="living-screen">
       <window.SectionTitle eyebrow="Calendario" title="Semana operativa" iconName="calendar" actions={<button className="living-button living-button-primary" onClick={() => setShowCreate(true)}>Nueva reserva</button>} />
-      {showCreate ? <window.FormPanel title="Crear reserva" description="La disponibilidad se valida contra reservas y mantenimiento." onCancel={() => setShowCreate(false)}><form className="living-form" onSubmit={submit}><label><span>Residente</span><select value={values.residentId} onChange={(event) => update("residentId", event.target.value)}>{data.residents.filter((item) => item.status === "active" && item.debt === 0).map((item) => <option key={item.id} value={item.id}>{item.name} · Dpto. {item.apartment}</option>)}</select></label><label><span>Área</span><select value={values.areaId} onChange={(event) => update("areaId", event.target.value)}>{data.areas.filter((item) => item.id !== "gym").map((item) => <option key={item.id} value={item.id}>{item.name} · {window.livingFormatCurrency(item.reservationFee + item.deposit)}</option>)}</select></label><label><span>Fecha</span><input type="date" value={values.date} onChange={(event) => update("date", event.target.value)} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={values.start} onChange={(event) => update("start", event.target.value)} required /></label><label><span>Fin</span><input type="time" value={values.end} onChange={(event) => update("end", event.target.value)} required /></label></div><label><span>Invitados</span><input type="number" min="0" value={values.guestCount} onChange={(event) => update("guestCount", event.target.value)} required /></label><label><span>Motivo</span><textarea value={values.reason} onChange={(event) => update("reason", event.target.value)} minLength="5" required /></label><label><span>Método de pago</span><select value={values.paymentMethod} onChange={(event) => update("paymentMethod", event.target.value)}><option>Yape</option><option>Plin</option><option>Transferencia</option></select></label><label><span>Comprobante</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseProof} /></label>{fileError ? <div className="living-form-error">{fileError}</div> : null}<button className="living-button living-button-primary" disabled={Boolean(pendingActions["create_reservation:new"]) || Boolean(fileError)}>Crear reserva</button></form></window.FormPanel> : null}
+      {showCreate ? <window.FormPanel title="Crear reserva" description="La disponibilidad se valida contra políticas, reservas, mantenimiento y cierres." onCancel={() => setShowCreate(false)}><form className="living-form" onSubmit={submit}><label><span>Residente</span><select value={values.residentId} onChange={(event) => update("residentId", event.target.value)}>{data.residents.filter((item) => item.status === "active" && item.debt === 0).map((item) => <option key={item.id} value={item.id}>{item.name} · Dpto. {item.apartment}</option>)}</select></label><label><span>Área</span><select value={selectedArea?.id || ""} onChange={(event) => updateArea(event.target.value)}>{reservableAreas.map((area) => { const policy = window.livingSelectors.areaPolicyOnDate(area, values.date); return <option key={area.id} value={area.id}>{policy.name} · {window.livingFormatCurrency((policy.payment.amount || 0) + (policy.guarantee.amount || 0))}</option>; })}</select></label>{selectedPolicy ? <div className="living-form-hint">Disponible {selectedPolicy.availability.start}–{selectedPolicy.availability.end} · bloques de {selectedPolicy.availability.blockMinutes / 60} h · máximo {selectedPolicy.availability.maxDurationMinutes / 60} h</div> : null}<label><span>Fecha</span><input type="date" value={values.date} onChange={(event) => update("date", event.target.value)} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={values.start} onChange={(event) => update("start", event.target.value)} required /></label><label><span>Fin</span><input type="time" value={values.end} onChange={(event) => update("end", event.target.value)} required /></label></div><label><span>Invitados</span><input type="number" min="0" max={selectedPolicy?.capacity || undefined} value={values.guestCount} onChange={(event) => update("guestCount", event.target.value)} required /></label><label><span>Motivo</span><textarea value={values.reason} onChange={(event) => update("reason", event.target.value)} minLength="5" required /></label>{acceptedMethods.length ? <label><span>Método de pago</span><select value={acceptedMethods.includes(values.paymentMethod) ? values.paymentMethod : acceptedMethods[0]} onChange={(event) => update("paymentMethod", event.target.value)}>{acceptedMethods.map((method) => <option key={method}>{method}</option>)}</select></label> : null}{acceptedMethods.length ? <label><span>Comprobante</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseProof} /></label> : null}{fileError ? <div className="living-form-error">{fileError}</div> : null}<button className="living-button living-button-primary" disabled={!selectedPolicy || Boolean(pendingActions["create_reservation:new"]) || Boolean(fileError)}>Crear reserva</button></form></window.FormPanel> : null}
       <div className="living-card">
         <window.DataTable
           columns={[
@@ -198,8 +208,8 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onAppr
               label: "Acciones",
               render: (row) => (
                 <div className="living-inline-actions">
-                  <button className="living-link-button" disabled={Boolean(pendingActions[`approve_reservation:${row.id}`])} onClick={() => onApprove(row.id)}>
-                    {pendingActions[`approve_reservation:${row.id}`] ? "Aprobando…" : "Aprobar"}
+                  <button className="living-link-button" disabled={row.paymentStatus !== "verified" || Boolean(pendingActions[`approve_reservation:${row.id}`])} onClick={() => onApprove(row.id)}>
+                    {row.paymentStatus !== "verified" ? "Verificar pago" : pendingActions[`approve_reservation:${row.id}`] ? "Aprobando…" : "Aprobar"}
                   </button>
                   <button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Detalle</button>
                 </div>
@@ -213,16 +223,32 @@ window.ApprovalsScreen = function ApprovalsScreen({ data, pendingActions, onAppr
   );
 };
 
-window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify, onReject }) {
+window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify, onReject, onResubmit, onOpenReservation }) {
   const [selected, setSelected] = React.useState(null);
+  const [resubmitting, setResubmitting] = React.useState(null);
+  const [proof, setProof] = React.useState(null);
+  const [proofError, setProofError] = React.useState("");
   const [reason, setReason] = React.useState("");
-  const collection = window.useLivingPagedRows(window.livingSelectors.payments(data), (item) => `${item.code} ${item.residentName} ${item.apartment} ${item.paymentMethod || ""}`, "", "paymentStatus");
+  const collection = window.useLivingPagedRows(window.livingSelectors.payments(data), (item) => `${item.code} ${item.residentName} ${item.apartment} ${item.paymentMethod || ""}`, "submitted", "paymentStatus");
   const ledger = window.livingSelectors.paymentLedger(data).slice(0, 12);
   async function submitRejection(event) {
     event.preventDefault();
     if (reason.trim().length < 5) return;
     const result = await onReject(selected.id, reason);
     if (result) { setSelected(null); setReason(""); }
+  }
+  function chooseReplacement(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "application/pdf"].includes(file.type) || file.size > 5 * 1024 * 1024) { setProofError("Use JPG, PNG o PDF de hasta 5 MB."); setProof(null); return; }
+    setProofError("");
+    setProof({ paymentProofName: file.name, paymentProofType: file.type, paymentProofSize: file.size });
+  }
+  async function submitReplacement(event) {
+    event.preventDefault();
+    if (!proof) return;
+    const result = await onResubmit(resubmitting.id, proof);
+    if (result) { setResubmitting(null); setProof(null); }
   }
   return (
     <div className="living-screen">
@@ -235,24 +261,25 @@ window.PaymentsScreen = function PaymentsScreen({ data, pendingActions, onVerify
           </form>
         </window.FormPanel>
       ) : null}
+      {resubmitting ? <window.FormPanel title={`Nuevo comprobante · ${resubmitting.code}`} description="El comprobante rechazado se conserva en el historial." onCancel={() => { setResubmitting(null); setProof(null); setProofError(""); }}><form className="living-form" onSubmit={submitReplacement}><label><span>Comprobante</span><input type="file" accept="image/jpeg,image/png,application/pdf" onChange={chooseReplacement} required /></label>{proofError ? <div className="living-form-error">{proofError}</div> : null}<button className="living-button living-button-primary" disabled={!proof || Boolean(pendingActions[`resubmit_payment:${resubmitting.id}`])}>Registrar comprobante</button></form></window.FormPanel> : null}
       <div className="living-card">
-        <window.CollectionToolbar query={collection.query} onQueryChange={collection.setQuery} placeholder="Reserva, residente o método" filter={collection.filter} onFilterChange={collection.setFilter} resultCount={collection.total} options={[{ value: "all", label: "Todos" }, { value: "submitted", label: "Enviados" }, { value: "verified", label: "Verificados" }, { value: "rejected", label: "Rechazados" }]} />
+        <window.CollectionToolbar query={collection.query} onQueryChange={collection.setQuery} placeholder="Reserva, residente o método" filter={collection.filter} onFilterChange={collection.setFilter} resultCount={collection.total} options={[{ value: "submitted", label: "Recibidos" }, { value: "all", label: "Todos" }, { value: "verified", label: "Verificados" }, { value: "rejected", label: "Rechazados" }]} />
         <window.DataTable
           columns={[
+            { key: "paymentSubmittedAt", label: "Recibido", render: (row) => window.livingFormatDateTime(row.paymentSubmittedAt) },
             { key: "code", label: "Reserva" },
             { key: "residentName", label: "Residente" },
             { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) },
-            { key: "paymentSubmittedAt", label: "Enviado", render: (row) => window.livingFormatDateTime(row.paymentSubmittedAt) },
             { key: "paymentStatus", label: "Estado", render: (row) => <window.Badge status={row.paymentStatus} /> },
             { key: "summary", label: "Detalle", render: (row) => `${row.paymentMethod || "Transferencia"}${row.paymentProof ? ` · ${row.paymentProof.name}` : ""}` },
-            { key: "actions", label: "Acciones", render: (row) => row.paymentStatus === "submitted" ? <div className="living-inline-actions"><button className="living-link-button" disabled={Boolean(pendingActions[`verify_payment:${row.id}`])} onClick={() => window.confirm(`¿Verificar el pago de ${row.code}?`) && onVerify(row.id)}>Verificar</button><button className="living-link-button" onClick={() => setSelected(row)}>Rechazar</button></div> : "Procesado" },
+            { key: "actions", label: "Acciones", render: (row) => <div className="living-inline-actions">{row.paymentStatus === "submitted" ? <><button className="living-link-button" disabled={Boolean(pendingActions[`verify_payment:${row.id}`])} onClick={() => window.confirm(`¿Verificar el pago de ${row.code}?`) && onVerify(row.id)}>Verificar</button><button className="living-link-button" onClick={() => setSelected(row)}>Rechazar</button></> : null}{row.paymentStatus === "rejected" ? <button className="living-link-button" onClick={() => setResubmitting(row)}>Nuevo comprobante</button> : null}<button className="living-link-button" onClick={() => onOpenReservation(row.id)}>Abrir</button></div> },
           ]}
           rows={collection.rows}
           empty="No hay comprobantes con estos filtros."
         />
         <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>
-      <div className="living-card"><div className="living-card-label">Libro de pagos y reembolsos</div><window.DataTable columns={[{ key: "createdAt", label: "Fecha", render: (row) => window.livingFormatDateTime(row.createdAt) }, { key: "reservationCode", label: "Reserva" }, { key: "type", label: "Movimiento", render: (row) => ({ payment_submitted: "Pago enviado", payment_verified: "Pago verificado", payment_rejected: "Pago rechazado", refund_pending: "Reembolso pendiente", refund_completed: "Reembolso completado" }[row.type] || row.type) }, { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "actor", label: "Actor" }]} rows={ledger} /></div>
+      <div className="living-card"><div className="living-card-label">Libro de pagos y reembolsos</div><window.DataTable columns={[{ key: "createdAt", label: "Fecha", render: (row) => window.livingFormatDateTime(row.createdAt) }, { key: "reservationCode", label: "Reserva" }, { key: "type", label: "Movimiento", render: (row) => ({ payment_submitted: "Pago recibido", payment_resubmitted: "Comprobante reemplazado", payment_verified: "Pago verificado", payment_rejected: "Pago rechazado", refund_pending: "Reembolso pendiente", refund_completed: "Reembolso completado" }[row.type] || row.type) }, { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "actor", label: "Actor" }]} rows={ledger} /></div>
     </div>
   );
 };
@@ -288,19 +315,43 @@ window.DepositsScreen = function DepositsScreen({ data, role, pendingActions, on
         />
         <window.Pagination page={collection.page} pageCount={collection.pageCount} onPageChange={collection.setPage} />
       </div>
-      <div className="living-card"><div className="living-card-label">Libro de garantías</div><window.DataTable columns={[{ key: "createdAt", label: "Fecha", render: (row) => window.livingFormatDateTime(row.createdAt) }, { key: "reservationCode", label: "Reserva" }, { key: "type", label: "Movimiento", render: (row) => ({ deposit_held: "Garantía recibida", deposit_released: "Garantía liberada", deposit_retained: "Garantía retenida" }[row.type] || row.type) }, { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "reason", label: "Motivo", render: (row) => row.reason || "Sin observación" }]} rows={ledger} /></div>
+      <div className="living-card"><div className="living-card-label">Libro de garantías</div><window.DataTable columns={[{ key: "createdAt", label: "Fecha", render: (row) => window.livingFormatDateTime(row.createdAt) }, { key: "reservationCode", label: "Reserva" }, { key: "type", label: "Movimiento", render: (row) => ({ deposit_held: "Garantía recibida", deposit_released: "Garantía liberada", deposit_refunded: "Garantía reembolsada", deposit_retained: "Garantía retenida" }[row.type] || row.type) }, { key: "amount", label: "Monto", render: (row) => window.livingFormatCurrency(row.amount) }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "reason", label: "Motivo", render: (row) => row.reason || "Sin observación" }]} rows={ledger} /></div>
     </div>
   );
 };
 
-window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate, onCreateMaintenance, onRemoveMaintenance }) {
+const AREA_MONTHS = [{ value: 1, label: "Ene" }, { value: 2, label: "Feb" }, { value: 3, label: "Mar" }, { value: 4, label: "Abr" }, { value: 5, label: "May" }, { value: 6, label: "Jun" }, { value: 7, label: "Jul" }, { value: 8, label: "Ago" }, { value: 9, label: "Sep" }, { value: 10, label: "Oct" }, { value: 11, label: "Nov" }, { value: 12, label: "Dic" }];
+const AREA_WEEKDAYS = [{ value: 1, label: "Lun" }, { value: 2, label: "Mar" }, { value: 3, label: "Mié" }, { value: 4, label: "Jue" }, { value: 5, label: "Vie" }, { value: 6, label: "Sáb" }, { value: 0, label: "Dom" }];
+const AREA_PAYMENT_METHODS = ["Yape", "Plin", "Transferencia", "Efectivo"];
+
+window.AreaPolicyForm = function AreaPolicyForm({ area, values, setValues, pending, onSubmit, onCancel }) {
+  function update(key, value) { setValues((current) => ({ ...current, [key]: value })); }
+  function toggleList(key, value) { setValues((current) => ({ ...current, [key]: current[key].includes(value) ? current[key].filter((item) => item !== value) : [...current[key], value] })); }
+  return (
+    <window.FormPanel title={`Nueva política · ${area.name}`} description="Los cambios se aplican desde la fecha indicada. Las reservas existentes conservan sus condiciones." onCancel={onCancel}>
+      <form className="living-form" onSubmit={onSubmit}>
+        <div className="living-form-section"><div className="living-card-label">Identidad y estado</div><div className="living-form-columns"><label><span>Nombre</span><input value={values.name} onChange={(event) => update("name", event.target.value)} required /></label><label><span>Ubicación</span><input value={values.location} onChange={(event) => update("location", event.target.value)} required /></label></div><div className="living-form-columns"><label><span>Vigente desde</span><input type="date" min="2026-07-17" value={values.effectiveFrom} onChange={(event) => update("effectiveFrom", event.target.value)} required /></label><label><span>Estado desde vigencia</span><select value={values.status} onChange={(event) => update("status", event.target.value)}><option value="active">Activa</option><option value="closed">Cerrada</option></select></label></div>{values.status === "closed" ? <label><span>Mensaje de cierre</span><textarea value={values.closureReason} onChange={(event) => update("closureReason", event.target.value)} placeholder="Motivo opcional visible para administración" /></label> : null}<label className="living-check-row"><input type="checkbox" checked={values.reservable} onChange={(event) => update("reservable", event.target.checked)} /><span>Permitir reservas</span></label></div>
+        <div className="living-form-section"><div className="living-card-label">Reglas y capacidad</div><label><span>Capacidad</span><input type="number" min="1" value={values.capacity} onChange={(event) => update("capacity", event.target.value)} required /></label><label><span>Reglas · una por línea</span><textarea value={values.rules} onChange={(event) => update("rules", event.target.value)} required /></label></div>
+        <div className="living-form-section"><div className="living-card-label">Cobros</div><label className="living-check-row"><input type="checkbox" checked={values.paymentEnabled} onChange={(event) => update("paymentEnabled", event.target.checked)} /><span>Tarifa de reserva</span></label>{values.paymentEnabled ? <><label><span>Monto</span><input type="number" min="0" value={values.reservationFee} onChange={(event) => update("reservationFee", event.target.value)} required /></label><div><span className="living-field-label">Métodos aceptados</span><div className="living-choice-grid">{AREA_PAYMENT_METHODS.map((method) => <label className="living-check-row" key={`payment-${method}`}><input type="checkbox" checked={values.paymentMethods.includes(method)} onChange={() => toggleList("paymentMethods", method)} /><span>{method}</span></label>)}</div></div></> : null}<label className="living-check-row"><input type="checkbox" checked={values.guaranteeEnabled} onChange={(event) => update("guaranteeEnabled", event.target.checked)} /><span>Garantía</span></label>{values.guaranteeEnabled ? <><label><span>Monto</span><input type="number" min="0" value={values.deposit} onChange={(event) => update("deposit", event.target.value)} required /></label><div><span className="living-field-label">Métodos aceptados</span><div className="living-choice-grid">{AREA_PAYMENT_METHODS.map((method) => <label className="living-check-row" key={`guarantee-${method}`}><input type="checkbox" checked={values.guaranteeMethods.includes(method)} onChange={() => toggleList("guaranteeMethods", method)} /><span>{method}</span></label>)}</div></div></> : null}</div>
+        <div className="living-form-section"><div className="living-card-label">Disponibilidad</div><span className="living-field-label">Meses</span><div className="living-choice-grid living-choice-grid-months">{AREA_MONTHS.map((month) => <label className="living-check-row" key={month.value}><input type="checkbox" checked={values.months.includes(month.value)} onChange={() => toggleList("months", month.value)} /><span>{month.label}</span></label>)}</div><span className="living-field-label">Días</span><div className="living-choice-grid">{AREA_WEEKDAYS.map((day) => <label className="living-check-row" key={day.value}><input type="checkbox" checked={values.weekdays.includes(day.value)} onChange={() => toggleList("weekdays", day.value)} /><span>{day.label}</span></label>)}</div><div className="living-form-columns"><label><span>Desde</span><input type="time" value={values.availabilityStart} onChange={(event) => update("availabilityStart", event.target.value)} required /></label><label><span>Hasta</span><input type="time" value={values.availabilityEnd} onChange={(event) => update("availabilityEnd", event.target.value)} required /></label></div><div className="living-form-columns"><label><span>Bloques</span><select value={values.blockMinutes} onChange={(event) => update("blockMinutes", event.target.value)}><option value="60">1 hora</option><option value="120">2 horas</option><option value="180">3 horas</option></select></label><label><span>Duración máxima</span><select value={values.maxDurationMinutes} onChange={(event) => update("maxDurationMinutes", event.target.value)}><option value="120">2 horas</option><option value="240">4 horas</option><option value="360">6 horas</option><option value="480">8 horas</option></select></label></div></div>
+        <div className="living-form-section"><div className="living-card-label">Requisitos</div><label className="living-check-row"><input type="checkbox" checked={values.requiresGuestList} onChange={(event) => update("requiresGuestList", event.target.checked)} /><span>Lista de invitados obligatoria</span></label><label className="living-check-row"><input type="checkbox" checked={values.requiresApproval} onChange={(event) => update("requiresApproval", event.target.checked)} /><span>Aprobación administrativa</span></label></div>
+        <button className="living-button living-button-primary" disabled={pending}>Programar política</button>
+      </form>
+    </window.FormPanel>
+  );
+};
+
+window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate, onCreateMaintenance, onRemoveMaintenance, onCreateClosure, onRemoveClosure }) {
   const [selected, setSelected] = React.useState(null);
   const [showMaintenance, setShowMaintenance] = React.useState(false);
+  const [showClosure, setShowClosure] = React.useState(false);
   const [maintenance, setMaintenance] = React.useState({ areaId: "bbq", date: "2026-07-23", start: "08:00", end: "12:00", reason: "Mantenimiento preventivo" });
-  const [values, setValues] = React.useState({ capacity: "", reservationFee: "", deposit: "" });
+  const [closure, setClosure] = React.useState({ areaId: "terrace", date: "2026-07-23", start: "08:00", end: "12:00", reason: "Cierre administrativo" });
+  const [values, setValues] = React.useState(null);
   function open(area) {
+    const policy = [...area.policyVersions].sort((a, b) => b.version - a.version)[0];
     setSelected(area);
-    setValues({ capacity: String(area.capacity), reservationFee: String(area.reservationFee), deposit: String(area.deposit) });
+    setValues({ name: policy.name, location: policy.location, effectiveFrom: "2026-07-23", status: policy.status, closureReason: policy.closureReason || "", reservable: policy.reservable, capacity: String(policy.capacity), rules: policy.rules.join("\n"), paymentEnabled: policy.payment.enabled, reservationFee: String(policy.payment.amount), paymentMethods: [...policy.payment.methods], guaranteeEnabled: policy.guarantee.enabled, deposit: String(policy.guarantee.amount), guaranteeMethods: [...policy.guarantee.methods], months: [...policy.availability.months], weekdays: [...policy.availability.weekdays], availabilityStart: policy.availability.start, availabilityEnd: policy.availability.end, blockMinutes: String(policy.availability.blockMinutes), maxDurationMinutes: String(policy.availability.maxDurationMinutes), requiresGuestList: policy.requirements.guestList, requiresApproval: policy.requirements.approval });
   }
   async function submit(event) {
     event.preventDefault();
@@ -312,29 +363,37 @@ window.AreasScreen = function AreasScreen({ data, pendingActions, onUpdate, onCr
     const result = await onCreateMaintenance(maintenance);
     if (result) setShowMaintenance(false);
   }
+  async function submitClosure(event) {
+    event.preventDefault();
+    const result = await onCreateClosure(closure);
+    if (result) setShowClosure(false);
+  }
   return (
     <div className="living-screen">
-      <window.SectionTitle eyebrow="Áreas comunes" title="Configuración del edificio" iconName="areas" actions={<button className="living-button living-button-primary" onClick={() => setShowMaintenance(true)}>Programar mantenimiento</button>} />
-      {selected ? <window.FormPanel title={`Editar ${selected.name}`} onCancel={() => setSelected(null)}><form className="living-form" onSubmit={submit}><label><span>Capacidad</span><input type="number" min="1" value={values.capacity} onChange={(event) => setValues((current) => ({ ...current, capacity: event.target.value }))} required /></label><label><span>Tarifa</span><input type="number" min="0" value={values.reservationFee} onChange={(event) => setValues((current) => ({ ...current, reservationFee: event.target.value }))} required /></label><label><span>Garantía</span><input type="number" min="0" value={values.deposit} onChange={(event) => setValues((current) => ({ ...current, deposit: event.target.value }))} required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`update_area:${selected.id}`])}>Guardar cambios</button></form></window.FormPanel> : null}
+      <window.SectionTitle eyebrow="Áreas comunes" title="Políticas y disponibilidad" iconName="areas" actions={<div className="living-inline-actions"><button className="living-button living-button-secondary" onClick={() => setShowClosure(true)}>Programar cierre</button><button className="living-button living-button-primary" onClick={() => setShowMaintenance(true)}>Programar mantenimiento</button></div>} />
+      {selected && values ? <window.AreaPolicyForm area={selected} values={values} setValues={setValues} pending={Boolean(pendingActions[`update_area:${selected.id}`])} onSubmit={submit} onCancel={() => setSelected(null)} /> : null}
       {showMaintenance ? <window.FormPanel title="Programar mantenimiento" description="No puede cruzarse con una reserva o bloqueo activo." onCancel={() => setShowMaintenance(false)}><form className="living-form" onSubmit={submitMaintenance}><label><span>Área</span><select value={maintenance.areaId} onChange={(event) => setMaintenance((current) => ({ ...current, areaId: event.target.value }))}>{data.areas.map((area) => <option key={area.id} value={area.id}>{area.name}</option>)}</select></label><label><span>Fecha</span><input type="date" value={maintenance.date} onChange={(event) => setMaintenance((current) => ({ ...current, date: event.target.value }))} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={maintenance.start} onChange={(event) => setMaintenance((current) => ({ ...current, start: event.target.value }))} required /></label><label><span>Fin</span><input type="time" value={maintenance.end} onChange={(event) => setMaintenance((current) => ({ ...current, end: event.target.value }))} required /></label></div><label><span>Motivo</span><textarea value={maintenance.reason} onChange={(event) => setMaintenance((current) => ({ ...current, reason: event.target.value }))} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`create_maintenance:${maintenance.areaId}`])}>Programar</button></form></window.FormPanel> : null}
+      {showClosure ? <window.FormPanel title="Programar cierre" description="Los cierres administrativos se reportan separados del mantenimiento." onCancel={() => setShowClosure(false)}><form className="living-form" onSubmit={submitClosure}><label><span>Área</span><select value={closure.areaId} onChange={(event) => setClosure((current) => ({ ...current, areaId: event.target.value }))}>{data.areas.map((area) => <option key={area.id} value={area.id}>{area.name}</option>)}</select></label><label><span>Fecha</span><input type="date" value={closure.date} onChange={(event) => setClosure((current) => ({ ...current, date: event.target.value }))} required /></label><div className="living-form-columns"><label><span>Inicio</span><input type="time" value={closure.start} onChange={(event) => setClosure((current) => ({ ...current, start: event.target.value }))} required /></label><label><span>Fin</span><input type="time" value={closure.end} onChange={(event) => setClosure((current) => ({ ...current, end: event.target.value }))} required /></label></div><label><span>Motivo</span><textarea value={closure.reason} onChange={(event) => setClosure((current) => ({ ...current, reason: event.target.value }))} minLength="5" required /></label><button className="living-button living-button-primary" disabled={Boolean(pendingActions[`create_area_closure:${closure.areaId}`])}>Programar cierre</button></form></window.FormPanel> : null}
       <div className="living-grid living-card-grid">
-        {data.areas.map((area) => (
+        {data.areas.map((area) => { const policy = [...area.policyVersions].sort((a, b) => b.version - a.version)[0]; return (
           <div className="living-card" key={area.id}>
-            <div className="living-card-label">{area.location}</div>
-            <h3>{area.name}</h3>
-            <p>Capacidad {area.capacity} · Tarifa {window.livingFormatCurrency(area.reservationFee)} · Garantía {window.livingFormatCurrency(area.deposit)}</p>
+            <div className="living-card-label">{policy.location} · Política v{policy.version}</div>
+            <h3>{policy.name}</h3>
+            <p>Capacidad {policy.capacity} · Tarifa {window.livingFormatCurrency(policy.payment.amount)} · Garantía {window.livingFormatCurrency(policy.guarantee.amount)}</p>
+            <p>{policy.availability.start}–{policy.availability.end} · bloques de {policy.availability.blockMinutes / 60} h · desde {window.livingFormatShortDate(policy.effectiveFrom)}</p>
             <div className="living-tag-row">
-              {area.requiresApproval ? <window.Badge status="pending_approval" label="Requiere aprobación" /> : <window.Badge status="active" label="Aprobación automática" />}
-              {area.requiresGuestList ? <window.Badge status="active" label="Lista obligatoria" /> : null}
+              {policy.status === "closed" ? <window.Badge status="blocked" label="Área cerrada" /> : policy.requirements.approval ? <window.Badge status="pending_approval" label="Requiere aprobación" /> : <window.Badge status="active" label="Aprobación automática" />}
+              {policy.requirements.guestList ? <window.Badge status="active" label="Lista obligatoria" /> : null}
             </div>
             <ul className="living-list compact">
-              {area.rules.map((rule) => <li key={rule}>{rule}</li>)}
+              {policy.rules.map((rule) => <li key={rule}>{rule}</li>)}
             </ul>
-            <button className="living-button living-button-secondary" onClick={() => open(area)}>Editar operación</button>
+            <button className="living-button living-button-secondary" onClick={() => open(area)}>Nueva versión</button>
           </div>
-        ))}
+        ); })}
       </div>
       <div className="living-card"><div className="living-card-label">Bloqueos de mantenimiento</div><window.DataTable columns={[{ key: "date", label: "Fecha", render: (row) => window.livingFormatShortDate(row.date) }, { key: "areaName", label: "Área" }, { key: "schedule", label: "Horario", render: (row) => `${row.start}–${row.end}` }, { key: "reason", label: "Motivo" }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "actions", label: "Acciones", render: (row) => row.status === "active" ? <button className="living-link-button" disabled={Boolean(pendingActions[`remove_maintenance:${row.id}`])} onClick={() => window.confirm("¿Cancelar este mantenimiento?") && onRemoveMaintenance(row.id)}>Cancelar bloqueo</button> : "Cancelado" }]} rows={data.maintenanceBlocks} /></div>
+      <div className="living-card"><div className="living-card-label">Cierres administrativos</div><window.DataTable columns={[{ key: "date", label: "Fecha", render: (row) => window.livingFormatShortDate(row.date) }, { key: "areaName", label: "Área" }, { key: "schedule", label: "Horario", render: (row) => `${row.start}–${row.end}` }, { key: "reason", label: "Motivo" }, { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> }, { key: "actions", label: "Acciones", render: (row) => row.status === "active" ? <button className="living-link-button" disabled={Boolean(pendingActions[`remove_area_closure:${row.id}`])} onClick={() => window.confirm("¿Cancelar este cierre?") && onRemoveClosure(row.id)}>Cancelar cierre</button> : "Cancelado" }]} rows={data.areaClosures} /></div>
     </div>
   );
 };
@@ -687,7 +746,7 @@ window.ReservationDetailContent = function ReservationDetailContent({ data, role
         body={`${reservation.residentName} · Dpto. ${reservation.apartment} · ${reservation.areaName} · ${window.livingFormatShortDate(reservation.date)} · ${reservation.start}–${reservation.end}`}
         actions={
           <>
-            {reservation.status === "pending_approval" ? <button className="living-button living-button-primary" disabled={Boolean(pendingActions[`approve_reservation:${reservation.id}`])} onClick={() => onApprove(reservation.id)}>{pendingActions[`approve_reservation:${reservation.id}`] ? "Aprobando…" : "Aprobar"}</button> : null}
+            {reservation.status === "pending_approval" ? <button className="living-button living-button-primary" disabled={reservation.paymentStatus !== "verified" || Boolean(pendingActions[`approve_reservation:${reservation.id}`])} onClick={() => onApprove(reservation.id)}>{reservation.paymentStatus !== "verified" ? "Verifique el pago primero" : pendingActions[`approve_reservation:${reservation.id}`] ? "Aprobando…" : "Aprobar"}</button> : null}
             {reservation.status === "pending_approval" ? <button className="living-button living-button-secondary" onClick={() => setMode("reject")}>Rechazar</button> : null}
             {canChange ? <button className="living-button living-button-secondary" onClick={() => setMode("reschedule")}>Reprogramar</button> : null}
             {canChange ? <button className="living-button living-button-secondary" onClick={() => setMode("cancel")}>Cancelar</button> : null}

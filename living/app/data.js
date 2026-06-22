@@ -1,5 +1,5 @@
 window.buildLivingDemoData = function buildLivingDemoData() {
-  const areas = [
+  const areaSeeds = [
     {
       id: "terrace",
       name: "Terraza",
@@ -7,7 +7,7 @@ window.buildLivingDemoData = function buildLivingDemoData() {
       capacity: 40,
       reservationFee: 120,
       deposit: 300,
-      requiresApproval: false,
+      requiresApproval: true,
       requiresGuestList: false,
       requiresCleaning: true,
       requiresInspection: true,
@@ -76,6 +76,29 @@ window.buildLivingDemoData = function buildLivingDemoData() {
       status: "active",
     },
   ];
+
+  const areas = areaSeeds.map((area) => {
+    const reservable = area.id !== "gym";
+    const policy = {
+      id: `${area.id}-policy-v1`,
+      version: 1,
+      effectiveFrom: "2026-01-01",
+      name: area.name,
+      location: area.location,
+      capacity: area.capacity,
+      rules: [...area.rules],
+      reservable,
+      status: area.status,
+      closureReason: null,
+      payment: { enabled: area.reservationFee > 0, amount: area.reservationFee, methods: ["Yape", "Plin", "Transferencia"] },
+      guarantee: { enabled: area.deposit > 0, amount: area.deposit, methods: ["Yape", "Plin", "Transferencia"] },
+      availability: { months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], weekdays: [1, 2, 3, 4, 5, 6, 0], start: area.id === "terrace" ? "09:00" : "08:00", end: area.id === "terrace" ? "23:00" : "22:00", blockMinutes: area.id === "coworking" ? 60 : 120, maxDurationMinutes: area.id === "terrace" ? 360 : area.id === "bbq" ? 240 : 480 },
+      requirements: { guestList: area.requiresGuestList, approval: area.requiresApproval },
+      createdAt: "2026-01-01T09:00:00-05:00",
+      createdBy: "María Fernanda Rojas",
+    };
+    return { ...area, policyVersions: [policy] };
+  });
 
   const coreResidents = [
     { apartment: "402", tower: "A", name: "Ana García", phone: "+51 987 654 321", email: "ana.garcia@example.com", status: "active", debt: 0, relationship: "Propietaria" },
@@ -374,6 +397,10 @@ window.buildLivingDemoData = function buildLivingDemoData() {
     { id: "maintenance-gym-0721", areaId: "gym", areaName: "Gimnasio", date: "2026-07-21", start: "07:00", end: "18:00", reason: "Revisión de equipos", status: "active", createdBy: "Carlos Vega", createdAt: "2026-07-16T11:30:00-05:00" },
   ];
 
+  const areaClosures = [
+    { id: "closure-terrace-0721", entityType: "area_closure", areaId: "terrace", areaName: "Terraza", date: "2026-07-21", start: "08:00", end: "12:00", reason: "Inspección municipal", status: "active", createdBy: "María Fernanda Rojas", createdAt: "2026-07-16T10:00:00-05:00" },
+  ];
+
   const tasks = [
     {
       id: "task-prep-ana",
@@ -554,6 +581,7 @@ window.buildLivingDemoData = function buildLivingDemoData() {
     paymentLedger,
     depositLedger,
     maintenanceBlocks,
+    areaClosures,
     report,
     superAdmin,
     auditLog: [],

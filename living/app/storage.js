@@ -1,13 +1,13 @@
 (function registerLivingStorage(global) {
   const STORAGE_KEY = "bricks-living-demo-state";
-  const SCHEMA_VERSION = 4;
+  const SCHEMA_VERSION = 5;
 
   function isValidData(data) {
     return global.validateLivingData(data).valid;
   }
 
   function migrate(envelope) {
-    if (![1, 2, 3].includes(envelope.version) || !envelope.data) return null;
+    if (![1, 2, 3, 4].includes(envelope.version) || !envelope.data) return null;
     const seed = global.buildLivingDemoData();
     const data = JSON.parse(JSON.stringify(envelope.data));
     data.auditLog = Array.isArray(data.auditLog) ? data.auditLog : [];
@@ -32,6 +32,24 @@
     data.paymentLedger = Array.isArray(data.paymentLedger) ? data.paymentLedger : seed.paymentLedger;
     data.depositLedger = Array.isArray(data.depositLedger) ? data.depositLedger : seed.depositLedger;
     data.maintenanceBlocks = Array.isArray(data.maintenanceBlocks) ? data.maintenanceBlocks : seed.maintenanceBlocks;
+    data.areaClosures = Array.isArray(data.areaClosures) ? data.areaClosures : [];
+    data.areas = (data.areas || seed.areas).map((area) => {
+      if (Array.isArray(area.policyVersions) && area.policyVersions.length) return area;
+      const seedArea = seed.areas.find((item) => item.id === area.id);
+      const basePolicy = JSON.parse(JSON.stringify(seedArea?.policyVersions?.[0] || {}));
+      Object.assign(basePolicy, {
+        name: area.name,
+        location: area.location,
+        capacity: area.capacity,
+        rules: area.rules,
+        status: area.status || "active",
+        closureReason: area.closureReason || null,
+        payment: { ...basePolicy.payment, enabled: area.reservationFee > 0, amount: area.reservationFee },
+        guarantee: { ...basePolicy.guarantee, enabled: area.deposit > 0, amount: area.deposit },
+        requirements: { guestList: Boolean(area.requiresGuestList), approval: Boolean(area.requiresApproval) },
+      });
+      return { ...area, policyVersions: [basePolicy] };
+    });
     const previousSuperAdmin = data.superAdmin || {};
     data.superAdmin = {
       ...seed.superAdmin,

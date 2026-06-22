@@ -49,7 +49,7 @@ window.livingStatusTone = function livingStatusTone(status) {
 };
 
 window.livingActionKey = function livingActionKey(action) {
-  const entityId = action.reservationId || action.taskId || action.incidentId || action.residentId || action.areaId || action.maintenanceId || action.templateId || action.buildingId || action.subscriptionId || action.supportId || "new";
+  const entityId = action.reservationId || action.taskId || action.incidentId || action.residentId || action.areaId || action.maintenanceId || action.closureId || action.templateId || action.buildingId || action.subscriptionId || action.supportId || "new";
   return `${action.type}:${entityId}`;
 };
 
@@ -61,7 +61,7 @@ window.livingDemoActionTime = function livingDemoActionTime(action, data) {
   if (["mark_arrival", "verify_guests"].includes(action.type)) return "2026-07-18T17:05:00-05:00";
   if (["create_incident", "resolve_incident", "release_deposit", "retain_deposit"].includes(action.type)) return "2026-07-18T23:40:00-05:00";
   if (["mark_no_show", "refund_payment"].includes(action.type)) return "2026-07-19T00:30:00-05:00";
-  if (["create_reservation", "reschedule_reservation", "cancel_reservation", "reject_reservation", "create_maintenance", "remove_maintenance"].includes(action.type)) return "2026-07-17T11:00:00-05:00";
+  if (["create_reservation", "reschedule_reservation", "cancel_reservation", "reject_reservation", "create_maintenance", "remove_maintenance", "create_area_closure", "remove_area_closure"].includes(action.type)) return "2026-07-17T11:00:00-05:00";
   return "2026-07-12T09:43:00-05:00";
 };
 
@@ -96,6 +96,7 @@ window.createLivingActions = function createLivingActions({ repository, getComma
     completeTask: (taskId) => run({ type: "complete_task", taskId }),
     verifyPayment: (reservationId) => run({ type: "verify_payment", reservationId }),
     rejectPayment: (reservationId, reason) => run({ type: "reject_payment", reservationId, reason }),
+    resubmitPayment: (reservationId, proof) => run({ type: "resubmit_payment", reservationId, ...proof }),
     releaseDeposit: (reservationId) => run({ type: "release_deposit", reservationId }),
     retainDeposit: (reservationId, amount, reason) => run({ type: "retain_deposit", reservationId, amount, reason }),
     createIncident: (values) => run({ type: "create_incident", ...values }),
@@ -114,5 +115,7 @@ window.createLivingActions = function createLivingActions({ repository, getComma
     markNoShow: (reservationId) => run({ type: "mark_no_show", reservationId }),
     createMaintenance: (values) => run({ type: "create_maintenance", ...values }),
     removeMaintenance: (maintenanceId) => run({ type: "remove_maintenance", maintenanceId }),
+    createAreaClosure: (values) => run({ type: "create_area_closure", ...values }),
+    removeAreaClosure: (closureId) => run({ type: "remove_area_closure", closureId }),
   };
 };

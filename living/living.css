@@ -621,6 +621,49 @@ body {
   gap: 12px;
 }
 
+.living-form-section {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--living-border);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--living-surface) 72%, transparent);
+}
+
+.living-check-row {
+  display: flex !important;
+  align-items: center;
+  gap: 10px !important;
+  min-width: 0;
+}
+
+.living-check-row input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex: 0 0 18px;
+  accent-color: var(--living-accent);
+}
+
+.living-check-row span,
+.living-field-label {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--living-text);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.living-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.living-choice-grid-months {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 .living-collection-toolbar {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(160px, 220px) auto;
@@ -676,6 +719,15 @@ body {
   background: color-mix(in srgb, var(--living-accent) 10%, var(--living-surface));
   color: var(--living-text);
   font-size: 14px;
+}
+
+.living-form-hint {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--living-accent) 7%, var(--living-surface));
+  color: var(--living-text-muted);
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .living-account-hints {
@@ -1374,6 +1426,10 @@ body {
 
   .living-form-columns {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .living-choice-grid-months {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .living-pagination {

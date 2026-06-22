@@ -22,7 +22,7 @@ window.LIVING_STATUS_LABELS = {
   open: "Abierto",
   resolved: "Resuelto",
   failed: "Fallido",
-  submitted: "Enviado",
+  submitted: "Recibido",
   verified: "Verificado",
   in_progress: "En curso",
   pending: "Pendiente",

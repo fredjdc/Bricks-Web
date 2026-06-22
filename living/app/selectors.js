@@ -10,6 +10,51 @@
     return startA < endB && startB < endA;
   }
 
+  function minutes(value) {
+    const [hours, minute] = value.split(":").map(Number);
+    return (hours * 60) + minute;
+  }
+
+  function areaPolicyOnDate(area, date) {
+    return [...(area.policyVersions || [])]
+      .filter((policy) => policy.effectiveFrom <= date)
+      .sort((a, b) => b.effectiveFrom.localeCompare(a.effectiveFrom) || b.version - a.version)[0] || null;
+  }
+
+  function paymentMethodsForPolicy(policy) {
+    const groups = [];
+    if (policy.payment.enabled) groups.push(policy.payment.methods);
+    if (policy.guarantee.enabled) groups.push(policy.guarantee.methods);
+    if (!groups.length) return [];
+    return groups[0].filter((method) => groups.every((methods) => methods.includes(method)));
+  }
+
+  function availabilityForSlot(data, { areaId, date, start, end, excludeReservationId = null }) {
+    const area = data.areas.find((item) => item.id === areaId);
+    if (!area) return { available: false, reason: "No se encontró el área." };
+    const policy = areaPolicyOnDate(area, date);
+    if (!policy || (policy.status || area.status) !== "active") return { available: false, reason: policy?.closureReason || "El área está cerrada." };
+    if (!policy.reservable) return { available: false, reason: "El área no admite reservas." };
+    const availability = policy.availability;
+    const dateValue = new Date(`${date}T12:00:00Z`);
+    if (Number.isNaN(dateValue.getTime())) return { available: false, reason: "La fecha no es válida." };
+    if (!availability.months.includes(dateValue.getUTCMonth() + 1) || !availability.weekdays.includes(dateValue.getUTCDay())) return { available: false, reason: "El área no opera ese día." };
+    const startMinutes = minutes(start);
+    const endMinutes = minutes(end);
+    const openingMinutes = minutes(availability.start);
+    const duration = endMinutes - startMinutes;
+    if (start < availability.start || end > availability.end) return { available: false, reason: `El horario disponible es ${availability.start}–${availability.end}.` };
+    if (duration <= 0 || duration > availability.maxDurationMinutes) return { available: false, reason: `La duración máxima es ${availability.maxDurationMinutes / 60} horas.` };
+    if ((startMinutes - openingMinutes) % availability.blockMinutes !== 0 || duration % availability.blockMinutes !== 0) return { available: false, reason: `Reserve en bloques de ${availability.blockMinutes / 60} hora(s).` };
+    const reservationConflict = data.reservations.some((item) => item.id !== excludeReservationId && item.areaId === areaId && item.date === date && !["cancelled", "rejected", "no_show"].includes(item.status) && overlaps(start, end, item.start, item.end));
+    if (reservationConflict) return { available: false, reason: "El horario se cruza con otra reserva." };
+    const maintenanceConflict = data.maintenanceBlocks.some((item) => item.areaId === areaId && item.date === date && item.status === "active" && overlaps(start, end, item.start, item.end));
+    if (maintenanceConflict) return { available: false, reason: "El área está en mantenimiento durante ese horario." };
+    const closureConflict = (data.areaClosures || []).some((item) => item.areaId === areaId && item.date === date && item.status === "active" && overlaps(start, end, item.start, item.end));
+    if (closureConflict) return { available: false, reason: "El área tiene un cierre administrativo durante ese horario." };
+    return { available: true, reason: null, policy };
+  }
+
   global.livingSelectors = {
     dashboard(data) {
       const monthReservations = data.reservations.filter((item) => item.date.startsWith(MONTH_PREFIX));
@@ -55,10 +100,11 @@
     depositLedger(data) {
       return [...data.depositLedger].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     },
+    areaPolicyOnDate,
+    paymentMethodsForPolicy,
+    availabilityForSlot,
     isSlotAvailable(data, { areaId, date, start, end, excludeReservationId = null }) {
-      const reservationConflict = data.reservations.some((item) => item.id !== excludeReservationId && item.areaId === areaId && item.date === date && !["cancelled", "rejected", "no_show"].includes(item.status) && overlaps(start, end, item.start, item.end));
-      const maintenanceConflict = data.maintenanceBlocks.some((item) => item.areaId === areaId && item.date === date && item.status === "active" && overlaps(start, end, item.start, item.end));
-      return !reservationConflict && !maintenanceConflict;
+      return availabilityForSlot(data, { areaId, date, start, end, excludeReservationId }).available;
     },
     audit(data, role) {
       const entries = data.auditLog || [];

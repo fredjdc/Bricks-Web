@@ -27,13 +27,13 @@ window.PortalShell = function PortalShell({
       screen = <window.ApprovalsScreen data={data} pendingActions={pendingActions} onApprove={actions.approveReservation} onOpenReservation={(id) => onNavigate("reservation", id)} />;
       break;
     case "payments":
-      screen = <window.PaymentsScreen data={data} pendingActions={pendingActions} onVerify={actions.verifyPayment} onReject={actions.rejectPayment} />;
+      screen = <window.PaymentsScreen data={data} pendingActions={pendingActions} onVerify={actions.verifyPayment} onReject={actions.rejectPayment} onResubmit={actions.resubmitPayment} onOpenReservation={(id) => onNavigate("reservation", id)} />;
       break;
     case "deposits":
       screen = <window.DepositsScreen data={data} role={role} pendingActions={pendingActions} onRelease={actions.releaseDeposit} onRetain={actions.retainDeposit} />;
       break;
     case "areas":
-      screen = <window.AreasScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateArea} onCreateMaintenance={actions.createMaintenance} onRemoveMaintenance={actions.removeMaintenance} />;
+      screen = <window.AreasScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateArea} onCreateMaintenance={actions.createMaintenance} onRemoveMaintenance={actions.removeMaintenance} onCreateClosure={actions.createAreaClosure} onRemoveClosure={actions.removeAreaClosure} />;
       break;
     case "residents":
       screen = <window.ResidentsScreen data={data} pendingActions={pendingActions} onUpdate={actions.updateResident} />;

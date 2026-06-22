@@ -8,6 +8,7 @@
     mark_no_show: { method: "POST", path: "/v1/reservations/{reservationId}/no-show" },
     verify_payment: { method: "POST", path: "/v1/reservations/{reservationId}/payments/verification" },
     reject_payment: { method: "POST", path: "/v1/reservations/{reservationId}/payments/rejection" },
+    resubmit_payment: { method: "POST", path: "/v1/reservations/{reservationId}/payments/proof" },
     refund_payment: { method: "POST", path: "/v1/reservations/{reservationId}/refunds" },
     release_deposit: { method: "POST", path: "/v1/reservations/{reservationId}/deposit/release" },
     retain_deposit: { method: "POST", path: "/v1/reservations/{reservationId}/deposit/retention" },
@@ -18,6 +19,8 @@
     resolve_incident: { method: "POST", path: "/v1/incidents/{incidentId}/resolution" },
     create_maintenance: { method: "POST", path: "/v1/buildings/{buildingId}/maintenance-blocks" },
     remove_maintenance: { method: "DELETE", path: "/v1/maintenance-blocks/{maintenanceId}" },
+    create_area_closure: { method: "POST", path: "/v1/buildings/{buildingId}/area-closures" },
+    remove_area_closure: { method: "DELETE", path: "/v1/area-closures/{closureId}" },
     update_resident: { method: "PATCH", path: "/v1/residents/{residentId}" },
     update_area: { method: "PATCH", path: "/v1/areas/{areaId}" },
     update_template: { method: "PATCH", path: "/v1/whatsapp/templates/{templateId}" },
@@ -31,11 +34,12 @@
     const contract = contracts[command.type];
     if (!contract) throw new Error(`No existe contrato API para ${command.type}.`);
     const params = { buildingId: options.buildingId || "building-torres", ...command };
+    const routeKeys = new Set(["type"]);
     const path = contract.path.replace(/\{(\w+)\}/g, (_match, key) => {
       if (!params[key]) throw new Error(`Falta el parámetro ${key}.`);
+      routeKeys.add(key);
       return encodeURIComponent(params[key]);
     });
-    const routeKeys = new Set(["type", "buildingId", "reservationId", "taskId", "incidentId", "maintenanceId", "residentId", "areaId", "templateId", "subscriptionId", "supportId"]);
     const body = Object.fromEntries(Object.entries(command).filter(([key]) => !routeKeys.has(key)));
     return { method: contract.method, path, body: contract.method === "DELETE" ? undefined : body };
   };

@@ -6,6 +6,7 @@
     complete_task: ["building_admin", "assistant_admin", "cleaning"],
     verify_payment: ["building_admin", "assistant_admin"],
     reject_payment: ["building_admin", "assistant_admin"],
+    resubmit_payment: ["building_admin", "assistant_admin"],
     release_deposit: ["building_admin", "assistant_admin"],
     retain_deposit: ["building_admin"],
     create_incident: ["building_admin", "assistant_admin", "security", "cleaning"],
@@ -24,6 +25,8 @@
     mark_no_show: ["building_admin", "assistant_admin", "security"],
     create_maintenance: ["building_admin", "assistant_admin"],
     remove_maintenance: ["building_admin", "assistant_admin"],
+    create_area_closure: ["building_admin", "assistant_admin"],
+    remove_area_closure: ["building_admin", "assistant_admin"],
   };
 
   const labels = {
@@ -33,6 +36,7 @@
     complete_task: "Checklist completado",
     verify_payment: "Pago verificado",
     reject_payment: "Pago rechazado",
+    resubmit_payment: "Comprobante reenviado",
     release_deposit: "Garantía liberada",
     retain_deposit: "Garantía retenida",
     create_incident: "Incidente creado",
@@ -51,6 +55,8 @@
     mark_no_show: "Inasistencia registrada",
     create_maintenance: "Mantenimiento programado",
     remove_maintenance: "Mantenimiento cancelado",
+    create_area_closure: "Cierre de área programado",
+    remove_area_closure: "Cierre de área cancelado",
   };
 
   class LivingDomainError extends Error {
@@ -127,13 +133,16 @@
   function validateSchedule(data, values, excludeReservationId = null) {
     const area = data.areas.find((item) => item.id === values.areaId);
     const resident = data.residents.find((item) => item.id === values.residentId);
-    if (!area || area.status !== "active") throw new LivingDomainError("El área común no está disponible.", "validation_error");
+    if (!area) throw new LivingDomainError("No se encontró el área común.", "validation_error");
+    const policy = global.livingSelectors.areaPolicyOnDate(area, values.date);
+    if (!policy) throw new LivingDomainError("No existe una política vigente para esa fecha.", "validation_error");
     if (!resident || resident.status !== "active" || resident.debt > 0) throw new LivingDomainError("El residente debe estar activo y sin deuda.", "resident_blocked");
     if (!/^\d{4}-\d{2}-\d{2}$/.test(values.date || "") || !/^\d{2}:\d{2}$/.test(values.start || "") || !/^\d{2}:\d{2}$/.test(values.end || "") || values.start >= values.end) throw new LivingDomainError("Ingrese una fecha y horario válidos.", "validation_error");
     const guestCount = Number(values.guestCount);
-    if (!Number.isInteger(guestCount) || guestCount < 0 || guestCount > area.capacity) throw new LivingDomainError(`El aforo máximo de ${area.name} es ${area.capacity}.`, "capacity_exceeded");
-    if (!global.livingSelectors.isSlotAvailable(data, { areaId: area.id, date: values.date, start: values.start, end: values.end, excludeReservationId })) throw new LivingDomainError("El horario se cruza con otra reserva o mantenimiento.", "schedule_conflict");
-    return { area, resident, guestCount };
+    if (!Number.isInteger(guestCount) || guestCount < 0 || guestCount > policy.capacity) throw new LivingDomainError(`El aforo máximo de ${policy.name} es ${policy.capacity}.`, "capacity_exceeded");
+    const availability = global.livingSelectors.availabilityForSlot(data, { areaId: area.id, date: values.date, start: values.start, end: values.end, excludeReservationId });
+    if (!availability.available) throw new LivingDomainError(availability.reason, "schedule_conflict");
+    return { area, policy, resident, guestCount };
   }
 
   function applyDomainAction(currentData, action, context) {
@@ -211,9 +220,29 @@
       reservation.paymentReviewedBy = context.account.name;
       reservation.paymentReviewReason = action.reason || null;
       addLifecycle(reservation, reservation.paymentStatus, action.type === "verify_payment" ? "Pago verificado" : "Pago rechazado", resolvedContext, action.reason || null);
+      if (action.type === "verify_payment" && reservation.status === "pending_payment" && !reservation.approvalRequired) {
+        reservation.status = "approved";
+        reservation.approvedBy = "Aprobación automática";
+        reservation.approvedAt = now;
+        addLifecycle(reservation, "approved", "Reserva aprobada automáticamente", resolvedContext);
+      }
       addPaymentEntry(data, reservation, action.type === "verify_payment" ? "payment_verified" : "payment_rejected", reservation.amount, reservation.paymentStatus, resolvedContext, action.reason || null);
       addAuditEntry(data, action, resolvedContext, reservation);
       return { data, message: action.type === "verify_payment" ? `Pago de ${reservation.code} verificado.` : `Comprobante de ${reservation.code} rechazado.` };
+    }
+
+    if (action.type === "resubmit_payment") {
+      const reservation = findReservation(data, action.reservationId);
+      if (reservation.paymentStatus !== "rejected") throw new LivingDomainError("Solo puede reemplazarse un comprobante rechazado.", "invalid_transition");
+      if (!action.paymentProofName || !["image/jpeg", "image/png", "application/pdf"].includes(action.paymentProofType) || Number(action.paymentProofSize) <= 0 || Number(action.paymentProofSize) > 5 * 1024 * 1024) throw new LivingDomainError("Adjunte un comprobante JPG, PNG o PDF de hasta 5 MB.", "validation_error");
+      reservation.paymentProof = { name: action.paymentProofName, type: action.paymentProofType, size: Number(action.paymentProofSize) };
+      reservation.paymentStatus = "submitted";
+      reservation.paymentSubmittedAt = now;
+      reservation.paymentReviewReason = null;
+      addLifecycle(reservation, "submitted", "Nuevo comprobante recibido", resolvedContext, action.paymentProofName);
+      addPaymentEntry(data, reservation, "payment_resubmitted", reservation.amount, "submitted", resolvedContext, action.paymentProofName);
+      addAuditEntry(data, action, resolvedContext, reservation);
+      return { data, message: `Nuevo comprobante de ${reservation.code} recibido.` };
     }
 
     if (["release_deposit", "retain_deposit"].includes(action.type)) {
@@ -299,12 +328,48 @@
       const area = data.areas.find((item) => item.id === action.areaId);
       if (!area) throw new LivingDomainError("No se encontró el área común.", "not_found");
       const capacity = Number(action.capacity);
-      const reservationFee = Number(action.reservationFee);
-      const deposit = Number(action.deposit);
-      if (![capacity, reservationFee, deposit].every(Number.isFinite) || capacity < 1 || reservationFee < 0 || deposit < 0) throw new LivingDomainError("Revise la capacidad, tarifa y garantía.", "validation_error");
-      Object.assign(area, { entityType: "area", capacity, reservationFee, deposit });
+      const reservationFee = action.paymentEnabled ? Number(action.reservationFee) : 0;
+      const deposit = action.guaranteeEnabled ? Number(action.deposit) : 0;
+      const blockMinutes = Number(action.blockMinutes);
+      const maxDurationMinutes = Number(action.maxDurationMinutes);
+      const rules = Array.isArray(action.rules) ? action.rules.map((item) => item.trim()).filter(Boolean) : String(action.rules || "").split("\n").map((item) => item.trim()).filter(Boolean);
+      const months = (action.months || []).map(Number);
+      const weekdays = (action.weekdays || []).map(Number);
+      const paymentMethods = action.paymentEnabled ? action.paymentMethods || [] : [];
+      const guaranteeMethods = action.guaranteeEnabled ? action.guaranteeMethods || [] : [];
+      const allowedMethods = new Set(["Yape", "Plin", "Transferencia", "Efectivo"]);
+      const effectiveFrom = action.effectiveFrom;
+      const validTime = (value) => /^([01]\d|2[0-3]):[0-5]\d$/.test(value || "");
+      if (!action.name?.trim() || !action.location?.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(effectiveFrom || "") || effectiveFrom < now.slice(0, 10)) throw new LivingDomainError("Revise el nombre, ubicación y fecha de vigencia.", "validation_error");
+      if (![capacity, reservationFee, deposit, blockMinutes, maxDurationMinutes].every(Number.isFinite) || capacity < 1 || reservationFee < 0 || deposit < 0 || blockMinutes < 30 || maxDurationMinutes < blockMinutes || maxDurationMinutes % blockMinutes !== 0) throw new LivingDomainError("Revise la capacidad, tarifas y duración.", "validation_error");
+      if (!rules.length || !months.length || months.some((month) => !Number.isInteger(month) || month < 1 || month > 12) || !weekdays.length || weekdays.some((day) => !Number.isInteger(day) || day < 0 || day > 6) || !validTime(action.availabilityStart) || !validTime(action.availabilityEnd) || action.availabilityStart >= action.availabilityEnd) throw new LivingDomainError("Complete las reglas y disponibilidad.", "validation_error");
+      if ((action.paymentEnabled && !paymentMethods.length) || (action.guaranteeEnabled && !guaranteeMethods.length) || [...paymentMethods, ...guaranteeMethods].some((method) => !allowedMethods.has(method))) throw new LivingDomainError("Seleccione al menos un método de pago válido.", "validation_error");
+      if (!["active", "closed"].includes(action.status)) throw new LivingDomainError("El estado del área no es válido.", "validation_error");
+      const nextVersion = Math.max(0, ...(area.policyVersions || []).map((policy) => policy.version)) + 1;
+      const policy = {
+        id: `${area.id}-policy-v${nextVersion}`,
+        version: nextVersion,
+        effectiveFrom,
+        name: action.name.trim(),
+        location: action.location.trim(),
+        capacity,
+        rules,
+        reservable: Boolean(action.reservable),
+        status: action.status,
+        closureReason: action.status === "closed" ? action.closureReason?.trim() || null : null,
+        payment: { enabled: Boolean(action.paymentEnabled), amount: reservationFee, methods: paymentMethods },
+        guarantee: { enabled: Boolean(action.guaranteeEnabled), amount: deposit, methods: guaranteeMethods },
+        availability: { months, weekdays, start: action.availabilityStart, end: action.availabilityEnd, blockMinutes, maxDurationMinutes },
+        requirements: { guestList: Boolean(action.requiresGuestList), approval: Boolean(action.requiresApproval) },
+        createdAt: now,
+        createdBy: context.account.name,
+      };
+      if (policy.payment.enabled && policy.guarantee.enabled && !global.livingSelectors.paymentMethodsForPolicy(policy).length) throw new LivingDomainError("Tarifa y garantía deben compartir al menos un método de pago.", "validation_error");
+      area.policyVersions = [...(area.policyVersions || []), policy];
+      area.entityType = "area";
+      if (effectiveFrom === now.slice(0, 10)) Object.assign(area, { name: policy.name, location: policy.location, capacity, rules, reservationFee, deposit, requiresGuestList: policy.requirements.guestList, requiresApproval: policy.requirements.approval, status: policy.status, closureReason: policy.closureReason });
       addAuditEntry(data, action, resolvedContext, area);
-      return { data, message: `${area.name} actualizada.` };
+      return { data, message: `Política v${nextVersion} de ${area.name} programada.` };
     }
 
     if (action.type === "update_template") {
@@ -351,9 +416,14 @@
     }
 
     if (action.type === "create_reservation") {
-      const { area, resident, guestCount } = validateSchedule(data, action);
+      const { area, policy, resident, guestCount } = validateSchedule(data, action);
       if (action.reason?.trim().length < 5) throw new LivingDomainError("Indique el motivo de la reserva.", "validation_error");
-      if (area.reservationFee + area.deposit > 0 && !action.paymentProofName) throw new LivingDomainError("Adjunte un comprobante de pago.", "missing_payment_proof");
+      const reservationFee = policy.payment.enabled ? policy.payment.amount : 0;
+      const depositAmount = policy.guarantee.enabled ? policy.guarantee.amount : 0;
+      const amount = reservationFee + depositAmount;
+      const acceptedMethods = global.livingSelectors.paymentMethodsForPolicy(policy);
+      if (amount > 0 && !acceptedMethods.includes(action.paymentMethod)) throw new LivingDomainError("El método de pago no está permitido para esta área.", "validation_error");
+      if (amount > 0 && !action.paymentProofName) throw new LivingDomainError("Adjunte un comprobante de pago.", "missing_payment_proof");
       const sequence = String(data.reservations.length + 1).padStart(4, "0");
       const code = `RSV-${action.date.replaceAll("-", "")}-${sequence}`;
       const reservation = {
@@ -364,22 +434,24 @@
         residentName: resident.name,
         apartment: resident.apartment,
         areaId: area.id,
-        areaName: area.name,
+        areaName: policy.name,
         date: action.date,
         start: action.start,
         end: action.end,
         guestCount,
         guestList: [],
         reason: action.reason.trim(),
-        status: area.reservationFee + area.deposit > 0 ? "pending_approval" : "confirmed",
-        paymentStatus: area.reservationFee + area.deposit > 0 ? "submitted" : "verified",
+        status: amount > 0 ? (policy.requirements.approval ? "pending_approval" : "pending_payment") : (policy.requirements.approval ? "pending_approval" : "approved"),
+        paymentStatus: amount > 0 ? "submitted" : "verified",
         paymentMethod: action.paymentMethod || "Transferencia",
         paymentProof: action.paymentProofName ? { name: action.paymentProofName, type: action.paymentProofType || "application/octet-stream", size: Number(action.paymentProofSize) || 0 } : null,
-        depositStatus: area.deposit > 0 ? "held" : "released",
-        amount: area.reservationFee + area.deposit,
-        reservationFee: area.reservationFee,
-        depositAmount: area.deposit,
-        approvalRequired: true,
+        depositStatus: depositAmount > 0 ? "held" : "released",
+        amount,
+        reservationFee,
+        depositAmount,
+        approvalRequired: policy.requirements.approval,
+        guestListRequired: policy.requirements.guestList,
+        areaPolicySnapshot: JSON.parse(JSON.stringify(policy)),
         createdAt: now,
         paymentSubmittedAt: action.paymentProofName ? now : null,
         approvedBy: null,
@@ -432,6 +504,11 @@
       reservation.refundedAt = now;
       reservation.refundedBy = context.account.name;
       addPaymentEntry(data, reservation, "refund_completed", -reservation.amount, "completed", resolvedContext, action.reference || null);
+      if (reservation.depositAmount > 0 && reservation.depositStatus !== "released") {
+        reservation.depositStatus = "released";
+        reservation.depositReleasedAt = now;
+        addDepositEntry(data, reservation, "deposit_refunded", reservation.depositAmount, "released", resolvedContext, action.reference || null);
+      }
       addLifecycle(reservation, "refunded", "Reembolso completado", resolvedContext, action.reference || null);
       addAuditEntry(data, action, resolvedContext, reservation);
       return { data, message: `Reembolso de ${reservation.code} completado.` };
@@ -449,9 +526,11 @@
     if (action.type === "create_maintenance") {
       const area = data.areas.find((item) => item.id === action.areaId);
       const validTime = (value) => /^([01]\d|2[0-3]):[0-5]\d$/.test(value || "");
-      if (!area || area.status !== "active" || action.reason?.trim().length < 5 || !/^\d{4}-\d{2}-\d{2}$/.test(action.date || "") || !validTime(action.start) || !validTime(action.end) || action.start >= action.end) throw new LivingDomainError("Complete los datos del mantenimiento.", "validation_error");
-      if (!global.livingSelectors.isSlotAvailable(data, action)) throw new LivingDomainError("El horario tiene reservas o mantenimientos activos.", "schedule_conflict");
-      const block = { id: `maintenance-${action.date.replaceAll("-", "")}-${data.maintenanceBlocks.length + 1}`, entityType: "maintenance", areaId: area.id, areaName: area.name, date: action.date, start: action.start, end: action.end, reason: action.reason.trim(), status: "active", createdBy: context.account.name, createdAt: now };
+      if (!area || action.reason?.trim().length < 5 || !/^\d{4}-\d{2}-\d{2}$/.test(action.date || "") || !validTime(action.start) || !validTime(action.end) || action.start >= action.end) throw new LivingDomainError("Complete los datos del mantenimiento.", "validation_error");
+      const conflicts = [...data.reservations.filter((item) => !["cancelled", "rejected", "no_show"].includes(item.status)), ...data.maintenanceBlocks.filter((item) => item.status === "active"), ...(data.areaClosures || []).filter((item) => item.status === "active")];
+      if (conflicts.some((item) => item.areaId === action.areaId && item.date === action.date && action.start < item.end && item.start < action.end)) throw new LivingDomainError("El horario tiene reservas, mantenimientos o cierres activos.", "schedule_conflict");
+      const areaName = global.livingSelectors.areaPolicyOnDate(area, action.date)?.name || area.name;
+      const block = { id: `maintenance-${action.date.replaceAll("-", "")}-${data.maintenanceBlocks.length + 1}`, entityType: "maintenance", areaId: area.id, areaName, date: action.date, start: action.start, end: action.end, reason: action.reason.trim(), status: "active", createdBy: context.account.name, createdAt: now };
       data.maintenanceBlocks.unshift(block);
       addAuditEntry(data, action, resolvedContext, block);
       return { data, message: `Mantenimiento de ${area.name} programado.` };
@@ -466,6 +545,29 @@
       block.cancelledAt = now;
       addAuditEntry(data, action, resolvedContext, block);
       return { data, message: `Mantenimiento de ${block.areaName} cancelado.` };
+    }
+
+    if (action.type === "create_area_closure") {
+      const area = data.areas.find((item) => item.id === action.areaId);
+      const validTime = (value) => /^([01]\d|2[0-3]):[0-5]\d$/.test(value || "");
+      if (!area || action.reason?.trim().length < 5 || !/^\d{4}-\d{2}-\d{2}$/.test(action.date || "") || !validTime(action.start) || !validTime(action.end) || action.start >= action.end) throw new LivingDomainError("Complete los datos del cierre.", "validation_error");
+      const conflicts = [...data.reservations.filter((item) => !["cancelled", "rejected", "no_show"].includes(item.status)), ...data.maintenanceBlocks.filter((item) => item.status === "active"), ...data.areaClosures.filter((item) => item.status === "active")];
+      if (conflicts.some((item) => item.areaId === action.areaId && item.date === action.date && action.start < item.end && item.start < action.end)) throw new LivingDomainError("El cierre afecta una reserva activa. Reprográmela o cancélela primero.", "schedule_conflict");
+      const areaName = global.livingSelectors.areaPolicyOnDate(area, action.date)?.name || area.name;
+      const closure = { id: `closure-${action.date.replaceAll("-", "")}-${data.areaClosures.length + 1}`, entityType: "area_closure", areaId: area.id, areaName, date: action.date, start: action.start, end: action.end, reason: action.reason.trim(), status: "active", createdBy: context.account.name, createdAt: now };
+      data.areaClosures.unshift(closure);
+      addAuditEntry(data, action, resolvedContext, closure);
+      return { data, message: `Cierre de ${area.name} programado.` };
+    }
+
+    if (action.type === "remove_area_closure") {
+      const closure = data.areaClosures.find((item) => item.id === action.closureId);
+      if (!closure) throw new LivingDomainError("No se encontró el cierre.", "not_found");
+      if (closure.status !== "active") throw new LivingDomainError("El cierre ya fue cancelado.", "invalid_transition");
+      closure.status = "cancelled";
+      closure.cancelledAt = now;
+      addAuditEntry(data, action, resolvedContext, closure);
+      return { data, message: `Cierre de ${closure.areaName} cancelado.` };
     }
 
     throw new LivingDomainError("La acción no está implementada.", "unsupported_action");
