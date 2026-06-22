@@ -373,7 +373,7 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
                   <span className="browser-dot green"></span>
                   <div className="browser-address">living.bricks.pe/portal/dashboard</div>
                 </div>
-                <img src="images/Bricks Living Hero UI.png" alt="Bricks Living Portal Dashboard" className="browser-image" />
+                <img src="images/bricks-living-hero.png" alt="Bricks Living Portal Dashboard" className="browser-image" />
               </div>
             </div>
           </section>
@@ -562,9 +562,9 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
             }
           }}
           lang="en"
-          setLang={() => {}}
+          setLang={() => { }}
           theme="auto"
-          setTheme={() => {}}
+          setTheme={() => { }}
         />
       </div>
     </div>
