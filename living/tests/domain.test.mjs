@@ -37,9 +37,9 @@ assert.ok(calendarEntries.some((item) => item.id === anaId && item.type === "res
 assert.ok(calendarEntries.some((item) => item.type === "maintenance"));
 assert.ok(calendarEntries.some((item) => item.type === "closure"));
 assert.deepEqual(calendarEntries, [...calendarEntries].sort((a, b) => `${a.date}${a.start}${a.title}`.localeCompare(`${b.date}${b.start}${b.title}`)));
-assert.equal(livingSelectors.report(data).totalReservations, data.reservations.filter((item) => item.date.startsWith("2026-07")).length);
-assert.equal(livingSelectors.report(data).totalReservations, 90);
-assert.equal(livingSelectors.report(data).totalRevenue, 5280);
+assert.equal(livingSelectors.report(data).totalReservations, data.reservations.filter((item) => item.date.startsWith("2026-07") && !["cancelled", "rejected"].includes(item.status)).length);
+assert.equal(livingSelectors.report(data).totalReservations, 98);
+assert.equal(livingSelectors.report(data).totalRevenue, 6320);
 const recentApprovals = livingSelectors.recentApprovals(data, 5);
 assert.equal(recentApprovals.length, 5);
 assert.ok(recentApprovals.every((item) => item.approvedAt));
@@ -290,7 +290,7 @@ const repository = createLivingRepository({
 const repositoryResult = await repository.execute({ type: "approve_reservation", reservationId: anaId });
 repositoryData = repositoryResult.data;
 assert.equal(repositoryData.reservations.find((item) => item.id === anaId).status, "approved");
-assert.equal(repository.select(livingSelectors.dashboard).pendingApprovals, 2);
+assert.equal(repository.select(livingSelectors.dashboard).pendingApprovals, 5);
 
 const concurrentSource = buildLivingDemoData();
 const concurrentRepository = createLivingRepository({
