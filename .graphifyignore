@@ -108,3 +108,8 @@ bun.lockb
 
 # Graphify output
 graphify-out/
+
+# Web crawl metadata
+robots.txt
+./robots.txt
+**/robots.txt
