@@ -129,6 +129,28 @@
     return { available: true, reason: null, policy };
   }
 
+  function dateRange(endDate, days) {
+    return Array.from({ length: days }, (_item, index) => addDays(endDate, index - (days - 1)));
+  }
+
+  function dayKey(value) {
+    return value ? value.slice(0, 10) : "";
+  }
+
+  function daySeries(dates, map) {
+    return dates.map((date) => ({ date, value: map(date) }));
+  }
+
+  function sumSeries(series) {
+    return series.reduce((sum, item) => sum + item.value, 0);
+  }
+
+  function compareSeries(current, previous) {
+    if (previous === 0) return current === 0 ? 0 : 100;
+    if (!previous) return null;
+    return ((current - previous) / previous) * 100;
+  }
+
   global.livingSelectors = {
     dashboard(data) {
       const monthReservations = data.reservations.filter((item) => item.date.startsWith(MONTH_PREFIX));
@@ -142,6 +164,105 @@
         depositsHeld: data.reservations.filter((item) => item.depositStatus === "held").reduce((sum, item) => sum + (Number(item.depositAmount) || 0), 0),
         incidents: data.incidents.filter((item) => item.status !== "resolved").length,
         failedWhatsapp: data.messages.filter((item) => item.status === "failed").length,
+      };
+    },
+    dashboardInsights(data) {
+      const today = DEMO_TODAY;
+      const days = 14;
+      const dates = dateRange(today, days);
+      const monthReservations = data.reservations.filter((item) => item.date.startsWith(MONTH_PREFIX));
+      const reservationsByDay = daySeries(dates, (date) => data.reservations.filter((item) => item.date === date && !["cancelled", "rejected"].includes(item.status)).length);
+      const paymentsByDay = daySeries(dates, (date) => data.reservations.filter((item) => dayKey(item.paymentSubmittedAt) === date && item.paymentStatus === "submitted").length);
+      const revenueByDay = daySeries(dates, (date) => data.reservations.filter((item) => dayKey(item.paymentSubmittedAt || item.createdAt) === date && item.paymentStatus === "verified").reduce((sum, item) => sum + areaFee(data, item), 0));
+      const approvalRequestsByDay = daySeries(dates, (date) => data.reservations.filter((item) => dayKey(item.createdAt) === date && item.status === "pending_approval").length);
+      const previousReservations = sumSeries(reservationsByDay.slice(0, 7));
+      const currentReservations = sumSeries(reservationsByDay.slice(7));
+      const previousRevenue = sumSeries(revenueByDay.slice(0, 7));
+      const currentRevenue = sumSeries(revenueByDay.slice(7));
+      const queue = [
+        { label: "Aprobaciones", value: data.reservations.filter((item) => item.status === "pending_approval").length, tone: "warning" },
+        { label: "Pagos por revisar", value: data.reservations.filter((item) => item.paymentStatus === "submitted").length, tone: "warning" },
+        { label: "Incidentes abiertos", value: data.incidents.filter((item) => item.status !== "resolved").length, tone: "danger" },
+        { label: "Tareas activas", value: data.tasks.filter((item) => item.status !== "completed").length, tone: "neutral" },
+        { label: "Bloqueos activos", value: data.maintenanceBlocks.filter((item) => item.status === "active").length, tone: "neutral" },
+      ];
+      const queueTotal = queue.reduce((sum, item) => sum + item.value, 0) || 1;
+      const topAreas = data.areas.map((area) => {
+        const reservations = monthReservations.filter((item) => item.areaId === area.id);
+        return {
+          id: area.id,
+          area: area.name,
+          location: area.location,
+          reservations: reservations.length,
+          revenue: reservations.filter((item) => item.paymentStatus === "verified").reduce((sum, item) => sum + areaFee(data, item), 0),
+          pendingApprovals: reservations.filter((item) => item.status === "pending_approval").length,
+        };
+      }).filter((item) => item.reservations > 0).sort((a, b) => b.reservations - a.reservations || b.revenue - a.revenue);
+      const upcomingReservations = [...data.reservations]
+        .filter((item) => item.date >= today && !["cancelled", "rejected"].includes(item.status))
+        .sort((a, b) => `${a.date}${a.start}${a.code}`.localeCompare(`${b.date}${b.start}${b.code}`))
+        .slice(0, 6);
+      const criticalItems = [
+        ...data.reservations.filter((item) => item.status === "pending_approval").map((item) => ({
+          id: `approval:${item.id}`,
+          kind: "Aprobación",
+          title: item.code,
+          detail: `${item.residentName} · ${item.areaName} · ${item.start}–${item.end}`,
+          severity: 1,
+          action: "Abrir",
+          reservationId: item.id,
+        })),
+        ...data.reservations.filter((item) => item.paymentStatus === "submitted").map((item) => ({
+          id: `payment:${item.id}`,
+          kind: "Pago",
+          title: item.code,
+          detail: `${item.residentName} · ${item.paymentMethod || "Transferencia"} · ${window.livingFormatCurrency(item.amount)}`,
+          severity: 2,
+          action: "Revisar",
+          reservationId: item.id,
+        })),
+        ...data.incidents.filter((item) => item.status !== "resolved").map((item) => ({
+          id: `incident:${item.id}`,
+          kind: "Incidente",
+          title: item.type,
+          detail: `${item.residentName} · ${item.areaName} · ${window.livingFormatShortDate(item.createdAt)}`,
+          severity: 3,
+          action: "Ver",
+          reservationId: item.reservationId,
+        })),
+        ...data.tasks.filter((item) => item.status !== "completed").slice(0, 6).map((item) => ({
+          id: `task:${item.id}`,
+          kind: "Limpieza",
+          title: item.areaName,
+          detail: `${item.type} · ${item.dueTime ? window.livingFormatDateTime(item.dueTime) : "Pendiente"}`,
+          severity: 4,
+          action: "Abrir",
+          reservationId: item.reservationId,
+        })),
+      ].sort((left, right) => left.severity - right.severity).slice(0, 8);
+      return {
+        today,
+        dates,
+        reservationsByDay,
+        paymentsByDay,
+        revenueByDay,
+        approvalRequestsByDay,
+        topAreas,
+        upcomingReservations,
+        criticalItems,
+        queue: queue.map((item) => ({ ...item, share: item.value / queueTotal })),
+        summary: {
+          currentReservations,
+          previousReservations,
+          currentRevenue,
+          previousRevenue,
+          reservationsDelta: compareSeries(currentReservations, previousReservations),
+          revenueDelta: compareSeries(currentRevenue, previousRevenue),
+          pendingApprovals: queue[0].value,
+          pendingPayments: queue[1].value,
+          activeIncidents: queue[2].value,
+          activeTasks: queue[3].value,
+        },
       };
     },
     report(data) {

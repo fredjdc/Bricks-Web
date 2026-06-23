@@ -154,7 +154,80 @@ window.SectionTitle = function SectionTitle({ eyebrow, title, body, actions, ico
   );
 };
 
-window.MetricCard = function MetricCard({ label, value, detail, icon, onClick }) {
+window.SparklineChart = function SparklineChart({ values = [], label = "Tendencia" }) {
+  const chartId = React.useId();
+  const safeValues = values.length ? values : [0];
+  const max = Math.max(...safeValues, 1);
+  const points = safeValues.map((value, index) => {
+    const x = safeValues.length === 1 ? 2 : (index / (safeValues.length - 1)) * 96 + 2;
+    const y = 38 - ((value / max) * 30);
+    return `${x.toFixed(2)},${y.toFixed(2)}`;
+  }).join(" ");
+  const area = `M 2 38 L ${points.replaceAll(" ", " L ")} L 98 38 Z`;
+  const lastIndex = safeValues.length - 1;
+  const lastX = safeValues.length === 1 ? 2 : (lastIndex / (safeValues.length - 1)) * 96 + 2;
+  const lastY = 38 - ((safeValues[lastIndex] / max) * 30);
+  return (
+    <figure className="living-sparkline" aria-label={label}>
+      <svg viewBox="0 0 100 40" role="img" aria-label={label} preserveAspectRatio="none">
+        <defs>
+          <linearGradient id={`living-sparkline-fill-${chartId}`} x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="currentColor" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <path d={area} fill={`url(#living-sparkline-fill-${chartId})`} />
+        <polyline points={points} fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx={lastX} cy={lastY} r="2.6" fill="currentColor" />
+      </svg>
+    </figure>
+  );
+};
+
+window.HorizontalBarChart = function HorizontalBarChart({ items = [], formatValue = (value) => value, labelKey = "label", valueKey = "value", metaKey = "meta" }) {
+  const max = Math.max(...items.map((item) => item[valueKey]), 1);
+  return (
+    <div className="living-bar-chart" role="list" aria-label="Gráfico de barras">
+      {items.map((item) => (
+        <div className="living-bar-chart-row" key={item[labelKey]} role="listitem">
+          <div className="living-bar-chart-label">
+            <strong>{item[labelKey]}</strong>
+            {item[metaKey] ? <span>{item[metaKey]}</span> : null}
+          </div>
+          <div className="living-bar-chart-track" aria-hidden="true">
+            <span className="living-bar-chart-fill" style={{ width: `${(item[valueKey] / max) * 100}%` }} />
+          </div>
+          <div className="living-bar-chart-value">{formatValue(item[valueKey])}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+window.DashboardPriorityList = function DashboardPriorityList({ items = [], onOpenReservation }) {
+  if (!items.length) {
+    return <div className="living-empty-state">No hay acciones prioritarias.</div>;
+  }
+
+  return (
+    <div className="living-priority-list" role="list">
+      {items.map((item) => (
+        <article className="living-priority-row" key={item.id} role="listitem">
+          <div className="living-priority-copy">
+            <div className="living-priority-kicker">{item.kind}</div>
+            <h4>{item.title}</h4>
+            <p>{item.detail}</p>
+          </div>
+          <button type="button" className="living-link-button living-priority-action" onClick={() => onOpenReservation(item.reservationId)}>
+            {item.action}
+          </button>
+        </article>
+      ))}
+    </div>
+  );
+};
+
+window.MetricCard = function MetricCard({ label, value, detail, icon, onClick, trend, trendLabel, sparkline, sparklineLabel }) {
   const content = (
     <>
       <div className="living-card-header-row">
@@ -162,6 +235,13 @@ window.MetricCard = function MetricCard({ label, value, detail, icon, onClick })
         {icon && <span className="living-metric-icon">{icon}</span>}
       </div>
       <div className="living-metric-value">{value}</div>
+      {typeof trend === "number" || trendLabel ? (
+        <div className={`living-metric-trend ${typeof trend === "number" ? (trend >= 0 ? "is-up" : "is-down") : ""}`}>
+          <span>{typeof trend === "number" ? `${trend >= 0 ? "↑" : "↓"} ${Math.abs(Math.round(trend))}%` : "—"}</span>
+          {trendLabel ? <small>{trendLabel}</small> : null}
+        </div>
+      ) : null}
+      {sparkline ? <window.SparklineChart values={sparkline} label={sparklineLabel || `${label} - tendencia`} /> : null}
       {detail ? <div className="living-card-detail">{detail}</div> : null}
     </>
   );

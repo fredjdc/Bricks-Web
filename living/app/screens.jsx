@@ -19,48 +19,38 @@ window.useLivingPagedRows = function useLivingPagedRows(items, searchText, filte
 };
 
 window.DashboardScreen = function DashboardScreen({ data, onOpenReservation, onNavigate }) {
+  const [range, setRange] = React.useState("14d");
   const kpis = window.livingGetKpis(data);
+  const insights = window.livingSelectors.dashboardInsights(data);
   const storyReservation = data.reservations.find((item) => item.id === "TRL-2026-0718-0024");
-  const activeTasks = data.tasks.filter((task) => task.status !== "completed");
-  const storyline = [
-    { label: "Reserva creada", done: true },
-    { label: "Pago verificado", done: storyReservation.paymentStatus === "verified" },
-    { label: "Aprobación admin", done: ["approved", "confirmed", "completed"].includes(storyReservation.status) },
-    { label: "Acceso validado", done: storyReservation.securityResidentArrived && storyReservation.securityGuestsVerified },
-    { label: "Limpieza completada", done: data.tasks.filter((task) => task.reservationId === storyReservation.id).every((task) => task.status === "completed") },
-  ];
+  const rangeSizes = { "7d": 7, "14d": 14, "30d": 30 };
+  const rangeSize = rangeSizes[range] || 14;
+  const activitySeries = insights.reservationsByDay.slice(-rangeSize);
+  const revenueSeries = insights.revenueByDay.slice(-rangeSize);
+  const approvalSeries = insights.approvalRequestsByDay.slice(-rangeSize);
+  const paymentSeries = insights.paymentsByDay.slice(-rangeSize);
+  const queueFlowSeries = approvalSeries.map((item, index) => item.value + (paymentSeries[index]?.value || 0));
+  const queueSeries = insights.queue;
+
   const dashboardIcons = {
-    pending: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="8" />
-        <path d="M12 8v4l2.5 2.5" />
-      </svg>
-    ),
-    payments: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M12 2v20" />
-        <path d="M17 6.5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6.5" />
-      </svg>
-    ),
-    reservations: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    calendar: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.15" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="3" y="4" width="18" height="17" rx="3" />
         <line x1="8" y1="2.5" x2="8" y2="6.5" />
         <line x1="16" y1="2.5" x2="16" y2="6.5" />
         <line x1="3" y1="10" x2="21" y2="10" />
       </svg>
     ),
-    revenue: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M4 16l5-5 4 4 7-8" />
-        <path d="M20 10V7h-3" />
+    approvals: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.15" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="8" />
+        <path d="M12 8v4l2.5 2.5" />
       </svg>
     ),
-    story: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M7 4.5h8a3.5 3.5 0 0 1 3.5 3.5v11l-3-1.8-3 1.8-3-1.8-3 1.8V8A3.5 3.5 0 0 1 7 4.5z" />
-        <path d="M9 9.5h6" />
-        <path d="M9 13h4.5" />
+    revenue: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.15" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 16l5-5 4 4 7-8" />
+        <path d="M20 10V7h-3" />
       </svg>
     ),
     queue: (
@@ -70,45 +60,194 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation, onN
         <path d="M6 17h8" />
       </svg>
     ),
-    open: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M7 17L17 7" />
-        <path d="M9 7h8v8" />
-      </svg>
-    ),
-    task: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="8" />
-        <path d="M9 12.5l2 2 4-4.5" />
-      </svg>
-    ),
   };
 
+  function deltaText(value) {
+    if (value === null) return "Sin base previa";
+    const rounded = Math.abs(Math.round(value));
+    if (rounded === 0) return "Sin cambio";
+    return `${value >= 0 ? "+" : "-"}${rounded}% vs. mitad anterior`;
+  }
+
+  function rangeDelta(series) {
+    if (series.length < 2) return null;
+    const midpoint = Math.floor(series.length / 2);
+    if (midpoint === 0) return null;
+    const firstHalf = series.slice(0, midpoint).reduce((sum, item) => sum + item.value, 0);
+    const secondHalf = series.slice(midpoint).reduce((sum, item) => sum + item.value, 0);
+    if (firstHalf === 0) return secondHalf === 0 ? 0 : 100;
+    return ((secondHalf - firstHalf) / firstHalf) * 100;
+  }
+
+  const reservationsDelta = rangeDelta(activitySeries);
+  const revenueDelta = rangeDelta(revenueSeries);
+
   return (
-    <div className="living-screen">
-      <window.SectionTitle eyebrow="Vista general" title="Operación de hoy" iconName="dashboard" />
-      <div className="living-grid living-kpis">
-        <window.MetricCard label="Pendientes" value={kpis.pendingApprovals} detail="Abrir aprobaciones" icon={dashboardIcons.pending} onClick={() => onNavigate("approvals")} />
-        <window.MetricCard label="Pagos por revisar" value={kpis.pendingPayments} detail="Abrir comprobantes" icon={dashboardIcons.payments} onClick={() => onNavigate("payments")} />
-        <window.MetricCard label="Reservas hoy" value={kpis.todayReservations} detail="Abrir calendario" icon={dashboardIcons.reservations} onClick={() => onNavigate("calendar")} />
-        <window.MetricCard label="Ingresos del mes" value={window.livingFormatCurrency(kpis.revenueThisMonth)} detail="Abrir reportes" icon={dashboardIcons.revenue} onClick={() => onNavigate("reports")} />
-      </div>
-      <div className="living-dashboard-columns">
-        <div className="living-card">
-          <div className="living-card-label living-dashboard-label">
-            <span className="living-dashboard-label-icon">{dashboardIcons.story}</span>
-            <span>Historia demo</span>
+    <div className="living-screen living-dashboard-screen">
+      <window.SectionTitle
+        eyebrow="Vista general"
+        title="Operación de hoy"
+        body="Lectura inmediata de reservas, pagos, cola operativa y actividad del período."
+        iconName="dashboard"
+        actions={(
+          <div className="living-dashboard-header-actions">
+            <div className="living-dashboard-range" role="tablist" aria-label="Rango del tablero">
+              {["7d", "14d", "30d"].map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={range === value ? "is-active" : ""}
+                  aria-pressed={range === value}
+                  onClick={() => setRange(value)}
+                >
+                  {value === "7d" ? "7 días" : value === "14d" ? "14 días" : "30 días"}
+                </button>
+              ))}
+            </div>
+            <div className="living-inline-actions">
+              <button className="living-button living-button-secondary" type="button" onClick={() => onNavigate("calendar")}>
+                Abrir calendario
+              </button>
+              <button className="living-button living-button-primary" type="button" onClick={() => onNavigate("approvals")}>
+                Revisar cola
+              </button>
+            </div>
           </div>
-          <div className="living-story-header">
-            <h3>{storyReservation.code}</h3>
-            <button className="living-link-button living-link-button-inline" onClick={() => onOpenReservation(storyReservation.id)}>
+        )}
+      />
+
+      <div className="living-grid living-kpis living-dashboard-kpis">
+        <window.MetricCard
+          label="Reservas activas"
+          value={kpis.upcomingReservations}
+          detail="En curso o por iniciar"
+          icon={dashboardIcons.calendar}
+          trend={reservationsDelta}
+          trendLabel={deltaText(reservationsDelta)}
+          sparkline={activitySeries.map((item) => item.value)}
+          sparklineLabel="Reservas por día"
+          onClick={() => onNavigate("calendar")}
+        />
+        <window.MetricCard
+          label="Ingresos verificados"
+          value={window.livingFormatCurrency(kpis.revenueThisMonth)}
+          detail="Cobranzas del mes"
+          icon={dashboardIcons.revenue}
+          trend={revenueDelta}
+          trendLabel={deltaText(revenueDelta)}
+          sparkline={revenueSeries.map((item) => item.value)}
+          sparklineLabel="Ingresos por día"
+          onClick={() => onNavigate("reports")}
+        />
+        <window.MetricCard
+          label="Aprobaciones"
+          value={insights.summary.pendingApprovals}
+          detail={`${insights.summary.pendingPayments} pagos por revisar`}
+          icon={dashboardIcons.approvals}
+          sparkline={approvalSeries.map((item) => item.value)}
+          sparklineLabel="Aprobaciones por día"
+          onClick={() => onNavigate("approvals")}
+        />
+        <window.MetricCard
+          label="Incidentes y tareas"
+          value={insights.summary.activeIncidents + insights.summary.activeTasks}
+          detail={`${insights.summary.activeIncidents} abiertos · ${insights.summary.activeTasks} tareas activas`}
+          icon={dashboardIcons.queue}
+          sparkline={queueFlowSeries}
+          sparklineLabel="Flujo de cola"
+          onClick={() => onNavigate("incidents")}
+        />
+      </div>
+
+      <div className="living-dashboard-grid">
+        <div className="living-card living-dashboard-card living-dashboard-chart-card">
+          <div className="living-card-header-row">
+            <div>
+              <div className="living-card-label">Actividad del período</div>
+              <h3>{range === "7d" ? "Últimos 7 días" : range === "14d" ? "Últimos 14 días" : "Últimos 30 días"}</h3>
+            </div>
+            <span className="living-card-detail">{activitySeries.reduce((sum, item) => sum + item.value, 0)} reservas</span>
+          </div>
+          <window.SparklineChart values={activitySeries.map((item) => item.value)} label="Reservas por día" />
+          <div className="living-dashboard-chart-foot">
+            {activitySeries.map((item) => (
+              <div key={item.date}>
+                <strong>{window.livingFormatShortDate(item.date)}</strong>
+                <span>{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="living-card living-dashboard-card">
+          <div className="living-card-header-row">
+            <div>
+              <div className="living-card-label">Cola operativa</div>
+              <h3>Presión actual del equipo</h3>
+            </div>
+            <span className="living-card-detail">{queueSeries.reduce((sum, item) => sum + item.value, 0)} casos</span>
+          </div>
+          <window.HorizontalBarChart
+            items={queueSeries.map((item) => ({ ...item, meta: item.tone === "danger" ? "prioridad alta" : item.tone === "warning" ? "prioridad media" : "monitoreo" }))}
+            formatValue={(value) => String(value)}
+          />
+        </div>
+      </div>
+
+      <div className="living-dashboard-grid">
+        <div className="living-card living-dashboard-card">
+          <div className="living-card-header-row">
+            <div>
+              <div className="living-card-label">Prioridad ahora</div>
+              <h3>Lo que debe resolverse primero</h3>
+            </div>
+            <span className="living-card-detail">{insights.criticalItems.length} ítems</span>
+          </div>
+          <window.DashboardPriorityList items={insights.criticalItems} onOpenReservation={onOpenReservation} />
+        </div>
+
+        <div className="living-card living-dashboard-card">
+          <div className="living-card-header-row">
+            <div>
+              <div className="living-card-label">Próximas reservas</div>
+              <h3>Entradas más cercanas</h3>
+            </div>
+            <span className="living-card-detail">Siguientes 6</span>
+          </div>
+          <window.DataTable
+            columns={[
+              { key: "code", label: "Reserva" },
+              { key: "areaName", label: "Área" },
+              { key: "date", label: "Fecha", render: (row) => window.livingFormatShortDate(row.date) },
+              { key: "status", label: "Estado", render: (row) => <window.Badge status={row.status} /> },
+              { key: "actions", label: "Acciones", render: (row) => <button type="button" className="living-link-button" onClick={() => onOpenReservation(row.id)}>Ver</button> },
+            ]}
+            rows={insights.upcomingReservations}
+            empty="No hay reservas próximas."
+          />
+        </div>
+      </div>
+
+      <div className="living-dashboard-grid">
+        <div className="living-card living-dashboard-card">
+          <div className="living-card-header-row">
+            <div>
+              <div className="living-card-label">Caso en curso</div>
+              <h3>{storyReservation.code}</h3>
+            </div>
+            <button className="living-link-button living-link-button-inline" type="button" onClick={() => onOpenReservation(storyReservation.id)}>
               <span>Ver reserva</span>
-              <span className="living-link-button-icon">{dashboardIcons.open}</span>
             </button>
           </div>
-          <p>Ana García · Terraza · 18 Jul · 17:00–23:00</p>
-          <div className="living-checklist">
-            {storyline.map((item) => (
+          <p>{storyReservation.residentName} · {storyReservation.areaName} · {window.livingFormatShortDate(storyReservation.date)} · {storyReservation.start}–{storyReservation.end}</p>
+          <div className="living-dashboard-story">
+            {[
+              { label: "Reserva creada", done: true },
+              { label: "Pago verificado", done: storyReservation.paymentStatus === "verified" },
+              { label: "Aprobación admin", done: ["approved", "confirmed", "completed"].includes(storyReservation.status) },
+              { label: "Acceso validado", done: storyReservation.securityResidentArrived && storyReservation.securityGuestsVerified },
+              { label: "Limpieza completada", done: data.tasks.filter((task) => task.reservationId === storyReservation.id).every((task) => task.status === "completed") },
+            ].map((item) => (
               <div className={`living-check-row ${item.done ? "done" : ""}`} key={item.label}>
                 <span className="living-check-icon" aria-hidden="true">{item.done ? "●" : "○"}</span>
                 <span>{item.label}</span>
@@ -116,15 +255,28 @@ window.DashboardScreen = function DashboardScreen({ data, onOpenReservation, onN
             ))}
           </div>
         </div>
-        <div className="living-card">
-          <div className="living-card-label living-dashboard-label">
-            <span className="living-dashboard-label-icon">{dashboardIcons.queue}</span>
-            <span>Cola operativa</span>
+
+        <div className="living-card living-dashboard-card">
+          <div className="living-card-header-row">
+            <div>
+              <div className="living-card-label">Áreas con más uso</div>
+              <h3>Demanda por zona</h3>
+            </div>
+            <span className="living-card-detail">Mes actual</span>
           </div>
-          <ul className="living-list living-queue-list">
-            <li><button type="button" className="living-queue-action" onClick={() => onNavigate("approvals")}><span className="living-queue-icon">{dashboardIcons.pending}</span><span>{kpis.pendingApprovals} aprobaciones por resolver</span></button></li>
-            <li><button type="button" className="living-queue-action" onClick={() => onNavigate("cleaning")}><span className="living-queue-icon">{dashboardIcons.task}</span><span>{activeTasks.length} tareas de limpieza activas</span></button></li>
-          </ul>
+          <window.HorizontalBarChart
+            items={insights.topAreas.slice(0, 5)}
+            formatValue={(value) => String(value)}
+            metaKey="location"
+          />
+          <div className="living-dashboard-area-summary">
+            {insights.topAreas.slice(0, 3).map((item) => (
+              <div key={item.id}>
+                <strong>{item.area}</strong>
+                <span>{window.livingFormatCurrency(item.revenue)} · {item.pendingApprovals} por aprobar</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
