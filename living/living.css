@@ -1,5 +1,5 @@
 :root {
-  --living-accent: var(--accent-orange);
+  --living-accent: var(--accent-whatsapp-business);
   --living-bg: var(--bg-primary);
   --living-surface: var(--bg-white);
   --living-border: color-mix(in srgb, var(--edge-def) 18%, transparent);
