@@ -19,9 +19,9 @@ window.COPY = {
       pickLabel: 'Pick a tool',
     },
     products: {
-      scan:  { name: 'Scan',  tagline: 'Documents, organized.', pitch: 'Scan, read, file.' },
-      calc:  { name: 'Calc',  tagline: 'Mortgages, instantly.', pitch: 'Model a deal.' },
-      leads: { name: 'Leads', tagline: 'A calm CRM.',           pitch: 'Stay on follow-up.' },
+      scan: { name: 'Scan', tagline: 'Documents, organized.', pitch: 'Scan, read, file.' },
+      calc: { name: 'Calc', tagline: 'Mortgages, instantly.', pitch: 'Model a deal.' },
+      leads: { name: 'Leads', tagline: 'A calm CRM.', pitch: 'Stay on follow-up.' },
     },
     cta: {
       title: ['Three tools.', 'One quiet suite.'],
@@ -31,9 +31,9 @@ window.COPY = {
     footer: {
       tag: 'Focused apps for real estate agents on Apple.',
       sections: [
-        { h: 'Apps',     l: [{ label: 'Bricks Scan',  href: 'scan.html' }, { label: 'Bricks Calc', href: 'calc.html' }, { label: 'Bricks Leads', href: 'leads.html' }] },
-        { h: 'Business', l: [{ label: 'About',        href: 'about.html' }, { label: 'Purchase guide', href: 'purchase-guide-01.html' }, { label: 'hello@bricks.pe', href: 'mailto:hello@bricks.pe' }] },
-        { h: 'Support',  l: [{ label: 'Contact',      href: 'support.html' }, { label: 'Vote on features', href: 'https://bricksapps.userjot.com' }, { label: 'Guides', href: 'help.html' }, { label: 'Survey', href: 'survey.html' }] },
+        { h: 'Apps', l: [{ label: 'Bricks Scan', href: 'scan.html' }, { label: 'Bricks Calc', href: 'calc.html' }, { label: 'Bricks Leads', href: 'leads.html' }] },
+        { h: 'Business', l: [{ label: 'About', href: 'about.html' }, { label: 'Purchase guide', href: 'purchase-guide-01.html' }, { label: 'hello@bricks.pe', href: 'mailto:hello@bricks.pe' }] },
+        { h: 'Support', l: [{ label: 'Contact', href: 'support.html' }, { label: 'Vote on features', href: 'https://bricksapps.userjot.com' }, { label: 'Guides', href: 'help.html' }, { label: 'Survey', href: 'survey.html' }] },
       ],
       legal: [{ label: 'Privacy Policy', href: 'privacy.html' }, { label: 'Terms of Service', href: 'terms.html' }],
       copyright: '\u00a9 2026 Bricks Apps. Made with care.',
@@ -52,9 +52,9 @@ window.COPY = {
       pickLabel: 'Elige una herramienta',
     },
     products: {
-      scan:  { name: 'Scan',  tagline: 'Documentos ordenados.',   pitch: 'Escanea, lee, archiva.' },
-      calc:  { name: 'Calc',  tagline: 'Hipotecas al instante.',  pitch: 'Modela una oferta.' },
-      leads: { name: 'Leads', tagline: 'Un CRM tranquilo.',       pitch: 'Mant\u00e9n el seguimiento.' },
+      scan: { name: 'Scan', tagline: 'Documentos ordenados.', pitch: 'Escanea, lee, archiva.' },
+      calc: { name: 'Calc', tagline: 'Hipotecas al instante.', pitch: 'Modela una oferta.' },
+      leads: { name: 'Leads', tagline: 'Un CRM tranquilo.', pitch: 'Mant\u00e9n el seguimiento.' },
     },
     cta: {
       title: ['Tres herramientas.', 'Una suite tranquila.'],
@@ -64,7 +64,7 @@ window.COPY = {
     footer: {
       tag: 'Apps enfocadas para agentes inmobiliarios en Apple.',
       sections: [
-        { h: 'Apps',    l: [{ label: 'Bricks Scan', href: 'scan.html' }, { label: 'Bricks Calc', href: 'calc.html' }, { label: 'Bricks Leads', href: 'leads.html' }] },
+        { h: 'Apps', l: [{ label: 'Bricks Scan', href: 'scan.html' }, { label: 'Bricks Calc', href: 'calc.html' }, { label: 'Bricks Leads', href: 'leads.html' }] },
         { h: 'Empresa', l: [{ label: 'Sobre nosotros', href: 'about.html' }, { label: 'Gu\u00eda de compra', href: 'purchase-guide-01.html' }, { label: 'hello@bricks.pe', href: 'mailto:hello@bricks.pe' }] },
         { h: 'Soporte', l: [{ label: 'Contacto', href: 'support.html' }, { label: 'Votar funciones', href: 'https://bricksapps.userjot.com' }, { label: 'Gu\u00edas', href: 'help.html' }, { label: 'Encuesta', href: 'survey.html' }] },
       ],
@@ -77,8 +77,8 @@ window.COPY = {
 };
 
 window.ACCENTS = {
-  scan:  { light: '#00A6A1', vivid: '#00C7B2' },
-  calc:  { light: '#007AFF', vivid: '#2E90FF' },
+  scan: { light: '#00A6A1', vivid: '#00C7B2' },
+  calc: { light: '#007AFF', vivid: '#2E90FF' },
   leads: { light: '#FF9500', vivid: '#FFAD33' },
 };
 
@@ -222,8 +222,8 @@ window.useTheme = function useTheme() {
 window.ThemeLogo = function ThemeLogo({ height = 24, assetPrefix = "" }) {
   return (
     <React.Fragment>
-      <img src={`${assetPrefix}images/bricks-dark-logo.svg`}  alt="Bricks" className="logo-light-theme" style={{ height }} />
-      <img src={`${assetPrefix}images/bricks-light-logo.svg`} alt="Bricks" className="logo-dark-theme"  style={{ height }} />
+      <img src={`${assetPrefix}images/bricks-dark-logo.svg`} alt="Bricks" className="logo-light-theme" style={{ height }} />
+      <img src={`${assetPrefix}images/bricks-light-logo.svg`} alt="Bricks" className="logo-dark-theme" style={{ height }} />
     </React.Fragment>
   );
 };
@@ -257,15 +257,15 @@ window.Header = function Header({ t, lang, currentProduct, cta }) {
   }, [dlOpen]);
 
   const downloadItems = [
-    { label: 'Bricks Calc',  href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837', accent: window.ACCENTS.calc.light,  external: true },
-    { label: 'Bricks Scan',  href: 'https://apps.apple.com/us/app/bricks-scan-scan-to-pdf/id6758148083',   accent: window.ACCENTS.scan.light,  external: true },
-    { label: 'Bricks Leads', href: 'leads.html',                                                            accent: window.ACCENTS.leads.light, external: false },
+    { label: 'Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837', accent: window.ACCENTS.calc.light, external: true },
+    { label: 'Bricks Scan', href: 'https://apps.apple.com/us/app/bricks-scan-scan-to-pdf/id6758148083', accent: window.ACCENTS.scan.light, external: true },
+    { label: 'Bricks Leads', href: 'leads.html', accent: window.ACCENTS.leads.light, external: false },
   ];
 
   const links = currentProduct ? [] : [
     { id: 'product-scan', label: t.nav.products },
-    { id: 'philosophy',   label: t.nav.philosophy },
-    { id: 'changelog',    label: t.nav.changelog },
+    { id: 'philosophy', label: t.nav.philosophy },
+    { id: 'changelog', label: t.nav.changelog },
   ];
 
   return (
@@ -285,46 +285,46 @@ window.Header = function Header({ t, lang, currentProduct, cta }) {
       transition: 'transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease',
     }}>
       <a href={currentProduct ? 'index.html' : '#top'}
-         onClick={(e) => { if (!currentProduct) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}
-         style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        onClick={(e) => { if (!currentProduct) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}
+        style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <window.ThemeLogo height={24} />
       </a>
 
       <nav style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
         {!isMobile && links.map(link => (
           <a key={link.id} href={'#' + link.id}
-             onClick={(e) => { e.preventDefault(); window.smoothScrollTo(link.id); }}
-             style={{
-               fontSize: 14, fontWeight: 500, color: 'var(--b-text)',
-               padding: '8px 14px', borderRadius: 100,
-               letterSpacing: '-0.01em', opacity: 0.8,
-               transition: 'opacity 0.2s, background 0.2s',
-             }}
-             onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
-             onMouseLeave={(e) => e.currentTarget.style.opacity = 0.8}
+            onClick={(e) => { e.preventDefault(); window.smoothScrollTo(link.id); }}
+            style={{
+              fontSize: 14, fontWeight: 500, color: 'var(--b-text)',
+              padding: '8px 14px', borderRadius: 100,
+              letterSpacing: '-0.01em', opacity: 0.8,
+              transition: 'opacity 0.2s, background 0.2s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = 0.8}
           >{link.label}</a>
         ))}
 
         {cta ? (
           <a href={cta.href}
-             onClick={(e) => {
-               if (cta.href && cta.href.startsWith('#')) {
-                 e.preventDefault();
-                 window.smoothScrollTo(cta.href.slice(1));
-               }
-               if (cta.onClick) cta.onClick(e);
-             }}
-             style={{
-               marginLeft: isMobile ? 0 : 6,
-               padding: isMobile ? '9px 16px' : '10px 18px', borderRadius: 100,
-               background: 'var(--b-text)', color: 'var(--b-bg)',
-               border: 'none', fontSize: 14, fontWeight: 600,
-               letterSpacing: '-0.01em',
-               boxShadow: '0 8px 20px rgba(11,15,20,0.18)',
-               transition: 'transform 0.15s ease',
-             }}
-             onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
-             onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+            onClick={(e) => {
+              if (cta.href && cta.href.startsWith('#')) {
+                e.preventDefault();
+                window.smoothScrollTo(cta.href.slice(1));
+              }
+              if (cta.onClick) cta.onClick(e);
+            }}
+            style={{
+              marginLeft: isMobile ? 0 : 6,
+              padding: isMobile ? '9px 16px' : '10px 18px', borderRadius: 100,
+              background: 'var(--b-text)', color: 'var(--b-bg)',
+              border: 'none', fontSize: 14, fontWeight: 600,
+              letterSpacing: '-0.01em',
+              boxShadow: '0 8px 20px rgba(11,15,20,0.18)',
+              transition: 'transform 0.15s ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
           >{cta.label}</a>
         ) : (
           <div ref={dlRef} style={{ position: 'relative' }}>
@@ -348,7 +348,7 @@ window.Header = function Header({ t, lang, currentProduct, cta }) {
                 transform: dlOpen ? 'rotate(180deg)' : 'rotate(0)',
                 transition: 'transform 0.25s ease',
               }}>
-                <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
 
@@ -368,24 +368,24 @@ window.Header = function Header({ t, lang, currentProduct, cta }) {
             }}>
               {downloadItems.map((item, i) => (
                 <a key={i} href={item.href}
-                   target={item.external ? '_blank' : undefined}
-                   rel={item.external ? 'noopener noreferrer' : undefined}
-                   onClick={() => setDlOpen(false)}
-                   style={{
-                     display: 'flex', alignItems: 'center', gap: 12,
-                     padding: '12px 16px', borderRadius: 14,
-                     fontSize: 14, fontWeight: 500, color: 'var(--b-text)',
-                     transition: 'background 0.15s ease',
-                     textDecoration: 'none',
-                   }}
-                   onMouseEnter={(e) => e.currentTarget.style.background = 'var(--b-bg)'}
-                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  onClick={() => setDlOpen(false)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    padding: '12px 16px', borderRadius: 14,
+                    fontSize: 14, fontWeight: 500, color: 'var(--b-text)',
+                    transition: 'background 0.15s ease',
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = 'var(--b-bg)'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
-                  <div style={{ width: 8, height: 8, borderRadius: 4, background: item.accent, flexShrink: 0 }}/>
+                  <div style={{ width: 8, height: 8, borderRadius: 4, background: item.accent, flexShrink: 0 }} />
                   <span style={{ flex: 1 }}>{item.label}</span>
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.4 }}>
                     <path d={item.external ? 'M4 2h6v6M10 2L3 9' : 'M4 2l5 4-5 4'}
-                          stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                      stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
               ))}
@@ -447,7 +447,7 @@ window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent, tilt = 0 }
         pointerEvents: 'none',
         transform: `translateY(${translateY * 0.5}px)`,
         transition: 'transform 0.05s linear',
-      }}/>
+      }} />
       <img
         src={src + (window.location.search || '')}
         alt={alt}
@@ -477,23 +477,23 @@ window.MoreInfoLink = function MoreInfoLink({ href, accent, label }) {
   const fullHref = href + (typeof window !== 'undefined' ? (window.location.search || '') : '');
   return (
     <a href={fullHref}
-       onMouseEnter={() => setHover(true)}
-       onMouseLeave={() => setHover(false)}
-       style={{
-         display: 'inline-flex', alignItems: 'center', gap: 10,
-         marginTop: 40, padding: '12px 0',
-         fontSize: 15, fontWeight: 600,
-         color: accent, letterSpacing: '-0.01em',
-         borderBottom: '1px solid ' + accent + (hover ? 'CC' : '44'),
-         transition: 'border-color 0.25s ease',
-         alignSelf: 'flex-start', width: 'fit-content',
-       }}>
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 10,
+        marginTop: 40, padding: '12px 0',
+        fontSize: 15, fontWeight: 600,
+        color: accent, letterSpacing: '-0.01em',
+        borderBottom: '1px solid ' + accent + (hover ? 'CC' : '44'),
+        transition: 'border-color 0.25s ease',
+        alignSelf: 'flex-start', width: 'fit-content',
+      }}>
       <span>{label}</span>
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{
         transform: hover ? 'translateX(4px)' : 'translateX(0)',
         transition: 'transform 0.25s cubic-bezier(0.2,1,0.3,1)',
       }}>
-        <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke={accent} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke={accent} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </a>
   );
@@ -502,7 +502,7 @@ window.MoreInfoLink = function MoreInfoLink({ href, accent, label }) {
 window.Bullet = function Bullet({ accent, t, d }) {
   return (
     <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-      <div style={{ width: 8, height: 8, borderRadius: 4, background: accent, marginTop: 9, flexShrink: 0 }}/>
+      <div style={{ width: 8, height: 8, borderRadius: 4, background: accent, marginTop: 9, flexShrink: 0 }} />
       <div>
         <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--b-text)', marginBottom: 3 }}>{t}</div>
         <div style={{ fontSize: 15, color: 'var(--b-text-2)', lineHeight: 1.5 }}>{d}</div>
@@ -529,12 +529,12 @@ window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, ac
 
   const isBeta = variant === 'beta';
   const title = isBeta ? betaCopy.title : t.cta.title;
-  const sub   = isBeta ? betaCopy.sub   : t.cta.sub;
+  const sub = isBeta ? betaCopy.sub : t.cta.sub;
 
   const apps = [
-    { label: 'Bricks Calc',  href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837', accent: window.ACCENTS.calc.light,  external: true },
-    { label: 'Bricks Scan',  href: 'https://apps.apple.com/us/app/bricks-scan-scan-to-pdf/id6758148083',   accent: window.ACCENTS.scan.light,  external: true },
-    { label: 'Bricks Leads', href: 'leads.html',                                                            accent: window.ACCENTS.leads.light, external: false },
+    { label: 'Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837', accent: window.ACCENTS.calc.light, external: true },
+    { label: 'Bricks Scan', href: 'https://apps.apple.com/us/app/bricks-scan-scan-to-pdf/id6758148083', accent: window.ACCENTS.scan.light, external: true },
+    { label: 'Bricks Leads', href: 'leads.html', accent: window.ACCENTS.leads.light, external: false },
   ];
 
   return (
@@ -550,12 +550,12 @@ window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, ac
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           background: 'radial-gradient(circle at 20% 10%, rgba(0,166,161,0.1), transparent 55%), radial-gradient(circle at 80% 90%, rgba(255,149,0,0.08), transparent 55%)',
-        }}/>
+        }} />
         <h2 style={{
           fontSize: isMobile ? 40 : 64, fontWeight: 900, letterSpacing: '-0.035em',
           lineHeight: 1.02, margin: '0 0 20px', color: 'var(--b-bg)', position: 'relative',
         }}>
-          {title[0]}<br/>
+          {title[0]}<br />
           <span style={{ opacity: 0.55 }}>{title[1]}</span>
         </h2>
         <p style={{
@@ -568,23 +568,23 @@ window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, ac
         {isBeta ? (
           <div style={{ position: 'relative' }}>
             <a href="#join-beta"
-               onClick={(e) => { e.preventDefault(); window.smoothScrollTo('join-beta'); }}
-               style={{
-                 display: 'inline-flex', alignItems: 'center', gap: 10,
-                 padding: isMobile ? '14px 26px' : '16px 32px',
-                 background: accent || window.ACCENTS.leads.light,
-                 color: '#fff', textDecoration: 'none',
-                 border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
-                 fontFamily: 'inherit', letterSpacing: '-0.01em',
-                 boxShadow: '0 12px 28px rgba(0,0,0,0.25)',
-                 transition: 'transform 0.15s ease',
-               }}
-               onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-               onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+              onClick={(e) => { e.preventDefault(); window.smoothScrollTo('join-beta'); }}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                padding: isMobile ? '14px 26px' : '16px 32px',
+                background: accent || window.ACCENTS.leads.light,
+                color: '#fff', textDecoration: 'none',
+                border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
+                fontFamily: 'inherit', letterSpacing: '-0.01em',
+                boxShadow: '0 12px 28px rgba(0,0,0,0.25)',
+                transition: 'transform 0.15s ease',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
             >
               {betaCopy.primary}
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M2.5 7h9M8 3.5L11.5 7 8 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
           </div>
@@ -592,24 +592,24 @@ window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, ac
           <div style={{ position: 'relative', display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             {apps.map((app, i) => (
               <a key={i} href={app.href}
-                 target={app.external ? '_blank' : undefined}
-                 rel={app.external ? 'noopener noreferrer' : undefined}
-                 onMouseEnter={() => setHovered(i)}
-                 onMouseLeave={() => setHovered(null)}
-                 style={{
-                   display: 'inline-flex', alignItems: 'center', gap: 10,
-                   padding: isMobile ? '14px 22px' : '16px 28px',
-                   background: hovered === i ? app.accent : 'var(--b-bg)',
-                   color: hovered === i ? '#fff' : 'var(--b-text)',
-                   textDecoration: 'none',
-                   border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
-                   fontFamily: 'inherit', letterSpacing: '-0.01em',
-                   boxShadow: '0 12px 28px rgba(0,0,0,0.25)',
-                   transition: 'background 0.25s ease, color 0.25s ease, transform 0.15s ease',
-                   transform: hovered === i ? 'translateY(-2px)' : 'translateY(0)',
-                 }}
+                target={app.external ? '_blank' : undefined}
+                rel={app.external ? 'noopener noreferrer' : undefined}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 10,
+                  padding: isMobile ? '14px 22px' : '16px 28px',
+                  background: hovered === i ? app.accent : 'var(--b-bg)',
+                  color: hovered === i ? '#fff' : 'var(--b-text)',
+                  textDecoration: 'none',
+                  border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
+                  fontFamily: 'inherit', letterSpacing: '-0.01em',
+                  boxShadow: '0 12px 28px rgba(0,0,0,0.25)',
+                  transition: 'background 0.25s ease, color 0.25s ease, transform 0.15s ease',
+                  transform: hovered === i ? 'translateY(-2px)' : 'translateY(0)',
+                }}
               >
-                <div style={{ width: 8, height: 8, borderRadius: 4, background: hovered === i ? 'rgba(255,255,255,0.6)' : app.accent, flexShrink: 0, transition: 'background 0.25s ease' }}/>
+                <div style={{ width: 8, height: 8, borderRadius: 4, background: hovered === i ? 'rgba(255,255,255,0.6)' : app.accent, flexShrink: 0, transition: 'background 0.25s ease' }} />
                 {app.label}
               </a>
             ))}
@@ -647,8 +647,8 @@ window.Footer = function Footer({ t, lang, setLang, theme, setTheme, assetPrefix
           <div style={{ display: 'flex', gap: 10 }}>
             {[
               { kind: 'instagram', href: 'https://www.instagram.com/hellobricksapps/' },
-              { kind: 'x',         href: 'https://x.com/hellobricksapps' },
-              { kind: 'linkedin',  href: 'https://www.linkedin.com/company/bricksapps/' },
+              { kind: 'x', href: 'https://x.com/hellobricksapps' },
+              { kind: 'linkedin', href: 'https://www.linkedin.com/company/bricksapps/' },
             ].map(s => (
               <a key={s.kind} href={s.href} target="_blank" rel="noopener noreferrer" style={{
                 width: 36, height: 36, borderRadius: '50%', background: 'var(--b-bg-elevated)',
@@ -656,9 +656,9 @@ window.Footer = function Footer({ t, lang, setLang, theme, setTheme, assetPrefix
                 boxShadow: 'var(--emboss-soft)', color: 'var(--b-text-2)',
                 transition: 'color 0.2s',
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'var(--b-text)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--b-text-2)'}>
-                <SocialIcon kind={s.kind}/>
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--b-text)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--b-text-2)'}>
+                <SocialIcon kind={s.kind} />
               </a>
             ))}
           </div>
@@ -680,8 +680,8 @@ window.Footer = function Footer({ t, lang, setLang, theme, setTheme, assetPrefix
         padding: isMobile ? '24px 0' : '32px 0', borderTop: '1px solid var(--b-border)',
         display: 'flex', gap: isMobile ? 20 : 32, flexWrap: 'wrap', alignItems: 'center',
       }}>
-        <ToggleGroup label={t.footer.language} options={[{ v: 'en', l: 'EN' }, { v: 'es', l: 'ES' }]} value={lang}  setValue={setLang}/>
-        <ToggleGroup label={t.footer.appearance} options={[{ v: 'auto', l: t.footer.auto }, { v: 'light', l: t.footer.light }, { v: 'dark', l: t.footer.dark }]} value={theme} setValue={setTheme}/>
+        <ToggleGroup label={t.footer.language} options={[{ v: 'en', l: 'EN' }, { v: 'es', l: 'ES' }]} value={lang} setValue={setLang} />
+        <ToggleGroup label={t.footer.appearance} options={[{ v: 'auto', l: t.footer.auto }, { v: 'light', l: t.footer.light }, { v: 'dark', l: t.footer.dark }]} value={theme} setValue={setTheme} />
       </div>
 
       <div style={{
@@ -730,13 +730,13 @@ function ToggleGroup({ label, options, value, setValue }) {
 function SocialIcon({ kind }) {
   const s = { stroke: 'currentColor', fill: 'none', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };
   if (kind === 'instagram') return (
-    <svg width="15" height="15" viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="14" rx="4" {...s}/><circle cx="10" cy="10" r="3.2" {...s}/><circle cx="14.3" cy="5.7" r="0.5" fill="currentColor"/></svg>
+    <svg width="15" height="15" viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="14" rx="4" {...s} /><circle cx="10" cy="10" r="3.2" {...s} /><circle cx="14.3" cy="5.7" r="0.5" fill="currentColor" /></svg>
   );
   if (kind === 'x') return (
-    <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path d="M15.2 2h2.8l-6.1 7 7.2 9h-5.6l-4.4-5.8L4 18H1.2l6.5-7.5L1 2h5.7l4 5.3zm-1 14.6h1.5L5.9 3.3H4.3z"/></svg>
+    <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path d="M15.2 2h2.8l-6.1 7 7.2 9h-5.6l-4.4-5.8L4 18H1.2l6.5-7.5L1 2h5.7l4 5.3zm-1 14.6h1.5L5.9 3.3H4.3z" /></svg>
   );
   return (
-    <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M5.4 7.5h2.4v8.6H5.4zM6.6 3.5c-.8 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4 1.4-.6 1.4-1.4-.6-1.4-1.4-1.4zM9.4 7.5h2.3v1.2c.3-.6 1.1-1.3 2.3-1.3 2.4 0 2.9 1.6 2.9 3.7v5h-2.4v-4.4c0-1-.02-2.4-1.5-2.4-1.5 0-1.7 1.2-1.7 2.3v4.5H9.4z"/></svg>
+    <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M5.4 7.5h2.4v8.6H5.4zM6.6 3.5c-.8 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4 1.4-.6 1.4-1.4-.6-1.4-1.4-1.4zM9.4 7.5h2.3v1.2c.3-.6 1.1-1.3 2.3-1.3 2.4 0 2.9 1.6 2.9 3.7v5h-2.4v-4.4c0-1-.02-2.4-1.5-2.4-1.5 0-1.7 1.2-1.7 2.3v4.5H9.4z" /></svg>
   );
 }
 
@@ -751,7 +751,7 @@ window.useTweaks = function useTweaks({ lang, setLang, theme, setTheme }) {
   React.useEffect(() => {
     const handler = (e) => {
       const d = e.data || {};
-      if (d.type === '__activate_edit_mode')   setVisible(true);
+      if (d.type === '__activate_edit_mode') setVisible(true);
       if (d.type === '__deactivate_edit_mode') setVisible(false);
     };
     window.addEventListener('message', handler);
