@@ -326,18 +326,7 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
   return (
     <div className="living-public">
       <div className="living-public-shell">
-        <header className="living-public-header">
-          <a href="../index.html" className="living-brand">
-            <img src="images/bricks-living-logo.svg" alt="Bricks Living" />
-          </a>
-          <nav className="living-public-nav" aria-label="Navegación principal">
-            <a href="#landing/workflow">Operación</a>
-            <a href="#landing/whatsapp">WhatsApp</a>
-            <a href="#landing/roles">Roles</a>
-            <a href="#landing/reportes">Métricas</a>
-            <button className="living-button living-button-primary" onClick={onEnterPortal}>Entrar al portal</button>
-          </nav>
-        </header>
+        <window.LivingPublicHeader onEnterPortal={onEnterPortal} />
 
         <main className="living-public-main">
           <section className="living-hero">
@@ -683,5 +672,117 @@ window.TopBar = function TopBar({ account, role, onRoleChange, onLogout, onReset
         </div>
       </details>
     </div>
+  );
+};
+
+window.LivingPublicHeader = function LivingPublicHeader({ onEnterPortal }) {
+  const { dir, atTop } = window.useScrollDirection();
+  const isMobile = window.useIsMobile();
+  const hidden = dir === "down" && !atTop;
+
+  const links = [
+    { id: "landing/workflow", label: "Operación" },
+    { id: "landing/whatsapp", label: "WhatsApp" },
+    { id: "landing/roles", label: "Roles" },
+    { id: "landing/reportes", label: "Métricas" },
+  ];
+
+  return (
+    <header
+      className="living-public-header"
+      style={{
+        position: "fixed",
+        top: isMobile ? 12 : 24,
+        left: isMobile ? 16 : 48,
+        right: isMobile ? 16 : 48,
+        zIndex: 100,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: 20,
+        padding: isMobile ? "10px 10px 10px 18px" : "12px 14px 12px 24px",
+        background: "color-mix(in srgb, var(--living-surface) 92%, transparent)",
+        backdropFilter: "blur(20px) saturate(180%)",
+        WebkitBackdropFilter: "blur(20px) saturate(180%)",
+        borderRadius: 100,
+        border: "1px solid var(--living-border)",
+        boxShadow: "0 8px 32px rgba(11,15,20,0.06)",
+        transform: hidden ? "translateY(-130%)" : "translateY(0)",
+        opacity: hidden ? 0 : 1,
+        transition: "transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease",
+        flexDirection: "row",
+      }}
+    >
+      <a
+        href="#top"
+        onClick={(event) => {
+          event.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}
+      >
+        <img src="images/bricks-living-logo.svg" alt="Bricks Living" style={{ height: 24, display: "block" }} />
+      </a>
+
+      <nav
+        className="living-public-nav"
+        aria-label="Navegación principal"
+        style={{ display: "flex", gap: 6, alignItems: "center", justifyContent: "flex-end", flexWrap: "wrap" }}
+      >
+        {!isMobile ? links.map((link) => (
+          <a
+            key={link.id}
+            href={`#${link.id}`}
+            onClick={(event) => {
+              event.preventDefault();
+              window.smoothScrollTo(link.id);
+            }}
+            style={{
+              fontSize: 14,
+              fontWeight: 500,
+              color: "var(--living-text)",
+              padding: "8px 14px",
+              borderRadius: 100,
+              letterSpacing: "-0.01em",
+              opacity: 0.8,
+              textDecoration: "none",
+              transition: "opacity 0.2s, background 0.2s",
+            }}
+            onMouseEnter={(event) => { event.currentTarget.style.opacity = 1; }}
+            onMouseLeave={(event) => { event.currentTarget.style.opacity = 0.8; }}
+          >
+            {link.label}
+          </a>
+        )) : null}
+
+        <button
+          type="button"
+          onClick={onEnterPortal}
+          style={{
+            marginLeft: isMobile ? 0 : 6,
+            padding: isMobile ? "9px 16px" : "10px 18px",
+            borderRadius: 100,
+            background: "var(--living-text)",
+            color: "var(--living-surface)",
+            border: "none",
+            fontSize: 14,
+            fontWeight: 600,
+            cursor: "pointer",
+            fontFamily: "inherit",
+            letterSpacing: "-0.01em",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+            boxShadow: "0 8px 20px rgba(11,15,20,0.18)",
+            transition: "transform 0.15s ease, box-shadow 0.2s",
+          }}
+          onMouseEnter={(event) => { event.currentTarget.style.transform = "translateY(-1px)"; }}
+          onMouseLeave={(event) => { event.currentTarget.style.transform = "translateY(0)"; }}
+        >
+          Entrar al portal
+        </button>
+      </nav>
+    </header>
   );
 };

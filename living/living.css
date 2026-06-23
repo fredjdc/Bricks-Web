@@ -47,7 +47,7 @@ body {
 .living-public-main {
   display: grid;
   gap: var(--living-section-gap);
-  padding-block: clamp(12px, 2vw, 28px) clamp(36px, 6vw, 72px);
+  padding-block: clamp(96px, 9vw, 132px) clamp(36px, 6vw, 72px);
 }
 
 .living-public-header,
@@ -2042,7 +2042,7 @@ button.living-calendar-event:focus-visible {
 
   .living-public-main {
     gap: clamp(44px, 10vw, 64px);
-    padding-block: 10px 32px;
+    padding-block: clamp(88px, 18vw, 112px) 32px;
   }
 
   .living-public-header,
