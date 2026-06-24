@@ -165,7 +165,7 @@ window.LivingApp = function LivingApp() {
   }, []);
 
   React.useEffect(() => {
-    if (!window.location.hash) window.livingSetHash("landing");
+    if (!window.location.hash) window.livingSetHash("login");
   }, []);
 
   React.useEffect(() => {
@@ -238,7 +238,7 @@ window.LivingApp = function LivingApp() {
   }
 
   if (route.area !== "portal") {
-    return <window.PublicLanding data={data} onEnterPortal={() => window.location.assign(window.LIVING_PORTAL_URL)} />;
+    return <window.LoginScreen onLogin={handleLogin} />;
   }
 
   return (

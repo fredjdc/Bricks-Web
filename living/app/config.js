@@ -7,16 +7,11 @@ window.LIVING_ROLE_LABELS = {
   junta: "Junta",
 };
 
-window.LIVING_LOCATION_PATHNAME = window.location?.pathname || "";
 window.LIVING_LOCATION_HOSTNAME = window.location?.hostname || "";
-window.LIVING_IN_LIVING_FOLDER = /\/living\/[^/]+$/.test(window.LIVING_LOCATION_PATHNAME);
-window.LIVING_MARKETING_URL = window.LIVING_IN_LIVING_FOLDER ? "../living.html" : "./living.html";
-window.LIVING_LOCAL_PORTAL_URL = window.LIVING_IN_LIVING_FOLDER ? "./portal.html#login" : "./living/portal.html#login";
-window.LIVING_PORTAL_URL = ["", "localhost", "127.0.0.1"].includes(window.LIVING_LOCATION_HOSTNAME)
-  ? window.LIVING_LOCAL_PORTAL_URL
-  : "https://living.bricks.pe/portal/dashboard";
-window.LIVING_ASSET_PREFIX = window.LIVING_IN_LIVING_FOLDER ? "" : "living/";
-window.LIVING_SITE_PREFIX = window.LIVING_IN_LIVING_FOLDER ? "../" : "./";
+window.LIVING_MARKETING_URL = ["", "localhost", "127.0.0.1"].includes(window.LIVING_LOCATION_HOSTNAME)
+  ? "../living.html"
+  : "https://bricks.pe/living.html";
+window.LIVING_ASSET_PREFIX = "";
 window.livingAsset = function livingAsset(path) {
   return `${window.LIVING_ASSET_PREFIX}${path}`;
 };
