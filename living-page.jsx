@@ -41,67 +41,24 @@ window.LivingPublicHeaderStandalone = function LivingPublicHeaderStandalone() {
   ];
 
   return (
-    <header
-      className="living-public-header"
-      style={{
-        position: "fixed",
-        top: isMobile ? 12 : 24,
-        left: isMobile ? 16 : 48,
-        right: isMobile ? 16 : 48,
-        zIndex: 100,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        gap: 20,
-        padding: isMobile ? "10px 10px 10px 18px" : "12px 14px 12px 24px",
-        background: "color-mix(in srgb, var(--living-surface) 92%, transparent)",
-        backdropFilter: "blur(20px) saturate(180%)",
-        WebkitBackdropFilter: "blur(20px) saturate(180%)",
-        borderRadius: 100,
-        border: "1px solid var(--living-border)",
-        boxShadow: "0 8px 32px rgba(11,15,20,0.06)",
-        transform: hidden ? "translateY(-130%)" : "translateY(0)",
-        opacity: hidden ? 0 : 1,
-        transition: "transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease",
-      }}
-    >
-      <a
-        href="#top"
-        onClick={(event) => {
-          event.preventDefault();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}
-      >
-        <img src={window.BRICKS_LIVING_PUBLIC_ASSET("bricks-living-logo.svg")} alt="Bricks Living" style={{ height: 24, display: "block" }} />
+    <header style={{
+      position: 'fixed', top: isMobile ? 12 : 24, left: isMobile ? 16 : 48, right: isMobile ? 16 : 48, zIndex: 100,
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: isMobile ? '10px 10px 10px 18px' : '12px 14px 12px 24px',
+      background: 'color-mix(in srgb, var(--b-bg-elevated) 65%, transparent)', backdropFilter: 'blur(20px) saturate(180%)',
+      WebkitBackdropFilter: 'blur(20px) saturate(180%)', borderRadius: 100, border: '1px solid var(--b-border)',
+      boxShadow: '0 8px 32px rgba(11,15,20,0.06)', transform: hidden ? 'translateY(-130%)' : 'translateY(0)',
+      opacity: hidden ? 0 : 1, transition: 'transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease',
+    }}>
+      <a href="#top" onClick={(event) => { event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <window.ThemeLogo height={24} />
       </a>
 
-      <nav className="living-public-nav" aria-label="Navegación principal" style={{ display: "flex", gap: 6, alignItems: "center", justifyContent: "flex-end", flexWrap: "wrap" }}>
-        {!isMobile ? links.map((link) => (
-          <a
-            key={link.id}
-            href={`#${link.id}`}
-            onClick={(event) => {
-              event.preventDefault();
-              const target = document.getElementById(link.id);
-              target?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
-            style={{
-              fontSize: 14,
-              fontWeight: 500,
-              color: "var(--living-text)",
-              padding: "8px 14px",
-              borderRadius: 100,
-              letterSpacing: "-0.01em",
-              opacity: 0.8,
-              textDecoration: "none",
-            }}
-          >
-            {link.label}
-          </a>
+      <nav style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+        {!isMobile ? links.map(link => (
+          <a key={link.id} href={`#${link.id}`} onClick={(event) => { event.preventDefault(); window.smoothScrollTo(link.id); }} style={{ fontSize: 14, fontWeight: 500, color: 'var(--b-text)', padding: '8px 14px', borderRadius: 100, letterSpacing: '-0.01em', opacity: 0.8, transition: 'opacity 0.2s, background 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = 1} onMouseLeave={(e) => e.currentTarget.style.opacity = 0.8}>{link.label}</a>
         )) : null}
 
-        <a className="living-button living-button-primary" href={window.BRICKS_LIVING_PUBLIC_PORTAL_URL}>Entrar al portal</a>
+        <a href={window.BRICKS_LIVING_PUBLIC_PORTAL_URL} style={{ marginLeft: isMobile ? 0 : 6, padding: isMobile ? '9px 16px' : '10px 18px', borderRadius: 100, background: 'var(--b-text)', color: 'var(--b-bg)', border: 'none', fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em', boxShadow: '0 8px 20px rgba(11,15,20,0.18)', transition: 'transform 0.15s ease' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}>Entrar al portal</a>
       </nav>
     </header>
   );
