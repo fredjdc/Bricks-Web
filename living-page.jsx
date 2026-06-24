@@ -4,7 +4,7 @@ window.BRICKS_LIVING_PUBLIC_ASSET = function BRICKS_LIVING_PUBLIC_ASSET(path) {
 
 window.BRICKS_LIVING_PUBLIC_PORTAL_URL = ["", "localhost", "127.0.0.1"].includes(window.location.hostname)
   ? "./living/portal.html#login"
-  : "https://living.bricks.pe/portal/dashboard";
+  : "./living/portal.html#login";
 
 window.LivingPublicSectionTitle = function LivingPublicSectionTitle({ eyebrow, title, body }) {
   return (
