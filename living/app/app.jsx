@@ -238,7 +238,7 @@ window.LivingApp = function LivingApp() {
   }
 
   if (route.area !== "portal") {
-    return <window.PublicLanding data={data} onEnterPortal={() => window.livingSetHash("login")} />;
+    return <window.PublicLanding data={data} onEnterPortal={() => window.location.assign(window.LIVING_PORTAL_URL)} />;
   }
 
   return (

@@ -351,6 +351,7 @@ window.FormPanel = function FormPanel({ title, description, children, onCancel }
 };
 
 window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
+  const asset = window.livingAsset;
   const report = window.livingSelectors.report(data);
   const kpis = [
     {
@@ -421,7 +422,7 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
                 el flujo completo de reservas, aprobaciones, validación de pagos, control de acceso y limpieza.
               </p>
               <div className="living-hero-actions">
-                <button className="living-button living-button-primary" onClick={onEnterPortal}>Probar demo interactiva</button>
+                <button className="living-button living-button-primary" onClick={onEnterPortal}>Entrar al portal</button>
                 <a className="living-button living-button-secondary" href="#landing/workflow">Ver flujo paso a paso</a>
               </div>
               <div className="living-inline-note">
@@ -440,9 +441,9 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
                   <span className="browser-dot red"></span>
                   <span className="browser-dot yellow"></span>
                   <span className="browser-dot green"></span>
-                  <div className="browser-address">living.bricks.pe/portal/dashboard</div>
+                  <div className="browser-address">{window.LIVING_PORTAL_URL.replace(/^https?:\/\//, "")}</div>
                 </div>
-                <img src="images/bricks-living-hero.png" alt="Bricks Living Portal Dashboard" className="browser-image" />
+                <img src={asset("images/bricks-living-hero.png")} alt="Bricks Living Portal Dashboard" className="browser-image" />
               </div>
             </div>
           </section>
@@ -501,25 +502,25 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
             <div className="living-whatsapp-gallery">
               <div className="whatsapp-mock">
                 <div className="whatsapp-body">
-                  <img src="images/whatsapp-01.png" alt="Paso 1: Selección de áreas" className="whatsapp-screen" />
+                  <img src={asset("images/whatsapp-01.png")} alt="Paso 1: Selección de áreas" className="whatsapp-screen" />
                 </div>
                 <div className="whatsapp-footer">Paso 1: Selección de área</div>
               </div>
               <div className="whatsapp-mock">
                 <div className="whatsapp-body">
-                  <img src="images/whatsapp-02.png" alt="Paso 2: Reglas y tarifas" className="whatsapp-screen" />
+                  <img src={asset("images/whatsapp-02.png")} alt="Paso 2: Reglas y tarifas" className="whatsapp-screen" />
                 </div>
                 <div className="whatsapp-footer">Paso 2: Reglamento y costos</div>
               </div>
               <div className="whatsapp-mock">
                 <div className="whatsapp-body">
-                  <img src="images/whatsapp-03.png" alt="Paso 3: Envío de comprobante" className="whatsapp-screen" />
+                  <img src={asset("images/whatsapp-03.png")} alt="Paso 3: Envío de comprobante" className="whatsapp-screen" />
                 </div>
                 <div className="whatsapp-footer">Paso 3: Envío de pago</div>
               </div>
               <div className="whatsapp-mock">
                 <div className="whatsapp-body">
-                  <img src="images/whatsapp-04.png" alt="Paso 4: Confirmación y acceso" className="whatsapp-screen" />
+                  <img src={asset("images/whatsapp-04.png")} alt="Paso 4: Confirmación y acceso" className="whatsapp-screen" />
                 </div>
                 <div className="whatsapp-footer">Paso 4: Confirmación</div>
               </div>
@@ -612,7 +613,7 @@ window.PublicLanding = function PublicLanding({ data, onEnterPortal }) {
           </section>
         </main>
         <window.Footer
-          assetPrefix="../"
+          assetPrefix={window.LIVING_SITE_PREFIX}
           t={{
             footer: {
               tag: 'Focused apps for real estate agents on Apple.',
@@ -662,6 +663,7 @@ window.LoginScreen = function LoginScreen({ onLogin }) {
 };
 
 window.Sidebar = function Sidebar({ role, currentPage, collapsed, onToggleCollapsed, onNavigate }) {
+  const asset = window.livingAsset;
   const items = window.LIVING_NAV_ITEMS.filter((item) => item.roles.includes(role));
   const groups = [...new Set(items.map((item) => item.group))];
   const primaryGroups = new Set(["Inicio", "Reservas", "Operación"]);
@@ -677,7 +679,7 @@ window.Sidebar = function Sidebar({ role, currentPage, collapsed, onToggleCollap
     <aside className={`living-sidebar ${collapsed ? "is-collapsed" : ""}`}>
       <div className="living-sidebar-header">
         <div className="living-brand">
-          <img src="images/bricks-living-logo.svg" alt="Bricks Living" />
+          <img src={asset("images/bricks-living-logo.svg")} alt="Bricks Living" />
         </div>
         <div className="living-sidebar-building">Torres del Parque</div>
         <button type="button" className="living-sidebar-collapse" onClick={onToggleCollapsed} aria-label={collapsed ? "Expandir menú" : "Minimizar menú"} title={collapsed ? "Expandir menú" : "Minimizar menú"}>
@@ -725,14 +727,14 @@ window.ActionFeedback = function ActionFeedback({ feedback, onDismiss }) {
 
 window.TopBar = function TopBar({ account, role, onRoleChange, onLogout, onResetDemo }) {
   const avatarMap = {
-    building_admin: "images/user-profile-admin.jpg",
-    assistant_admin: "images/user-profile-asistant.jpg",
-    security: "images/user-profile-security.jpg",
-    cleaning: "images/user-progile-cleaning.jpg",
-    junta: "images/user-profile-junta.jpg",
-    super_admin: "images/user-super-admin.jpg",
+    building_admin: window.livingAsset("images/user-profile-admin.jpg"),
+    assistant_admin: window.livingAsset("images/user-profile-asistant.jpg"),
+    security: window.livingAsset("images/user-profile-security.jpg"),
+    cleaning: window.livingAsset("images/user-progile-cleaning.jpg"),
+    junta: window.livingAsset("images/user-profile-junta.jpg"),
+    super_admin: window.livingAsset("images/user-super-admin.jpg"),
   };
-  const avatarSrc = avatarMap[role] || "images/user-profile-asistant.jpg";
+  const avatarSrc = avatarMap[role] || window.livingAsset("images/user-profile-asistant.jpg");
 
   return (
     <div className="living-topbar">
@@ -759,6 +761,7 @@ window.LivingPublicHeader = function LivingPublicHeader({ onEnterPortal }) {
   const { dir, atTop } = window.useScrollDirection();
   const isMobile = window.useIsMobile();
   const hidden = dir === "down" && !atTop;
+  const asset = window.livingAsset;
 
   const links = [
     { id: "landing/workflow", label: "Operación" },
@@ -801,7 +804,7 @@ window.LivingPublicHeader = function LivingPublicHeader({ onEnterPortal }) {
         }}
         style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}
       >
-        <img src="images/bricks-living-logo.svg" alt="Bricks Living" style={{ height: 24, display: "block" }} />
+        <img src={asset("images/bricks-living-logo.svg")} alt="Bricks Living" style={{ height: 24, display: "block" }} />
       </a>
 
       <nav
