@@ -118,12 +118,28 @@ window.LivingStandalonePage = function LivingStandalonePage() {
   ];
 
   const roleCards = [
-    ["Super Admin", "Control global de edificios, plantillas, integraciones de WhatsApp y suscripciones."],
-    ["Admin edificio", "Gestión total del dashboard, reservas, validación de pagos y reportes de caja."],
-    ["Asistente", "Atención del flujo operativo diario, soporte a residentes y control de agenda."],
-    ["Seguridad", "Consulta de reservas del día, control de ingresos de invitados y registro de incidentes."],
-    ["Limpieza", "Tareas de alistamiento y cierre de áreas, con checklist digital en tiempo real."],
-    ["Junta Directiva", "Monitoreo financiero, auditoría de depósitos y reportes mensuales de gestión."],
+    ["Super Admin", "Sistema", "Plantillas, edificios, WhatsApp y suscripciones.", "Gobierno central sin entrar al día a día."],
+    ["Admin edificio", "Operación", "Reservas, pagos, caja y reportes del edificio.", "Responsabilidad completa con trazabilidad."],
+    ["Asistente", "Atención", "Agenda diaria, soporte a residentes y seguimiento.", "Menos coordinación manual por chat."],
+    ["Seguridad", "Ingreso", "Reservas del día, invitados e incidentes.", "Control claro en puerta."],
+    ["Limpieza", "Preparación", "Tareas antes y después de cada reserva.", "Áreas listas sin perseguir confirmaciones."],
+    ["Junta Directiva", "Supervisión", "Ingresos, depósitos y resumen mensual.", "Visibilidad sin tocar la operación."],
+  ];
+
+  const workflowSteps = [
+    ["Solicita", "Residente", "Elige área, fecha y horario desde WhatsApp."],
+    ["Adjunta pago", "Residente", "Envía el comprobante y acepta las reglas del edificio."],
+    ["Valida", "Administración", "Revisa pago, deuda, aforo y disponibilidad en el portal."],
+    ["Autoriza ingreso", "Seguridad", "Recibe la lista del día con invitados y horarios."],
+    ["Prepara", "Limpieza", "Ve tareas antes y después de la reserva."],
+    ["Cierra", "Sistema", "Consolida ingresos, incidentes y auditoría mensual."],
+  ];
+
+  const workflowSummary = [
+    ["Canal de entrada", "WhatsApp"],
+    ["Decisión operativa", "Portal admin"],
+    ["Ejecución", "Seguridad y limpieza"],
+    ["Cierre", "Reportes y caja"],
   ];
 
   const areaStats = [
@@ -188,64 +204,83 @@ window.LivingStandalonePage = function LivingStandalonePage() {
               eyebrow="Flujo principal"
               icon="workflow"
               title="El ciclo operativo resuelto de extremo a extremo"
-              body="Desde la solicitud por WhatsApp hasta reportes claros para administración y junta."
+              body="Cada cambio de manos queda claro: residente, administración, seguridad, limpieza y cierre financiero."
             />
-            <div className="living-timeline">
-              {[
-                ["Solicitud", "El residente reserva en segundos vía WhatsApp."],
-                ["Pago", "El comprobante se adjunta y queda listo para validar."],
-                ["Aprobación", "Administración confirma la reserva con un clic."],
-                ["Ingreso", "Seguridad recibe la lista del día y controla visitas."],
-                ["Limpieza", "El equipo recibe tareas de preparación y cierre."],
-                ["Cierre", "El sistema consolida ingresos, incidentes y auditoría."],
-              ].map(([label, step]) => (
-                <div className="living-timeline-item living-card" key={label}>
-                  <div className="living-step-label"><window.LivingPublicIcon name="check" size={18} /> {label}</div>
-                  <p>{step}</p>
+            <div className="living-workflow-panel">
+              <div className="living-workflow-track">
+                {workflowSteps.map(([label, owner, detail], index) => (
+                  <article className="living-workflow-step" key={label}>
+                    <div className="living-workflow-index">{String(index + 1).padStart(2, "0")}</div>
+                    <div>
+                      <div className="living-step-label">{label}</div>
+                      <p>{detail}</p>
+                    </div>
+                    <span>{owner}</span>
+                  </article>
+                ))}
+              </div>
+
+              <aside className="living-workflow-summary living-card">
+                <div className="living-card-label">Lectura del flujo</div>
+                <h3>Una reserva nunca queda suelta.</h3>
+                <p>El sistema mueve la solicitud por etapas claras, con responsables definidos y evidencia visible para auditoría.</p>
+                <div className="living-workflow-summary-list">
+                  {workflowSummary.map(([label, value]) => (
+                    <div key={label}>
+                      <span>{label}</span>
+                      <strong>{value}</strong>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </aside>
             </div>
           </section>
 
           <section className="living-story-section" id="landing/whatsapp">
-            <div className="living-whatsapp-copy">
-              <div className="living-section-heading">
-                <span className="living-section-heading-icon"><window.LivingPublicIcon name="chat" /></span>
-                <span className="living-eyebrow">Canal conversacional</span>
+            <div className="living-whatsapp-intro">
+              <div className="living-whatsapp-copy">
+                <div className="living-section-heading">
+                  <span className="living-section-heading-icon"><window.LivingPublicIcon name="chat" /></span>
+                  <span className="living-eyebrow">Canal conversacional</span>
+                </div>
+                <h2>La forma más simple de reservar para tus residentes</h2>
+                <p>
+                  Sin descargar apps ni recordar contraseñas. El flujo guía disponibilidad, reglamento, pago y confirmación desde el mismo chat.
+                </p>
               </div>
-              <h2>La forma más simple de reservar para tus residentes</h2>
-              <p>
-                Sin descargar apps ni recordar contraseñas. El flujo guía consulta, reglamento y pago.
-              </p>
-            </div>
 
-            <div className="living-whatsapp-features">
-              <div className="feature-item">
-                <strong><window.LivingPublicIcon name="chat" size={18} /> Consulta instantánea</strong>
-                <span>Disponibilidad en tiempo real para todas las áreas comunes.</span>
-              </div>
-              <div className="feature-item">
-                <strong><window.LivingPublicIcon name="receipt" size={18} /> Validación integrada</strong>
-                <span>Sube fotos de transferencias, Yape o Plin directamente en el chat.</span>
-              </div>
-              <div className="feature-item">
-                <strong><window.LivingPublicIcon name="lock" size={18} /> Reglas y aforos</strong>
-                <span>El flujo valida deudas, límites de reservas y aforos del reglamento.</span>
+              <div className="living-whatsapp-features">
+                <div className="feature-item">
+                  <strong><window.LivingPublicIcon name="chat" size={18} /> Consulta instantánea</strong>
+                  <span>Disponibilidad en tiempo real para todas las áreas comunes.</span>
+                </div>
+                <div className="feature-item">
+                  <strong><window.LivingPublicIcon name="receipt" size={18} /> Validación integrada</strong>
+                  <span>Comprobantes de transferencia, Yape o Plin quedan asociados a la reserva.</span>
+                </div>
+                <div className="feature-item">
+                  <strong><window.LivingPublicIcon name="lock" size={18} /> Reglas y aforos</strong>
+                  <span>El flujo valida deudas, límites de reserva y aforos del reglamento.</span>
+                </div>
               </div>
             </div>
 
             <div className="living-whatsapp-gallery">
               {[
-                ["whatsapp-01.png", "Paso 1: Selección de área"],
-                ["whatsapp-02.png", "Paso 2: Reglamento y costos"],
-                ["whatsapp-03.png", "Paso 3: Envío de pago"],
-                ["whatsapp-04.png", "Paso 4: Confirmación"],
-              ].map(([image, label]) => (
+                ["whatsapp-01.png", "Elegir área", "El residente consulta disponibilidad."],
+                ["whatsapp-02.png", "Revisar reglas", "Costos y condiciones antes de pagar."],
+                ["whatsapp-03.png", "Adjuntar pago", "La constancia queda lista para validar."],
+                ["whatsapp-04.png", "Confirmar", "La reserva vuelve al residente con claridad."],
+              ].map(([image, label, detail], index) => (
                 <div className="whatsapp-mock" key={image}>
+                  <div className="whatsapp-step-meta">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <strong>{label}</strong>
+                  </div>
                   <div className="whatsapp-body">
                     <img src={window.BRICKS_LIVING_PUBLIC_ASSET(image)} alt={label} className="whatsapp-screen" />
                   </div>
-                  <div className="whatsapp-footer">{label}</div>
+                  <div className="whatsapp-footer">{detail}</div>
                 </div>
               ))}
             </div>
@@ -258,13 +293,24 @@ window.LivingStandalonePage = function LivingStandalonePage() {
               title="Un mismo portal. Vistas optimizadas por rol."
               body="Cada equipo ve solo lo que necesita para operar sin ruido."
             />
-            <div className="living-grid living-role-grid">
-              {roleCards.map(([name, body]) => (
-                <div className="living-card role-card" key={name}>
-                  <div className="living-card-label">{name}</div>
-                  <p>{body}</p>
-                </div>
-              ))}
+            <div className="living-role-panel living-card">
+              <div className="living-role-panel-lead">
+                <div className="living-card-label">Permisos por responsabilidad</div>
+                <h3>Menos pantallas para cada persona. Más claridad para el edificio.</h3>
+                <p>Bricks Living separa decisiones, tareas y lectura financiera para que cada rol trabaje con el contexto correcto.</p>
+              </div>
+              <div className="living-role-list">
+                {roleCards.map(([name, scope, body, outcome]) => (
+                  <article className="role-card" key={name}>
+                    <div className="role-card-topline">
+                      <span>{scope}</span>
+                      <strong>{name}</strong>
+                    </div>
+                    <p>{body}</p>
+                    <small>{outcome}</small>
+                  </article>
+                ))}
+              </div>
             </div>
           </section>
 

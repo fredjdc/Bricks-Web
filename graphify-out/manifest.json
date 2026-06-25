@@ -1,0 +1,157 @@
+{
+  "compiled/refinance.js": {
+    "mtime": 1777828425.359219,
+    "ast_hash": "16f2c8cfcd2a35d7e21087f7d785ca63",
+    "semantic_hash": ""
+  },
+  "compiled/refinanciamiento.js": {
+    "mtime": 1777829283.1684384,
+    "ast_hash": "5eeddb55e6af39e50e41bdfe21f2ba58",
+    "semantic_hash": ""
+  },
+  "formatFileSize.test.js": {
+    "mtime": 1774072261.4466019,
+    "ast_hash": "b6689a3b221f6d9b2ae077c91b6f7c79",
+    "semantic_hash": ""
+  },
+  "generate_scan.py": {
+    "mtime": 1776727457.569865,
+    "ast_hash": "2d20b8834fb65f6b877f0291cf8e3f85",
+    "semantic_hash": ""
+  },
+  "hero-background.js": {
+    "mtime": 1766068933.4745564,
+    "ast_hash": "8fa6bbc3148e9dd376eff208587bec9d",
+    "semantic_hash": ""
+  },
+  "living-page.jsx": {
+    "mtime": 1782392023.0078459,
+    "ast_hash": "0c396aa5e15544ac55386c0daca9aa53",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1782274664.532025,
+    "ast_hash": "e46342366ebe2831ecb77b00160e7138",
+    "semantic_hash": ""
+  },
+  "replace_styles.py": {
+    "mtime": 1776549661.6624813,
+    "ast_hash": "5efff0e849c5a0b00877800f56d87b55",
+    "semantic_hash": ""
+  },
+  "scripts.js": {
+    "mtime": 1775826595.30938,
+    "ast_hash": "d3c9d41cfac1cc1925805b868db1636b",
+    "semantic_hash": ""
+  },
+  "scripts/precompile-jsx.mjs": {
+    "mtime": 1777805477.522876,
+    "ast_hash": "cd0a7a3727ae740d6e0372d42a5001ee",
+    "semantic_hash": ""
+  },
+  "shared.jsx": {
+    "mtime": 1782274664.5322454,
+    "ast_hash": "f81cc4f7b827936595f413412a38d591",
+    "semantic_hash": ""
+  },
+  "shared_components.jsx": {
+    "mtime": 1776882463.7318318,
+    "ast_hash": "7c7d2609590f9142c13aff745ab3d192",
+    "semantic_hash": ""
+  },
+  ".github/workflows/static.yml": {
+    "mtime": 1762614676.6439323,
+    "ast_hash": "6dece455dc91e6f867499fabc7ac5be9",
+    "semantic_hash": ""
+  },
+  "about.html": {
+    "mtime": 1777370104.6847732,
+    "ast_hash": "84f0117e1d74312f159fc4d7438fbf88",
+    "semantic_hash": ""
+  },
+  "calc.html": {
+    "mtime": 1778268829.404948,
+    "ast_hash": "6ef484cf0e009930faf721c2cd585b09",
+    "semantic_hash": ""
+  },
+  "calculadora-hipotecaria.html": {
+    "mtime": 1777804308.5013025,
+    "ast_hash": "a6c6967a555a8cd14639b37fc96f0fe8",
+    "semantic_hash": ""
+  },
+  "help.html": {
+    "mtime": 1777370104.717026,
+    "ast_hash": "09f3a0d788f15ed01f8737ac8f4632a4",
+    "semantic_hash": ""
+  },
+  "homebuyers.html": {
+    "mtime": 1778268827.3939471,
+    "ast_hash": "e2d21e333a8424e38470cda0edcc3220",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1782336235.189291,
+    "ast_hash": "2f87b1fbf952369e2fd20a1b3d678efc",
+    "semantic_hash": ""
+  },
+  "leads.html": {
+    "mtime": 1777369878.6174304,
+    "ast_hash": "0af4dfecfd40a1f573a61e3c5667bfee",
+    "semantic_hash": ""
+  },
+  "living.html": {
+    "mtime": 1782392057.1019468,
+    "ast_hash": "44de28c3a7031bc3396e277124195c32",
+    "semantic_hash": ""
+  },
+  "privacy.html": {
+    "mtime": 1777370305.63139,
+    "ast_hash": "f28b94790f6ef049f64d0615730aa940",
+    "semantic_hash": ""
+  },
+  "purchase-guide-01.html": {
+    "mtime": 1777370479.401763,
+    "ast_hash": "8918be68c6e3af85a23b7b7191e03e66",
+    "semantic_hash": ""
+  },
+  "refinance.html": {
+    "mtime": 1777828410.5224347,
+    "ast_hash": "b571e07d00c03f678ca8bf55627c2f58",
+    "semantic_hash": ""
+  },
+  "refinanciamiento.html": {
+    "mtime": 1777829387.1575036,
+    "ast_hash": "dbfaf30fcb1edadf41acbd2e9dcd461f",
+    "semantic_hash": ""
+  },
+  "scan.html": {
+    "mtime": 1777511009.9285934,
+    "ast_hash": "e201d6c48059eb10fa536545a040b8da",
+    "semantic_hash": ""
+  },
+  "support.html": {
+    "mtime": 1777370479.4425976,
+    "ast_hash": "b38c540f0eb49a812f0b0525f35fffc8",
+    "semantic_hash": ""
+  },
+  "survey.html": {
+    "mtime": 1777370479.4746957,
+    "ast_hash": "fdb362f7d903e69b1a4953eacceb28a0",
+    "semantic_hash": ""
+  },
+  "terms.html": {
+    "mtime": 1777370305.671462,
+    "ast_hash": "b78e9c14e190df0aaca5393752c9509b",
+    "semantic_hash": ""
+  },
+  "thank-you-feedback.html": {
+    "mtime": 1777370495.5620995,
+    "ast_hash": "eac107a9941c98d133b556e5611c48d1",
+    "semantic_hash": ""
+  },
+  "thank-you.html": {
+    "mtime": 1777370495.5277212,
+    "ast_hash": "26403c181b7f34fea8fb48c886e6323e",
+    "semantic_hash": ""
+  }
+}
