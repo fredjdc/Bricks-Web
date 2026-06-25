@@ -836,10 +836,6 @@ body {
   box-shadow: var(--living-panel-shadow);
 }
 
-.whatsapp-mock:nth-child(even) {
-  margin-top: clamp(18px, 3vw, 34px);
-}
-
 .whatsapp-step-meta {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -2702,10 +2698,6 @@ button.living-calendar-event:focus-visible {
 
   .living-whatsapp-features {
     grid-template-columns: 1fr;
-  }
-
-  .whatsapp-mock:nth-child(even) {
-    margin-top: 0;
   }
 
   .living-public-section-title,
