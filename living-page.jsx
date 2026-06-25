@@ -127,11 +127,18 @@ window.LivingStandalonePage = function LivingStandalonePage() {
   ];
 
   const areaStats = [
-    "Terraza: 28 reservas",
-    "Salón de eventos: 24 reservas",
-    "Zona BBQ: 22 reservas",
-    "Coworking: 21 reservas",
-    "Gimnasio: 18 reservas",
+    ["Terraza", "28", "reservas"],
+    ["Salón de eventos", "24", "reservas"],
+    ["Zona BBQ", "22", "reservas"],
+    ["Coworking", "21", "reservas"],
+    ["Gimnasio", "18", "reservas"],
+  ];
+
+  const demoSignals = [
+    ["Departamentos", "168", "Registrados para consulta y validación"],
+    ["Áreas comunes", "5", "Con políticas, aforo y tarifas configuradas"],
+    ["Vigilancia", "2", "Puestos con vista diaria de ingresos"],
+    ["Mantenimiento", "Activo", "Tareas conectadas al cierre de reservas"],
   ];
 
   return (
@@ -266,25 +273,48 @@ window.LivingStandalonePage = function LivingStandalonePage() {
               eyebrow="Datos del piloto"
               icon="chart"
               title="Información real para una simulación completa"
-              body="Datos cargados para revisar reservas, pagos y operación mensual."
+              body="Un entorno de demo con suficiente detalle para revisar decisiones reales."
             />
-            <div className="living-split-panel">
-              <div className="living-card">
-                <div className="living-card-label">Edificio demo</div>
-                <h3>Torres del Parque</h3>
-                <ul className="living-list">
-                  <li>168 departamentos registrados</li>
-                  <li>5 áreas comunes operativas</li>
-                  <li>2 puestos de vigilancia física</li>
-                  <li>Personal de mantenimiento integrado</li>
-                </ul>
+            <div className="living-report-panel living-card">
+              <div className="living-report-hero">
+                <div>
+                  <div className="living-card-label">Edificio demo</div>
+                  <h3>Torres del Parque</h3>
+                  <p>Una operación residencial completa, con residentes, áreas, turnos y comprobantes listos para probar el flujo.</p>
+                </div>
+                <div className="living-report-total">
+                  <span>Historial del mes</span>
+                  <strong>113</strong>
+                  <small>reservas registradas</small>
+                </div>
               </div>
-              <div className="living-card">
-                <div className="living-card-label">Historial del mes</div>
-                <h3>113 reservas registradas</h3>
-                <ul className="living-list">
-                  {areaStats.map((item) => <li key={item}>{item}</li>)}
-                </ul>
+
+              <div className="living-report-grid">
+                <div className="living-report-block">
+                  <div className="living-card-label">Configuración operativa</div>
+                  <div className="living-signal-list">
+                    {demoSignals.map(([label, value, detail]) => (
+                      <div className="living-signal-row" key={label}>
+                        <span>{label}</span>
+                        <strong>{value}</strong>
+                        <small>{detail}</small>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="living-report-block living-report-block-accent">
+                  <div className="living-card-label">Reservas por área</div>
+                  <div className="living-area-list">
+                    {areaStats.map(([name, value, unit]) => (
+                      <div className="living-area-row" key={name}>
+                        <span>{name}</span>
+                        <strong>{value}</strong>
+                        <small>{unit}</small>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </section>
