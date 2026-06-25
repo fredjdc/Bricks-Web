@@ -146,6 +146,7 @@ body {
 .living-hero-badge {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   padding: 4px 8px;
   border-radius: 999px;
   background: var(--living-accent);
@@ -156,6 +157,18 @@ body {
   text-transform: uppercase;
 }
 
+.living-icon {
+  display: block;
+  flex: 0 0 auto;
+  background: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
 .living-hero-copy h1,
 .living-section-title h1,
 .living-login-card h1 {
@@ -164,7 +177,7 @@ body {
   line-height: 0.98;
   letter-spacing: -0.05em;
   font-weight: 900;
-  max-width: 11ch;
+  max-width: 18ch;
 }
 
 .living-hero-copy p,
@@ -305,6 +318,7 @@ body {
   color: color-mix(in srgb, var(--living-text-muted) 78%, transparent);
 }
 
+.living-card-icon,
 .living-metric-icon {
   display: inline-flex;
   align-items: center;
@@ -335,6 +349,13 @@ body {
   gap: 24px;
 }
 
+.living-public-section-title {
+  display: grid;
+  align-items: start;
+  gap: 12px;
+  max-width: 760px;
+}
+
 .living-section-title>div:first-child {
   max-width: 760px;
 }
@@ -343,23 +364,29 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 14px;
 }
 
 .living-section-heading-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
-  flex: 0 0 22px;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border: 1px solid color-mix(in srgb, var(--living-accent) 22%, var(--living-border));
+  border-radius: 14px;
   color: color-mix(in srgb, var(--living-accent) 84%, var(--living-text));
+  background: color-mix(in srgb, var(--living-accent) 7%, var(--living-surface));
 }
 
-.living-section-title h1 {
+.living-section-title h1,
+.living-section-title h2 {
   font-size: clamp(34px, 4.6vw, 56px);
   margin-bottom: 0;
   max-width: none;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  font-weight: 900;
 }
 
 .living-timeline,
@@ -373,11 +400,15 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.living-step-number {
+.living-step-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: 14px;
   font-size: 13px;
   color: var(--living-accent);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   font-weight: 800;
 }
 
@@ -492,12 +523,23 @@ body {
 
 .feature-item {
   display: grid;
-  gap: 4px;
+  gap: 6px;
+  padding: 18px;
+  border: 1px solid var(--living-border);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--living-surface) 72%, transparent);
 }
 
 .feature-item strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
   color: var(--living-text);
+}
+
+.feature-item strong .living-icon {
+  color: var(--living-accent);
 }
 
 .feature-item span {
@@ -2286,6 +2328,7 @@ button.living-calendar-event:focus-visible {
     grid-template-columns: 1fr;
   }
 
+  .living-public-section-title,
   .living-section-title>div:first-child {
     max-width: none;
   }
@@ -2348,6 +2391,7 @@ button.living-calendar-event:focus-visible {
 
   .living-hero-copy h1,
   .living-section-title h1,
+  .living-section-title h2,
   .living-login-card h1 {
     font-size: clamp(32px, 10vw, 42px);
     line-height: 1.02;
@@ -2355,13 +2399,12 @@ button.living-calendar-event:focus-visible {
 
   .living-section-heading {
     gap: 10px;
-    margin-bottom: 10px;
   }
 
   .living-section-heading-icon {
-    width: 20px;
-    height: 20px;
-    flex-basis: 20px;
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
   }
 
   .living-hero-copy p,

@@ -6,10 +6,35 @@ window.BRICKS_LIVING_PUBLIC_PORTAL_URL = ["", "localhost", "127.0.0.1"].includes
   ? "./living/portal.html#login"
   : "./living/portal.html#login";
 
-window.LivingPublicSectionTitle = function LivingPublicSectionTitle({ eyebrow, title, body }) {
+window.LivingPublicIcon = function LivingPublicIcon({ name, size = 22 }) {
+  const assets = {
+    building: "./images-bricks-leads/icon-context.svg",
+    chart: "./images-bricks-calc/icon-spreadsheets.svg",
+    chat: "./images-bricks-leads/icon-follow-up.svg",
+    check: "./images-bricks-calc/icon-compare.svg",
+    lock: "./images-bricks-calc/icon-adjust.svg",
+    people: "./images-bricks-leads/icon-context.svg",
+    receipt: "./images-bricks-leads/icon-capture.svg",
+    workflow: "./images-bricks-calc/icon-compare.svg",
+  };
+  const iconPath = assets[name] || assets.building;
+
   return (
-    <div className="living-section-title">
-      <div className="living-eyebrow">{eyebrow}</div>
+    <span
+      className="living-icon"
+      style={{ width: size, height: size, WebkitMaskImage: `url(${iconPath})`, maskImage: `url(${iconPath})` }}
+      aria-hidden="true"
+    />
+  );
+};
+
+window.LivingPublicSectionTitle = function LivingPublicSectionTitle({ eyebrow, title, body, icon }) {
+  return (
+    <div className="living-section-title living-public-section-title">
+      <div className="living-section-heading">
+        {icon ? <span className="living-section-heading-icon"><window.LivingPublicIcon name={icon} /></span> : null}
+        <div className="living-eyebrow">{eyebrow}</div>
+      </div>
       <h2>{title}</h2>
       {body ? <p>{body}</p> : null}
     </div>
@@ -70,49 +95,25 @@ window.LivingStandalonePage = function LivingStandalonePage() {
       label: "Reservas este mes",
       value: "113",
       detail: "Terraza, BBQ, salón y coworking",
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" />
-        </svg>
-      )
+      icon: <window.LivingPublicIcon name="building" size={20} />
     },
     {
       label: "Pagos verificados",
       value: "S/ 6,320",
       detail: "Con comprobante por WhatsApp",
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="12" y1="1" x2="12" y2="23" />
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-        </svg>
-      )
+      icon: <window.LivingPublicIcon name="receipt" size={20} />
     },
     {
       label: "Áreas configuradas",
       value: "5",
       detail: "Gimnasio, Terraza, BBQ y más",
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <polyline points="9 22 9 12 15 12 15 22" />
-        </svg>
-      )
+      icon: <window.LivingPublicIcon name="workflow" size={20} />
     },
     {
       label: "Roles operativos",
       value: "6",
       detail: "Admin, seguridad, limpieza y más",
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-          <circle cx="9" cy="7" r="4" />
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-        </svg>
-      )
+      icon: <window.LivingPublicIcon name="people" size={20} />
     },
   ];
 
@@ -142,13 +143,12 @@ window.LivingStandalonePage = function LivingStandalonePage() {
           <section className="living-hero">
             <div className="living-hero-copy">
               <div className="living-eyebrow-container">
-                <span className="living-hero-badge">NUEVA VERSIÓN</span>
+                <span className="living-hero-badge"><window.LivingPublicIcon name="building" size={14} /> Operación residencial</span>
                 <span className="living-eyebrow">Bricks Living</span>
               </div>
               <h1>Reservas ordenadas. Operación bajo control.</h1>
               <p>
-                Bricks Living centraliza y automatiza lo que hoy se resuelve a medias por chats y cuadernos:
-                el flujo completo de reservas, aprobaciones, validación de pagos, control de acceso y limpieza.
+                Centraliza reservas, aprobaciones, pagos, accesos y limpieza en un flujo claro para administración, residentes y equipo operativo.
               </p>
               <div className="living-hero-actions">
                 <a className="living-button living-button-primary" href={window.BRICKS_LIVING_PUBLIC_PORTAL_URL}>Entrar al portal</a>
@@ -179,20 +179,21 @@ window.LivingStandalonePage = function LivingStandalonePage() {
           <section className="living-story-section" id="landing/workflow">
             <window.LivingPublicSectionTitle
               eyebrow="Flujo principal"
+              icon="workflow"
               title="El ciclo operativo resuelto de extremo a extremo"
-              body="Una historia operativa totalmente integrada: desde que el residente solicita por WhatsApp, hasta que la junta directiva visualiza las finanzas consolidadas."
+              body="Desde la solicitud por WhatsApp hasta reportes claros para administración y junta."
             />
             <div className="living-timeline">
               {[
-                "El residente solicita una reserva en segundos vía WhatsApp.",
-                "Envía el comprobante de pago y se registra en la cola.",
-                "El administrador valida el pago y aprueba con un solo clic.",
-                "Seguridad recibe la lista automatizada y controla el ingreso.",
-                "Limpieza recibe tareas automáticas de preparación y cierre.",
-                "El sistema consolida ingresos, incidentes y auditoría del mes.",
-              ].map((step, index) => (
-                <div className="living-timeline-item living-card" key={step}>
-                  <div className="living-step-number">0{index + 1}</div>
+                ["Solicitud", "El residente reserva en segundos vía WhatsApp."],
+                ["Pago", "El comprobante se adjunta y queda listo para validar."],
+                ["Aprobación", "Administración confirma la reserva con un clic."],
+                ["Ingreso", "Seguridad recibe la lista del día y controla visitas."],
+                ["Limpieza", "El equipo recibe tareas de preparación y cierre."],
+                ["Cierre", "El sistema consolida ingresos, incidentes y auditoría."],
+              ].map(([label, step]) => (
+                <div className="living-timeline-item living-card" key={label}>
+                  <div className="living-step-label"><window.LivingPublicIcon name="check" size={18} /> {label}</div>
                   <p>{step}</p>
                 </div>
               ))}
@@ -201,24 +202,27 @@ window.LivingStandalonePage = function LivingStandalonePage() {
 
           <section className="living-story-section" id="landing/whatsapp">
             <div className="living-whatsapp-copy">
-              <span className="living-eyebrow">Canal Conversacional</span>
+              <div className="living-section-heading">
+                <span className="living-section-heading-icon"><window.LivingPublicIcon name="chat" /></span>
+                <span className="living-eyebrow">Canal conversacional</span>
+              </div>
               <h2>La forma más simple de reservar para tus residentes</h2>
               <p>
-                Sin descargar aplicaciones pesadas ni recordar contraseñas. El flujo guía a los residentes en consulta, aceptación de reglamento y envío de constancias de pago.
+                Sin descargar apps ni recordar contraseñas. El flujo guía consulta, reglamento y pago.
               </p>
             </div>
 
             <div className="living-whatsapp-features">
               <div className="feature-item">
-                <strong>⚡ Consulta instantánea</strong>
+                <strong><window.LivingPublicIcon name="chat" size={18} /> Consulta instantánea</strong>
                 <span>Disponibilidad en tiempo real para todas las áreas comunes.</span>
               </div>
               <div className="feature-item">
-                <strong>🧾 Validación integrada</strong>
+                <strong><window.LivingPublicIcon name="receipt" size={18} /> Validación integrada</strong>
                 <span>Sube fotos de transferencias, Yape o Plin directamente en el chat.</span>
               </div>
               <div className="feature-item">
-                <strong>🔒 Reglas y aforos</strong>
+                <strong><window.LivingPublicIcon name="lock" size={18} /> Reglas y aforos</strong>
                 <span>El flujo valida deudas, límites de reservas y aforos del reglamento.</span>
               </div>
             </div>
@@ -243,8 +247,9 @@ window.LivingStandalonePage = function LivingStandalonePage() {
           <section className="living-story-section" id="landing/roles">
             <window.LivingPublicSectionTitle
               eyebrow="Cobertura completa"
+              icon="people"
               title="Un mismo portal. Vistas optimizadas por rol."
-              body="Asigna accesos específicos para que cada miembro del equipo trabaje de manera coordinada."
+              body="Cada equipo ve solo lo que necesita para operar sin ruido."
             />
             <div className="living-grid living-role-grid">
               {roleCards.map(([name, body]) => (
@@ -259,8 +264,9 @@ window.LivingStandalonePage = function LivingStandalonePage() {
           <section className="living-story-section" id="landing/reportes">
             <window.LivingPublicSectionTitle
               eyebrow="Datos del piloto"
+              icon="chart"
               title="Información real para una simulación completa"
-              body="La base de demostración contiene datos cargados para reflejar una operación residencial viva."
+              body="Datos cargados para revisar reservas, pagos y operación mensual."
             />
             <div className="living-split-panel">
               <div className="living-card">
