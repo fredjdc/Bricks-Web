@@ -145,6 +145,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .capabilities-panel li::before { content: "✓"; margin-right: 10px; opacity: 0.7; }
 
 .faq-list { max-width: 880px; }
+.faq > .section-heading { max-width: none; }
 .faq details { border-bottom: 1px solid var(--border); }
 .faq summary { padding: 23px 44px 23px 0; font-size: 1.12rem; font-weight: 650; cursor: pointer; }
 .faq summary::marker { color: var(--text-secondary); }
