@@ -149,7 +149,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .faq details { border-bottom: 1px solid var(--border); }
 .faq summary { padding: 23px 44px 23px 0; font-size: 1.12rem; font-weight: 650; cursor: pointer; }
 .faq summary::marker { color: var(--text-secondary); }
-.faq details p { max-width: 64ch; padding: 0 0 24px; color: var(--text-secondary); }
+.faq details p { padding: 0 0 24px; color: var(--text-secondary); }
 
 .final-panel { padding: 48px 20px; border: 1px solid var(--border); border-radius: var(--radius-large); background: color-mix(in srgb, var(--surface) 94%, transparent); text-align: center; box-shadow: var(--shadow); }
 .final-panel > img { width: 144px; height: 144px; margin: 0 auto 28px; border-radius: 34px; }
