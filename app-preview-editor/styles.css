@@ -90,10 +90,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .hero-parallax-background, .hero-parallax-foreground { position: absolute; inset: 0; display: grid; place-items: center; }
 .hero-parallax-background { z-index: 0; }
 .hero-parallax-foreground { z-index: 1; }
-.hero-parallax-background img { width: 112%; height: 112%; max-width: none; object-fit: cover; transform: translate3d(var(--hero-background-x, 0), var(--hero-background-y, 0), 0) scale(1.03); transition: transform 180ms var(--ease); }
-.hero-parallax-foreground-inner { display: grid; width: 96%; transform: translate3d(var(--hero-foreground-x, 0), var(--hero-foreground-y, 0), 0); transition: transform 180ms var(--ease); }
-.hero-slide { grid-area: 1 / 1; width: 100%; height: auto; filter: drop-shadow(0 26px 32px color-mix(in srgb, var(--text) 26%, transparent)); opacity: 0; transform: scale(0.96); transition: opacity 550ms var(--ease), transform 550ms var(--ease); }
-.hero-slide.is-active { opacity: 1; transform: scale(1); }
+.hero-parallax-background img { width: 122%; height: 122%; max-width: none; object-fit: cover; transform: translate3d(var(--hero-background-x, 0), var(--hero-background-y, 80), 0) scale(1.48); transition: transform 180ms var(--ease); }
+.hero-parallax-foreground img { width: 96%; height: auto; filter: drop-shadow(0 26px 32px color-mix(in srgb, var(--text) 26%, transparent)); transform: translate3d(var(--hero-foreground-x, 0), var(--hero-foreground-y, 0), 0); transition: transform 180ms var(--ease); }
 
 .signup-form { max-width: 610px; }
 .signup-form > label[for] { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 620; }
@@ -223,7 +221,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .reveal { opacity: 1; transform: none; }
   .hero-parallax-background img, .hero-parallax-foreground { animation: none; }
-  .hero-parallax-background img, .hero-parallax-foreground-inner, .hero-slide { transition: none; transform: none; }
+  .hero-parallax-background img, .hero-parallax-foreground img { transition: none; transform: none; }
 }
 
 @media (prefers-reduced-transparency: reduce) {

@@ -52,18 +52,6 @@ if (heroParallax && !reduceMotion) {
   });
 }
 
-const heroSlides = document.querySelectorAll(".hero-slide");
-
-if (heroSlides.length > 1 && !reduceMotion) {
-  let activeSlide = 0;
-
-  window.setInterval(() => {
-    heroSlides[activeSlide].classList.remove("is-active");
-    activeSlide = (activeSlide + 1) % heroSlides.length;
-    heroSlides[activeSlide].classList.add("is-active");
-  }, 3600);
-}
-
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
   const frame = document.querySelector(`iframe[name="${form.target}"]`);
   const button = form.querySelector("button[type='submit']");
