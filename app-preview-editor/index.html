@@ -90,11 +90,9 @@
             <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="source" value="App Preview Editor landing page">
             <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-            <label for="hero-email">Email</label>
             <div class="email-row">
               <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="hero-form-note hero-form-status">
-              <button class="button submit-button" type="submit"><span>Notify</span></button>
+              <button class="button submit-button" type="submit"><span>Notify Me</span></button>
             </div>
             <input type="hidden" name="interest" value="Waitlist">
             <label class="choice beta-choice"><input type="checkbox" name="beta_access" value="Requested"><span>I want to participate in the Beta</span></label>
@@ -103,8 +101,18 @@
         </div>
       </div>
 
-      <div class="hero-visual reveal" aria-label="Suggested App Preview Editor workflow video">
-        <img class="media-placeholder" src="assets/placeholders/hero-workflow.svg" width="1600" height="1000" alt="Placeholder for a video showing the complete App Preview Editor workflow">
+      <div class="hero-visual hero-parallax reveal">
+        <div class="hero-parallax-background" aria-hidden="true">
+          <img src="assets/boxes-bg.png" width="2560" height="1080" alt="">
+        </div>
+        <div class="hero-parallax-foreground" role="img" aria-label="App Preview Editor project workspace">
+          <div class="hero-parallax-foreground-inner">
+            <img class="hero-slide is-active" src="assets/placeholders/hero-img-1.png" width="1946" height="1082" alt="">
+            <img class="hero-slide" src="assets/placeholders/hero-img-2.png" width="1946" height="1082" alt="">
+            <img class="hero-slide" src="assets/placeholders/hero-img-3.png" width="1946" height="1082" alt="">
+            <img class="hero-slide" src="assets/placeholders/hero-img-4.png" width="1946" height="1082" alt="">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -283,10 +291,9 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="source" value="App Preview Editor landing page footer">
           <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <label for="footer-email">Email</label>
           <div class="email-row">
             <input id="footer-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="footer-form-note footer-form-status">
-            <button class="button submit-button" type="submit"><span>Notify</span></button>
+            <button class="button submit-button" type="submit"><span>Notify Me</span></button>
           </div>
           <input type="hidden" name="interest" value="Waitlist">
           <label class="choice beta-choice"><input type="checkbox" name="beta_access" value="Requested"><span>I want to participate in the Beta</span></label>

@@ -33,13 +33,51 @@ if (workflowImage && workflowSteps.length && "IntersectionObserver" in window) {
   workflowSteps[0].classList.add("is-active");
 }
 
+const heroParallax = document.querySelector(".hero-parallax");
+
+if (heroParallax && !reduceMotion) {
+  let pointerFrame;
+
+  window.addEventListener("pointermove", (event) => {
+    const x = event.clientX / window.innerWidth - 0.5;
+    const y = event.clientY / window.innerHeight - 0.5;
+
+    window.cancelAnimationFrame(pointerFrame);
+    pointerFrame = window.requestAnimationFrame(() => {
+      heroParallax.style.setProperty("--hero-background-x", `${x * -14}px`);
+      heroParallax.style.setProperty("--hero-background-y", `${y * -14}px`);
+      heroParallax.style.setProperty("--hero-foreground-x", `${x * 18}px`);
+      heroParallax.style.setProperty("--hero-foreground-y", `${y * 18}px`);
+    });
+  });
+}
+
+const heroSlides = document.querySelectorAll(".hero-slide");
+
+if (heroSlides.length > 1 && !reduceMotion) {
+  let activeSlide = 0;
+
+  window.setInterval(() => {
+    heroSlides[activeSlide].classList.remove("is-active");
+    activeSlide = (activeSlide + 1) % heroSlides.length;
+    heroSlides[activeSlide].classList.add("is-active");
+  }, 3600);
+}
+
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
   const frame = document.querySelector(`iframe[name="${form.target}"]`);
   const button = form.querySelector("button[type='submit']");
   const buttonLabel = button.querySelector("span");
+  const betaAccess = form.querySelector("[name='beta_access']");
   const status = form.querySelector(".form-status");
   let submitting = false;
   let timeout;
+
+  const updateButtonLabel = () => {
+    if (!button.disabled) buttonLabel.textContent = betaAccess.checked ? "Invite Me" : "Notify Me";
+  };
+
+  betaAccess.addEventListener("change", updateButtonLabel);
 
   form.addEventListener("submit", (event) => {
     if (!form.checkValidity()) {
@@ -70,7 +108,7 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     submitting = false;
     form.reset();
     button.disabled = false;
-    buttonLabel.textContent = "Continue";
+    updateButtonLabel();
     status.textContent = "Thanks. Your request has been received.";
     status.dataset.state = "success";
   });
