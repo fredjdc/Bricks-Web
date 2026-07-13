@@ -10,6 +10,7 @@ if (!reduceMotion && "IntersectionObserver" in window) {
     });
   }, { threshold: 0.12 });
 
+  document.documentElement.classList.add("js");
   document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 } else {
   document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));

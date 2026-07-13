@@ -27,7 +27,7 @@
   <link rel="apple-touch-icon" href="AppIcon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
   <script type="application/ld+json">
@@ -80,8 +80,8 @@
     <section class="hero shell" id="top">
       <div class="hero-copy reveal">
         <h1>Drop. Edit. Upload.</h1>
-        <p class="hero-lede">A focused Mac app for making App Store Preview videos without fighting a full video editor.</p>
-        <p class="hero-body">Create previews from your screenshots, recordings, text, audio, and app assets. Update them when your UI changes. Export locally or upload to App Store Connect when everything is ready.</p>
+        <p class="hero-lede">A Mac app built for App Preview videos.</p>
+        <p class="hero-body">From recordings to App Store Connect—all in one focused workflow.</p>
         <div id="signup">
           <iframe class="form-target" name="signup_target" title="Signup submission" tabindex="-1" aria-hidden="true"></iframe>
           <form class="signup-form" action="https://formsubmit.co/hello@bricks.pe" method="POST" target="signup_target" data-signup-form novalidate>
@@ -94,11 +94,10 @@
             <label for="hero-email">Email</label>
             <div class="email-row">
               <input id="hero-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="hero-form-note hero-form-status">
-              <button class="button submit-button" type="submit"><span>Continue</span></button>
+              <button class="button submit-button" type="submit"><span>Notify</span></button>
             </div>
             <input type="hidden" name="interest" value="Waitlist">
-            <label class="choice beta-choice"><input type="checkbox" name="beta_access" value="Requested"><span>Apply for Beta Access</span></label>
-            <p class="form-note" id="hero-form-note">Beta applications are reviewed before access is granted. By continuing, you agree to our <a href="../privacy.html">Privacy Policy</a>.</p>
+            <label class="choice beta-choice"><input type="checkbox" name="beta_access" value="Requested"><span>I want to participate in the Beta</span></label>
             <p class="form-status" id="hero-form-status" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -124,89 +123,137 @@
         <h2 id="workflow-title" class="section-heading reveal">From app media to App Store Connect in three steps.</h2>
         <div class="workflow-layout">
           <div class="workflow-media reveal" aria-hidden="true">
-            <img src="assets/placeholders/drop-import.svg" width="1600" height="1000" alt="">
+            <img src="assets/placeholders/drop-import.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="">
           </div>
           <div class="workflow-steps">
             <article class="workflow-step reveal" data-workflow-image="assets/placeholders/drop-import.svg">
               <h3>Drop.</h3>
               <p>Import screenshots, screen recordings, images, audio, and brand assets from Finder.</p>
               <p>Start with the app media you already have. No blank-canvas setup. No generic video project to configure first.</p>
-              <img class="mobile-workflow-media" src="assets/placeholders/drop-import.svg" width="1600" height="1000" alt="Placeholder for drag and drop import video">
+            <img class="mobile-workflow-media" src="assets/placeholders/drop-import.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="Placeholder for drag and drop import video">
             </article>
             <article class="workflow-step reveal" data-workflow-image="assets/placeholders/edit-timeline.svg">
               <h3>Edit.</h3>
               <p>Arrange clips, add text, adjust timing, and polish the preview on a focused timeline made for App Store videos.</p>
               <p>You get the tools you need for preview production, without the extra weight of a full editing suite.</p>
-              <img class="mobile-workflow-media" src="assets/placeholders/edit-timeline.svg" width="1600" height="1000" alt="Placeholder for timeline editing video">
+            <img class="mobile-workflow-media" src="assets/placeholders/edit-timeline.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="Placeholder for timeline editing video">
             </article>
             <article class="workflow-step reveal" data-workflow-image="assets/placeholders/upload-validation.svg">
               <h3>Upload.</h3>
               <p>Run checks, export your preview, or upload to App Store Connect when your account and app target are configured.</p>
               <p>Keep the last step inside the same workflow instead of jumping between tools.</p>
-              <img class="mobile-workflow-media" src="assets/placeholders/upload-validation.svg" width="1600" height="1000" alt="Placeholder for validation and upload video">
+            <img class="mobile-workflow-media" src="assets/placeholders/upload-validation.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="Placeholder for validation and upload video">
             </article>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="benefits section shell" aria-labelledby="benefits-title">
+    <section class="product-tour section shell" aria-labelledby="tour-title">
       <div class="section-heading reveal">
-        <h2 id="benefits-title">Built for the repetitive parts of App Preview work.</h2>
+        <h2 id="tour-title">Built for the repetitive parts of App Preview work.</h2>
+        <p>Keep the work you have already done. Change the media, refine the edit, and prepare every version from the same project.</p>
       </div>
-      <div class="benefit-grid">
-        <article class="benefit benefit-wide reveal">
-          <div><h3>Update without starting over</h3><p>App UIs change. Screenshots get replaced. Recordings get updated. Replace or relink media while keeping your timeline structure where possible, so every product update does not become a full rebuild.</p></div>
-          <img src="assets/placeholders/replace-media.svg" width="1600" height="1000" alt="Placeholder for a before and after media replacement screenshot">
+
+      <div class="product-stories">
+        <article class="product-story reveal">
+          <div class="story-copy">
+            <h3>Update without starting over.</h3>
+            <p>App UIs change. Replace or relink screenshots and recordings while preserving your timeline structure where possible.</p>
+            <ul>
+              <li>Keep timing and text in place</li>
+              <li>Relink missing project media</li>
+              <li>Update a preview without rebuilding it</li>
+            </ul>
+          </div>
+          <img src="assets/placeholders/replace-media.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="Placeholder for a screenshot showing media replacement while the edit stays intact">
         </article>
-        <article class="benefit reveal">
-          <h3>Make previews faster</h3>
-          <p>Use Auto Arrange to create a first editable draft from your selected media, then refine it manually. It is not meant to replace your judgment. It is meant to get you past the empty timeline faster.</p>
+
+        <article class="product-story product-story-wide reveal">
+          <div class="story-copy">
+            <h3>Get past the empty timeline.</h3>
+            <p>Use Auto Arrange to make a first editable draft from selected media, then adjust every clip yourself on a focused timeline.</p>
+            <ul>
+              <li>Start from screenshots, recordings, text, and audio</li>
+              <li>Fine-tune timing, overlays, and motion</li>
+              <li>Keep the tools specific to App Preview production</li>
+            </ul>
+          </div>
+          <img src="assets/placeholders/focused-tools.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="Placeholder for a screenshot showing Auto Arrange and the focused editing timeline">
         </article>
-        <article class="benefit benefit-visual benefit-wide reveal">
-          <img src="assets/placeholders/focused-tools.svg" width="1600" height="1000" alt="Placeholder for a screenshot of the focused editing toolbar">
-          <div><h3>Stay focused on App Store previews</h3><p>The app is built around preview length, format, safe areas, export settings, platform variants, and App Store Connect delivery. Not YouTube videos. Not social clips. Not a cinematic editing suite. Just App Preview production.</p></div>
+
+        <article class="product-story product-story-reverse reveal">
+          <div class="story-copy">
+            <h3>One project for every version.</h3>
+            <p>Keep iPhone, iPad, Mac, Apple Vision Pro, portrait, landscape, and language variants organized together.</p>
+            <ul>
+              <li>Switch between platform targets</li>
+              <li>Manage orientation and screen-size variants</li>
+              <li>Update the full set when your app changes</li>
+            </ul>
+          </div>
+          <img src="assets/placeholders/project-variants.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="Placeholder for the project navigator showing platform, orientation, and language variants">
         </article>
-        <article class="benefit reveal">
-          <h3>Keep every version together</h3>
-          <p>Create previews for iPhone, iPad, Mac, Apple Vision Pro, portrait, landscape, and different languages inside one project. When your app changes, you can update the whole set without losing track of every variant.</p>
-        </article>
-        <article class="benefit reveal">
-          <h3>Export or upload when ready</h3>
-          <p>Export locally in H.264 or ProRes 422 HQ, reveal files in Finder, or upload directly to App Store Connect once your credentials and app targets are configured.</p>
+
+        <article class="product-story product-story-wide reveal">
+          <div class="story-copy">
+            <h3>Export or upload when ready.</h3>
+            <p>Run App Preview checks, export locally, or upload to App Store Connect after your credentials and app targets are configured.</p>
+            <ul>
+              <li>Export H.264 or ProRes 422 HQ</li>
+              <li>Reveal completed files in Finder</li>
+              <li>Load preview slots and upload from the app</li>
+            </ul>
+          </div>
+          <img src="assets/placeholders/upload-validation.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="Placeholder for a screenshot showing App Preview checks, export, and App Store Connect upload">
         </article>
       </div>
     </section>
 
-    <section class="project section shell">
-      <div class="project-copy reveal">
-        <h2>One project for every App Preview version.</h2>
-        <p>A single app update can mean several preview videos: different devices, orientations, screen sizes, and languages.</p>
-        <p>App Preview Editor keeps those versions organized in one place, so you can work across the full App Store set instead of managing separate video files everywhere.</p>
+    <section class="native-section section shell" aria-labelledby="native-title">
+      <img class="native-media reveal" src="assets/placeholders/native-drag-drop.svg" width="1600" height="1000" loading="lazy" decoding="async" alt="Placeholder for a screenshot showing native drag and drop from Finder">
+      <div class="native-copy reveal">
+        <h2 id="native-title">Built only for macOS.</h2>
+        <p>App Preview Editor uses the Mac workflows you already know: Finder drag and drop, familiar shortcuts, Keychain credential storage, and system notifications.</p>
+        <p>Stay focused on your app instead of learning another general-purpose editing suite.</p>
       </div>
-      <img class="project-media reveal" src="assets/placeholders/project-variants.svg" width="1600" height="1000" alt="Placeholder for the project navigator showing platform, orientation, and language variants">
     </section>
 
     <section class="capabilities section shell" aria-labelledby="capabilities-title">
       <div class="capabilities-panel reveal">
         <h2 id="capabilities-title">The tools that matter for App Preview production.</h2>
-        <ul>
-          <li>Native macOS app</li>
-          <li>Focused multi-track timeline</li>
-          <li>Drag and drop import</li>
-          <li>Auto Arrange first draft</li>
-          <li>Text, overlay, audio, and motion controls</li>
-          <li>Safe area and center guides</li>
-          <li>Media replace and relink</li>
-          <li>Platform and language variants</li>
-          <li>App Preview checks</li>
-          <li>H.264 and ProRes 422 HQ export</li>
-          <li>App Store Connect upload</li>
-          <li>Keychain credential storage</li>
-          <li>Finder reveal</li>
-          <li>Export notifications</li>
-          <li>Shortcuts and App Intents</li>
-        </ul>
+        <div class="capability-groups">
+          <div class="capability-group">
+            <h3>Create and edit</h3>
+            <ul>
+              <li>Focused multi-track timeline</li>
+              <li>Drag and drop import</li>
+              <li>Auto Arrange first draft</li>
+              <li>Text, overlay, audio, and motion controls</li>
+              <li>Safe area and center guides</li>
+            </ul>
+          </div>
+          <div class="capability-group">
+            <h3>Organize and check</h3>
+            <ul>
+              <li>Media replace and relink</li>
+              <li>Platform and language variants</li>
+              <li>App Preview checks</li>
+              <li>Native macOS app</li>
+              <li>Keychain credential storage</li>
+            </ul>
+          </div>
+          <div class="capability-group">
+            <h3>Export and deliver</h3>
+            <ul>
+              <li>H.264 and ProRes 422 HQ export</li>
+              <li>App Store Connect upload</li>
+              <li>Finder reveal</li>
+              <li>Export notifications</li>
+              <li>Shortcuts and App Intents</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -226,9 +273,9 @@
 
     <section class="final-cta section shell" aria-labelledby="final-title">
       <div class="final-panel reveal">
-        <img src="AppIcon.png" width="80" height="80" alt="">
+        <img src="AppIcon.png" width="144" height="144" alt="">
         <h2 id="final-title">Your next App Preview should be easier to make.</h2>
-        <p>Join the waitlist or apply for beta access.</p>
+        <p>Join the waitlist or participate in the beta.</p>
         <iframe class="form-target" name="footer_signup_target" title="Signup submission" tabindex="-1" aria-hidden="true"></iframe>
         <form class="signup-form signup-form-centered" action="https://formsubmit.co/hello@bricks.pe" method="POST" target="footer_signup_target" data-signup-form novalidate>
           <input type="hidden" name="_subject" value="App Preview Editor signup">
@@ -239,11 +286,10 @@
           <label for="footer-email">Email</label>
           <div class="email-row">
             <input id="footer-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="footer-form-note footer-form-status">
-            <button class="button submit-button" type="submit"><span>Continue</span></button>
+            <button class="button submit-button" type="submit"><span>Notify</span></button>
           </div>
           <input type="hidden" name="interest" value="Waitlist">
-          <label class="choice beta-choice"><input type="checkbox" name="beta_access" value="Requested"><span>Apply for Beta Access</span></label>
-          <p class="form-note" id="footer-form-note">Beta applications are reviewed before access is granted. By continuing, you agree to our <a href="../privacy.html">Privacy Policy</a>.</p>
+          <label class="choice beta-choice"><input type="checkbox" name="beta_access" value="Requested"><span>I want to participate in the Beta</span></label>
           <p class="form-status" id="footer-form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
