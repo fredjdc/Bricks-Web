@@ -137,7 +137,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .native-copy p { color: var(--text-secondary); font-size: 1.08rem; }
 
 .capabilities-panel { padding: 40px 24px; border-radius: var(--radius-large); background: var(--accent); color: var(--accent-text); }
-.capabilities-panel h2 { max-width: 10ch; margin-bottom: 44px; color: inherit; }
+.capabilities-panel h2 { margin-bottom: 44px; color: inherit; }
 .capability-groups { display: grid; gap: 40px; }
 .capability-group h3 { margin-bottom: 8px; color: inherit; font-size: 1.05rem; }
 .capabilities-panel ul { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
@@ -192,7 +192,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .product-story-wide .story-copy { max-width: 760px; }
   .native-section { grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr); gap: 72px; }
   .capabilities-panel { padding: 80px; }
-  .capabilities-panel h2 { max-width: 14ch; }
   .capability-groups { grid-template-columns: repeat(3, 1fr); gap: 48px; }
 }
 
