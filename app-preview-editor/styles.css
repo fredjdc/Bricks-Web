@@ -186,6 +186,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .final-panel > h2 { max-width: 860px; margin-inline: auto; }
 .final-panel > p { margin: 18px auto 34px; color: var(--text-secondary); font-size: 1.08rem; }
 .signup-form-centered { margin-inline: auto; text-align: left; }
+.founder-note { margin: 24px 0 0; color: var(--text-secondary); font-size: 13px; text-align: center; }
 .footer { display: flex; flex-direction: column; gap: 18px; padding-block: 32px 48px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; }
 .footer p { margin: 0; }
 .footer div { display: flex; flex-wrap: wrap; gap: 16px; }
