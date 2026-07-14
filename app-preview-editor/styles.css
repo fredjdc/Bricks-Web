@@ -138,6 +138,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .video-poster { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; object-fit: cover; pointer-events: none; }
 
 .problem-section, .capabilities { background: color-mix(in srgb, var(--surface) 78%, transparent); }
+.capabilities { padding-block: 105.6px; }
 .problem-layout { display: grid; gap: 28px; }
 .problem-list { margin: 0; padding: 0; list-style: none; }
 .problem-list li { display: grid; grid-template-columns: 46px 1fr; gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 1.08rem; font-weight: 620; }
@@ -196,7 +197,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .final-panel > h2 { max-width: 860px; margin-inline: auto; }
 .final-panel > p { margin: 18px auto 34px; color: var(--text-secondary); font-size: 1.08rem; }
 .signup-form-centered { margin-inline: auto; text-align: left; }
-.founder-note { margin: 24px 0 0; color: var(--text-secondary); font-size: 13px; text-align: center; }
+.founder-note { margin: 48px 0 0; color: var(--text-secondary); font-size: 13px; text-align: center; }
 .footer { display: flex; flex-direction: column; gap: 18px; padding-block: 32px 48px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; }
 .footer p { margin: 0; }
 .footer div { display: flex; flex-wrap: wrap; gap: 16px; }
@@ -229,6 +230,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 @media (min-width: 900px) {
   .section { padding-block: 124px; }
+  .capabilities { padding-block: 148.8px; }
   .nav-link { display: inline; }
   .nav-menu { display: none; }
   .hero-copy { width: 100%; max-width: none; }

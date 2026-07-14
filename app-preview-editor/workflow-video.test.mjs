@@ -84,5 +84,8 @@ assert.match(script, /video\.addEventListener\("(?:loadstart|error)", \(\) => sh
 assert.match(script, /workflowVideo\.poster = step\.dataset\.workflowPoster;\s+showVideoPoster\(workflowVideo\);/);
 assert.match(styles, /\.video-poster \{ position: absolute; inset: 0;[^}]+pointer-events: none;/);
 assert.match(styles, /\.product-story video \{ height: auto; aspect-ratio: 16 \/ 9; \}/);
+assert.match(styles, /\.capabilities \{ padding-block: 105\.6px; \}/);
+assert.match(styles, /@media \(min-width: 900px\)[\s\S]*?\.capabilities \{ padding-block: 148\.8px; \}/);
+assert.match(styles, /\.founder-note \{ margin: 48px 0 0;/);
 assert.match(styles, /\[data-video-align="left"\]\s*\{\s*object-position:\s*left center;/);
 assert.match(styles, /\[data-video-align="right"\]\s*\{\s*object-position:\s*right center;/);
