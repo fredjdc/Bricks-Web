@@ -77,6 +77,7 @@ button { cursor: pointer; }
 
 .hero { min-height: calc(100dvh - 68px); padding-block: 56px 88px; display: grid; gap: 56px; }
 .hero-copy { max-width: 860px; margin-inline: auto; text-align: center; }
+.hero-word { display: inline-block; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3 { letter-spacing: -0.015em; line-height: 1.04; }
 h1 { max-width: 12ch; margin: 0 auto 18px; font-size: clamp(3.3rem, 14vw, 6rem); font-weight: 760; }
@@ -184,8 +185,18 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .footer p { margin: 0; }
 .footer div { display: flex; flex-wrap: wrap; gap: 16px; }
 
-.js .reveal { opacity: 0; transform: translateY(22px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
+.js .reveal { opacity: 0; transform: translateY(22px); transition: opacity 700ms var(--ease) var(--reveal-delay, 0ms), transform 700ms var(--ease) var(--reveal-delay, 0ms); }
 .js .reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-word, .hero-intro-secondary, .hero-intro-detail { animation: hero-intro-in 420ms var(--ease) both; }
+  .hero-word:nth-child(2) { animation-delay: 90ms; }
+  .hero-word:nth-child(3) { animation-delay: 180ms; }
+  .hero-intro-secondary { animation-duration: 480ms; animation-delay: 340ms; }
+  .hero-intro-detail { animation-duration: 520ms; animation-delay: 480ms; }
+  .js .hero-visual.reveal:not(.is-visible) { transform: translateY(32px); }
+  @keyframes hero-intro-in { from { opacity: 0; transform: translateY(0.35em); } }
+}
 
 @media (min-width: 560px) {
   .shell { width: min(calc(100% - 48px), var(--shell)); }

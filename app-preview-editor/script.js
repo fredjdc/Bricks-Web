@@ -4,6 +4,9 @@ if (!reduceMotion && "IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
+        if (entry.target.classList.contains("hero-visual")) {
+          entry.target.style.setProperty("--reveal-delay", `${Math.max(0, 720 - performance.now())}ms`);
+        }
         entry.target.classList.add("is-visible");
         revealObserver.unobserve(entry.target);
       }
@@ -62,6 +65,7 @@ if (heroParallax && !reduceMotion && window.matchMedia("(pointer: fine)").matche
 
 const heroVideo = document.querySelector(".hero-result-video");
 const heroVideoToggle = document.querySelector(".hero-video-toggle");
+const heroVisual = document.querySelector(".hero-visual");
 
 if (heroVideo && heroVideoToggle) {
   const updateHeroVideoToggle = () => {
@@ -77,7 +81,14 @@ if (heroVideo && heroVideoToggle) {
     else heroVideo.pause();
   });
 
-  if (!reduceMotion) heroVideo.play().catch(updateHeroVideoToggle);
+  if (!reduceMotion && heroVisual) {
+    const playAfterReveal = (event) => {
+      if (event.target !== heroVisual) return;
+      heroVisual.removeEventListener("transitionend", playAfterReveal);
+      if (heroVideo.paused) heroVideo.play().catch(updateHeroVideoToggle);
+    };
+    heroVisual.addEventListener("transitionend", playAfterReveal);
+  }
   updateHeroVideoToggle();
 }
 
