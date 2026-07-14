@@ -35,21 +35,50 @@ if (workflowImage && workflowSteps.length && "IntersectionObserver" in window) {
 
 const heroParallax = document.querySelector(".hero-parallax");
 
-if (heroParallax && !reduceMotion) {
+if (heroParallax && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
   let pointerFrame;
 
-  window.addEventListener("pointermove", (event) => {
-    const x = event.clientX / window.innerWidth - 0.5;
-    const y = event.clientY / window.innerHeight - 0.5;
+  heroParallax.addEventListener("pointermove", (event) => {
+    const bounds = heroParallax.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
 
     window.cancelAnimationFrame(pointerFrame);
     pointerFrame = window.requestAnimationFrame(() => {
-      heroParallax.style.setProperty("--hero-background-x", `${x * -14}px`);
-      heroParallax.style.setProperty("--hero-background-y", `${y * -14}px`);
-      heroParallax.style.setProperty("--hero-foreground-x", `${x * 18}px`);
-      heroParallax.style.setProperty("--hero-foreground-y", `${y * 18}px`);
+      heroParallax.style.setProperty("--hero-workspace-x", `${x * -8}px`);
+      heroParallax.style.setProperty("--hero-workspace-y", `${y * -8}px`);
+      heroParallax.style.setProperty("--hero-result-x", `${x * 4}px`);
+      heroParallax.style.setProperty("--hero-result-y", `${y * 4}px`);
     });
   });
+
+  heroParallax.addEventListener("pointerleave", () => {
+    heroParallax.style.removeProperty("--hero-workspace-x");
+    heroParallax.style.removeProperty("--hero-workspace-y");
+    heroParallax.style.removeProperty("--hero-result-x");
+    heroParallax.style.removeProperty("--hero-result-y");
+  });
+}
+
+const heroVideo = document.querySelector(".hero-result-video");
+const heroVideoToggle = document.querySelector(".hero-video-toggle");
+
+if (heroVideo && heroVideoToggle) {
+  const updateHeroVideoToggle = () => {
+    const action = heroVideo.paused ? "Play" : "Pause";
+    heroVideoToggle.textContent = `${action} preview`;
+    heroVideoToggle.setAttribute("aria-label", `${action} App Preview`);
+  };
+
+  heroVideo.addEventListener("play", updateHeroVideoToggle);
+  heroVideo.addEventListener("pause", updateHeroVideoToggle);
+  heroVideoToggle.addEventListener("click", () => {
+    if (heroVideo.paused) heroVideo.play().catch(updateHeroVideoToggle);
+    else heroVideo.pause();
+  });
+
+  if (!reduceMotion) heroVideo.play().catch(updateHeroVideoToggle);
+  updateHeroVideoToggle();
 }
 
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
