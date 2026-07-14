@@ -10,12 +10,12 @@ const [html, script, styles] = await Promise.all([
 assert.equal(html.match(/<h1(?:\s|>)/g)?.length, 1);
 assert.equal(html.match(/<form[^>]*data-signup-form/g)?.length, 2);
 assert.equal(html.match(/name="signup_intent" value="beta"/g)?.length, 2);
-assert.equal(html.match(/Apply for Beta/g)?.length, 3);
-assert.equal(html.match(/Your email is only used to process your beta application\./g)?.length, 2);
+assert.equal(html.match(/Get Beta Access/g)?.length, 3);
+assert.equal(html.match(/Beta is open\. Applications are reviewed manually\./g)?.length, 2);
 assert.equal(html.match(/What are you building\?/g)?.length, 2);
 assert.equal(html.match(/App or website \(optional\)/g)?.length, 2);
 assert.equal(html.match(/What's the hardest part about creating App Preview videos\?/g)?.length, 2);
-assert.match(html, /Ready to spend less time making App Preview videos\?/);
+assert.match(html, /Ready to spend less time making App Previews\?/);
 assert.equal(html.match(/data-beta-back/g)?.length, 2);
 assert.match(html, /data-beta-cta/);
 assert.doesNotMatch(html, /<fieldset|type="radio"|value="launch"|launch_updates|Notify me|Choose an option/);
@@ -24,6 +24,14 @@ assert.match(script, /email\.scrollIntoView/);
 assert.match(script, /Add a short answer so we can review your application\./);
 assert.match(script, /Thanks! Your application has been received\. We'll review it and contact you by email if you're selected\./);
 assert.doesNotMatch(script, /selectedIntent|validateIntent|helperText|buttonText/);
+
+const workflowEnd = html.indexOf("</section>", html.indexOf('<section class="workflow'));
+const philosophyStart = html.indexOf('<section class="philosophy');
+const productTourStart = html.indexOf('<section class="product-tour');
+assert.ok(workflowEnd < philosophyStart && philosophyStart < productTourStart);
+
+const storyOrder = ["Skip the empty timeline.", "Update without starting over.", "One project. Every App Preview.", "Check, export, or upload."];
+assert.deepEqual([...storyOrder].sort((a, b) => html.indexOf(a, productTourStart) - html.indexOf(b, productTourStart)), storyOrder);
 
 for (const forbidden of [/waitlist/i, /App Store Preview/i, /every Apple platform/i]) {
   assert.doesNotMatch(html, forbidden);
