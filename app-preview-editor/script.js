@@ -15,6 +15,33 @@ if (!reduceMotion && "IntersectionObserver" in window) {
   document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
 }
 
+const philosophyStage = document.querySelector("[data-philosophy-stage]");
+const nearestPhilosophyLineIndex = (centers, viewportCenter) => centers.reduce((nearest, center, index) => Math.abs(center - viewportCenter) < Math.abs(centers[nearest] - viewportCenter) ? index : nearest, 0);
+
+if (philosophyStage && !reduceMotion && "IntersectionObserver" in window) {
+  const philosophyLines = [...philosophyStage.querySelectorAll("[data-philosophy-line]")];
+  const philosophyTriggers = philosophyStage.querySelectorAll("[data-philosophy-trigger]");
+
+  const activatePhilosophyLine = (index) => {
+    philosophyLines.forEach((line, lineIndex) => {
+      line.classList.toggle("is-active", lineIndex === index);
+      line.classList.toggle("is-past", lineIndex < index);
+    });
+  };
+
+  if (philosophyLines.length && philosophyLines.length === philosophyTriggers.length) {
+    philosophyStage.classList.add("is-scroll-ready");
+    const philosophyObserver = new IntersectionObserver(() => {
+      const centers = [...philosophyTriggers].map((trigger) => {
+        const bounds = trigger.getBoundingClientRect();
+        return bounds.top + bounds.height / 2;
+      });
+      activatePhilosophyLine(nearestPhilosophyLineIndex(centers, innerHeight / 2));
+    }, { rootMargin: "-45% 0px -45%", threshold: 0 });
+    philosophyTriggers.forEach((trigger) => philosophyObserver.observe(trigger));
+  }
+}
+
 const setVideoButtonLabel = (video, button, idleLabel = "Play") => {
   const label = video.paused ? idleLabel : "Pause";
   button.textContent = label;

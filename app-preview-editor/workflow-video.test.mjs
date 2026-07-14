@@ -29,6 +29,17 @@ const workflowEnd = html.indexOf("</section>", html.indexOf('<section class="wor
 const philosophyStart = html.indexOf('<section class="philosophy');
 const productTourStart = html.indexOf('<section class="product-tour');
 assert.ok(workflowEnd < philosophyStart && philosophyStart < productTourStart);
+assert.equal(html.match(/data-philosophy-line/g)?.length, 5);
+assert.equal(html.match(/data-philosophy-trigger=/g)?.length, 5);
+assert.match(script, /line\.classList\.toggle\("is-past", lineIndex < index\)/);
+assert.match(styles, /\.philosophy-line\.is-active \{ opacity: 1; filter: blur\(0\); transform: none; \}/);
+const nearestLineSource = script.match(/const nearestPhilosophyLineIndex = .*;/)?.[0];
+assert.ok(nearestLineSource);
+const nearestLine = Function(`${nearestLineSource}; return nearestPhilosophyLineIndex;`)();
+assert.equal(nearestLine([100, 200, 300, 400, 500], 310), 2);
+assert.equal(nearestLine([250, 350], 300), 0);
+assert.equal(nearestLine([-400, -300, -200, -100, 0], 0), 4);
+assert.equal(nearestLine([600, 700, 800, 900, 1000], 500), 0);
 
 const storyOrder = ["Skip the empty timeline.", "Update without starting over.", "One project. Every App Preview."];
 assert.deepEqual([...storyOrder].sort((a, b) => html.indexOf(a, productTourStart) - html.indexOf(b, productTourStart)), storyOrder);
