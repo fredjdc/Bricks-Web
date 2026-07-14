@@ -128,7 +128,6 @@ if (!reduceMotion && observedVideos.length) {
 }
 
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
-  const frame = document.querySelector(`iframe[name="${form.target}"]`);
   const emailStep = form.querySelector('[data-signup-step="email"]');
   const betaStep = form.querySelector('[data-signup-step="beta"]');
   const email = form.querySelector('[name="email"]');
@@ -138,7 +137,6 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
   const appLink = form.querySelector('[name="app_link"]');
   const challenge = form.querySelector('[name="preview_challenge"]');
   let submitting = false;
-  let timeout;
 
   const setStatus = (message = "", state = "") => {
     status.textContent = message;
@@ -190,19 +188,19 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     email.focus();
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (submitting) return;
+
     if (!validateEmail()) {
-      event.preventDefault();
       return;
     }
 
     if (form.dataset.betaReady !== "true") {
-      event.preventDefault();
       showBetaStep();
       return;
     }
     if (!validateBetaApplication()) {
-      event.preventDefault();
       return;
     }
 
@@ -211,25 +209,29 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     submitButton.disabled = true;
     submitButton.querySelector("span").textContent = "Sending...";
     setStatus("Submitting your request...");
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
 
-    timeout = window.setTimeout(() => {
-      if (!submitting) return;
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+        signal: controller.signal,
+      });
+      if (!response.ok) throw new Error(`Form submission failed: ${response.status}`);
+
+      form.reset();
+      showEmailStep();
+      setStatus("Thanks! We’ll review your request and be in touch by email soon.", "success");
+    } catch {
+      setStatus("Something went wrong. Your information was not submitted. Please try again.", "error");
+    } finally {
+      window.clearTimeout(timeout);
       submitting = false;
       submitButton.disabled = false;
-      submitButton.querySelector("span").textContent = "Submit beta application";
-      setStatus("Something went wrong. Your information was not submitted. Please try again.", "error");
-    }, 15000);
-  });
-
-  frame.addEventListener("load", () => {
-    if (!submitting) return;
-    window.clearTimeout(timeout);
-    submitting = false;
-    form.querySelectorAll("button").forEach((button) => { button.disabled = false; });
-    form.reset();
-    betaButtonLabel.textContent = "Submit beta application";
-    showEmailStep();
-    setStatus("Thanks! We’ll review your request and be in touch by email soon.", "success");
+      betaButtonLabel.textContent = "Submit beta application";
+    }
   });
 });
 

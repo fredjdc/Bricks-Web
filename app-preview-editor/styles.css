@@ -116,7 +116,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .form-status { min-height: 22px; margin: 10px 0 0; font-size: 14px; font-weight: 600; }
 .form-status[data-state="success"] { color: var(--success); }
 .form-status[data-state="error"] { color: var(--error); }
-.form-target { position: absolute; width: 1px; height: 1px; border: 0; opacity: 0; pointer-events: none; }
 .honey { position: absolute; left: -10000px; width: 1px; height: 1px; }
 
 .proof-strip { border-block: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 78%, transparent); }
