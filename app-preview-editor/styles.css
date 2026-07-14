@@ -153,6 +153,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .story-copy li { position: relative; padding-left: 20px; color: var(--text-secondary); }
 .story-copy li::before { content: ""; position: absolute; top: 0.68em; left: 0; width: 8px; height: 1px; background: currentColor; }
 .native-section { display: grid; gap: 40px; align-items: center; }
+.native-media { display: block; height: auto; object-fit: cover; }
 .native-copy { max-width: 620px; }
 .native-copy p { color: var(--text-secondary); font-size: 1.08rem; }
 

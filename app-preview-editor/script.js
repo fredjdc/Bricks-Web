@@ -81,6 +81,23 @@ if (heroVideo && heroVideoToggle) {
   updateHeroVideoToggle();
 }
 
+const autoplayVideos = document.querySelectorAll("[data-autoplay-video]");
+
+if (!reduceMotion && autoplayVideos.length) {
+  if ("IntersectionObserver" in window) {
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.play().catch(() => {});
+        else entry.target.pause();
+      });
+    }, { rootMargin: "120px 0px" });
+
+    autoplayVideos.forEach((video) => videoObserver.observe(video));
+  } else {
+    autoplayVideos.forEach((video) => video.play().catch(() => {}));
+  }
+}
+
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
   const frame = document.querySelector(`iframe[name="${form.target}"]`);
   const button = form.querySelector("button[type='submit']");
