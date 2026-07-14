@@ -17,7 +17,6 @@
   --radius-large: 28px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --shell: 1180px;
-  --native-icon-filter: brightness(0);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,7 +34,6 @@
     --error: #ff8b82;
     --dot: rgba(174, 184, 192, 0.14);
     --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
-    --native-icon-filter: none;
   }
 }
 
@@ -161,7 +159,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .philosophy-final .philosophy-summary { max-width: 64ch; margin: 0; color: var(--text); font-size: 1.08rem; font-weight: 650; letter-spacing: normal; line-height: 1.5; }
 .philosophy-triggers { display: none; }
 
-.product-tour > .section-heading { max-width: 900px; }
+.product-tour > .section-heading { max-width: 900px; margin-bottom: clamp(72px, 8vw, 120px); }
 .product-stories { display: grid; gap: 96px; }
 .product-story { display: grid; gap: 32px; align-items: center; }
 .story-copy { max-width: 590px; }
@@ -170,13 +168,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .workflow-step ul, .story-copy ul, .capability-grid ul { display: grid; gap: 10px; margin: 24px 0 0; padding: 0; list-style: none; }
 .workflow-step li, .story-copy li, .capability-grid li { position: relative; padding-left: 20px; color: var(--text-secondary); }
 .workflow-step li::before, .story-copy li::before, .capability-grid li::before { content: ""; position: absolute; top: 0.68em; left: 0; width: 8px; height: 1px; background: currentColor; }
-
-.native-section { display: grid; gap: 28px; }
-.native-panel { padding: 20px; border: 1px solid var(--border); border-radius: var(--radius-large); background: color-mix(in srgb, var(--surface) 92%, transparent); box-shadow: var(--shadow); }
-.native-lockup { min-height: clamp(260px, 38vw, 460px); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(14px, 4vw, 48px); border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); }
-.native-lockup-icon { width: clamp(56px, 10vw, 132px); height: clamp(56px, 10vw, 132px); object-fit: contain; filter: var(--native-icon-filter); }
-.native-panel h2 { margin: 28px 4px 14px; font-size: clamp(2rem, 5vw, 3rem); }
-.native-panel p { margin: 0 4px 8px; color: var(--text-secondary); font-size: 1.05rem; }
 
 .capability-grid { display: grid; gap: 44px; }
 .capability-grid article { padding-top: 22px; border-top: 1px solid var(--border); }

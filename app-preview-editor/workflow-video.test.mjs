@@ -62,8 +62,7 @@ for (const [name, poster, align] of [
 
 assert.equal(html.match(/data-adjacent-video-button/g)?.length, 4);
 assert.doesNotMatch(html, /<video[^>]*\scontrols(?:\s|>)/);
-assert.equal(html.match(/class="native-lockup" aria-hidden="true"/g)?.length, 1);
-assert.match(html, /assets\/apple\.svg[\s\S]*assets\/heart\.svg[\s\S]*assets\/build\.svg/);
+assert.doesNotMatch(html, /class="native-section|<h2>Built natively for Mac\.<\/h2>/);
 assert.doesNotMatch(html, /mac-native\.mp4|product\/mac-native\.png|class="native-media"/);
 assert.match(script, /workflowVideo\.dataset\.videoAlign = step\.dataset\.workflowAlign/);
 assert.match(styles, /\[data-video-align="left"\]\s*\{\s*object-position:\s*left center;/);
