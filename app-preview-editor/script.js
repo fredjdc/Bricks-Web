@@ -19,47 +19,43 @@ if (!reduceMotion && "IntersectionObserver" in window) {
   document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
 }
 
-const workflowImage = document.querySelector(".workflow-media img");
-const workflowSteps = document.querySelectorAll("[data-workflow-image]");
+const workflowVideo = document.querySelector(".workflow-media video");
+const workflowSteps = document.querySelectorAll("[data-workflow-video]");
+const desktopWorkflow = window.matchMedia("(min-width: 900px)");
 
-if (workflowImage && workflowSteps.length && "IntersectionObserver" in window) {
+if (workflowVideo && workflowSteps.length && "IntersectionObserver" in window) {
+  const activateWorkflowStep = (step) => {
+    workflowSteps.forEach((item) => item.classList.toggle("is-active", item === step));
+    const source = workflowVideo.querySelector("source");
+    const nextSource = step.dataset.workflowVideo;
+    if (source.getAttribute("src") !== nextSource) {
+      workflowVideo.pause();
+      workflowVideo.poster = step.dataset.workflowPoster;
+      source.setAttribute("src", nextSource);
+      workflowVideo.load();
+    }
+    if (!reduceMotion) workflowVideo.play().catch(() => {});
+  };
+
   const workflowObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      workflowSteps.forEach((step) => step.classList.toggle("is-active", step === entry.target));
-      const nextSource = entry.target.dataset.workflowImage;
-      if (workflowImage.getAttribute("src") !== nextSource) workflowImage.setAttribute("src", nextSource);
+      if (desktopWorkflow.matches && entry.isIntersecting) activateWorkflowStep(entry.target);
     });
   }, { rootMargin: "-35% 0px -45%", threshold: 0 });
 
   workflowSteps.forEach((step) => workflowObserver.observe(step));
   workflowSteps[0].classList.add("is-active");
-}
-
-const heroParallax = document.querySelector(".hero-parallax");
-
-if (heroParallax && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
-  let pointerFrame;
-
-  heroParallax.addEventListener("pointermove", (event) => {
-    const bounds = heroParallax.getBoundingClientRect();
-    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-
-    window.cancelAnimationFrame(pointerFrame);
-    pointerFrame = window.requestAnimationFrame(() => {
-      heroParallax.style.setProperty("--hero-workspace-x", `${x * -8}px`);
-      heroParallax.style.setProperty("--hero-workspace-y", `${y * -8}px`);
-      heroParallax.style.setProperty("--hero-result-x", `${x * 4}px`);
-      heroParallax.style.setProperty("--hero-result-y", `${y * 4}px`);
-    });
-  });
-
-  heroParallax.addEventListener("pointerleave", () => {
-    heroParallax.style.removeProperty("--hero-workspace-x");
-    heroParallax.style.removeProperty("--hero-workspace-y");
-    heroParallax.style.removeProperty("--hero-result-x");
-    heroParallax.style.removeProperty("--hero-result-y");
+  desktopWorkflow.addEventListener("change", (event) => {
+    if (!event.matches) {
+      workflowVideo.pause();
+      return;
+    }
+    const viewportCenter = window.innerHeight / 2;
+    const nearestStep = [...workflowSteps].sort((a, b) =>
+      Math.abs(a.getBoundingClientRect().top + a.offsetHeight / 2 - viewportCenter)
+      - Math.abs(b.getBoundingClientRect().top + b.offsetHeight / 2 - viewportCenter)
+    )[0];
+    activateWorkflowStep(nearestStep);
   });
 }
 
@@ -93,6 +89,19 @@ if (heroVideo && heroVideoToggle) {
 }
 
 const autoplayVideos = document.querySelectorAll("[data-autoplay-video]");
+
+document.querySelectorAll("[data-toggle-video]").forEach((video) => {
+  const togglePlayback = () => {
+    if (video.paused) video.play().catch(() => {});
+    else video.pause();
+  };
+  video.addEventListener("click", togglePlayback);
+  video.addEventListener("keydown", (event) => {
+    if (event.key !== " " && event.key !== "Enter") return;
+    event.preventDefault();
+    togglePlayback();
+  });
+});
 
 if (!reduceMotion && autoplayVideos.length) {
   if ("IntersectionObserver" in window) {
