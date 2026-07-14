@@ -226,7 +226,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .hero-copy { width: 100%; max-width: none; }
   .hero h1 { width: 100%; max-width: none; white-space: nowrap; font-size: clamp(4.5rem, 8.25vw, 7.25rem); }
   .hero-lede, .hero-body { width: 100%; max-width: none; }
-  :is(.hero, .final-panel) .signup-form { width: min(100%, 900px); max-width: none; }
+  :is(.hero, .final-panel) .signup-form { width: min(100%, 630px); max-width: none; }
   :is(.hero, .final-panel) [data-signup-step="email"] { grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; }
   :is(.hero, .final-panel) [data-signup-step="email"] > label,
   :is(.hero, .final-panel) [data-signup-step="email"] > .form-note,
