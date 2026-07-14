@@ -15,8 +15,8 @@ if (!reduceMotion && "IntersectionObserver" in window) {
   document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
 }
 
-const setVideoButtonLabel = (video, button, idleLabel = "Play video") => {
-  const label = video.paused ? idleLabel : "Pause video";
+const setVideoButtonLabel = (video, button, idleLabel = "Play") => {
+  const label = video.paused ? idleLabel : "Pause";
   button.textContent = label;
   button.setAttribute("aria-label", label);
 };
@@ -33,11 +33,11 @@ const connectVideoButton = (video, button, idleLabel) => {
 };
 
 document.querySelectorAll("[data-adjacent-video-button]").forEach((button) => {
-  connectVideoButton(button.parentElement.querySelector("video"), button, "Play video");
+  connectVideoButton(button.parentElement.querySelector("video"), button, "Play");
 });
 
 document.querySelectorAll("[data-video-button]").forEach((button) => {
-  connectVideoButton(document.getElementById(button.getAttribute("aria-controls")), button, "Play the workflow");
+  connectVideoButton(document.getElementById(button.getAttribute("aria-controls")), button, "Play");
 });
 
 const workflowVideo = document.querySelector(".workflow-media video");
@@ -56,7 +56,7 @@ if (workflowVideo && workflowSteps.length && "IntersectionObserver" in window) {
       source.setAttribute("src", step.dataset.workflowVideo);
       workflowVideo.load();
     }
-    if (!reduceMotion) workflowVideo.play().catch(() => setVideoButtonLabel(workflowVideo, workflowButton, "Play video"));
+    if (!reduceMotion) workflowVideo.play().catch(() => setVideoButtonLabel(workflowVideo, workflowButton, "Play"));
   };
 
   const workflowObserver = new IntersectionObserver((entries) => {

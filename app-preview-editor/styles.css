@@ -217,12 +217,12 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .hero-copy { width: 100%; max-width: none; }
   .hero h1 { width: 100%; max-width: none; white-space: nowrap; font-size: clamp(4.5rem, 8.25vw, 7.25rem); }
   .hero-lede, .hero-body { width: 100%; max-width: none; }
-  .hero .signup-form { width: min(100%, 900px); max-width: none; }
-  .hero [data-signup-step="email"] { grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; }
-  .hero [data-signup-step="email"] > label,
-  .hero [data-signup-step="email"] > .form-note,
-  .hero [data-signup-step="email"] > .privacy-note { grid-column: 1 / -1; }
-  .hero [data-signup-step="email"] > .submit-button { width: auto; min-width: 190px; margin-top: 0; }
+  :is(.hero, .final-panel) .signup-form { width: min(100%, 900px); max-width: none; }
+  :is(.hero, .final-panel) [data-signup-step="email"] { grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; }
+  :is(.hero, .final-panel) [data-signup-step="email"] > label,
+  :is(.hero, .final-panel) [data-signup-step="email"] > .form-note,
+  :is(.hero, .final-panel) [data-signup-step="email"] > .privacy-note { grid-column: 1 / -1; }
+  :is(.hero, .final-panel) [data-signup-step="email"] > .submit-button { width: auto; min-width: 190px; margin-top: 0; }
   .result-section { grid-template-columns: minmax(340px, 0.9fr) minmax(340px, 1.1fr); gap: 96px; }
   .problem-layout { grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr); gap: 92px; align-items: start; }
   .problem-layout .section-heading { margin-bottom: 0; }
