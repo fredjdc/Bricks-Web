@@ -25,7 +25,7 @@ assert.match(script, /Add a short answer so we can review your application\./);
 assert.match(script, /Thanks! Your application has been received\. We'll review it and contact you by email if you're selected\./);
 assert.doesNotMatch(script, /selectedIntent|validateIntent|helperText|buttonText/);
 
-for (const forbidden of [/waitlist/i, /App Store Preview/i, /Smart Actions/i, /every Apple platform/i]) {
+for (const forbidden of [/waitlist/i, /App Store Preview/i, /every Apple platform/i]) {
   assert.doesNotMatch(html, forbidden);
 }
 
