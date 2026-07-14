@@ -1,5 +1,26 @@
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const showVideoPoster = (video) => {
+  const poster = video.parentElement.querySelector(".video-poster");
+  poster.src = video.poster;
+  poster.hidden = false;
+};
+
+document.querySelectorAll("video[poster]").forEach((video) => {
+  const stage = document.createElement("div");
+  const poster = document.createElement("img");
+  stage.className = "video-stage";
+  poster.className = "video-poster";
+  poster.alt = "";
+  poster.setAttribute("aria-hidden", "true");
+  video.before(stage);
+  stage.append(video, poster);
+  showVideoPoster(video);
+  video.addEventListener("loadstart", () => showVideoPoster(video));
+  video.addEventListener("error", () => showVideoPoster(video));
+  video.addEventListener("playing", () => { poster.hidden = true; });
+});
+
 if (!reduceMotion && "IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -80,6 +101,7 @@ if (workflowVideo && workflowSteps.length && "IntersectionObserver" in window) {
     if (source.getAttribute("src") !== step.dataset.workflowVideo) {
       workflowVideo.pause();
       workflowVideo.poster = step.dataset.workflowPoster;
+      showVideoPoster(workflowVideo);
       source.setAttribute("src", step.dataset.workflowVideo);
       workflowVideo.load();
     }
