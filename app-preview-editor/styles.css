@@ -163,7 +163,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .philosophy-triggers { display: none; }
 
 .product-tour > .section-heading { max-width: 900px; margin-bottom: clamp(72px, 8vw, 120px); }
-.product-stories { display: grid; gap: 96px; }
+.product-stories { display: grid; gap: 115.2px; }
 .product-story { display: grid; gap: 32px; align-items: center; }
 .product-story video { height: auto; aspect-ratio: 16 / 9; }
 .story-media { position: relative; min-width: 0; }
@@ -250,7 +250,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .workflow-step { min-height: 58vh; display: flex; flex-direction: column; justify-content: center; transition: opacity 250ms ease; }
   .js .workflow-step { opacity: 0.72; }
   .js .workflow-step.is-active { opacity: 1; }
-  .product-stories { gap: 150px; }
+  .product-stories { gap: 380px; }
   .product-story { grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr); gap: 72px; }
   .product-story-reverse { grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr); }
   .product-story-reverse .story-copy { order: 2; }
