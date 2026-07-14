@@ -15,6 +15,7 @@
   --shadow: 0 24px 70px rgba(11, 15, 20, 0.12);
   --radius: 16px;
   --radius-large: 28px;
+  --radius-hero: 48px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --shell: 1180px;
 }
@@ -93,7 +94,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 .hero { min-height: calc(100dvh - 68px); padding-block: 44px 72px; display: grid; gap: 48px; align-items: center; }
 .hero-copy { max-width: 860px; margin-inline: auto; text-align: center; }
-.hero-workflow { width: 100%; margin-inline: auto; }
+.hero-workflow { width: 100%; margin-inline: auto; border: 1px solid var(--border); border-radius: var(--radius-hero); }
 .hero-word { display: inline-block; }
 .hero-lede { max-width: 25ch; margin: 0 auto 10px; font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 630; letter-spacing: -0.025em; }
 .hero-body { max-width: 58ch; margin: 0 auto 28px; color: var(--text-secondary); font-size: 1.08rem; }
