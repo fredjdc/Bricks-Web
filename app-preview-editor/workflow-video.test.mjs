@@ -52,6 +52,13 @@ assert.equal(nearestLine([600, 700, 800, 900, 1000], 500), 0);
 
 const storyOrder = ["Skip the empty timeline.", "Update without starting over.", "One project. Every App Preview."];
 assert.deepEqual([...storyOrder].sort((a, b) => html.indexOf(a, productTourStart) - html.indexOf(b, productTourStart)), storyOrder);
+for (const [video, poster] of [
+  ["app-preview-draft", "focused-tools"],
+  ["media-replace", "replace-media"],
+  ["app-preview-variants", "project-variants"],
+]) {
+  assert.match(html, new RegExp(`<video[^>]*poster="assets/product/${poster}\\.png"[^>]*data-autoplay-video[^>]*>[\\s\\S]*?<source src="assets/${video}\\.mp4" type="video/mp4">`));
+}
 
 for (const forbidden of [/waitlist/i, /App Store Preview/i, /every Apple platform/i]) {
   assert.doesNotMatch(html, forbidden);
@@ -65,7 +72,7 @@ for (const [name, poster, align] of [
   assert.match(html, new RegExp(`data-workflow-video="assets/${name}\\.mp4" data-workflow-poster="assets/product/${poster}\\.png" data-workflow-align="${align}"`));
 }
 
-assert.equal(html.match(/data-adjacent-video-button/g)?.length, 4);
+assert.equal(html.match(/data-adjacent-video-button/g)?.length, 7);
 assert.doesNotMatch(html, /<video[^>]*\scontrols(?:\s|>)/);
 assert.doesNotMatch(html, /class="native-section|<h2>Built natively for Mac\.<\/h2>/);
 assert.doesNotMatch(html, /mac-native\.mp4|product\/mac-native\.png|class="native-media"/);
@@ -74,5 +81,6 @@ assert.match(script, /video\.addEventListener\("playing", \(\) => \{ poster\.hid
 assert.match(script, /video\.addEventListener\("(?:loadstart|error)", \(\) => showVideoPoster\(video\)\)/);
 assert.match(script, /workflowVideo\.poster = step\.dataset\.workflowPoster;\s+showVideoPoster\(workflowVideo\);/);
 assert.match(styles, /\.video-poster \{ position: absolute; inset: 0;[^}]+pointer-events: none;/);
+assert.match(styles, /\.product-story video \{ height: auto; aspect-ratio: 16 \/ 9; \}/);
 assert.match(styles, /\[data-video-align="left"\]\s*\{\s*object-position:\s*left center;/);
 assert.match(styles, /\[data-video-align="right"\]\s*\{\s*object-position:\s*right center;/);
