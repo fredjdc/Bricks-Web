@@ -215,11 +215,12 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     try {
       const response = await fetch(form.action, {
         method: "POST",
-        body: new FormData(form),
-        headers: { Accept: "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        headers: { Accept: "application/json", "Content-Type": "application/json" },
         signal: controller.signal,
       });
-      if (!response.ok) throw new Error(`Form submission failed: ${response.status}`);
+      const data = await response.json();
+      if (!response.ok || ![true, "true"].includes(data.success)) throw new Error(data.message || `Form submission failed: ${response.status}`);
 
       form.reset();
       showEmailStep();

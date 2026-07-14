@@ -9,7 +9,8 @@ const [html, script, styles] = await Promise.all([
 
 assert.equal(html.match(/<h1(?:\s|>)/g)?.length, 1);
 assert.equal(html.match(/<form[^>]*data-signup-form/g)?.length, 2);
-assert.equal(html.match(/action="https:\/\/formsubmit\.co\/ajax\/707e6e012fa931048784ff0f766aa0df"/g)?.length, 2);
+assert.equal(html.match(/action="https:\/\/formsubmit\.co\/ajax\/hello@bricks\.pe"/g)?.length, 2);
+assert.equal(html.match(/name="_url" value="https:\/\/www\.bricks\.pe\/app-preview-editor\/"/g)?.length, 2);
 assert.equal(html.match(/name="signup_intent" value="beta"/g)?.length, 2);
 assert.equal(html.match(/Get Beta Access/g)?.length, 3);
 assert.equal(html.match(/Beta is open\. Applications are reviewed manually\./g)?.length, 2);
@@ -24,7 +25,8 @@ assert.doesNotMatch(html, /hero-workflow|hero-visual|hero-parallax/);
 assert.match(script, /email\.scrollIntoView/);
 assert.match(script, /Add a short answer so we can review your application\./);
 assert.match(script, /Thanks! We’ll review your request and be in touch by email soon\./);
-assert.match(script, /if \(!response\.ok\) throw new Error/);
+assert.match(script, /JSON\.stringify\(Object\.fromEntries\(new FormData\(form\)\)\)/);
+assert.match(script, /!\[true, "true"\]\.includes\(data\.success\)/);
 assert.doesNotMatch(html, /<iframe|target="(?:hero|final)_signup_target"/);
 assert.doesNotMatch(script, /selectedIntent|validateIntent|helperText|buttonText/);
 
