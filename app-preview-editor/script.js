@@ -3,13 +3,9 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 if (!reduceMotion && "IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        if (entry.target.classList.contains("hero-visual")) {
-          entry.target.style.setProperty("--reveal-delay", `${Math.max(0, 720 - performance.now())}ms`);
-        }
-        entry.target.classList.add("is-visible");
-        revealObserver.unobserve(entry.target);
-      }
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      revealObserver.unobserve(entry.target);
     });
   }, { threshold: 0.12 });
 
@@ -19,7 +15,33 @@ if (!reduceMotion && "IntersectionObserver" in window) {
   document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
 }
 
+const setVideoButtonLabel = (video, button, idleLabel = "Play video") => {
+  const label = video.paused ? idleLabel : "Pause video";
+  button.textContent = label;
+  button.setAttribute("aria-label", label);
+};
+
+const connectVideoButton = (video, button, idleLabel) => {
+  if (!video || !button) return;
+  button.addEventListener("click", () => {
+    if (video.paused) video.play().catch(() => setVideoButtonLabel(video, button, idleLabel));
+    else video.pause();
+  });
+  video.addEventListener("play", () => setVideoButtonLabel(video, button, idleLabel));
+  video.addEventListener("pause", () => setVideoButtonLabel(video, button, idleLabel));
+  setVideoButtonLabel(video, button, idleLabel);
+};
+
+document.querySelectorAll("[data-adjacent-video-button]").forEach((button) => {
+  connectVideoButton(button.parentElement.querySelector("video"), button, "Play video");
+});
+
+document.querySelectorAll("[data-video-button]").forEach((button) => {
+  connectVideoButton(document.getElementById(button.getAttribute("aria-controls")), button, "Play the workflow");
+});
+
 const workflowVideo = document.querySelector(".workflow-media video");
+const workflowButton = document.querySelector(".workflow-media [data-adjacent-video-button]");
 const workflowSteps = document.querySelectorAll("[data-workflow-video]");
 const desktopWorkflow = window.matchMedia("(min-width: 900px)");
 
@@ -28,14 +50,13 @@ if (workflowVideo && workflowSteps.length && "IntersectionObserver" in window) {
     workflowSteps.forEach((item) => item.classList.toggle("is-active", item === step));
     workflowVideo.dataset.videoAlign = step.dataset.workflowAlign;
     const source = workflowVideo.querySelector("source");
-    const nextSource = step.dataset.workflowVideo;
-    if (source.getAttribute("src") !== nextSource) {
+    if (source.getAttribute("src") !== step.dataset.workflowVideo) {
       workflowVideo.pause();
       workflowVideo.poster = step.dataset.workflowPoster;
-      source.setAttribute("src", nextSource);
+      source.setAttribute("src", step.dataset.workflowVideo);
       workflowVideo.load();
     }
-    if (!reduceMotion) workflowVideo.play().catch(() => {});
+    if (!reduceMotion) workflowVideo.play().catch(() => setVideoButtonLabel(workflowVideo, workflowButton, "Play video"));
   };
 
   const workflowObserver = new IntersectionObserver((entries) => {
@@ -60,100 +81,116 @@ if (workflowVideo && workflowSteps.length && "IntersectionObserver" in window) {
   });
 }
 
-const heroVideo = document.querySelector(".hero-result-video");
-const heroVideoToggle = document.querySelector(".hero-video-toggle");
-const heroVisual = document.querySelector(".hero-visual");
-
-if (heroVideo && heroVideoToggle) {
-  const updateHeroVideoToggle = () => {
-    const action = heroVideo.paused ? "Play" : "Pause";
-    heroVideoToggle.textContent = `${action} preview`;
-    heroVideoToggle.setAttribute("aria-label", `${action} App Preview`);
-  };
-
-  heroVideo.addEventListener("play", updateHeroVideoToggle);
-  heroVideo.addEventListener("pause", updateHeroVideoToggle);
-  heroVideoToggle.addEventListener("click", () => {
-    if (heroVideo.paused) heroVideo.play().catch(updateHeroVideoToggle);
-    else heroVideo.pause();
-  });
-
-  if (!reduceMotion && heroVisual) {
-    const playAfterReveal = (event) => {
-      if (event.target !== heroVisual) return;
-      heroVisual.removeEventListener("transitionend", playAfterReveal);
-      if (heroVideo.paused) heroVideo.play().catch(updateHeroVideoToggle);
-    };
-    heroVisual.addEventListener("transitionend", playAfterReveal);
-  }
-  updateHeroVideoToggle();
-}
-
+const observedVideos = document.querySelectorAll("video");
 const autoplayVideos = document.querySelectorAll("[data-autoplay-video]");
 
-document.querySelectorAll("[data-toggle-video]").forEach((video) => {
-  const togglePlayback = () => {
-    if (video.paused) video.play().catch(() => {});
-    else video.pause();
-  };
-  video.addEventListener("click", togglePlayback);
-  video.addEventListener("keydown", (event) => {
-    if (event.key !== " " && event.key !== "Enter") return;
-    event.preventDefault();
-    togglePlayback();
-  });
-});
-
-if (!reduceMotion && autoplayVideos.length) {
+if (!reduceMotion && observedVideos.length) {
   if ("IntersectionObserver" in window) {
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.play().catch(() => {});
+        if (entry.isIntersecting && entry.target.hasAttribute("data-autoplay-video")) entry.target.play().catch(() => {});
         else entry.target.pause();
       });
     }, { rootMargin: "120px 0px" });
-
-    autoplayVideos.forEach((video) => videoObserver.observe(video));
+    observedVideos.forEach((video) => videoObserver.observe(video));
   } else {
     autoplayVideos.forEach((video) => video.play().catch(() => {}));
   }
+} else {
+  autoplayVideos.forEach((video) => video.pause());
 }
 
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
   const frame = document.querySelector(`iframe[name="${form.target}"]`);
-  const button = form.querySelector("button[type='submit']");
-  const buttonLabel = button.querySelector("span");
-  const betaAccess = form.querySelector("[name='beta_access']");
+  const emailStep = form.querySelector('[data-signup-step="email"]');
+  const betaStep = form.querySelector('[data-signup-step="beta"]');
+  const email = form.querySelector('[name="email"]');
   const status = form.querySelector(".form-status");
+  const betaButtonLabel = betaStep.querySelector("button[type='submit'] span");
+  const building = form.querySelector('[name="building"]');
+  const appLink = form.querySelector('[name="app_link"]');
+  const challenge = form.querySelector('[name="preview_challenge"]');
   let submitting = false;
   let timeout;
 
-  const updateButtonLabel = () => {
-    if (!button.disabled) buttonLabel.textContent = betaAccess.checked ? "Invite Me" : "Notify Me";
+  const setStatus = (message = "", state = "") => {
+    status.textContent = message;
+    status.dataset.state = state;
+  };
+  const showEmailStep = () => {
+    betaStep.hidden = true;
+    emailStep.hidden = false;
+    form.dataset.betaReady = "false";
+  };
+  const showBetaStep = () => {
+    emailStep.hidden = true;
+    betaStep.hidden = false;
+    form.dataset.betaReady = "true";
+    setStatus();
+    building.focus();
+  };
+  const validateEmail = () => {
+    const valid = email.value.trim() && email.validity.valid;
+    email.setAttribute("aria-invalid", String(!valid));
+    if (!valid) {
+      setStatus("Enter a valid email address.", "error");
+      email.focus();
+    }
+    return valid;
+  };
+  const validateBetaApplication = () => {
+    for (const field of [building, challenge]) {
+      const valid = field.value.trim().length > 0;
+      field.setAttribute("aria-invalid", String(!valid));
+      if (!valid) {
+        setStatus("Add a short answer so we can review your application.", "error");
+        field.focus();
+        return false;
+      }
+    }
+    if (appLink.value.trim() && !appLink.validity.valid) {
+      appLink.setAttribute("aria-invalid", "true");
+      setStatus("Enter a complete link or leave this field empty.", "error");
+      appLink.focus();
+      return false;
+    }
+    appLink.removeAttribute("aria-invalid");
+    return true;
   };
 
-  betaAccess.addEventListener("change", updateButtonLabel);
+  form.querySelector("[data-beta-back]").addEventListener("click", () => {
+    showEmailStep();
+    email.focus();
+  });
 
   form.addEventListener("submit", (event) => {
-    if (!form.checkValidity()) {
+    if (!validateEmail()) {
       event.preventDefault();
-      form.reportValidity();
+      return;
+    }
+
+    if (form.dataset.betaReady !== "true") {
+      event.preventDefault();
+      showBetaStep();
+      return;
+    }
+    if (!validateBetaApplication()) {
+      event.preventDefault();
       return;
     }
 
     submitting = true;
-    button.disabled = true;
-    buttonLabel.textContent = "Sending…";
-    status.textContent = "Submitting your request…";
-    status.dataset.state = "";
+    const submitButton = event.submitter || betaStep.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.querySelector("span").textContent = "Sending...";
+    setStatus("Submitting your request...");
 
     timeout = window.setTimeout(() => {
       if (!submitting) return;
       submitting = false;
-      button.disabled = false;
-      buttonLabel.textContent = "Try again";
-      status.textContent = "We couldn’t confirm the submission. Check your connection and try again.";
-      status.dataset.state = "error";
+      submitButton.disabled = false;
+      submitButton.querySelector("span").textContent = "Submit beta application";
+      setStatus("Something went wrong. Your information was not submitted. Please try again.", "error");
     }, 15000);
   });
 
@@ -161,10 +198,25 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     if (!submitting) return;
     window.clearTimeout(timeout);
     submitting = false;
+    form.querySelectorAll("button").forEach((button) => { button.disabled = false; });
     form.reset();
-    button.disabled = false;
-    updateButtonLabel();
-    status.textContent = "Thanks. Your request has been received.";
-    status.dataset.state = "success";
+    betaButtonLabel.textContent = "Submit beta application";
+    showEmailStep();
+    setStatus("Thanks! Your application has been received. We'll review it and contact you by email if you're selected.", "success");
+  });
+});
+
+document.querySelectorAll("[data-beta-cta]").forEach((cta) => {
+  cta.addEventListener("click", (event) => {
+    event.preventDefault();
+    const form = document.querySelector('[data-signup-form][data-placement="hero"]');
+    const emailStep = form.querySelector('[data-signup-step="email"]');
+    const betaStep = form.querySelector('[data-signup-step="beta"]');
+    const email = form.querySelector('[name="email"]');
+    emailStep.hidden = false;
+    betaStep.hidden = true;
+    form.dataset.betaReady = "false";
+    email.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+    window.setTimeout(() => email.focus(), reduceMotion ? 0 : 350);
   });
 });

@@ -6,12 +6,28 @@ const [html, script, styles] = await Promise.all([
   readFile(new URL("script.js", import.meta.url), "utf8"),
   readFile(new URL("styles.css", import.meta.url), "utf8"),
 ]);
-assert.doesNotMatch(html, /<video[^>]*\scontrols(?:\s|>)/);
-assert.equal(html.match(/<video[^>]*data-toggle-video/g)?.length, 5);
-assert.equal(html.match(/<video[^>]*data-video-align="left"/g)?.length, 2);
-assert.equal(html.match(/<video[^>]*data-video-align="right"/g)?.length, 1);
-assert.match(script, /video\.addEventListener\("click", togglePlayback\)/);
-assert.match(script, /event\.key !== " " && event\.key !== "Enter"/);
+
+assert.equal(html.match(/<h1(?:\s|>)/g)?.length, 1);
+assert.equal(html.match(/<form[^>]*data-signup-form/g)?.length, 2);
+assert.equal(html.match(/name="signup_intent" value="beta"/g)?.length, 2);
+assert.equal(html.match(/Apply for Beta/g)?.length, 3);
+assert.equal(html.match(/Your email is only used to process your beta application\./g)?.length, 2);
+assert.equal(html.match(/What are you building\?/g)?.length, 2);
+assert.equal(html.match(/App or website \(optional\)/g)?.length, 2);
+assert.equal(html.match(/What's the hardest part about creating App Preview videos\?/g)?.length, 2);
+assert.match(html, /Ready to spend less time making App Preview videos\?/);
+assert.equal(html.match(/data-beta-back/g)?.length, 2);
+assert.match(html, /data-beta-cta/);
+assert.doesNotMatch(html, /<fieldset|type="radio"|value="launch"|launch_updates|Notify me|Choose an option/);
+assert.doesNotMatch(html, /hero-workflow|hero-visual|hero-parallax/);
+assert.match(script, /email\.scrollIntoView/);
+assert.match(script, /Add a short answer so we can review your application\./);
+assert.match(script, /Thanks! Your application has been received\. We'll review it and contact you by email if you're selected\./);
+assert.doesNotMatch(script, /selectedIntent|validateIntent|helperText|buttonText/);
+
+for (const forbidden of [/waitlist/i, /App Store Preview/i, /Smart Actions/i, /every Apple platform/i]) {
+  assert.doesNotMatch(html, forbidden);
+}
 
 for (const [name, poster, align] of [
   ["drop-demo", "drop-import", "left"],
@@ -19,11 +35,10 @@ for (const [name, poster, align] of [
   ["upload-demo", "upload-validation", "right"],
 ]) {
   assert.match(html, new RegExp(`data-workflow-video="assets/${name}\\.mp4" data-workflow-poster="assets/product/${poster}\\.png" data-workflow-align="${align}"`));
-  const video = html.match(new RegExp(`<video[^>]*poster="assets/product/${poster}\\.png"[^>]*>[\\s\\S]*?<source src="assets/${name}\\.mp4"[\\s\\S]*?</video>`));
-  assert.ok(video);
-  assert.match(video[0], /data-toggle-video/);
-  assert.doesNotMatch(video[0].split(">")[0], /\scontrols(?:\s|$)/);
 }
+
+assert.equal(html.match(/data-adjacent-video-button/g)?.length, 5);
+assert.doesNotMatch(html, /<video[^>]*\scontrols(?:\s|>)/);
 assert.match(script, /workflowVideo\.dataset\.videoAlign = step\.dataset\.workflowAlign/);
 assert.match(styles, /\[data-video-align="left"\]\s*\{\s*object-position:\s*left center;/);
 assert.match(styles, /\[data-video-align="right"\]\s*\{\s*object-position:\s*right center;/);
