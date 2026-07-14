@@ -1,2486 +1,3132 @@
 {
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
   "nodes": [
     {
-      "id": "compiled_refinance",
+      "label": "script.js",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_preview_editor_script",
+      "community": 4,
+      "norm_label": "script.js"
+    },
+    {
+      "label": "showVideoPoster()",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_showvideoposter",
+      "community": 4,
+      "norm_label": "showvideoposter()"
+    },
+    {
+      "label": "philosophyStage",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_philosophystage",
+      "community": 4,
+      "norm_label": "philosophystage"
+    },
+    {
+      "label": "nearestPhilosophyLineIndex()",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_nearestphilosophylineindex",
+      "community": 4,
+      "norm_label": "nearestphilosophylineindex()"
+    },
+    {
+      "label": "setVideoButtonLabel()",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_setvideobuttonlabel",
+      "community": 4,
+      "norm_label": "setvideobuttonlabel()"
+    },
+    {
+      "label": "connectVideoButton()",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_connectvideobutton",
+      "community": 4,
+      "norm_label": "connectvideobutton()"
+    },
+    {
+      "label": "workflowVideo",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L91",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_workflowvideo",
+      "community": 4,
+      "norm_label": "workflowvideo"
+    },
+    {
+      "label": "workflowButton",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L92",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_workflowbutton",
+      "community": 4,
+      "norm_label": "workflowbutton"
+    },
+    {
+      "label": "workflowSteps",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L93",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_workflowsteps",
+      "community": 4,
+      "norm_label": "workflowsteps"
+    },
+    {
+      "label": "desktopWorkflow",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_desktopworkflow",
+      "community": 4,
+      "norm_label": "desktopworkflow"
+    },
+    {
+      "label": "observedVideos",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L133",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_observedvideos",
+      "community": 4,
+      "norm_label": "observedvideos"
+    },
+    {
+      "label": "autoplayVideos",
+      "file_type": "code",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L134",
+      "_origin": "ast",
+      "id": "app_preview_editor_script_autoplayvideos",
+      "community": 4,
+      "norm_label": "autoplayvideos"
+    },
+    {
+      "label": "workflow-video.test.mjs",
+      "file_type": "code",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_preview_editor_workflow_video_test",
+      "community": 7,
+      "norm_label": "workflow-video.test.mjs"
+    },
+    {
+      "label": "workflowEnd",
+      "file_type": "code",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "app_preview_editor_workflow_video_test_workflowend",
+      "community": 7,
+      "norm_label": "workflowend"
+    },
+    {
+      "label": "philosophyStart",
+      "file_type": "code",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "app_preview_editor_workflow_video_test_philosophystart",
+      "community": 7,
+      "norm_label": "philosophystart"
+    },
+    {
+      "label": "productTourStart",
+      "file_type": "code",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "app_preview_editor_workflow_video_test_producttourstart",
+      "community": 7,
+      "norm_label": "producttourstart"
+    },
+    {
+      "label": "nearestLine",
+      "file_type": "code",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L53",
+      "_origin": "ast",
+      "id": "app_preview_editor_workflow_video_test_nearestline",
+      "community": 7,
+      "norm_label": "nearestline"
+    },
+    {
+      "label": "storyOrder",
+      "file_type": "code",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "app_preview_editor_workflow_video_test_storyorder",
+      "community": 7,
+      "norm_label": "storyorder"
+    },
+    {
       "label": "refinance.js",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance",
+      "community": 0,
+      "norm_label": "refinance.js"
     },
     {
-      "id": "compiled_refinance_extends",
       "label": "_extends()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_extends",
+      "community": 0,
+      "norm_label": "_extends()"
     },
     {
-      "id": "compiled_refinance_togglegroup",
       "label": "ToggleGroup()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1099",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_togglegroup",
+      "community": 0,
+      "norm_label": "togglegroup()"
     },
     {
-      "id": "compiled_refinance_socialicon",
       "label": "SocialIcon()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1155",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_socialicon",
+      "community": 0,
+      "norm_label": "socialicon()"
     },
     {
-      "id": "compiled_refinance_tweakpersist",
       "label": "tweakPersist()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1268",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_tweakpersist",
+      "community": 0,
+      "norm_label": "tweakpersist()"
     },
     {
-      "id": "compiled_refinance_tweakrow",
       "label": "TweakRow()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1274",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_tweakrow",
+      "community": 0,
+      "norm_label": "tweakrow()"
     },
     {
-      "id": "compiled_refinance_tweakbtn",
       "label": "tweakBtn()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1296",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_tweakbtn",
+      "community": 0,
+      "norm_label": "tweakbtn()"
     },
     {
-      "id": "compiled_refinance_calc_copy",
       "label": "CALC_COPY",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1310",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calc_copy",
+      "community": 0,
+      "norm_label": "calc_copy"
     },
     {
-      "id": "compiled_refinance_calchero",
       "label": "CalcHero()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1665",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calchero",
+      "community": 0,
+      "norm_label": "calchero()"
     },
     {
-      "id": "compiled_refinance_calcstats",
       "label": "CalcStats()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1773",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calcstats",
+      "community": 0,
+      "norm_label": "calcstats()"
     },
     {
-      "id": "compiled_refinance_statcell",
       "label": "StatCell()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1847",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_statcell",
+      "community": 0,
+      "norm_label": "statcell()"
     },
     {
-      "id": "compiled_refinance_calcpillars",
       "label": "CalcPillars()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1873",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calcpillars",
+      "community": 0,
+      "norm_label": "calcpillars()"
     },
     {
-      "id": "compiled_refinance_calcfeaturesplit",
       "label": "CalcFeatureSplit()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L1979",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calcfeaturesplit",
+      "community": 0,
+      "norm_label": "calcfeaturesplit()"
     },
     {
-      "id": "compiled_refinance_calctestimonials",
       "label": "CalcTestimonials()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2073",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calctestimonials",
+      "community": 0,
+      "norm_label": "calctestimonials()"
     },
     {
-      "id": "compiled_refinance_calcsocialfeed",
       "label": "CalcSocialFeed()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2159",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calcsocialfeed",
+      "community": 0,
+      "norm_label": "calcsocialfeed()"
     },
     {
-      "id": "compiled_refinance_calcfaq",
       "label": "CalcFAQ()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2303",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calcfaq",
+      "community": 0,
+      "norm_label": "calcfaq()"
     },
     {
-      "id": "compiled_refinance_calcecosystem",
       "label": "CalcEcosystem()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2403",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_calcecosystem",
+      "community": 0,
+      "norm_label": "calcecosystem()"
     },
     {
-      "id": "compiled_refinance_tweak_defaults",
       "label": "TWEAK_DEFAULTS",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2514",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_tweak_defaults",
+      "community": 0,
+      "norm_label": "tweak_defaults"
     },
     {
-      "id": "compiled_refinance_getinitiallang",
       "label": "getInitialLang()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2518",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_getinitiallang",
+      "community": 0,
+      "norm_label": "getinitiallang()"
     },
     {
-      "id": "compiled_refinance_setmetacontent",
       "label": "setMetaContent()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2523",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_setmetacontent",
+      "community": 0,
+      "norm_label": "setmetacontent()"
     },
     {
-      "id": "compiled_refinance_app",
       "label": "App()",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2527",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_app",
+      "community": 0,
+      "norm_label": "app()"
     },
     {
-      "id": "compiled_refinance_root",
       "label": "root",
       "file_type": "code",
       "source_file": "compiled/refinance.js",
       "source_location": "L2628",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinance_root",
+      "community": 0,
+      "norm_label": "root"
     },
     {
-      "id": "compiled_refinanciamiento",
       "label": "refinanciamiento.js",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento",
+      "community": 1,
+      "norm_label": "refinanciamiento.js"
     },
     {
-      "id": "compiled_refinanciamiento_extends",
       "label": "_extends()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_extends",
+      "community": 1,
+      "norm_label": "_extends()"
     },
     {
-      "id": "compiled_refinanciamiento_togglegroup",
       "label": "ToggleGroup()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1099",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_togglegroup",
+      "community": 1,
+      "norm_label": "togglegroup()"
     },
     {
-      "id": "compiled_refinanciamiento_socialicon",
       "label": "SocialIcon()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1155",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_socialicon",
+      "community": 1,
+      "norm_label": "socialicon()"
     },
     {
-      "id": "compiled_refinanciamiento_tweakpersist",
       "label": "tweakPersist()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1268",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_tweakpersist",
+      "community": 1,
+      "norm_label": "tweakpersist()"
     },
     {
-      "id": "compiled_refinanciamiento_tweakrow",
       "label": "TweakRow()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1274",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_tweakrow",
+      "community": 1,
+      "norm_label": "tweakrow()"
     },
     {
-      "id": "compiled_refinanciamiento_tweakbtn",
       "label": "tweakBtn()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1296",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_tweakbtn",
+      "community": 1,
+      "norm_label": "tweakbtn()"
     },
     {
-      "id": "compiled_refinanciamiento_calc_copy",
       "label": "CALC_COPY",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1310",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calc_copy",
+      "community": 1,
+      "norm_label": "calc_copy"
     },
     {
-      "id": "compiled_refinanciamiento_calchero",
       "label": "CalcHero()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1665",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calchero",
+      "community": 1,
+      "norm_label": "calchero()"
     },
     {
-      "id": "compiled_refinanciamiento_calcstats",
       "label": "CalcStats()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1773",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calcstats",
+      "community": 1,
+      "norm_label": "calcstats()"
     },
     {
-      "id": "compiled_refinanciamiento_statcell",
       "label": "StatCell()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1847",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_statcell",
+      "community": 1,
+      "norm_label": "statcell()"
     },
     {
-      "id": "compiled_refinanciamiento_calcpillars",
       "label": "CalcPillars()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1873",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calcpillars",
+      "community": 1,
+      "norm_label": "calcpillars()"
     },
     {
-      "id": "compiled_refinanciamiento_calcfeaturesplit",
       "label": "CalcFeatureSplit()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1979",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calcfeaturesplit",
+      "community": 1,
+      "norm_label": "calcfeaturesplit()"
     },
     {
-      "id": "compiled_refinanciamiento_calctestimonials",
       "label": "CalcTestimonials()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2073",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calctestimonials",
+      "community": 1,
+      "norm_label": "calctestimonials()"
     },
     {
-      "id": "compiled_refinanciamiento_calcsocialfeed",
       "label": "CalcSocialFeed()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2159",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calcsocialfeed",
+      "community": 1,
+      "norm_label": "calcsocialfeed()"
     },
     {
-      "id": "compiled_refinanciamiento_calcfaq",
       "label": "CalcFAQ()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2303",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calcfaq",
+      "community": 1,
+      "norm_label": "calcfaq()"
     },
     {
-      "id": "compiled_refinanciamiento_calcecosystem",
       "label": "CalcEcosystem()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2403",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_calcecosystem",
+      "community": 1,
+      "norm_label": "calcecosystem()"
     },
     {
-      "id": "compiled_refinanciamiento_tweak_defaults",
       "label": "TWEAK_DEFAULTS",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2514",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_tweak_defaults",
+      "community": 1,
+      "norm_label": "tweak_defaults"
     },
     {
-      "id": "compiled_refinanciamiento_getinitiallang",
       "label": "getInitialLang()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2518",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_getinitiallang",
+      "community": 1,
+      "norm_label": "getinitiallang()"
     },
     {
-      "id": "compiled_refinanciamiento_setmetacontent",
       "label": "setMetaContent()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2523",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_setmetacontent",
+      "community": 1,
+      "norm_label": "setmetacontent()"
     },
     {
-      "id": "compiled_refinanciamiento_app",
       "label": "App()",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2527",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_app",
+      "community": 1,
+      "norm_label": "app()"
     },
     {
-      "id": "compiled_refinanciamiento_root",
       "label": "root",
       "file_type": "code",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2628",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "compiled_refinanciamiento_root",
+      "community": 1,
+      "norm_label": "root"
     },
     {
-      "id": "formatfilesize_test",
       "label": "formatFileSize.test.js",
       "file_type": "code",
       "source_file": "formatFileSize.test.js",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "formatfilesize_test",
+      "community": 8,
+      "norm_label": "formatfilesize.test.js"
     },
     {
-      "id": "formatfilesize_test_fs",
       "label": "fs",
       "file_type": "code",
       "source_file": "formatFileSize.test.js",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "formatfilesize_test_fs",
+      "community": 8,
+      "norm_label": "fs"
     },
     {
-      "id": "formatfilesize_test_test",
       "label": "test",
       "file_type": "code",
       "source_file": "formatFileSize.test.js",
       "source_location": "L2",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "formatfilesize_test_test",
+      "community": 8,
+      "norm_label": "test"
     },
     {
-      "id": "formatfilesize_test_assert",
       "label": "assert",
       "file_type": "code",
       "source_file": "formatFileSize.test.js",
       "source_location": "L3",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "formatfilesize_test_assert",
+      "community": 8,
+      "norm_label": "assert"
     },
     {
-      "id": "formatfilesize_test_getformatfilesize",
       "label": "getFormatFileSize()",
       "file_type": "code",
       "source_file": "formatFileSize.test.js",
       "source_location": "L5",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "formatfilesize_test_getformatfilesize",
+      "community": 8,
+      "norm_label": "getformatfilesize()"
     },
     {
-      "id": "formatfilesize_test_filestotest",
       "label": "filesToTest",
       "file_type": "code",
       "source_file": "formatFileSize.test.js",
       "source_location": "L14",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "formatfilesize_test_filestotest",
+      "community": 8,
+      "norm_label": "filestotest"
     },
     {
-      "id": "generate_scan",
       "label": "generate_scan.py",
       "file_type": "code",
       "source_file": "generate_scan.py",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "generate_scan",
+      "community": 12,
+      "norm_label": "generate_scan.py"
     },
     {
-      "id": "hero_background",
       "label": "hero-background.js",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background",
+      "community": 9,
+      "norm_label": "hero-background.js"
     },
     {
-      "id": "hero_background_particle",
       "label": "Particle",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L6",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_particle",
+      "community": 9,
+      "norm_label": "particle"
     },
     {
-      "id": "hero_background_particle_constructor",
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L7",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_particle_constructor",
+      "community": 9,
+      "norm_label": ".constructor()"
     },
     {
-      "id": "hero_background_particle_reset",
       "label": ".reset()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L15",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_particle_reset",
+      "community": 9,
+      "norm_label": ".reset()"
     },
     {
-      "id": "hero_background_particle_update",
       "label": ".update()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L28",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_particle_update",
+      "community": 9,
+      "norm_label": ".update()"
     },
     {
-      "id": "hero_background_particle_draw",
       "label": ".draw()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L39",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_particle_draw",
+      "community": 9,
+      "norm_label": ".draw()"
     },
     {
-      "id": "hero_background_animatedbackground",
       "label": "AnimatedBackground",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L47",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground",
+      "community": 5,
+      "norm_label": "animatedbackground"
     },
     {
-      "id": "hero_background_animatedbackground_constructor",
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L48",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_constructor",
+      "community": 5,
+      "norm_label": ".constructor()"
     },
     {
-      "id": "hero_background_animatedbackground_init",
       "label": ".init()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L80",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_init",
+      "community": 5,
+      "norm_label": ".init()"
     },
     {
-      "id": "hero_background_animatedbackground_resize",
       "label": ".resize()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L90",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_resize",
+      "community": 5,
+      "norm_label": ".resize()"
     },
     {
-      "id": "hero_background_animatedbackground_createmeshpoints",
       "label": ".createMeshPoints()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L112",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_createmeshpoints",
+      "community": 5,
+      "norm_label": ".createmeshpoints()"
     },
     {
-      "id": "hero_background_animatedbackground_createparticles",
       "label": ".createParticles()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L134",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_createparticles",
+      "community": 5,
+      "norm_label": ".createparticles()"
     },
     {
-      "id": "hero_background_animatedbackground_updatemeshpoints",
       "label": ".updateMeshPoints()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L141",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_updatemeshpoints",
+      "community": 5,
+      "norm_label": ".updatemeshpoints()"
     },
     {
-      "id": "hero_background_animatedbackground_updateparticles",
       "label": ".updateParticles()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L148",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_updateparticles",
+      "community": 5,
+      "norm_label": ".updateparticles()"
     },
     {
-      "id": "hero_background_animatedbackground_drawgradientmesh",
       "label": ".drawGradientMesh()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L154",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_drawgradientmesh",
+      "community": 5,
+      "norm_label": ".drawgradientmesh()"
     },
     {
-      "id": "hero_background_animatedbackground_drawparticles",
       "label": ".drawParticles()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L181",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_drawparticles",
+      "community": 5,
+      "norm_label": ".drawparticles()"
     },
     {
-      "id": "hero_background_animatedbackground_animate",
       "label": ".animate()",
       "file_type": "code",
       "source_file": "hero-background.js",
       "source_location": "L187",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "hero_background_animatedbackground_animate",
+      "community": 5,
+      "norm_label": ".animate()"
     },
     {
-      "id": "living_page",
       "label": "living-page.jsx",
       "file_type": "code",
       "source_file": "living-page.jsx",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "living_page",
+      "community": 13,
+      "norm_label": "living-page.jsx"
     },
     {
-      "id": "package",
       "label": "package.json",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package",
+      "community": 6,
+      "norm_label": "package.json"
     },
     {
-      "id": "package_name",
       "label": "name",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L2",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_name",
+      "community": 6,
+      "norm_label": "name"
     },
     {
-      "id": "package_private",
       "label": "private",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L3",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_private",
+      "community": 6,
+      "norm_label": "private"
     },
     {
-      "id": "package_type",
       "label": "type",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L4",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_type",
+      "community": 6,
+      "norm_label": "type"
     },
     {
-      "id": "package_scripts",
       "label": "scripts",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L5",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_scripts",
+      "community": 6,
+      "norm_label": "scripts"
     },
     {
-      "id": "package_scripts_build_jsx",
       "label": "build:jsx",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L6",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_scripts_build_jsx",
+      "community": 6,
+      "norm_label": "build:jsx"
     },
     {
-      "id": "package_scripts_watch_jsx",
       "label": "watch:jsx",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L7",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_scripts_watch_jsx",
+      "community": 6,
+      "norm_label": "watch:jsx"
     },
     {
-      "id": "package_scripts_check_jsx",
       "label": "check:jsx",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L8",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_scripts_check_jsx",
+      "community": 6,
+      "norm_label": "check:jsx"
     },
     {
-      "id": "package_scripts_apply_jsx",
       "label": "apply:jsx",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L9",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_scripts_apply_jsx",
+      "community": 6,
+      "norm_label": "apply:jsx"
     },
     {
-      "id": "package_devdependencies",
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L11",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_devdependencies",
+      "community": 6,
+      "norm_label": "devdependencies"
     },
     {
-      "id": "package_devdependencies_esbuild",
       "label": "esbuild",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L12",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "package_devdependencies_esbuild",
+      "community": 6,
+      "norm_label": "esbuild"
     },
     {
-      "id": "replace_styles",
       "label": "replace_styles.py",
       "file_type": "code",
       "source_file": "replace_styles.py",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "replace_styles",
+      "community": 14,
+      "norm_label": "replace_styles.py"
     },
     {
-      "id": "scripts",
       "label": "scripts.js",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts",
+      "community": 2,
+      "norm_label": "scripts.js"
     },
     {
-      "id": "scripts_debounce",
       "label": "debounce()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L80",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_debounce",
+      "community": 2,
+      "norm_label": "debounce()"
     },
     {
-      "id": "scripts_setupintersectionobserver",
       "label": "setupIntersectionObserver()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L95",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_setupintersectionobserver",
+      "community": 2,
+      "norm_label": "setupintersectionobserver()"
     },
     {
-      "id": "scripts_herowordcontrollers",
       "label": "heroWordControllers",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L126",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_herowordcontrollers",
+      "community": 2,
+      "norm_label": "herowordcontrollers"
     },
     {
-      "id": "scripts_createherowordcontroller",
       "label": "createHeroWordController()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L133",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_createherowordcontroller",
+      "community": 2,
+      "norm_label": "createherowordcontroller()"
     },
     {
-      "id": "scripts_initializeherowordswap",
       "label": "initializeHeroWordSwap()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L275",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_initializeherowordswap",
+      "community": 2,
+      "norm_label": "initializeherowordswap()"
     },
     {
-      "id": "scripts_updateherowordswapforlanguage",
       "label": "updateHeroWordSwapForLanguage()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L289",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_updateherowordswapforlanguage",
+      "community": 2,
+      "norm_label": "updateherowordswapforlanguage()"
     },
     {
-      "id": "scripts_detectuserlanguage",
       "label": "detectUserLanguage()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L299",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_detectuserlanguage",
+      "community": 2,
+      "norm_label": "detectuserlanguage()"
     },
     {
-      "id": "scripts_changelanguage",
       "label": "changeLanguage()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L308",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_changelanguage",
+      "community": 2,
+      "norm_label": "changelanguage()"
     },
     {
-      "id": "scripts_updateplaceholders",
       "label": "updatePlaceholders()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L355",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_updateplaceholders",
+      "community": 2,
+      "norm_label": "updateplaceholders()"
     },
     {
-      "id": "scripts_updateappscreenshots",
       "label": "updateAppScreenshots()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L393",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_updateappscreenshots",
+      "community": 2,
+      "norm_label": "updateappscreenshots()"
     },
     {
-      "id": "scripts_initappsparallax",
       "label": "initAppsParallax()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L558",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_initappsparallax",
+      "community": 2,
+      "norm_label": "initappsparallax()"
     },
     {
-      "id": "scripts_setuplanguageswitcher",
       "label": "setupLanguageSwitcher()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L622",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_setuplanguageswitcher",
+      "community": 2,
+      "norm_label": "setuplanguageswitcher()"
     },
     {
-      "id": "scripts_initializecookieconsent",
       "label": "initializeCookieConsent()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L673",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_initializecookieconsent",
+      "community": 2,
+      "norm_label": "initializecookieconsent()"
     },
     {
-      "id": "scripts_initbricksscananimations",
       "label": "initBricksScanAnimations()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L716",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_initbricksscananimations",
+      "community": 2,
+      "norm_label": "initbricksscananimations()"
     },
     {
-      "id": "scripts_setupmicroanimations",
       "label": "setupMicroAnimations()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L867",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_setupmicroanimations",
+      "community": 2,
+      "norm_label": "setupmicroanimations()"
     },
     {
-      "id": "scripts_initializedesktopbanner",
       "label": "initializeDesktopBanner()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L978",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_initializedesktopbanner",
+      "community": 2,
+      "norm_label": "initializedesktopbanner()"
     },
     {
-      "id": "scripts_initprivacycards",
       "label": "initPrivacyCards()",
       "file_type": "code",
       "source_file": "scripts.js",
       "source_location": "L1001",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_initprivacycards",
+      "community": 2,
+      "norm_label": "initprivacycards()"
     },
     {
-      "id": "scripts_precompile_jsx",
       "label": "precompile-jsx.mjs",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx",
+      "community": 3,
+      "norm_label": "precompile-jsx.mjs"
     },
     {
-      "id": "scripts_precompile_jsx_root",
       "label": "ROOT",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L6",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_root",
+      "community": 3,
+      "norm_label": "root"
     },
     {
-      "id": "scripts_precompile_jsx_out_dir",
       "label": "OUT_DIR",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L7",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_out_dir",
+      "community": 3,
+      "norm_label": "out_dir"
     },
     {
-      "id": "scripts_precompile_jsx_pages",
       "label": "PAGES",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L8",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_pages",
+      "community": 3,
+      "norm_label": "pages"
     },
     {
-      "id": "scripts_precompile_jsx_args",
       "label": "args",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L24",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_args",
+      "community": 3,
+      "norm_label": "args"
     },
     {
-      "id": "scripts_precompile_jsx_shouldwatch",
       "label": "shouldWatch",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L25",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_shouldwatch",
+      "community": 3,
+      "norm_label": "shouldwatch"
     },
     {
-      "id": "scripts_precompile_jsx_shouldcheck",
       "label": "shouldCheck",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L26",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_shouldcheck",
+      "community": 3,
+      "norm_label": "shouldcheck"
     },
     {
-      "id": "scripts_precompile_jsx_shouldapplyhtml",
       "label": "shouldApplyHtml",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L27",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_shouldapplyhtml",
+      "community": 3,
+      "norm_label": "shouldapplyhtml"
     },
     {
-      "id": "scripts_precompile_jsx_getbabelscriptregex",
       "label": "getBabelScriptRegex()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L32",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_getbabelscriptregex",
+      "community": 3,
+      "norm_label": "getbabelscriptregex()"
     },
     {
-      "id": "scripts_precompile_jsx_pagetobundle",
       "label": "pageToBundle()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L36",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_pagetobundle",
+      "community": 3,
+      "norm_label": "pagetobundle()"
     },
     {
-      "id": "scripts_precompile_jsx_extractbabelblocks",
       "label": "extractBabelBlocks()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L40",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_extractbabelblocks",
+      "community": 3,
+      "norm_label": "extractbabelblocks()"
     },
     {
-      "id": "scripts_precompile_jsx_ensuredir",
       "label": "ensureDir()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L50",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_ensuredir",
+      "community": 3,
+      "norm_label": "ensuredir()"
     },
     {
-      "id": "scripts_precompile_jsx_readpage",
       "label": "readPage()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L54",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_readpage",
+      "community": 3,
+      "norm_label": "readpage()"
     },
     {
-      "id": "scripts_precompile_jsx_buildpage",
       "label": "buildPage()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L60",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_buildpage",
+      "community": 3,
+      "norm_label": "buildpage()"
     },
     {
-      "id": "scripts_precompile_jsx_checkpage",
       "label": "checkPage()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L95",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_checkpage",
+      "community": 3,
+      "norm_label": "checkpage()"
     },
     {
-      "id": "scripts_precompile_jsx_applyhtml",
       "label": "applyHtml()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L114",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_applyhtml",
+      "community": 3,
+      "norm_label": "applyhtml()"
     },
     {
-      "id": "scripts_precompile_jsx_main",
       "label": "main()",
       "file_type": "code",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L134",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "scripts_precompile_jsx_main",
+      "community": 3,
+      "norm_label": "main()"
     },
     {
-      "id": "shared",
       "label": "shared.jsx",
       "file_type": "code",
       "source_file": "shared.jsx",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared",
+      "community": 10,
+      "norm_label": "shared.jsx"
     },
     {
-      "id": "shared_togglegroup",
       "label": "ToggleGroup()",
       "file_type": "code",
       "source_file": "shared.jsx",
       "source_location": "L703",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_togglegroup",
+      "community": 10,
+      "norm_label": "togglegroup()"
     },
     {
-      "id": "shared_socialicon",
       "label": "SocialIcon()",
       "file_type": "code",
       "source_file": "shared.jsx",
       "source_location": "L730",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_socialicon",
+      "community": 10,
+      "norm_label": "socialicon()"
     },
     {
-      "id": "shared_tweakpersist",
       "label": "tweakPersist()",
       "file_type": "code",
       "source_file": "shared.jsx",
       "source_location": "L787",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_tweakpersist",
+      "community": 10,
+      "norm_label": "tweakpersist()"
     },
     {
-      "id": "shared_tweakrow",
       "label": "TweakRow()",
       "file_type": "code",
       "source_file": "shared.jsx",
       "source_location": "L790",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_tweakrow",
+      "community": 10,
+      "norm_label": "tweakrow()"
     },
     {
-      "id": "shared_tweakbtn",
       "label": "tweakBtn()",
       "file_type": "code",
       "source_file": "shared.jsx",
       "source_location": "L798",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_tweakbtn",
+      "community": 10,
+      "norm_label": "tweakbtn()"
     },
     {
-      "id": "shared_components",
       "label": "shared_components.jsx",
       "file_type": "code",
       "source_file": "shared_components.jsx",
       "source_location": "L1",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_components",
+      "community": 11,
+      "norm_label": "shared_components.jsx"
     },
     {
-      "id": "shared_components_togglegroup",
       "label": "ToggleGroup()",
       "file_type": "code",
       "source_file": "shared_components.jsx",
       "source_location": "L700",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_components_togglegroup",
+      "community": 11,
+      "norm_label": "togglegroup()"
     },
     {
-      "id": "shared_components_socialicon",
       "label": "SocialIcon()",
       "file_type": "code",
       "source_file": "shared_components.jsx",
       "source_location": "L727",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_components_socialicon",
+      "community": 11,
+      "norm_label": "socialicon()"
     },
     {
-      "id": "shared_components_tweakpersist",
       "label": "tweakPersist()",
       "file_type": "code",
       "source_file": "shared_components.jsx",
       "source_location": "L783",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_components_tweakpersist",
+      "community": 11,
+      "norm_label": "tweakpersist()"
     },
     {
-      "id": "shared_components_tweakrow",
       "label": "TweakRow()",
       "file_type": "code",
       "source_file": "shared_components.jsx",
       "source_location": "L786",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_components_tweakrow",
+      "community": 11,
+      "norm_label": "tweakrow()"
     },
     {
-      "id": "shared_components_tweakbtn",
       "label": "tweakBtn()",
       "file_type": "code",
       "source_file": "shared_components.jsx",
       "source_location": "L794",
-      "_origin": "ast"
+      "_origin": "ast",
+      "id": "shared_components_tweakbtn",
+      "community": 11,
+      "norm_label": "tweakbtn()"
     }
   ],
-  "input_tokens": 0,
-  "output_tokens": 0,
   "links": [
     {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_extends",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_autoplayvideos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_connectvideobutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_desktopworkflow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_nearestphilosophylineindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_observedvideos",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_philosophystage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_setvideobuttonlabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_showvideoposter",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_workflowbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L93",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_workflowsteps",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L91",
+      "weight": 1.0,
+      "source": "app_preview_editor_script",
+      "target": "app_preview_editor_script_workflowvideo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/script.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "app_preview_editor_script_connectvideobutton",
+      "target": "app_preview_editor_script_setvideobuttonlabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "app_preview_editor_workflow_video_test",
+      "target": "app_preview_editor_workflow_video_test_nearestline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "app_preview_editor_workflow_video_test",
+      "target": "app_preview_editor_workflow_video_test_philosophystart",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "app_preview_editor_workflow_video_test",
+      "target": "app_preview_editor_workflow_video_test_producttourstart",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "app_preview_editor_workflow_video_test",
+      "target": "app_preview_editor_workflow_video_test_storyorder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app-preview-editor/workflow-video.test.mjs",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "app_preview_editor_workflow_video_test",
+      "target": "app_preview_editor_workflow_video_test_workflowend",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinance.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_togglegroup",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1099",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_socialicon",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1155",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_tweakpersist",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1268",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_tweakrow",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1274",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_tweakbtn",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1296",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calc_copy",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1310",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calchero",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1665",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calcstats",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1773",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_statcell",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1847",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calcpillars",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1873",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calcfeaturesplit",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L1979",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calctestimonials",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L2073",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calcsocialfeed",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L2159",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calcfaq",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L2303",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_calcecosystem",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L2403",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_tweak_defaults",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L2514",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_getinitiallang",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L2518",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinance",
-      "target": "compiled_refinance_setmetacontent",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinance.js",
-      "source_location": "L2523",
-      "weight": 1.0
-    },
-    {
+      "source_location": "L2527",
+      "weight": 1.0,
       "source": "compiled_refinance",
       "target": "compiled_refinance_app",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinance.js",
-      "source_location": "L2527",
-      "weight": 1.0
+      "source_location": "L1310",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_calc_copy",
+      "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L2403",
+      "weight": 1.0,
       "source": "compiled_refinance",
-      "target": "compiled_refinance_root",
+      "target": "compiled_refinance_calcecosystem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L2303",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_calcfaq",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1979",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_calcfeaturesplit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1665",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_calchero",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1873",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_calcpillars",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L2159",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_calcsocialfeed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1773",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_calcstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L2073",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_calctestimonials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_extends",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L2518",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_getinitiallang",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinance.js",
       "source_location": "L2628",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_root",
+      "confidence_score": 1.0
     },
     {
-      "source": "compiled_refinance_socialicon",
-      "target": "compiled_refinance_extends",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L2523",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_setmetacontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1155",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_socialicon",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1847",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_statcell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1099",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_togglegroup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L2514",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_tweak_defaults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1296",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_tweakbtn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1268",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_tweakpersist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinance.js",
+      "source_location": "L1274",
+      "weight": 1.0,
+      "source": "compiled_refinance",
+      "target": "compiled_refinance_tweakrow",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinance.js",
       "source_location": "L1169",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "compiled_refinance_socialicon",
+      "target": "compiled_refinance_extends",
+      "confidence_score": 1.0
     },
     {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_extends",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1",
-      "weight": 1.0
+      "source_location": "L2527",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_app",
+      "confidence_score": 1.0
     },
     {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_togglegroup",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1099",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_socialicon",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1155",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_tweakpersist",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1268",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_tweakrow",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1274",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_tweakbtn",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1296",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calc_copy",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1310",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_calc_copy",
+      "confidence_score": 1.0
     },
     {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calchero",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1665",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calcstats",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1773",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_statcell",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1847",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calcpillars",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1873",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calcfeaturesplit",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L1979",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calctestimonials",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L2073",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calcsocialfeed",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L2159",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calcfaq",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L2303",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_calcecosystem",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2403",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_calcecosystem",
+      "confidence_score": 1.0
     },
     {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_tweak_defaults",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L2514",
-      "weight": 1.0
+      "source_location": "L2303",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_calcfaq",
+      "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1979",
+      "weight": 1.0,
       "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_getinitiallang",
+      "target": "compiled_refinanciamiento_calcfeaturesplit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1665",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_calchero",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1873",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_calcpillars",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L2159",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_calcsocialfeed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1773",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_calcstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L2073",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_calctestimonials",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_extends",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2518",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_getinitiallang",
+      "confidence_score": 1.0
     },
     {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_setmetacontent",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L2523",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_app",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "compiled/refinanciamiento.js",
-      "source_location": "L2527",
-      "weight": 1.0
-    },
-    {
-      "source": "compiled_refinanciamiento",
-      "target": "compiled_refinanciamiento_root",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L2628",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_root",
+      "confidence_score": 1.0
     },
     {
-      "source": "compiled_refinanciamiento_socialicon",
-      "target": "compiled_refinanciamiento_extends",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L2523",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_setmetacontent",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1155",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_socialicon",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1847",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_statcell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1099",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_togglegroup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L2514",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_tweak_defaults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1296",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_tweakbtn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1268",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_tweakpersist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "compiled/refinanciamiento.js",
+      "source_location": "L1274",
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento",
+      "target": "compiled_refinanciamiento_tweakrow",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "compiled/refinanciamiento.js",
       "source_location": "L1169",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "compiled_refinanciamiento_socialicon",
+      "target": "compiled_refinanciamiento_extends",
+      "confidence_score": 1.0
     },
     {
-      "source": "formatfilesize_test",
-      "target": "fs",
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "formatFileSize.test.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "formatfilesize_test",
-      "target": "formatfilesize_test_fs",
       "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "formatFileSize.test.js",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "formatfilesize_test",
-      "target": "node_test",
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "formatFileSize.test.js",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "formatfilesize_test",
-      "target": "formatfilesize_test_test",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "formatFileSize.test.js",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "formatfilesize_test",
-      "target": "node_assert",
-      "relation": "imports_from",
-      "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "formatFileSize.test.js",
       "source_location": "L3",
-      "weight": 1.0
-    },
-    {
+      "weight": 1.0,
       "source": "formatfilesize_test",
       "target": "formatfilesize_test_assert",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "formatFileSize.test.js",
-      "source_location": "L3",
-      "weight": 1.0
+      "confidence_score": 1.0
     },
     {
-      "source": "formatfilesize_test",
-      "target": "formatfilesize_test_getformatfilesize",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "formatFileSize.test.js",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "formatfilesize_test",
-      "target": "formatfilesize_test_filestotest",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "formatFileSize.test.js",
       "source_location": "L14",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "formatfilesize_test",
+      "target": "formatfilesize_test_filestotest",
+      "confidence_score": 1.0
     },
     {
-      "source": "generate_scan",
-      "target": "sys",
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "generate_scan.py",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "generate_scan",
-      "target": "os",
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "generate_scan.py",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background",
-      "target": "hero_background_particle",
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L6",
-      "weight": 1.0
+      "source_file": "formatFileSize.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "formatfilesize_test",
+      "target": "formatfilesize_test_fs",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_particle",
-      "target": "hero_background_particle_constructor",
-      "relation": "method",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L7",
-      "weight": 1.0
+      "source_file": "formatFileSize.test.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "formatfilesize_test",
+      "target": "formatfilesize_test_getformatfilesize",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_particle",
-      "target": "hero_background_particle_reset",
-      "relation": "method",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L15",
-      "weight": 1.0
+      "source_file": "formatFileSize.test.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "formatfilesize_test",
+      "target": "formatfilesize_test_test",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_particle",
-      "target": "hero_background_particle_update",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L28",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_particle",
-      "target": "hero_background_particle_draw",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L39",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background",
-      "target": "hero_background_animatedbackground",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L47",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background",
+      "target": "hero_background_animatedbackground",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_constructor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "hero_background",
+      "target": "hero_background_particle",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
-      "source_location": "L48",
-      "weight": 1.0
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "hero_background_particle",
+      "target": "hero_background_particle_constructor",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_init",
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
-      "source_location": "L80",
-      "weight": 1.0
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "hero_background_particle",
+      "target": "hero_background_particle_draw",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_resize",
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
-      "source_location": "L90",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_createmeshpoints",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L112",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_createparticles",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L134",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_updatemeshpoints",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L141",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_updateparticles",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L148",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_drawgradientmesh",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L154",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_drawparticles",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L181",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground",
-      "target": "hero_background_animatedbackground_animate",
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L187",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_particle_constructor",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "hero_background_particle",
       "target": "hero_background_particle_reset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "hero_background_particle",
+      "target": "hero_background_particle_update",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L10",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_particle_constructor",
+      "target": "hero_background_particle_reset",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_particle_update",
-      "target": "hero_background_particle_reset",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L35",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_particle_update",
+      "target": "hero_background_particle_reset",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground_constructor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_animate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_constructor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L112",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_createmeshpoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_createparticles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L154",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_drawgradientmesh",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L181",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_drawparticles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
       "target": "hero_background_animatedbackground_init",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L90",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_resize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_updatemeshpoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L148",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground",
+      "target": "hero_background_animatedbackground_updateparticles",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L77",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_constructor",
+      "target": "hero_background_animatedbackground_init",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground_init",
-      "target": "hero_background_animatedbackground_resize",
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L81",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground_init",
-      "target": "hero_background_animatedbackground_createmeshpoints",
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L82",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground_init",
-      "target": "hero_background_animatedbackground_createparticles",
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "hero-background.js",
-      "source_location": "L83",
-      "weight": 1.0
-    },
-    {
-      "source": "hero_background_animatedbackground_init",
-      "target": "hero_background_animatedbackground_animate",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L84",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_init",
+      "target": "hero_background_animatedbackground_animate",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground_resize",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_init",
       "target": "hero_background_animatedbackground_createmeshpoints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L83",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_init",
+      "target": "hero_background_animatedbackground_createparticles",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "hero-background.js",
+      "source_location": "L81",
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_init",
+      "target": "hero_background_animatedbackground_resize",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L104",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_resize",
+      "target": "hero_background_animatedbackground_createmeshpoints",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground_animate",
-      "target": "hero_background_animatedbackground_updatemeshpoints",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L189",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_animate",
+      "target": "hero_background_animatedbackground_updatemeshpoints",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground_animate",
-      "target": "hero_background_animatedbackground_updateparticles",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L190",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_animate",
+      "target": "hero_background_animatedbackground_updateparticles",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground_animate",
-      "target": "hero_background_animatedbackground_drawgradientmesh",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L192",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_animate",
+      "target": "hero_background_animatedbackground_drawgradientmesh",
+      "confidence_score": 1.0
     },
     {
-      "source": "hero_background_animatedbackground_animate",
-      "target": "hero_background_animatedbackground_drawparticles",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "hero-background.js",
       "source_location": "L193",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "hero_background_animatedbackground_animate",
+      "target": "hero_background_animatedbackground_drawparticles",
+      "confidence_score": 1.0
     },
     {
-      "source": "package",
-      "target": "package_name",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "package",
-      "target": "package_private",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "package",
-      "target": "package_type",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L4",
-      "weight": 1.0
-    },
-    {
-      "source": "package",
-      "target": "package_scripts",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L5",
-      "weight": 1.0
-    },
-    {
-      "source": "package_scripts",
-      "target": "package_scripts_build_jsx",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "package_scripts",
-      "target": "package_scripts_watch_jsx",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "package_scripts",
-      "target": "package_scripts_check_jsx",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "package_scripts",
-      "target": "package_scripts_apply_jsx",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L9",
-      "weight": 1.0
-    },
-    {
-      "source": "package",
-      "target": "package_devdependencies",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
       "source_location": "L11",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_devdependencies",
+      "confidence_score": 1.0
     },
     {
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_esbuild",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L12",
-      "weight": 1.0
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_name",
+      "confidence_score": 1.0
     },
     {
-      "source": "package_devdependencies_esbuild",
-      "target": "esbuild",
-      "relation": "imports",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_apply_jsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_build_jsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_check_jsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_watch_jsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
       "source_location": "L12",
       "weight": 1.0,
-      "context": "import"
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_esbuild",
+      "confidence_score": 1.0
     },
     {
-      "source": "replace_styles",
-      "target": "re",
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "replace_styles.py",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_debounce",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L80",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_setupintersectionobserver",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L95",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_herowordcontrollers",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L126",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_createherowordcontroller",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L133",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_initializeherowordswap",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L275",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_updateherowordswapforlanguage",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L289",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_detectuserlanguage",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L299",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_changelanguage",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
       "source_location": "L308",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_changelanguage",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts",
-      "target": "scripts_updateplaceholders",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
-      "source_location": "L355",
-      "weight": 1.0
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_createherowordcontroller",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts",
-      "target": "scripts_updateappscreenshots",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
-      "source_location": "L393",
-      "weight": 1.0
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_debounce",
+      "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L299",
+      "weight": 1.0,
       "source": "scripts",
-      "target": "scripts_initappsparallax",
+      "target": "scripts_detectuserlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L126",
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_herowordcontrollers",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
       "source_location": "L558",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_initappsparallax",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts",
-      "target": "scripts_setuplanguageswitcher",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L622",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_initializecookieconsent",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L673",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts",
-      "target": "scripts_initbricksscananimations",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
       "source_location": "L716",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_initbricksscananimations",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts",
-      "target": "scripts_setupmicroanimations",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
-      "source_location": "L867",
-      "weight": 1.0
+      "source_location": "L673",
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_initializecookieconsent",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts",
-      "target": "scripts_initializedesktopbanner",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
       "source_location": "L978",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_initializedesktopbanner",
+      "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L275",
+      "weight": 1.0,
       "source": "scripts",
-      "target": "scripts_initprivacycards",
+      "target": "scripts_initializeherowordswap",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
       "source_location": "L1001",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_initprivacycards",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_changelanguage",
-      "target": "scripts_updateplaceholders",
-      "relation": "calls",
-      "context": "call",
+      "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
-      "source_location": "L327",
-      "weight": 1.0
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_setupintersectionobserver",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_changelanguage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L622",
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_setuplanguageswitcher",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L867",
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_setupmicroanimations",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L393",
+      "weight": 1.0,
+      "source": "scripts",
       "target": "scripts_updateappscreenshots",
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts.js",
-      "source_location": "L330",
-      "weight": 1.0
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_changelanguage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L289",
+      "weight": 1.0,
+      "source": "scripts",
       "target": "scripts_updateherowordswapforlanguage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L355",
+      "weight": 1.0,
+      "source": "scripts",
+      "target": "scripts_updateplaceholders",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
       "source_location": "L348",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_changelanguage",
+      "target": "scripts_updateherowordswapforlanguage",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_setuplanguageswitcher",
-      "target": "scripts_detectuserlanguage",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
       "source_location": "L629",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_setuplanguageswitcher",
+      "target": "scripts_detectuserlanguage",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_setuplanguageswitcher",
-      "target": "scripts_changelanguage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L330",
+      "weight": 1.0,
+      "source": "scripts_changelanguage",
+      "target": "scripts_updateappscreenshots",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts.js",
+      "source_location": "L327",
+      "weight": 1.0,
+      "source": "scripts_changelanguage",
+      "target": "scripts_updateplaceholders",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts.js",
       "source_location": "L630",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_setuplanguageswitcher",
+      "target": "scripts_changelanguage",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx",
-      "target": "node_fs",
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "node_path",
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L2",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "node_process",
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L3",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "esbuild",
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L4",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_root",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L6",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_out_dir",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L7",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_pages",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L8",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_args",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L24",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_shouldwatch",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L25",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_shouldcheck",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L26",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_shouldapplyhtml",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L27",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_getbabelscriptregex",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L32",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_pagetobundle",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L36",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_extractbabelblocks",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L40",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_ensuredir",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L50",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_readpage",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L54",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_buildpage",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L60",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_checkpage",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L95",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_applyhtml",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L114",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_applyhtml",
+      "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L24",
+      "weight": 1.0,
       "source": "scripts_precompile_jsx",
-      "target": "scripts_precompile_jsx_main",
+      "target": "scripts_precompile_jsx_args",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_buildpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_checkpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_ensuredir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_extractbabelblocks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_getbabelscriptregex",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L134",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_main",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_extractbabelblocks",
-      "target": "scripts_precompile_jsx_getbabelscriptregex",
-      "relation": "calls",
-      "context": "call",
+      "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L42",
-      "weight": 1.0
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_out_dir",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_buildpage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_pages",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L36",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_pagetobundle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
       "target": "scripts_precompile_jsx_readpage",
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L61",
-      "weight": 1.0
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_buildpage",
-      "target": "scripts_precompile_jsx_extractbabelblocks",
-      "relation": "calls",
-      "context": "call",
+      "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L62",
-      "weight": 1.0
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_root",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_buildpage",
-      "target": "scripts_precompile_jsx_pagetobundle",
-      "relation": "calls",
-      "context": "call",
+      "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L68",
-      "weight": 1.0
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_shouldapplyhtml",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_buildpage",
-      "target": "scripts_precompile_jsx_ensuredir",
-      "relation": "calls",
-      "context": "call",
+      "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L70",
-      "weight": 1.0
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_shouldcheck",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_checkpage",
-      "target": "scripts_precompile_jsx_pagetobundle",
-      "relation": "calls",
-      "context": "call",
+      "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L97",
-      "weight": 1.0
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx",
+      "target": "scripts_precompile_jsx_shouldwatch",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_applyhtml",
-      "target": "scripts_precompile_jsx_pagetobundle",
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "scripts/precompile-jsx.mjs",
-      "source_location": "L117",
-      "weight": 1.0
-    },
-    {
-      "source": "scripts_precompile_jsx_applyhtml",
-      "target": "scripts_precompile_jsx_getbabelscriptregex",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L119",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_applyhtml",
+      "target": "scripts_precompile_jsx_getbabelscriptregex",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_main",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_extractbabelblocks",
+      "target": "scripts_precompile_jsx_getbabelscriptregex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_applyhtml",
+      "target": "scripts_precompile_jsx_pagetobundle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L68",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_buildpage",
+      "target": "scripts_precompile_jsx_pagetobundle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L97",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_checkpage",
+      "target": "scripts_precompile_jsx_pagetobundle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_buildpage",
+      "target": "scripts_precompile_jsx_extractbabelblocks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L70",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_buildpage",
       "target": "scripts_precompile_jsx_ensuredir",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L147",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_main",
+      "target": "scripts_precompile_jsx_ensuredir",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_main",
-      "target": "scripts_precompile_jsx_buildpage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/precompile-jsx.mjs",
+      "source_location": "L61",
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_buildpage",
+      "target": "scripts_precompile_jsx_readpage",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L149",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_main",
+      "target": "scripts_precompile_jsx_buildpage",
+      "confidence_score": 1.0
     },
     {
-      "source": "scripts_precompile_jsx_main",
-      "target": "scripts_precompile_jsx_applyhtml",
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/precompile-jsx.mjs",
       "source_location": "L174",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "scripts_precompile_jsx_main",
+      "target": "scripts_precompile_jsx_applyhtml",
+      "confidence_score": 1.0
     },
     {
-      "source": "shared",
-      "target": "shared_togglegroup",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "shared.jsx",
-      "source_location": "L703",
-      "weight": 1.0
-    },
-    {
-      "source": "shared",
-      "target": "shared_socialicon",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "shared.jsx",
       "source_location": "L730",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "shared",
+      "target": "shared_socialicon",
+      "confidence_score": 1.0
     },
     {
-      "source": "shared",
-      "target": "shared_tweakpersist",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "shared.jsx",
-      "source_location": "L787",
-      "weight": 1.0
+      "source_location": "L703",
+      "weight": 1.0,
+      "source": "shared",
+      "target": "shared_togglegroup",
+      "confidence_score": 1.0
     },
     {
-      "source": "shared",
-      "target": "shared_tweakrow",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "shared.jsx",
-      "source_location": "L790",
-      "weight": 1.0
-    },
-    {
-      "source": "shared",
-      "target": "shared_tweakbtn",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "shared.jsx",
       "source_location": "L798",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "shared",
+      "target": "shared_tweakbtn",
+      "confidence_score": 1.0
     },
     {
-      "source": "shared_components",
-      "target": "shared_components_togglegroup",
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "shared_components.jsx",
-      "source_location": "L700",
-      "weight": 1.0
+      "source_file": "shared.jsx",
+      "source_location": "L787",
+      "weight": 1.0,
+      "source": "shared",
+      "target": "shared_tweakpersist",
+      "confidence_score": 1.0
     },
     {
-      "source": "shared_components",
-      "target": "shared_components_socialicon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "shared.jsx",
+      "source_location": "L790",
+      "weight": 1.0,
+      "source": "shared",
+      "target": "shared_tweakrow",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "shared_components.jsx",
       "source_location": "L727",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "shared_components",
+      "target": "shared_components_socialicon",
+      "confidence_score": 1.0
     },
     {
-      "source": "shared_components",
-      "target": "shared_components_tweakpersist",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "shared_components.jsx",
-      "source_location": "L783",
-      "weight": 1.0
+      "source_location": "L700",
+      "weight": 1.0,
+      "source": "shared_components",
+      "target": "shared_components_togglegroup",
+      "confidence_score": 1.0
     },
     {
-      "source": "shared_components",
-      "target": "shared_components_tweakrow",
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "shared_components.jsx",
-      "source_location": "L786",
-      "weight": 1.0
-    },
-    {
-      "source": "shared_components",
-      "target": "shared_components_tweakbtn",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "shared_components.jsx",
       "source_location": "L794",
-      "weight": 1.0
+      "weight": 1.0,
+      "source": "shared_components",
+      "target": "shared_components_tweakbtn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "shared_components.jsx",
+      "source_location": "L783",
+      "weight": 1.0,
+      "source": "shared_components",
+      "target": "shared_components_tweakpersist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "shared_components.jsx",
+      "source_location": "L786",
+      "weight": 1.0,
+      "source": "shared_components",
+      "target": "shared_components_tweakrow",
+      "confidence_score": 1.0
     }
-  ]
+  ],
+  "hyperedges": [],
+  "built_at_commit": "754dcb6ab24f375895d5452f8de0eb20ad5adc2e"
 }

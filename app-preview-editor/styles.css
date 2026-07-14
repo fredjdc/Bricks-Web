@@ -198,6 +198,12 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .final-panel > p { margin: 20px auto 32px; color: var(--text-secondary); font-size: 1.08rem; }
 .signup-form-centered { margin-inline: auto; text-align: left; }
 .founder-note { margin: 48px 0 0; color: var(--text-secondary); font-size: 13px; text-align: center; }
+.founder-link { display: inline-flex; max-width: 440px; align-items: center; gap: 14px; color: inherit; text-align: left; text-decoration: none; }
+.founder-link img { width: 48px; height: 48px; flex: 0 0 auto; border: 1px solid var(--border); border-radius: 50%; object-fit: cover; }
+.founder-link strong, .founder-handle { display: block; }
+.founder-handle { margin-top: 3px; text-decoration: underline; }
+.founder-link:hover .founder-handle { color: var(--text); }
+.founder-link:focus-visible { border-radius: 8px; outline: 3px solid var(--focus); outline-offset: 5px; }
 .footer { display: flex; flex-direction: column; gap: 20px; padding-block: 32px 48px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 13px; }
 .footer p { margin: 0; }
 .footer div { display: flex; flex-wrap: wrap; gap: 16px; }

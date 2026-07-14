@@ -1,11 +1,11 @@
 {
   "compiled/refinance.js": {
-    "mtime": 1777828425.359219,
+    "mtime": 1784048455.1779375,
     "ast_hash": "16f2c8cfcd2a35d7e21087f7d785ca63",
     "semantic_hash": ""
   },
   "compiled/refinanciamiento.js": {
-    "mtime": 1777829283.1684384,
+    "mtime": 1784048455.1782324,
     "ast_hash": "5eeddb55e6af39e50e41bdfe21f2ba58",
     "semantic_hash": ""
   },
@@ -25,12 +25,12 @@
     "semantic_hash": ""
   },
   "living-page.jsx": {
-    "mtime": 1782392023.0078459,
-    "ast_hash": "0c396aa5e15544ac55386c0daca9aa53",
+    "mtime": 1783996558.032124,
+    "ast_hash": "3d4bed8b40ce3021bec1b1afb47f17bb",
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1782274664.532025,
+    "mtime": 1783996558.032768,
     "ast_hash": "e46342366ebe2831ecb77b00160e7138",
     "semantic_hash": ""
   },
@@ -45,17 +45,17 @@
     "semantic_hash": ""
   },
   "scripts/precompile-jsx.mjs": {
-    "mtime": 1777805477.522876,
+    "mtime": 1783996558.036387,
     "ast_hash": "cd0a7a3727ae740d6e0372d42a5001ee",
     "semantic_hash": ""
   },
   "shared.jsx": {
-    "mtime": 1782274664.5322454,
+    "mtime": 1783996558.0369458,
     "ast_hash": "f81cc4f7b827936595f413412a38d591",
     "semantic_hash": ""
   },
   "shared_components.jsx": {
-    "mtime": 1776882463.7318318,
+    "mtime": 1783996558.0375545,
     "ast_hash": "7c7d2609590f9142c13aff745ab3d192",
     "semantic_hash": ""
   },
@@ -65,93 +65,108 @@
     "semantic_hash": ""
   },
   "about.html": {
-    "mtime": 1777370104.6847732,
+    "mtime": 1783996557.6403422,
     "ast_hash": "84f0117e1d74312f159fc4d7438fbf88",
     "semantic_hash": ""
   },
   "calc.html": {
-    "mtime": 1778268829.404948,
+    "mtime": 1783996557.7407458,
     "ast_hash": "6ef484cf0e009930faf721c2cd585b09",
     "semantic_hash": ""
   },
   "calculadora-hipotecaria.html": {
-    "mtime": 1777804308.5013025,
+    "mtime": 1783996557.7409194,
     "ast_hash": "a6c6967a555a8cd14639b37fc96f0fe8",
     "semantic_hash": ""
   },
   "help.html": {
-    "mtime": 1777370104.717026,
+    "mtime": 1783996557.8050485,
     "ast_hash": "09f3a0d788f15ed01f8737ac8f4632a4",
     "semantic_hash": ""
   },
   "homebuyers.html": {
-    "mtime": 1778268827.3939471,
+    "mtime": 1783996557.8052077,
     "ast_hash": "e2d21e333a8424e38470cda0edcc3220",
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1782336235.189291,
-    "ast_hash": "2f87b1fbf952369e2fd20a1b3d678efc",
+    "mtime": 1783996558.030835,
+    "ast_hash": "5a152ba60483c152fde2df1113c672f1",
     "semantic_hash": ""
   },
   "leads.html": {
-    "mtime": 1777369878.6174304,
+    "mtime": 1783996558.0313432,
     "ast_hash": "0af4dfecfd40a1f573a61e3c5667bfee",
     "semantic_hash": ""
   },
   "living.html": {
-    "mtime": 1782392057.1019468,
-    "ast_hash": "44de28c3a7031bc3396e277124195c32",
+    "mtime": 1783996558.0324383,
+    "ast_hash": "9db358dff419dd05e03e195465e33152",
     "semantic_hash": ""
   },
   "privacy.html": {
-    "mtime": 1777370305.63139,
+    "mtime": 1783996558.033487,
     "ast_hash": "f28b94790f6ef049f64d0615730aa940",
     "semantic_hash": ""
   },
   "purchase-guide-01.html": {
-    "mtime": 1777370479.401763,
+    "mtime": 1783996558.0340111,
     "ast_hash": "8918be68c6e3af85a23b7b7191e03e66",
     "semantic_hash": ""
   },
   "refinance.html": {
-    "mtime": 1777828410.5224347,
+    "mtime": 1783996558.0347219,
     "ast_hash": "b571e07d00c03f678ca8bf55627c2f58",
     "semantic_hash": ""
   },
   "refinanciamiento.html": {
-    "mtime": 1777829387.1575036,
+    "mtime": 1783996558.0352845,
     "ast_hash": "dbfaf30fcb1edadf41acbd2e9dcd461f",
     "semantic_hash": ""
   },
   "scan.html": {
-    "mtime": 1777511009.9285934,
+    "mtime": 1783996558.0360568,
     "ast_hash": "e201d6c48059eb10fa536545a040b8da",
     "semantic_hash": ""
   },
   "support.html": {
-    "mtime": 1777370479.4425976,
+    "mtime": 1784049880.561703,
     "ast_hash": "b38c540f0eb49a812f0b0525f35fffc8",
     "semantic_hash": ""
   },
   "survey.html": {
-    "mtime": 1777370479.4746957,
+    "mtime": 1783996558.1970181,
     "ast_hash": "fdb362f7d903e69b1a4953eacceb28a0",
     "semantic_hash": ""
   },
   "terms.html": {
-    "mtime": 1777370305.671462,
+    "mtime": 1783996558.197249,
     "ast_hash": "b78e9c14e190df0aaca5393752c9509b",
     "semantic_hash": ""
   },
   "thank-you-feedback.html": {
-    "mtime": 1777370495.5620995,
+    "mtime": 1783996558.1975164,
     "ast_hash": "eac107a9941c98d133b556e5611c48d1",
     "semantic_hash": ""
   },
   "thank-you.html": {
-    "mtime": 1777370495.5277212,
+    "mtime": 1783996558.197679,
     "ast_hash": "26403c181b7f34fea8fb48c886e6323e",
+    "semantic_hash": ""
+  },
+  "app-preview-editor/script.js": {
+    "mtime": 1784051264.4770617,
+    "ast_hash": "d1e81eee1734d472c3a81996dc511c9c",
+    "semantic_hash": ""
+  },
+  "app-preview-editor/workflow-video.test.mjs": {
+    "mtime": 1784051264.5661933,
+    "ast_hash": "06a456a407eaf1b5ed4c1438da46daa8",
+    "semantic_hash": ""
+  },
+  "app-preview-editor/index.html": {
+    "mtime": 1784052358.3623552,
+    "ast_hash": "f66f81651f3e98607e49aca29d544a3d",
     "semantic_hash": ""
   }
 }
