@@ -21,7 +21,7 @@ assert.match(html, /Ready to spend less time making App Previews\?/);
 assert.equal(html.match(/data-beta-back/g)?.length, 2);
 assert.match(html, /data-beta-cta/);
 assert.doesNotMatch(html, /<fieldset|type="radio"|value="launch"|launch_updates|Notify me|Choose an option/);
-assert.match(html, /<img class="hero-workflow" src="assets\/product\/hero-workflow\.png" width="1728" height="1080"/);
+assert.match(html, /<img class="hero-workflow" src="assets\/product\/hero-workflow\.png" width="1480" height="925"/);
 assert.ok(html.indexOf('class="hero-workflow"') > html.indexOf('</form>', html.indexOf('<section class="hero')));
 assert.doesNotMatch(html, /hero-visual|hero-parallax/);
 assert.match(script, /email\.scrollIntoView/);
