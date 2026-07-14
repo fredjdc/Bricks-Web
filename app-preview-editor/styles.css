@@ -209,12 +209,12 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .hero-intro-secondary { animation-duration: 480ms; animation-delay: 300ms; }
   .hero-intro-detail { animation-duration: 520ms; animation-delay: 420ms; }
   @keyframes hero-intro-in { from { opacity: 0; transform: translateY(0.35em); } }
-  .philosophy-stage.is-scroll-ready { position: relative; height: clamp(300px, 42vw, 500px); }
-  .philosophy-stage.is-scroll-ready .philosophy-lines { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; }
+  .philosophy-stage.is-scroll-ready { position: relative; height: 300svh; }
+  .philosophy-stage.is-scroll-ready .philosophy-lines { position: sticky; top: 0; height: 100svh; display: grid; place-items: center; margin: 0; }
   .philosophy-stage.is-scroll-ready .philosophy-line { grid-area: 1 / 1; margin: 0; opacity: 0; filter: blur(6px); transform: translateY(0.3em); transition: opacity 360ms ease, filter 420ms var(--ease), transform 420ms var(--ease); }
   .philosophy-stage.is-scroll-ready .philosophy-line.is-past { transform: translateY(-0.3em); }
   .philosophy-stage.is-scroll-ready .philosophy-line.is-active { opacity: 1; filter: blur(0); transform: none; }
-  .philosophy-stage.is-scroll-ready .philosophy-triggers { position: absolute; inset: 0; display: grid; grid-template-rows: repeat(5, 1fr); pointer-events: none; }
+  .philosophy-stage.is-scroll-ready .philosophy-triggers { position: absolute; inset: 50svh 0; display: grid; grid-template-rows: repeat(5, 1fr); pointer-events: none; }
 }
 
 @media (min-width: 560px) {
