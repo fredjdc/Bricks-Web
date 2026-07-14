@@ -171,6 +171,9 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .faq summary { padding: 23px 44px 23px 0; font-size: 1.12rem; font-weight: 650; cursor: pointer; }
 .faq summary::marker { color: var(--text-secondary); }
 .faq details p { padding: 0 0 24px; color: var(--text-secondary); }
+.faq-answer { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 280ms var(--ease), opacity 180ms ease; }
+.faq details[open] .faq-answer { grid-template-rows: 1fr; opacity: 1; }
+.faq-answer > div { min-height: 0; overflow: hidden; }
 
 .final-panel { padding: 120px 20px 120px; border: 1px solid var(--border); border-radius: var(--radius-large); background: color-mix(in srgb, var(--surface) 94%, transparent); text-align: center; box-shadow: var(--shadow); }
 .final-panel > img { width: 144px; height: 144px; margin: 0 auto 28px; border-radius: 34px; }
@@ -215,6 +218,9 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .native-section { grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr); gap: 72px; }
   .capabilities-panel { padding: 80px; }
   .capability-groups { grid-template-columns: repeat(3, 1fr); gap: 48px; }
+  .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 72px; align-items: start; }
+  .faq > .section-heading { margin-bottom: 0; }
+  .faq-list { max-width: none; }
 }
 
 @media (min-width: 1080px) {
