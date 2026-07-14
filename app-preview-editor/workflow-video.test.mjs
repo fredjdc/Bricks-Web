@@ -30,7 +30,7 @@ const philosophyStart = html.indexOf('<section class="philosophy');
 const productTourStart = html.indexOf('<section class="product-tour');
 assert.ok(workflowEnd < philosophyStart && philosophyStart < productTourStart);
 
-const storyOrder = ["Skip the empty timeline.", "Update without starting over.", "One project. Every App Preview.", "Check, export, or upload."];
+const storyOrder = ["Skip the empty timeline.", "Update without starting over.", "One project. Every App Preview."];
 assert.deepEqual([...storyOrder].sort((a, b) => html.indexOf(a, productTourStart) - html.indexOf(b, productTourStart)), storyOrder);
 
 for (const forbidden of [/waitlist/i, /App Store Preview/i, /every Apple platform/i]) {

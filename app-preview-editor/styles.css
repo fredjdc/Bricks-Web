@@ -173,7 +173,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .native-panel { padding: 20px; border: 1px solid var(--border); border-radius: var(--radius-large); background: color-mix(in srgb, var(--surface) 92%, transparent); box-shadow: var(--shadow); }
 .native-panel h2 { margin: 28px 4px 14px; font-size: clamp(2rem, 5vw, 3rem); }
 .native-panel p { margin: 0 4px 8px; color: var(--text-secondary); font-size: 1.05rem; }
-.privacy-panel { box-shadow: none; }
 
 .capability-grid { display: grid; gap: 44px; }
 .capability-grid article { padding-top: 22px; border-top: 1px solid var(--border); }
@@ -249,8 +248,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .product-story { grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr); gap: 72px; }
   .product-story-reverse { grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr); }
   .product-story-reverse .story-copy { order: 2; }
-  .native-section { grid-template-columns: 1fr 1fr; align-items: stretch; }
-  .native-section .native-media { height: clamp(280px, 30vw, 360px); }
   .capability-grid { grid-template-columns: 1.1fr 0.9fr 1.2fr; gap: 0; }
   .capability-grid article { padding: 28px 40px 0; border-top: 1px solid var(--border); }
   .capability-grid article + article { border-left: 1px solid var(--border); }
