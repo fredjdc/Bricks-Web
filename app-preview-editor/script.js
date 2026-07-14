@@ -229,7 +229,7 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     form.reset();
     betaButtonLabel.textContent = "Submit beta application";
     showEmailStep();
-    setStatus("Thanks! Your application has been received. We'll review it and contact you by email if you're selected.", "success");
+    setStatus("Thanks! We’ll review your request and be in touch by email soon.", "success");
   });
 });
 
