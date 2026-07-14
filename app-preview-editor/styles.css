@@ -152,12 +152,13 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 .philosophy { text-align: center; }
 .philosophy-copy { max-width: 900px; margin-inline: auto; }
-.philosophy-copy > p { max-width: 64ch; margin: 0 auto; color: var(--text-secondary); font-size: 1.08rem; }
 .philosophy-lines { display: grid; gap: 4px; margin-bottom: 40px; }
 .philosophy-line { margin: 0; font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 720; letter-spacing: -0.025em; line-height: 1.06; }
 .philosophy-line:last-child { margin-top: 18px; }
+.philosophy-final { display: grid; gap: 18px; justify-items: center; }
+.philosophy-final-title { margin: 0; }
+.philosophy-final .philosophy-summary { max-width: 64ch; margin: 0; color: var(--text); font-size: 1.08rem; font-weight: 650; letter-spacing: normal; line-height: 1.5; }
 .philosophy-triggers { display: none; }
-.philosophy-copy > .philosophy-summary { margin-top: 24px; color: var(--text); font-weight: 650; }
 
 .product-tour > .section-heading { max-width: 900px; }
 .product-stories { display: grid; gap: 96px; }

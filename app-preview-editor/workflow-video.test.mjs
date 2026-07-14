@@ -31,6 +31,7 @@ const productTourStart = html.indexOf('<section class="product-tour');
 assert.ok(workflowEnd < philosophyStart && philosophyStart < productTourStart);
 assert.equal(html.match(/data-philosophy-line/g)?.length, 5);
 assert.equal(html.match(/data-philosophy-trigger=/g)?.length, 5);
+assert.match(html, /Just App Preview videos\.<\/p>\s*<p class="philosophy-summary">It’s not a smaller video editor\. It’s a better workflow for App Preview videos\.<\/p>/);
 assert.match(script, /line\.classList\.toggle\("is-past", lineIndex < index\)/);
 assert.match(styles, /\.philosophy-line\.is-active \{ opacity: 1; filter: blur\(0\); transform: none; \}/);
 assert.match(styles, /\.philosophy-stage\.is-scroll-ready \{ position: relative; height: 300svh; \}/);
