@@ -9,8 +9,9 @@ const [html, script, styles] = await Promise.all([
 
 assert.equal(html.match(/<h1(?:\s|>)/g)?.length, 1);
 assert.equal(html.match(/<form[^>]*data-signup-form/g)?.length, 2);
-assert.equal(html.match(/action="https:\/\/formsubmit\.co\/ajax\/hello@bricks\.pe"/g)?.length, 2);
-assert.equal(html.match(/name="_url" value="https:\/\/www\.bricks\.pe\/app-preview-editor\/"/g)?.length, 2);
+assert.equal(html.match(/action="https:\/\/api\.web3forms\.com\/submit"/g)?.length, 2);
+assert.equal(html.match(/name="access_key" value="ca61524d-2686-4509-b641-41657cb777c8"/g)?.length, 2);
+assert.equal(html.match(/name="botcheck"/g)?.length, 2);
 assert.equal(html.match(/name="signup_intent" value="beta"/g)?.length, 2);
 assert.equal(html.match(/Get Beta Access/g)?.length, 3);
 assert.equal(html.match(/Requests are reviewed manually\./g)?.length, 2);
@@ -27,8 +28,11 @@ assert.doesNotMatch(html, /hero-visual|hero-parallax/);
 assert.match(script, /email\.scrollIntoView/);
 assert.match(script, /Add a short answer so we can review your application\./);
 assert.match(script, /Thanks! We’ll review your request and be in touch by email soon\./);
-assert.match(script, /JSON\.stringify\(Object\.fromEntries\(new FormData\(form\)\)\)/);
+assert.match(script, /body: new FormData\(form\)/);
+assert.doesNotMatch(script, /"Content-Type": "application\/json"/);
 assert.match(script, /!\[true, "true"\]\.includes\(data\.success\)/);
+assert.doesNotMatch(html, /formsubmit\.co/);
+assert.match(html, /<script src="script\.js\?v=20260714-1" defer><\/script>/);
 assert.doesNotMatch(html, /<iframe|target="(?:hero|final)_signup_target"/);
 assert.doesNotMatch(script, /selectedIntent|validateIntent|helperText|buttonText/);
 

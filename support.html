@@ -660,8 +660,6 @@
                     submit: 'Submit Report',
                     submitting: 'Sending\u2026',
                     sizeError: 'Some files exceed the 4 MB limit and were not included.',
-                    fileCountError: 'Please attach one image at a time.',
-                    submitError: 'Something went wrong. Please try again.',
                 },
                 success: {
                     title: 'Report Submitted',
@@ -687,8 +685,6 @@
                     submit: 'Enviar Reporte',
                     submitting: 'Enviando\u2026',
                     sizeError: 'Algunos archivos superan el l\u00edmite de 4 MB y no se incluyeron.',
-                    fileCountError: 'Adjunta una imagen a la vez.',
-                    submitError: 'Algo sali\u00f3 mal. Int\u00e9ntalo de nuevo.',
                 },
                 success: {
                     title: 'Reporte Enviado',
@@ -800,45 +796,44 @@
             const [submitting, setSubmitting] = React.useState(false);
             const [showSuccess, setShowSuccess] = React.useState(false);
             const fileInputRef = React.useRef(null);
+            const iframeRef = React.useRef(null);
+            const isSubmittingRef = React.useRef(false);
 
             const refNumber = React.useMemo(() => generateReferenceNumber(), []);
 
+            React.useEffect(() => {
+                const iframe = iframeRef.current;
+                if (!iframe) return;
+                const handler = () => {
+                    if (isSubmittingRef.current) {
+                        setShowSuccess(true);
+                        setSubmitting(false);
+                        setSelectedFiles([]);
+                        isSubmittingRef.current = false;
+                        const form = document.getElementById('support-form');
+                        if (form) form.reset();
+                    }
+                };
+                iframe.addEventListener('load', handler);
+                return () => iframe.removeEventListener('load', handler);
+            }, []);
+
             function handleFiles(files) {
-                var candidates = Array.from(files);
-                var valid = candidates.filter(f => f.size <= 4 * 1024 * 1024);
+                var valid = Array.from(files).filter(f => f.size <= 4 * 1024 * 1024);
                 if (valid.length !== files.length) alert(t.sizeError);
-                if (valid.length > 1) alert(t.fileCountError);
-                if (valid.length > 0) setSelectedFiles([valid[0]]);
+                if (valid.length > 0) setSelectedFiles(prev => prev.concat(valid));
             }
 
-            async function handleSubmit(event) {
-                event.preventDefault();
-                setSubmitting(true);
-
-                try {
-                    const form = event.currentTarget;
-                    const formData = new FormData(form);
-                    if (selectedFiles[0]) formData.set('attachment', selectedFiles[0]);
-
-                    const response = await fetch('https://api.web3forms.com/submit', {
-                        method: 'POST',
-                        body: formData,
-                    });
-                    const data = await response.json();
-
-                    if (!response.ok || !data.success) {
-                        alert(data.message || t.submitError);
-                        return;
-                    }
-
-                    form.reset();
-                    setSelectedFiles([]);
-                    setShowSuccess(true);
-                } catch {
-                    alert(t.submitError);
-                } finally {
-                    setSubmitting(false);
+            function handleSubmit() {
+                if (selectedFiles.length > 0 && typeof DataTransfer !== 'undefined') {
+                    try {
+                        var dt = new DataTransfer();
+                        dt.items.add(selectedFiles[0]);
+                        fileInputRef.current.files = dt.files;
+                    } catch (e) { }
                 }
+                setSubmitting(true);
+                isSubmittingRef.current = true;
             }
 
             const fieldStyle = (id) => ({
@@ -861,17 +856,20 @@
 
             return (
                 <React.Fragment>
+                    <iframe ref={iframeRef} name="support_iframe" style={{ display: 'none' }} />
                     <form
                         id="support-form"
-                        action="https://api.web3forms.com/submit"
+                        target="support_iframe"
+                        action="https://formsubmit.co/707e6e012fa931048784ff0f766aa0df"
                         method="POST"
                         encType="multipart/form-data"
                         onSubmit={handleSubmit}
                     >
-                        <input type="hidden" name="access_key" value="eb1d144d-15d8-4ff2-8625-d8561cc5a33a" />
-                        <input type="hidden" name="subject" value="Bricks Apps Support Request" />
+                        <input type="hidden" name="_subject" value="Bricks Apps Support Request" />
+                        <input type="hidden" name="_template" value="table" />
+                        <input type="hidden" name="_captcha" value="false" />
                         <input type="hidden" name="reference_number" value={refNumber} />
-                        <input type="checkbox" name="botcheck" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
+                        <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
 
                         {/* Name + Email */}
                         <div style={{

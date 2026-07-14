@@ -237,8 +237,8 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     try {
       const response = await fetch(form.action, {
         method: "POST",
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
-        headers: { Accept: "application/json", "Content-Type": "application/json" },
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
         signal: controller.signal,
       });
       const data = await response.json();
