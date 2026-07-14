@@ -124,6 +124,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .honey { display: none; }
 
 .workflow-media video, .mobile-workflow-media, .product-story img, .native-media { display: block; width: 100%; aspect-ratio: 16 / 10; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); object-fit: cover; }
+[data-video-align="left"] { object-position: left center; }
+[data-video-align="right"] { object-position: right center; }
 [data-toggle-video]:focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 35%, transparent); outline-offset: 3px; }
 
 .section-heading { max-width: 780px; margin-bottom: 48px; }
