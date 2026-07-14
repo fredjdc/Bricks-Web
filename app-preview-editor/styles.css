@@ -17,6 +17,7 @@
   --radius-large: 28px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --shell: 1180px;
+  --native-icon-filter: brightness(0);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,6 +35,7 @@
     --error: #ff8b82;
     --dot: rgba(174, 184, 192, 0.14);
     --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+    --native-icon-filter: none;
   }
 }
 
@@ -141,14 +143,13 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 .workflow { background: color-mix(in srgb, var(--surface) 72%, transparent); }
 .workflow-media { display: none; position: relative; }
-.workflow-media video, .mobile-workflow-media, .product-story img, .native-media { display: block; width: 100%; aspect-ratio: 16 / 10; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); object-fit: cover; }
+.workflow-media video, .mobile-workflow-media, .product-story img { display: block; width: 100%; aspect-ratio: 16 / 10; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); object-fit: cover; }
 [data-video-align="left"] { object-position: left center; }
 [data-video-align="right"] { object-position: right center; }
 .media-toggle { position: absolute; right: 12px; bottom: 12px; min-height: 38px; padding: 0 13px; border: 1px solid var(--border); border-radius: 999px; background: color-mix(in srgb, var(--surface) 90%, transparent); color: var(--text); font-size: 13px; font-weight: 650; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .workflow-steps { display: grid; gap: 72px; }
 .workflow-step > p { max-width: 52ch; color: var(--text-secondary); font-size: 1.06rem; }
-.mobile-workflow-media-wrap, .native-panel { position: relative; }
-.mobile-workflow-media-wrap { margin-top: 26px; }
+.mobile-workflow-media-wrap { position: relative; margin-top: 26px; }
 
 .philosophy { text-align: center; }
 .philosophy-copy { max-width: 900px; margin-inline: auto; }
@@ -172,6 +173,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 .native-section { display: grid; gap: 28px; }
 .native-panel { padding: 20px; border: 1px solid var(--border); border-radius: var(--radius-large); background: color-mix(in srgb, var(--surface) 92%, transparent); box-shadow: var(--shadow); }
+.native-lockup { min-height: clamp(260px, 38vw, 460px); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(14px, 4vw, 48px); border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); }
+.native-lockup-icon { width: clamp(56px, 10vw, 132px); height: clamp(56px, 10vw, 132px); object-fit: contain; filter: var(--native-icon-filter); }
 .native-panel h2 { margin: 28px 4px 14px; font-size: clamp(2rem, 5vw, 3rem); }
 .native-panel p { margin: 0 4px 8px; color: var(--text-secondary); font-size: 1.05rem; }
 
