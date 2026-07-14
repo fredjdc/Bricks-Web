@@ -249,8 +249,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .product-story { grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr); gap: 72px; }
   .product-story-reverse { grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr); }
   .product-story-reverse .story-copy { order: 2; }
-  .product-story-wide { grid-template-columns: 1fr; gap: 44px; }
-  .product-story-wide .story-copy { max-width: 760px; }
   .native-section { grid-template-columns: 1fr 1fr; align-items: stretch; }
   .native-section .native-media { height: clamp(280px, 30vw, 360px); }
   .capability-grid { grid-template-columns: 1.1fr 0.9fr 1.2fr; gap: 0; }
