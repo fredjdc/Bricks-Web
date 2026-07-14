@@ -226,7 +226,7 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
       showEmailStep();
       setStatus("Thanks! We’ll review your request and be in touch by email soon.", "success");
     } catch {
-      setStatus("Something went wrong. Your information was not submitted. Please try again.", "error");
+      setStatus("Form service is temporarily unavailable. Email hello@bricks.pe instead.", "error");
     } finally {
       window.clearTimeout(timeout);
       submitting = false;
