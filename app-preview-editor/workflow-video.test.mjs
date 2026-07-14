@@ -9,6 +9,7 @@ const [html, script, styles] = await Promise.all([
 
 assert.equal(html.match(/<h1(?:\s|>)/g)?.length, 1);
 assert.equal(html.match(/<form[^>]*data-signup-form/g)?.length, 2);
+assert.equal(html.match(/action="https:\/\/formsubmit\.co\/707e6e012fa931048784ff0f766aa0df"/g)?.length, 2);
 assert.equal(html.match(/name="signup_intent" value="beta"/g)?.length, 2);
 assert.equal(html.match(/Get Beta Access/g)?.length, 3);
 assert.equal(html.match(/Beta is open\. Applications are reviewed manually\./g)?.length, 2);
@@ -22,7 +23,7 @@ assert.doesNotMatch(html, /<fieldset|type="radio"|value="launch"|launch_updates|
 assert.doesNotMatch(html, /hero-workflow|hero-visual|hero-parallax/);
 assert.match(script, /email\.scrollIntoView/);
 assert.match(script, /Add a short answer so we can review your application\./);
-assert.match(script, /Thanks! Your application has been received\. We'll review it and contact you by email if you're selected\./);
+assert.match(script, /Thanks! We’ll review your request and be in touch by email soon\./);
 assert.doesNotMatch(script, /selectedIntent|validateIntent|helperText|buttonText/);
 
 const workflowEnd = html.indexOf("</section>", html.indexOf('<section class="workflow'));
