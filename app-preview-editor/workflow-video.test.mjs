@@ -14,7 +14,7 @@ assert.equal(html.match(/name="access_key" value="ca61524d-2686-4509-b641-41657c
 assert.equal(html.match(/name="botcheck"/g)?.length, 2);
 assert.equal(html.match(/name="signup_intent" value="beta"/g)?.length, 2);
 assert.equal(html.match(/Get Beta Access/g)?.length, 3);
-assert.equal(html.match(/Requests are reviewed manually\./g)?.length, 2);
+assert.equal(html.match(/Beta requests are reviewed before invitations are sent\./g)?.length, 2);
 assert.equal(html.match(/What are you building\?/g)?.length, 2);
 assert.equal(html.match(/App or website \(optional\)/g)?.length, 2);
 assert.equal(html.match(/What's the hardest part about creating App Preview videos\?/g)?.length, 2);
@@ -27,12 +27,12 @@ assert.ok(html.indexOf('class="hero-workflow"') > html.indexOf('</form>', html.i
 assert.doesNotMatch(html, /hero-visual|hero-parallax/);
 assert.match(script, /email\.scrollIntoView/);
 assert.match(script, /Add a short answer so we can review your application\./);
-assert.match(script, /Thanks! We’ll review your request and be in touch by email soon\./);
+assert.match(script, /Thanks! Your beta request has been received\. I’ll be in touch by email\./);
 assert.match(script, /body: new FormData\(form\)/);
 assert.doesNotMatch(script, /"Content-Type": "application\/json"/);
 assert.match(script, /!\[true, "true"\]\.includes\(data\.success\)/);
 assert.doesNotMatch(html, /formsubmit\.co/);
-assert.match(html, /<script src="script\.js\?v=20260714-1" defer><\/script>/);
+assert.match(html, /<script src="script\.js\?v=20260714-2" defer><\/script>/);
 assert.doesNotMatch(html, /<iframe|target="(?:hero|final)_signup_target"/);
 assert.doesNotMatch(script, /selectedIntent|validateIntent|helperText|buttonText/);
 

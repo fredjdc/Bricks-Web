@@ -246,7 +246,7 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
 
       form.reset();
       showEmailStep();
-      setStatus("Thanks! We’ll review your request and be in touch by email soon.", "success");
+      setStatus("Thanks! Your beta request has been received. I’ll be in touch by email.", "success");
     } catch {
       setStatus("Form service is temporarily unavailable. Email hello@bricks.pe instead.", "error");
     } finally {
