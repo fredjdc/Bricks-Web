@@ -293,6 +293,7 @@
           tag: 'Focused apps for real estate agents on Apple.',
           sections: [
             { h: 'Apps', l: [{ label: 'Bricks Scan', href: 'scan.html' }, { label: 'Bricks Calc', href: 'calc.html' }, { label: 'Bricks Leads', href: 'leads.html' }, { label: 'Bricks Living', href: 'living.html' }] },
+            { h: 'Developer Apps', l: [{ label: 'App Preview Editor', href: 'app-preview-editor/index.html' }] },
             { h: 'Business', l: [{ label: 'About', href: 'about.html' }, { label: 'Purchase guide', href: 'purchase-guide-01.html' }, { label: 'hello@bricks.pe', href: 'mailto:hello@bricks.pe' }] },
             { h: 'Support', l: [{ label: 'Contact', href: 'support.html' }, { label: 'Vote on features', href: 'https://bricksapps.userjot.com' }, { label: 'Guides', href: 'help.html' }, { label: 'Survey', href: 'survey.html' }] },
           ],
@@ -433,6 +434,7 @@
           tag: 'Apps enfocadas para agentes inmobiliarios en Apple.',
           sections: [
             { h: 'Apps', l: [{ label: 'Bricks Scan', href: 'scan.html' }, { label: 'Bricks Calc', href: 'calc.html' }, { label: 'Bricks Leads', href: 'leads.html' }, { label: 'Bricks Living', href: 'living.html' }] },
+            { h: 'Apps para desarrolladores', l: [{ label: 'App Preview Editor', href: 'app-preview-editor/index.html' }] },
             { h: 'Empresa', l: [{ label: 'Sobre nosotros', href: 'about.html' }, { label: 'Gu\u00eda de compra', href: 'purchase-guide-01.html' }, { label: 'hello@bricks.pe', href: 'mailto:hello@bricks.pe' }] },
             { h: 'Soporte', l: [{ label: 'Contacto', href: 'support.html' }, { label: 'Votar funciones', href: 'https://bricksapps.userjot.com' }, { label: 'Gu\u00edas', href: 'help.html' }, { label: 'Encuesta', href: 'survey.html' }] },
           ],
@@ -1566,7 +1568,7 @@
           <div style={{
             maxWidth: 1200, margin: '0 auto',
             display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr 1fr 1fr',
+            gridTemplateColumns: isMobile ? '1fr' : '1.4fr repeat(4, 1fr)',
             gap: isMobile ? 32 : 48,
             marginBottom: isMobile ? 40 : 56,
           }}>
