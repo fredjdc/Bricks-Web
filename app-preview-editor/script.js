@@ -84,9 +84,20 @@ document.querySelectorAll("[data-adjacent-video-button]").forEach((button) => {
   connectVideoButton(button.parentElement.querySelector("video"), button, "Play");
 });
 
-document.querySelectorAll("[data-video-button]").forEach((button) => {
-  connectVideoButton(document.getElementById(button.getAttribute("aria-controls")), button, "Play");
-});
+const finishedPreviewVideo = document.getElementById("finished-preview-video");
+if (finishedPreviewVideo) {
+  const updateFinishedPreviewLabel = () => finishedPreviewVideo.setAttribute("aria-label", `${finishedPreviewVideo.paused ? "Play" : "Pause"} finished App Preview`);
+  const toggleFinishedPreview = () => finishedPreviewVideo.paused ? finishedPreviewVideo.play().catch(updateFinishedPreviewLabel) : finishedPreviewVideo.pause();
+  finishedPreviewVideo.addEventListener("click", toggleFinishedPreview);
+  finishedPreviewVideo.addEventListener("keydown", (event) => {
+    if (!["Enter", " "].includes(event.key)) return;
+    event.preventDefault();
+    toggleFinishedPreview();
+  });
+  finishedPreviewVideo.addEventListener("play", updateFinishedPreviewLabel);
+  finishedPreviewVideo.addEventListener("pause", updateFinishedPreviewLabel);
+  updateFinishedPreviewLabel();
+}
 
 const workflowVideo = document.querySelector(".workflow-media video");
 const workflowButton = document.querySelector(".workflow-media [data-adjacent-video-button]");

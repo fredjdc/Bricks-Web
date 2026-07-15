@@ -79,10 +79,14 @@ for (const [name, poster, align] of [
 }
 
 assert.equal(html.match(/data-adjacent-video-button/g)?.length, 7);
+assert.match(html, /<video id="finished-preview-video"[^>]*muted loop playsinline data-autoplay-video role="button" tabindex="0"/);
+assert.doesNotMatch(html, /data-video-button/);
 assert.doesNotMatch(html, /<video[^>]*\scontrols(?:\s|>)/);
 assert.doesNotMatch(html, /class="native-section|<h2>Built natively for Mac\.<\/h2>/);
 assert.doesNotMatch(html, /mac-native\.mp4|product\/mac-native\.png|class="native-media"/);
 assert.match(script, /workflowVideo\.dataset\.videoAlign = step\.dataset\.workflowAlign/);
+assert.match(script, /finishedPreviewVideo\.addEventListener\("click", toggleFinishedPreview\)/);
+assert.match(script, /finishedPreviewVideo\.addEventListener\("keydown"/);
 assert.match(script, /video\.addEventListener\("playing", \(\) => \{ poster\.hidden = true; \}\)/);
 assert.match(script, /video\.addEventListener\("(?:loadstart|error)", \(\) => showVideoPoster\(video\)\)/);
 assert.match(script, /workflowVideo\.poster = step\.dataset\.workflowPoster;\s+showVideoPoster\(workflowVideo\);/);

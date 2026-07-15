@@ -129,11 +129,11 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .section-heading p, .result-copy p { max-width: 52ch; color: var(--text-secondary); font-size: 1.08rem; }
 .result-section { display: grid; gap: 48px; align-items: center; }
 .result-copy h2 { margin-bottom: 16px; }
-.video-button { margin-top: 12px; }
 .result-media { display: grid; place-items: center; min-width: 0; }
 .result-video-frame { width: min(100%, 340px); padding: 12px; border: 1px solid var(--border); border-radius: 48px; background: var(--surface); box-shadow: var(--shadow); }
 .result-video-frame .video-stage { border-radius: 39px; }
-.result-video-frame video { display: block; width: 100%; height: auto; aspect-ratio: 886 / 1920; border-radius: 39px; background: var(--surface-muted); object-fit: cover; }
+.result-video-frame video { display: block; width: 100%; height: auto; aspect-ratio: 886 / 1920; border-radius: 39px; background: var(--surface-muted); object-fit: cover; cursor: pointer; }
+.result-video-frame video:focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 35%, transparent); outline-offset: 3px; }
 .video-stage { position: relative; }
 .video-poster { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; object-fit: cover; pointer-events: none; }
 
