@@ -47,9 +47,10 @@
           {"@type":"Question","name":"Is App Preview Editor a full video editor?","acceptedAnswer":{"@type":"Answer","text":"No. It is built specifically for creating, updating, checking, and delivering App Previews."}},
           {"@type":"Question","name":"Who is it for?","acceptedAnswer":{"@type":"Answer","text":"Apple developers, product designers, small app teams, marketers, and ASO specialists who need a focused App Preview workflow on Mac."}},
           {"@type":"Question","name":"Which Apple platforms are supported?","acceptedAnswer":{"@type":"Answer","text":"App Preview Editor supports iPhone, iPad, Mac, and Apple Vision Pro, including portrait and landscape presets where App Store Connect supports them."}},
-          {"@type":"Question","name":"Can I create versions for multiple languages?","acceptedAnswer":{"@type":"Answer","text":"Yes. Keep separate device and language timelines together in the same project."}},
+          {"@type":"Question","name":"Can I create App Preview Variants for multiple languages?","acceptedAnswer":{"@type":"Answer","text":"Yes. Keep separate device and language timelines together in the same project."}},
           {"@type":"Question","name":"Can I update a preview after my app changes?","acceptedAnswer":{"@type":"Answer","text":"Yes. Replace or relink screenshots and recordings while preserving compatible timing and styling."}},
           {"@type":"Question","name":"Can I upload directly to App Store Connect?","acceptedAnswer":{"@type":"Answer","text":"Yes. After adding App Store Connect API credentials and configuring an app target, you can add or replace preview slots from the export workflow."}},
+          {"@type":"Question","name":"How does App Preview Editor protect my privacy?","acceptedAnswer":{"@type":"Answer","text":"Your App Store Connect credentials are stored securely in Keychain. Bricks never receives your credentials, projects, or media. They stay on your Mac unless you choose to upload previews directly to App Store Connect. Editing and exporting work offline. An internet connection is only required for upload."}},
           {"@type":"Question","name":"Does it use AI?","acceptedAnswer":{"@type":"Answer","text":"On supported Macs, Apple Foundation Models can help create an editable first draft from your media and optional creative brief. A basic local arrangement remains available when Foundation Models are unavailable."}},
           {"@type":"Question","name":"What can I export?","acceptedAnswer":{"@type":"Answer","text":"H.264 or ProRes 422 HQ video, plus a PNG poster frame."}},
           {"@type":"Question","name":"Does App Preview Editor guarantee App Store approval?","acceptedAnswer":{"@type":"Answer","text":"No. App Preview Editor checks common technical and project issues. Apple makes the final decision on App Store acceptance."}}
@@ -110,7 +111,7 @@
               <label for="hero-link">App or website (optional)</label>
               <input id="hero-link" name="app_link" type="url" inputmode="url" placeholder="https://" aria-describedby="hero-form-status">
               <label for="hero-challenge">What's the hardest part about creating App Preview videos?</label>
-              <textarea id="hero-challenge" name="preview_challenge" rows="4" placeholder="For example: editing, versions, updates, export settings, or App Store Connect." aria-describedby="hero-form-status"></textarea>
+              <textarea id="hero-challenge" name="preview_challenge" rows="4" placeholder="For example: editing, variants, updates, export settings, or App Store Connect." aria-describedby="hero-form-status"></textarea>
               <div class="beta-actions">
                 <button class="button button-secondary" type="button" data-beta-back>Back</button>
                 <button class="button submit-button" type="submit"><span>Submit request</span></button>
@@ -127,7 +128,7 @@
     <section class="proof-strip" aria-label="Product highlights">
       <div class="shell proof-grid">
         <p>Native for Mac</p>
-        <p>One project, every version</p>
+        <p>One project, every variant</p>
         <p>Update without rebuilding</p>
         <p>App Store Connect upload</p>
       </div>
@@ -150,7 +151,7 @@
     <section class="problem-section section">
       <div class="shell problem-layout">
         <div class="section-heading reveal">
-          <h2>A 30-second App Preview don't need a full video editor.</h2>
+          <h2>A 30-second App Preview doesn’t need a full video editor.</h2>
           <p>If setting up your editor takes longer than making your App Preview, something’s wrong.</p>
         </div>
         <ol class="problem-list reveal">
@@ -211,7 +212,7 @@
               <p>From export to App Store Connect without changing tools.</p>
               <ul>
                 <li>Built-in App Preview checklist</li>
-                <li>Queue multiple App Preview versions</li>
+                <li>Queue multiple App Preview Variants</li>
                 <li>Connect once. Upload every future update</li>
               </ul>
               <div class="mobile-workflow-media-wrap">
@@ -253,7 +254,7 @@
     <section class="product-tour section shell" id="features" aria-labelledby="tour-title">
       <div class="section-heading reveal">
         <h2 id="tour-title">Make the first App Preview faster—and every update easier.</h2>
-        <p>Start with an editable draft, keep every version together, and update changed media without rebuilding your work.</p>
+        <p>Start with an editable draft, keep every variant together, and update changed media without rebuilding your work.</p>
       </div>
 
       <div class="product-stories">
@@ -343,9 +344,10 @@
         <details name="faq"><summary>Is App Preview Editor a full video editor?</summary><div class="faq-answer"><div><p>No. It is built specifically for creating, updating, checking, and delivering App Preview videos.</p></div></div></details>
         <details name="faq"><summary>Who is it for?</summary><div class="faq-answer"><div><p>Apple developers, product designers, small app teams, marketers, and ASO specialists who need a focused App Preview workflow on Mac.</p></div></div></details>
         <details name="faq"><summary>Which Apple platforms are supported?</summary><div class="faq-answer"><div><p>App Preview Editor supports iPhone, iPad, Mac, and Apple Vision Pro, including portrait and landscape presets where App Store Connect supports them.</p></div></div></details>
-        <details name="faq"><summary>Can I create versions for multiple languages?</summary><div class="faq-answer"><div><p>Yes. Keep separate device and language timelines together in the same project.</p></div></div></details>
+        <details name="faq"><summary>Can I create App Preview Variants for multiple languages?</summary><div class="faq-answer"><div><p>Yes. Keep separate device and language timelines together in the same project.</p></div></div></details>
         <details name="faq"><summary>Can I update a preview after my app changes?</summary><div class="faq-answer"><div><p>Yes. Replace or relink screenshots and recordings while preserving compatible timing and styling.</p></div></div></details>
         <details name="faq"><summary>Can I upload directly to App Store Connect?</summary><div class="faq-answer"><div><p>Yes. After adding App Store Connect API credentials and configuring an app target, you can add or replace preview slots from the export workflow.</p></div></div></details>
+        <details name="faq"><summary>How does App Preview Editor protect my privacy?</summary><div class="faq-answer"><div><p>Your App Store Connect credentials are stored securely in Keychain. Bricks never receives your credentials, projects, or media. They stay on your Mac unless you choose to upload previews directly to App Store Connect. Editing and exporting work offline. An internet connection is only required for upload.</p></div></div></details>
         <details name="faq"><summary>Does it use AI?</summary><div class="faq-answer"><div><p>On supported Macs, Apple Foundation Models can help create an editable first draft from your media and optional creative brief. A basic local arrangement remains available when Foundation Models are unavailable.</p></div></div></details>
         <details name="faq"><summary>What can I export?</summary><div class="faq-answer"><div><p>H.264 or ProRes 422 HQ video, plus a PNG poster frame.</p></div></div></details>
         <details name="faq"><summary>Does App Preview Editor guarantee App Store approval?</summary><div class="faq-answer"><div><p>No. App Preview Editor checks common technical and project issues. Apple makes the final decision on App Store acceptance.</p></div></div></details>
@@ -378,7 +380,7 @@
             <label for="final-link">App or website (optional)</label>
             <input id="final-link" name="app_link" type="url" inputmode="url" placeholder="https://" aria-describedby="final-form-status">
             <label for="final-challenge">What's the hardest part about creating App Preview videos?</label>
-            <textarea id="final-challenge" name="preview_challenge" rows="4" placeholder="For example: editing, versions, updates, export settings, or App Store Connect." aria-describedby="final-form-status"></textarea>
+            <textarea id="final-challenge" name="preview_challenge" rows="4" placeholder="For example: editing, variants, updates, export settings, or App Store Connect." aria-describedby="final-form-status"></textarea>
             <div class="beta-actions">
               <button class="button button-secondary" type="button" data-beta-back>Back</button>
               <button class="button submit-button" type="submit"><span>Submit beta request</span></button>
