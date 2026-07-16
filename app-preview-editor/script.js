@@ -161,31 +161,13 @@ if (!reduceMotion && observedVideos.length) {
 }
 
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
-  const emailStep = form.querySelector('[data-signup-step="email"]');
-  const betaStep = form.querySelector('[data-signup-step="beta"]');
-  const email = form.querySelector('[name="email"]');
+  const email = form.querySelector('[name="EMAIL"]');
   const status = form.querySelector(".form-status");
-  const betaButtonLabel = betaStep.querySelector("button[type='submit'] span");
-  const building = form.querySelector('[name="building"]');
-  const appLink = form.querySelector('[name="app_link"]');
-  const challenge = form.querySelector('[name="preview_challenge"]');
   let submitting = false;
 
   const setStatus = (message = "", state = "") => {
     status.textContent = message;
     status.dataset.state = state;
-  };
-  const showEmailStep = () => {
-    betaStep.hidden = true;
-    emailStep.hidden = false;
-    form.dataset.betaReady = "false";
-  };
-  const showBetaStep = () => {
-    emailStep.hidden = true;
-    betaStep.hidden = false;
-    form.dataset.betaReady = "true";
-    setStatus();
-    building.focus();
   };
   const validateEmail = () => {
     const valid = email.value.trim() && email.validity.valid;
@@ -196,31 +178,6 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     }
     return valid;
   };
-  const validateBetaApplication = () => {
-    for (const field of [building, challenge]) {
-      const valid = field.value.trim().length > 0;
-      field.setAttribute("aria-invalid", String(!valid));
-      if (!valid) {
-        setStatus("Add a short answer so we can review your application.", "error");
-        field.focus();
-        return false;
-      }
-    }
-    if (appLink.value.trim() && !appLink.validity.valid) {
-      appLink.setAttribute("aria-invalid", "true");
-      setStatus("Enter a complete link or leave this field empty.", "error");
-      appLink.focus();
-      return false;
-    }
-    appLink.removeAttribute("aria-invalid");
-    return true;
-  };
-
-  form.querySelector("[data-beta-back]").addEventListener("click", () => {
-    showEmailStep();
-    email.focus();
-  });
-
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (submitting) return;
@@ -229,42 +186,50 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
       return;
     }
 
-    if (form.dataset.betaReady !== "true") {
-      showBetaStep();
-      return;
-    }
-    if (!validateBetaApplication()) {
-      return;
-    }
-
     submitting = true;
-    const submitButton = event.submitter || betaStep.querySelector('button[type="submit"]');
+    const submitButton = event.submitter || form.querySelector('button[type="submit"]');
     submitButton.disabled = true;
     submitButton.querySelector("span").textContent = "Sending...";
     setStatus("Submitting your request...");
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 15000);
+    const callbackName = `mailchimpCallback${Date.now()}${Math.random().toString(36).slice(2)}`;
+    const requestUrl = new URL(form.action);
+    requestUrl.pathname = requestUrl.pathname.replace(/\/post$/, "/post-json");
+    new FormData(form).forEach((value, key) => requestUrl.searchParams.append(key, value));
+    requestUrl.searchParams.set("c", callbackName);
+    const request = document.createElement("script");
 
     try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        body: new FormData(form),
-        headers: { Accept: "application/json" },
-        signal: controller.signal,
+      const data = await new Promise((resolve, reject) => {
+        const timeout = window.setTimeout(() => reject(new Error("Mailchimp request timed out")), 15000);
+        window[callbackName] = (result) => {
+          window.clearTimeout(timeout);
+          resolve(result);
+        };
+        request.onerror = () => {
+          window.clearTimeout(timeout);
+          reject(new Error("Mailchimp request failed"));
+        };
+        request.src = requestUrl;
+        document.body.append(request);
       });
-      const data = await response.json();
-      if (!response.ok || ![true, "true"].includes(data.success)) throw new Error(data.message || `Form submission failed: ${response.status}`);
+      if (data.result !== "success") {
+        const message = document.createElement("div");
+        message.innerHTML = data.msg || "";
+        setStatus(message.textContent?.replace(/^\d+\s*-\s*/, "") || "Check your email address and try again.", "error");
+        return;
+      }
 
       form.reset();
-      showEmailStep();
       setStatus("Thanks! Your beta request has been received. I’ll be in touch by email.", "success");
     } catch {
       setStatus("Form service is temporarily unavailable. Email hello@bricks.pe instead.", "error");
     } finally {
-      window.clearTimeout(timeout);
+      request.remove();
+      window[callbackName] = () => {};
+      window.setTimeout(() => delete window[callbackName], 60000);
       submitting = false;
       submitButton.disabled = false;
-      betaButtonLabel.textContent = "Submit beta application";
+      submitButton.querySelector("span").textContent = "Get Beta Access";
     }
   });
 });
@@ -273,12 +238,7 @@ document.querySelectorAll("[data-beta-cta]").forEach((cta) => {
   cta.addEventListener("click", (event) => {
     event.preventDefault();
     const form = document.querySelector('[data-signup-form][data-placement="hero"]');
-    const emailStep = form.querySelector('[data-signup-step="email"]');
-    const betaStep = form.querySelector('[data-signup-step="beta"]');
-    const email = form.querySelector('[name="email"]');
-    emailStep.hidden = false;
-    betaStep.hidden = true;
-    form.dataset.betaReady = "false";
+    const email = form.querySelector('[name="EMAIL"]');
     email.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
     window.setTimeout(() => email.focus(), reduceMotion ? 0 : 350);
   });
