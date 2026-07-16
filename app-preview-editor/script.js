@@ -161,13 +161,32 @@ if (!reduceMotion && observedVideos.length) {
 }
 
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
+  const emailStep = form.querySelector('[data-signup-step="email"]');
+  const betaStep = form.querySelector('[data-signup-step="beta"]');
   const email = form.querySelector('[name="EMAIL"]');
+  const firstName = form.querySelector('[name="FNAME"]');
+  const lastName = form.querySelector('[name="LNAME"]');
+  const building = form.querySelector('[name="BUILDING"]');
+  const appLink = form.querySelector('[name="APPLINK"]');
+  const challenge = form.querySelector('[name="CHALLENGE"]');
   const status = form.querySelector(".form-status");
   let submitting = false;
 
   const setStatus = (message = "", state = "") => {
     status.textContent = message;
     status.dataset.state = state;
+  };
+  const showEmailStep = () => {
+    betaStep.hidden = true;
+    emailStep.hidden = false;
+    form.dataset.betaReady = "false";
+  };
+  const showBetaStep = () => {
+    emailStep.hidden = true;
+    betaStep.hidden = false;
+    form.dataset.betaReady = "true";
+    setStatus();
+    building.focus();
   };
   const validateEmail = () => {
     const valid = email.value.trim() && email.validity.valid;
@@ -178,6 +197,40 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     }
     return valid;
   };
+  const validateBetaApplication = () => {
+    for (const field of [firstName, lastName]) {
+      const valid = field.value.trim().length > 0 && new TextEncoder().encode(field.value).length <= 255;
+      field.setAttribute("aria-invalid", String(!valid));
+      if (!valid) {
+        setStatus(field.value.trim() ? "Keep each name within 255 bytes." : "Enter your first and last name.", "error");
+        field.focus();
+        return false;
+      }
+    }
+    for (const field of [building, challenge]) {
+      const valid = field.value.trim().length > 0 && new TextEncoder().encode(field.value).length <= 255;
+      field.setAttribute("aria-invalid", String(!valid));
+      if (!valid) {
+        setStatus(field.value.trim() ? "Keep each answer within 255 bytes." : "Add a short answer so we can review your application.", "error");
+        field.focus();
+        return false;
+      }
+    }
+    if (new TextEncoder().encode(appLink.value).length > 255 || (appLink.value.trim() && !appLink.validity.valid)) {
+      appLink.setAttribute("aria-invalid", "true");
+      setStatus("Enter a complete link within 255 bytes, or leave this field empty.", "error");
+      appLink.focus();
+      return false;
+    }
+    appLink.removeAttribute("aria-invalid");
+    return true;
+  };
+
+  form.querySelector("[data-beta-back]").addEventListener("click", () => {
+    showEmailStep();
+    email.focus();
+  });
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (submitting) return;
@@ -185,11 +238,20 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     if (!validateEmail()) {
       return;
     }
+    if (form.dataset.betaReady !== "true") {
+      showBetaStep();
+      return;
+    }
+    if (!validateBetaApplication()) {
+      return;
+    }
 
     submitting = true;
-    const submitButton = event.submitter || form.querySelector('button[type="submit"]');
+    const submitButton = betaStep.querySelector('button[type="submit"]');
+    const buttonLabel = submitButton.querySelector("span");
+    const originalButtonLabel = buttonLabel.textContent;
     submitButton.disabled = true;
-    submitButton.querySelector("span").textContent = "Sending...";
+    buttonLabel.textContent = "Sending...";
     setStatus("Submitting your request...");
     const callbackName = `mailchimpCallback${Date.now()}${Math.random().toString(36).slice(2)}`;
     const requestUrl = new URL(form.action);
@@ -220,6 +282,7 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
       }
 
       form.reset();
+      showEmailStep();
       setStatus("Thanks! Your beta request has been received. I’ll be in touch by email.", "success");
     } catch {
       setStatus("Form service is temporarily unavailable. Email hello@bricks.pe instead.", "error");
@@ -229,7 +292,7 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
       window.setTimeout(() => delete window[callbackName], 60000);
       submitting = false;
       submitButton.disabled = false;
-      submitButton.querySelector("span").textContent = "Get Beta Access";
+      buttonLabel.textContent = originalButtonLabel;
     }
   });
 });
@@ -238,7 +301,12 @@ document.querySelectorAll("[data-beta-cta]").forEach((cta) => {
   cta.addEventListener("click", (event) => {
     event.preventDefault();
     const form = document.querySelector('[data-signup-form][data-placement="hero"]');
+    const emailStep = form.querySelector('[data-signup-step="email"]');
+    const betaStep = form.querySelector('[data-signup-step="beta"]');
     const email = form.querySelector('[name="EMAIL"]');
+    emailStep.hidden = false;
+    betaStep.hidden = true;
+    form.dataset.betaReady = "false";
     email.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
     window.setTimeout(() => email.focus(), reduceMotion ? 0 : 350);
   });

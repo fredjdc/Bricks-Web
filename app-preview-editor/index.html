@@ -100,6 +100,26 @@
               <button class="button submit-button" type="submit"><span>Get Beta Access</span></button>
               <p class="form-note" id="hero-form-note">Beta requests are reviewed before invitations are sent.</p> 
             </div>
+            <div class="signup-step beta-step" data-signup-step="beta" hidden>
+              <div class="beta-heading">
+                <h2>Tell us what you’re building.</h2>
+                <p>A few details help us review genuine requests and invite testers who match the current beta.</p>
+              </div>
+              <label for="hero-first-name">First name</label>
+              <input id="hero-first-name" name="FNAME" type="text" autocomplete="given-name" maxlength="255" aria-describedby="hero-form-status">
+              <label for="hero-last-name">Last name</label>
+              <input id="hero-last-name" name="LNAME" type="text" autocomplete="family-name" maxlength="255" aria-describedby="hero-form-status">
+              <label for="hero-building">What are you building?</label>
+              <textarea id="hero-building" name="BUILDING" rows="4" maxlength="255" placeholder="Tell us about your app and where you are in development." aria-describedby="hero-form-status"></textarea>
+              <label for="hero-link">App or website (optional)</label>
+              <input id="hero-link" name="APPLINK" type="url" inputmode="url" maxlength="255" placeholder="https://" aria-describedby="hero-form-status">
+              <label for="hero-challenge">What's the hardest part about creating App Preview videos?</label>
+              <textarea id="hero-challenge" name="CHALLENGE" rows="4" maxlength="255" placeholder="For example: editing, variants, updates, export settings, or App Store Connect." aria-describedby="hero-form-status"></textarea>
+              <div class="beta-actions">
+                <button class="button button-secondary" type="button" data-beta-back>Back</button>
+                <button class="button submit-button" type="submit"><span>Submit request</span></button>
+              </div>
+            </div>
             <p class="form-status" id="hero-form-status" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -352,6 +372,26 @@
             <button class="button submit-button" type="submit"><span>Get Beta Access</span></button>
             <p class="form-note" id="final-form-note">Beta requests are reviewed before invitations are sent.</p>
           </div>
+          <div class="signup-step beta-step" data-signup-step="beta" hidden>
+            <div class="beta-heading">
+              <h2>Tell us what you’re building.</h2>
+              <p>A few details help us review genuine requests and invite testers who match the current beta.</p>
+            </div>
+            <label for="final-first-name">First name</label>
+            <input id="final-first-name" name="FNAME" type="text" autocomplete="given-name" maxlength="255" aria-describedby="final-form-status">
+            <label for="final-last-name">Last name</label>
+            <input id="final-last-name" name="LNAME" type="text" autocomplete="family-name" maxlength="255" aria-describedby="final-form-status">
+            <label for="final-building">What are you building?</label>
+            <textarea id="final-building" name="BUILDING" rows="4" maxlength="255" placeholder="Tell us about your app and where you are in development." aria-describedby="final-form-status"></textarea>
+            <label for="final-link">App or website (optional)</label>
+            <input id="final-link" name="APPLINK" type="url" inputmode="url" maxlength="255" placeholder="https://" aria-describedby="final-form-status">
+            <label for="final-challenge">What's the hardest part about creating App Preview videos?</label>
+            <textarea id="final-challenge" name="CHALLENGE" rows="4" maxlength="255" placeholder="For example: editing, variants, updates, export settings, or App Store Connect." aria-describedby="final-form-status"></textarea>
+            <div class="beta-actions">
+              <button class="button button-secondary" type="button" data-beta-back>Back</button>
+              <button class="button submit-button" type="submit"><span>Submit beta request</span></button>
+            </div>
+          </div>
           <p class="form-status" id="final-form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -372,6 +412,6 @@
     <div><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:hello@bricks.pe">Contact</a><span>© 2026 Bricks Apps</span></div>
   </footer>
 
-  <script src="script.js?v=20260716-1" defer></script>
+  <script src="script.js?v=20260716-3" defer></script>
 </body>
 </html>
