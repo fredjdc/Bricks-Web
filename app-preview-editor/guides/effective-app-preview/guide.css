@@ -74,6 +74,7 @@
 @media (min-width: 900px) {
   .guide-hero { padding-block: 116px 92px; }
   .guide-layout { grid-template-columns: 200px minmax(0, 1fr); gap: 96px; padding-block: 112px 144px; }
+  .guide-index .guide-layout { grid-template-columns: 1fr; gap: 40px; }
   .guide-toc { position: sticky; top: 100px; }
   .guide-content > section:not(.preflight):not(.guide-reminder) { padding-bottom: 112px; }
   .preflight-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; }
