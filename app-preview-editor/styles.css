@@ -269,9 +269,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .workflow-media { position: sticky; top: 152px; display: block; align-self: start; }
   .mobile-workflow-media-wrap { display: none; }
   .workflow-steps { gap: 0; }
-  .workflow-step { min-height: 58vh; display: flex; flex-direction: column; justify-content: center; transition: opacity 250ms ease; }
-  .js .workflow-step { opacity: 0.72; }
-  .js .workflow-step.is-active { opacity: 1; }
+  .workflow-step { min-height: 58vh; display: flex; flex-direction: column; justify-content: center; }
   .product-stories { gap: 380px; }
   .product-story { grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr); gap: 72px; }
   .product-story-reverse { grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr); }
@@ -283,6 +281,11 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .faq > .section-heading { margin-bottom: 0; }
   .faq-list { max-width: none; }
   .final-panel { padding-block: 112px; }
+}
+
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .js .workflow-steps .workflow-step { opacity: 0.18; filter: blur(8px); transition: opacity 450ms var(--ease), filter 450ms var(--ease), transform 700ms var(--ease) var(--reveal-delay, 0ms); }
+  .js .workflow-steps .workflow-step.is-active { opacity: 1; filter: blur(0); }
 }
 
 @media (min-width: 1200px) {
