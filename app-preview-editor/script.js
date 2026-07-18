@@ -186,7 +186,7 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     betaStep.hidden = false;
     form.dataset.betaReady = "true";
     setStatus();
-    building.focus();
+    firstName.focus();
   };
   const validateEmail = () => {
     const valid = email.value.trim() && email.validity.valid;
@@ -199,10 +199,10 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
   };
   const validateBetaApplication = () => {
     for (const field of [firstName, lastName]) {
-      const valid = field.value.trim().length > 0 && new TextEncoder().encode(field.value).length <= 255;
+      const valid = new TextEncoder().encode(field.value).length <= 255;
       field.setAttribute("aria-invalid", String(!valid));
       if (!valid) {
-        setStatus(field.value.trim() ? "Keep each name within 255 bytes." : "Enter your first and last name.", "error");
+        setStatus("Keep each name within 255 bytes.", "error");
         field.focus();
         return false;
       }
@@ -216,9 +216,9 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
         return false;
       }
     }
-    if (new TextEncoder().encode(appLink.value).length > 255 || (appLink.value.trim() && !appLink.validity.valid)) {
+    if (new TextEncoder().encode(appLink.value).length > 255) {
       appLink.setAttribute("aria-invalid", "true");
-      setStatus("Enter a complete link within 255 bytes, or leave this field empty.", "error");
+      setStatus("Keep the app or website within 255 bytes.", "error");
       appLink.focus();
       return false;
     }
