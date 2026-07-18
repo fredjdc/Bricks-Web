@@ -1,5 +1,20 @@
 export const guideRegistry = [
   {
+    slug: "getting-started",
+    icon: "monitor-play",
+    title: "Getting started with App Preview Editor",
+    summary: "Watch the quick walkthrough, then take your first project from imported media to an App Store Connect upload.",
+    kind: "product-guide",
+    primaryTopic: "plan",
+    tags: ["plan", "capture", "edit", "deliver"],
+    aliases: ["quick start", "tutorial", "walkthrough", "drop", "edit", "upload", "first project"],
+    locale: "en",
+    reviewedDate: "2026-07-18",
+    owner: "Bricks Apps",
+    status: "published",
+    featured: true
+  },
+  {
     slug: "effective-app-preview",
     icon: "film-slate",
     title: "App Preview essentials",
@@ -12,7 +27,7 @@ export const guideRegistry = [
     reviewedDate: "2026-07-17",
     owner: "Bricks Apps",
     status: "published",
-    featured: true
+    featured: false
   },
   {
     slug: "app-preview-assets",

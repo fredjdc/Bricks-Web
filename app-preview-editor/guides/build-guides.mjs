@@ -4,7 +4,7 @@ import { guideRegistry } from "./guide-registry.mjs";
 
 const HUB_URL = "https://bricks.pe/app-preview-editor/guides/";
 const TOPICS = new Set(["plan", "capture", "edit", "deliver"]);
-const GUIDE_ICONS = new Set(["camera", "film-slate", "sliders-horizontal"]);
+const GUIDE_ICONS = new Set(["camera", "film-slate", "monitor-play", "sliders-horizontal"]);
 const hubPath = new URL("./index.html", import.meta.url);
 const sitemapPath = new URL("../../sitemap.xml", import.meta.url);
 const publishedGuides = guideRegistry.filter((guide) => guide.status === "published");
@@ -110,11 +110,14 @@ function renderCards() {
   return publishedGuides.map((guide) => {
     const featuredBadge = guide.featured ? '\n                    <span class="guide-start-badge">Start here</span>' : "";
     const aliases = escapeHTML(guide.aliases.join(" "));
+    const label = guide.kind === "product-guide"
+      ? "Product guide"
+      : guide.primaryTopic[0].toUpperCase() + guide.primaryTopic.slice(1);
 
     return `              <article class="guide-card" data-guide data-topics="${guide.tags.join(" ")}" data-search="${aliases}">
                 <a class="guide-card-link" href="${guide.slug}/index.html">
                   <div class="guide-card-meta">
-                    <span>${escapeHTML(guide.primaryTopic[0].toUpperCase() + guide.primaryTopic.slice(1))}</span>
+                    <span>${escapeHTML(label)}</span>
                     <span class="guide-reviewed">Reviewed ${formatDate(guide.reviewedDate)}</span>${featuredBadge}
                   </div>
                   <div class="guide-card-copy">

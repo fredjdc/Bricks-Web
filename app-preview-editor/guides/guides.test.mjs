@@ -67,9 +67,7 @@ test("local navigation targets files instead of filesystem directories", () => {
   const pagePaths = [
     "../index.html",
     "./index.html",
-    "./effective-app-preview/index.html",
-    "./app-preview-assets/index.html",
-    "./video-editing-app-preview/index.html"
+    ...guideRegistry.filter((guide) => guide.status === "published").map((guide) => `./${guide.slug}/index.html`)
   ];
 
   pagePaths.forEach((path) => {
@@ -82,11 +80,9 @@ test("local navigation targets files instead of filesystem directories", () => {
 });
 
 test("each article breadcrumb includes the Guides collection", () => {
-  const articlePaths = [
-    "./effective-app-preview/index.html",
-    "./app-preview-assets/index.html",
-    "./video-editing-app-preview/index.html"
-  ];
+  const articlePaths = guideRegistry
+    .filter((guide) => guide.status === "published")
+    .map((guide) => `./${guide.slug}/index.html`);
 
   articlePaths.forEach((path) => {
     const articleURL = new URL(path, import.meta.url);
@@ -106,6 +102,19 @@ test("each article breadcrumb includes the Guides collection", () => {
     assert.equal(breadcrumbs.itemListElement[1].name, "Guides");
     assert.equal(breadcrumbs.itemListElement[2].position, 3);
   });
+});
+
+test("the quick start defers YouTube until the viewer presses play", () => {
+  const articleHTML = readFileSync(new URL("./getting-started/index.html", import.meta.url), "utf8");
+
+  assert.match(articleHTML, /data-video-id="0MCumtDdCSw"/);
+  assert.match(articleHTML, /class="guide-video-play"/);
+  assert.match(articleHTML, /location\.protocol === "file:"/);
+  assert.match(articleHTML, /iframe\.addEventListener\("load"/);
+  assert.match(articleHTML, /iframe\.focus\(\)/);
+  assert.match(articleHTML, /youtube-nocookie\.com\/embed/);
+  assert.match(articleHTML, /href="https:\/\/youtu\.be\/0MCumtDdCSw"/);
+  assert.doesNotMatch(articleHTML, /<iframe\b/);
 });
 
 test("the enhanced catalog restores, filters, resets, and responds to history state", async () => {
@@ -141,12 +150,13 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
   const searchForm = new FakeElement();
   const searchInput = new FakeElement();
   const clearButton = new FakeElement({ hidden: true });
-  const resultCount = new FakeElement({ textContent: "3 guides" });
+  const resultCount = new FakeElement({ textContent: "4 guides" });
   const emptyState = new FakeElement({ hidden: true });
   const emptyTitle = new FakeElement();
   const resetButton = new FakeElement();
   const filterButtons = ["all", "plan", "capture", "edit", "deliver"].map((topic) => new FakeElement({ dataset: { topic } }));
   const cards = [
+    new FakeElement({ dataset: { topics: "plan capture edit deliver", search: "quick start tutorial walkthrough" }, textContent: "Getting started with App Preview Editor" }),
     new FakeElement({ dataset: { topics: "plan capture edit deliver", search: "story muted complete workflow" }, textContent: "App Preview essentials" }),
     new FakeElement({ dataset: { topics: "plan capture", search: "screen recordings audio" }, textContent: "Prepare App Preview footage and audio" }),
     new FakeElement({ dataset: { topics: "edit deliver", search: "captions muted export" }, textContent: "Edit an App Preview for clarity" })
@@ -180,7 +190,7 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
   await import(`./guides.js?dom-test=${Date.now()}`);
 
   assert.equal(controls.hidden, false);
-  assert.deepEqual(cards.map((card) => card.hidden), [true, false, true]);
+  assert.deepEqual(cards.map((card) => card.hidden), [true, true, false, true]);
   assert.equal(resultCount.textContent, "1 guide");
   assert.equal(filterButtons[2].attributes.get("aria-pressed"), "true");
 
@@ -190,12 +200,12 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
   assert.equal(emptyTitle.textContent, "No guides match “captions”.");
 
   resetButton.dispatch("click");
-  assert.deepEqual(cards.map((card) => card.hidden), [false, false, false]);
+  assert.deepEqual(cards.map((card) => card.hidden), [false, false, false, false]);
   assert.equal(globalThis.window.location.search, "");
 
   globalThis.window.location = new URL("https://bricks.pe/app-preview-editor/guides/?q=muted&topic=deliver");
   windowListeners.get("popstate")();
-  assert.deepEqual(cards.map((card) => card.hidden), [false, true, false]);
+  assert.deepEqual(cards.map((card) => card.hidden), [true, false, true, false]);
   assert.equal(resultCount.textContent, "2 guides");
 
   delete globalThis.document;

@@ -127,6 +127,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .section-heading { max-width: 800px; margin-bottom: 48px; }
 .section-heading h2, h2.section-heading { margin-bottom: 16px; }
 .section-heading p, .result-copy p { max-width: 52ch; color: var(--text-secondary); font-size: 1.08rem; }
+.workflow-heading .button { margin-top: 8px; }
 .result-section { display: grid; gap: 48px; align-items: center; }
 .result-copy h2 { margin-bottom: 16px; }
 .result-media { display: grid; place-items: center; min-width: 0; }
