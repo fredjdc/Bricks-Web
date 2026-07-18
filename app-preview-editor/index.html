@@ -92,13 +92,14 @@
         <p class="hero-lede hero-intro-secondary">A Mac app built for App Preview videos</p>
         <p class="hero-body hero-intro-detail">From screenshots and recordings to App Store Connect—all in one focused workflow</p>
         <div class="hero-intro-detail">
-          <form class="signup-form" action="https://bricks.us11.list-manage.com/subscribe/post?u=8254d04472ab0d25110f41edb&amp;id=0bbe1c0355&amp;f_id=00310fe1f0" method="POST" data-signup-form data-placement="hero" novalidate>
+          <form class="signup-form" action="https://bricks.us11.list-manage.com/subscribe/post?u=8254d04472ab0d25110f41edb&amp;id=0bbe1c0355&amp;f_id=00310fe1f0" method="POST" data-signup-form data-placement="hero" data-signup-state="collapsed" novalidate>
             <input type="hidden" name="tags" value="9327311">
             <input class="honey" type="text" name="b_8254d04472ab0d25110f41edb_0bbe1c0355" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <div class="signup-step" data-signup-step="email">
+            <button class="button signup-trigger" type="button" data-beta-open aria-expanded="false" aria-controls="hero-email-step">Download Beta</button>
+            <div class="signup-step" id="hero-email-step" data-signup-step="email">
               <label for="hero-email">Email</label>
               <input class="email-input" id="hero-email" name="EMAIL" type="email" inputmode="email" autocomplete="email" placeholder="john@address.com" aria-describedby="hero-form-note hero-form-status" required>
-              <button class="button submit-button" type="submit"><span>Download Beta</span></button>
+              <button class="button submit-button" type="submit"><span>Continue</span></button>
               <p class="form-note" id="hero-form-note">You will receive the link to download the beta app from TestFlight</p> 
             </div>
             <div class="signup-step beta-step" data-signup-step="beta" hidden>
@@ -370,13 +371,14 @@
       <div class="final-panel reveal">
         <img src="AppIcon.png" width="144" height="144" alt="">
         <h2 id="final-title">Ready to spend less time making App Previews?</h2>
-        <form class="signup-form signup-form-centered" action="https://bricks.us11.list-manage.com/subscribe/post?u=8254d04472ab0d25110f41edb&amp;id=0bbe1c0355&amp;f_id=00310fe1f0" method="POST" data-signup-form data-placement="final" novalidate>
+        <form class="signup-form signup-form-centered" action="https://bricks.us11.list-manage.com/subscribe/post?u=8254d04472ab0d25110f41edb&amp;id=0bbe1c0355&amp;f_id=00310fe1f0" method="POST" data-signup-form data-placement="final" data-signup-state="collapsed" novalidate>
           <input type="hidden" name="tags" value="9327311">
           <input class="honey" type="text" name="b_8254d04472ab0d25110f41edb_0bbe1c0355" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <div class="signup-step" data-signup-step="email">
+          <button class="button signup-trigger" type="button" data-beta-open aria-expanded="false" aria-controls="final-email-step">Download Beta</button>
+          <div class="signup-step" id="final-email-step" data-signup-step="email">
             <label for="final-email">Email</label>
             <input class="email-input" id="final-email" name="EMAIL" type="email" inputmode="email" autocomplete="email" placeholder="john@address.com" aria-describedby="final-form-note final-form-status" required>
-            <button class="button submit-button" type="submit"><span>Download Beta</span></button>
+            <button class="button submit-button" type="submit"><span>Continue</span></button>
             <p class="form-note" id="final-form-note">You will receive the link to download the beta app from TestFlight</p>
           </div>
           <div class="signup-step beta-step" data-signup-step="beta" hidden>
@@ -419,6 +421,6 @@
     <div><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:hello@bricks.pe">Contact</a><span>© 2026 Bricks Apps</span></div>
   </footer>
 
-  <script src="script.js?v=20260718-1" defer></script>
+  <script src="script.js?v=20260718-3" defer></script>
 </body>
 </html>

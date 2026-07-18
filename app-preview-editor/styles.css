@@ -100,6 +100,9 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .hero-body { max-width: 58ch; margin: 0 auto 28px; color: var(--text-secondary); font-size: 1.08rem; }
 .hero .signup-form { margin-inline: auto; text-align: left; }
 .signup-form { max-width: 610px; }
+.signup-trigger { display: none; min-width: 190px; margin-inline: auto; }
+.js .signup-trigger { display: flex; width: fit-content; }
+.js .signup-form[data-signup-state="collapsed"] [data-signup-step="email"] { display: none; }
 .signup-step { display: grid; gap: 12px; }
 .signup-step > label { margin-top: 4px; font-size: 14px; font-weight: 650; }
 .email-input, .signup-step > input:not([type="checkbox"]), .signup-step textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text); box-shadow: inset 0 1px 2px color-mix(in srgb, var(--border) 55%, transparent); outline: none; }
@@ -119,6 +122,11 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .form-status[data-state="success"] { color: var(--success); }
 .form-status[data-state="error"] { color: var(--error); }
 .honey { position: absolute; left: -10000px; width: 1px; height: 1px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .signup-state-entering { animation: signup-state-in 280ms var(--ease); }
+  @keyframes signup-state-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+}
 
 .proof-strip { border-block: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 78%, transparent); }
 .proof-grid { display: grid; grid-template-columns: repeat(2, 1fr); }

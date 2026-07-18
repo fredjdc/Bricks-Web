@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js");
+
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const numberWords = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"];
@@ -191,6 +193,7 @@ if (!reduceMotion && observedVideos.length) {
 }
 
 document.querySelectorAll("[data-signup-form]").forEach((form) => {
+  const openButton = form.querySelector("[data-beta-open]");
   const emailStep = form.querySelector('[data-signup-step="email"]');
   const betaStep = form.querySelector('[data-signup-step="beta"]');
   const email = form.querySelector('[name="EMAIL"]');
@@ -206,18 +209,46 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     status.textContent = message;
     status.dataset.state = state;
   };
+  const animateState = (element) => {
+    if (reduceMotion) return;
+    element.classList.remove("signup-state-entering");
+    void element.offsetWidth;
+    element.classList.add("signup-state-entering");
+  };
+  const showCollapsedStep = (animate = true) => {
+    openButton.hidden = false;
+    openButton.setAttribute("aria-expanded", "false");
+    emailStep.hidden = true;
+    betaStep.hidden = true;
+    form.dataset.signupState = "collapsed";
+    form.dataset.betaReady = "false";
+    if (animate) animateState(openButton);
+  };
   const showEmailStep = () => {
+    openButton.hidden = true;
+    openButton.setAttribute("aria-expanded", "true");
     betaStep.hidden = true;
     emailStep.hidden = false;
+    form.dataset.signupState = "email";
     form.dataset.betaReady = "false";
+    setStatus();
+    animateState(emailStep);
   };
   const showBetaStep = () => {
+    openButton.hidden = true;
     emailStep.hidden = true;
     betaStep.hidden = false;
+    form.dataset.signupState = "beta";
     form.dataset.betaReady = "true";
     setStatus();
+    animateState(betaStep);
     firstName.focus();
   };
+
+  openButton.addEventListener("click", () => {
+    showEmailStep();
+    email.focus();
+  });
   const validateEmail = () => {
     const valid = email.value.trim() && email.validity.valid;
     email.setAttribute("aria-invalid", String(!valid));
@@ -260,6 +291,8 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
     showEmailStep();
     email.focus();
   });
+
+  showCollapsedStep(false);
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -312,8 +345,9 @@ document.querySelectorAll("[data-signup-form]").forEach((form) => {
       }
 
       form.reset();
-      showEmailStep();
+      showCollapsedStep();
       setStatus("Thanks! Your beta request has been received. I’ll be in touch by email.", "success");
+      openButton.focus();
     } catch {
       setStatus("Form service is temporarily unavailable. Email hello@bricks.pe instead.", "error");
     } finally {
@@ -331,13 +365,14 @@ document.querySelectorAll("[data-beta-cta]").forEach((cta) => {
   cta.addEventListener("click", (event) => {
     event.preventDefault();
     const form = document.querySelector('[data-signup-form][data-placement="hero"]');
-    const emailStep = form.querySelector('[data-signup-step="email"]');
-    const betaStep = form.querySelector('[data-signup-step="beta"]');
+    const openButton = form.querySelector("[data-beta-open]");
     const email = form.querySelector('[name="EMAIL"]');
-    emailStep.hidden = false;
-    betaStep.hidden = true;
-    form.dataset.betaReady = "false";
+    openButton.click();
     email.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
     window.setTimeout(() => email.focus(), reduceMotion ? 0 : 350);
   });
 });
+
+if (window.location.hash === "#hero-email") {
+  document.querySelector('[data-signup-form][data-placement="hero"] [data-beta-open]').click();
+}
