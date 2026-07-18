@@ -89,12 +89,19 @@ test("each article breadcrumb includes the Guides collection", () => {
   ];
 
   articlePaths.forEach((path) => {
-    const articleHTML = readFileSync(new URL(path, import.meta.url), "utf8");
+    const articleURL = new URL(path, import.meta.url);
+    const articleHTML = readFileSync(articleURL, "utf8");
     const structuredDataSource = articleHTML.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
     const structuredData = JSON.parse(structuredDataSource);
     const breadcrumbs = structuredData["@graph"].find((item) => item["@type"] === "BreadcrumbList");
+    const headingCount = (articleHTML.match(/<h2\b/g) ?? []).length;
+    const decoratedHeadingCount = (articleHTML.match(/<img class="guide-section-icon"[^>]*>\s*<h2\b/g) ?? []).length;
+    const iconSources = [...articleHTML.matchAll(/src="(\.\.\/\.\.\/assets\/guide-icons\/[^"]+\.svg)"/g)].map((match) => match[1]);
 
     assert.match(articleHTML, /class="guide-hero-icon"/);
+    assert.equal(decoratedHeadingCount, headingCount);
+    assert.doesNotMatch(articleHTML, /<svg[^>]+class="guide-(?:hero|section)-icon"/);
+    iconSources.forEach((source) => readFileSync(new URL(source, articleURL)));
     assert.equal(breadcrumbs.itemListElement.length, 3);
     assert.equal(breadcrumbs.itemListElement[1].name, "Guides");
     assert.equal(breadcrumbs.itemListElement[2].position, 3);

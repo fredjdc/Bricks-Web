@@ -4,11 +4,7 @@ import { guideRegistry } from "./guide-registry.mjs";
 
 const HUB_URL = "https://bricks.pe/app-preview-editor/guides/";
 const TOPICS = new Set(["plan", "capture", "edit", "deliver"]);
-const GUIDE_ICONS = {
-  storyboard: '<rect x="3" y="5" width="18" height="14" rx="2"/><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/>',
-  capture: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.5"/><line x1="17" y1="8" x2="18" y2="8"/>',
-  edit: '<line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="15" cy="17" r="2"/>'
-};
+const GUIDE_ICONS = new Set(["camera", "film-slate", "sliders-horizontal"]);
 const hubPath = new URL("./index.html", import.meta.url);
 const sitemapPath = new URL("../../sitemap.xml", import.meta.url);
 const publishedGuides = guideRegistry.filter((guide) => guide.status === "published");
@@ -50,7 +46,7 @@ function validateRegistry() {
 
   publishedGuides.forEach((guide) => {
     if (slugs.has(guide.slug)) throw new Error(`Duplicate guide slug: ${guide.slug}`);
-    if (!GUIDE_ICONS[guide.icon]) throw new Error(`Invalid guide icon: ${guide.slug}`);
+    if (!GUIDE_ICONS.has(guide.icon)) throw new Error(`Invalid guide icon: ${guide.slug}`);
     if (!TOPICS.has(guide.primaryTopic)) throw new Error(`Invalid primary topic: ${guide.primaryTopic}`);
     if (!guide.tags.includes(guide.primaryTopic)) throw new Error(`Primary topic missing from tags: ${guide.slug}`);
     if (guide.tags.some((topic) => !TOPICS.has(topic))) throw new Error(`Invalid guide tag: ${guide.slug}`);
@@ -122,7 +118,7 @@ function renderCards() {
                     <span class="guide-reviewed">Reviewed ${formatDate(guide.reviewedDate)}</span>${featuredBadge}
                   </div>
                   <div class="guide-card-copy">
-                    <svg class="guide-card-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${GUIDE_ICONS[guide.icon]}</svg>
+                    <img class="guide-card-icon" src="../assets/guide-icons/${guide.icon}.svg" width="34" height="34" alt="" aria-hidden="true">
                     <h3>${escapeHTML(guide.title)}</h3>
                     <p>${escapeHTML(guide.summary)}</p>
                   </div>
