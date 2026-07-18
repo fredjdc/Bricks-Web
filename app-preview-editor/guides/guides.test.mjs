@@ -94,6 +94,7 @@ test("each article breadcrumb includes the Guides collection", () => {
     const structuredData = JSON.parse(structuredDataSource);
     const breadcrumbs = structuredData["@graph"].find((item) => item["@type"] === "BreadcrumbList");
 
+    assert.match(articleHTML, /class="guide-hero-icon"/);
     assert.equal(breadcrumbs.itemListElement.length, 3);
     assert.equal(breadcrumbs.itemListElement[1].name, "Guides");
     assert.equal(breadcrumbs.itemListElement[2].position, 3);

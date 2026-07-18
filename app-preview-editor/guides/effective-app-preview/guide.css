@@ -15,6 +15,7 @@
 .breadcrumbs a { color: inherit; }
 .guide-kicker,
 .section-label { margin-bottom: 14px; color: var(--text-secondary); font-size: 14px !important; font-weight: 700; letter-spacing: 0.02em; }
+.guide-hero-icon { display: block; width: 44px; height: 44px; margin-bottom: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .guide-lede { max-width: 28ch; margin-bottom: 24px; font-size: clamp(1.35rem, 3vw, 1.8rem) !important; font-weight: 620; letter-spacing: -0.02em; line-height: 1.2; }
 .guide-meta { margin: 0; color: var(--text-secondary); font-size: 14px !important; }
 
