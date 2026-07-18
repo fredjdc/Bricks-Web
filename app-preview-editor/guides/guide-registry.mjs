@@ -1,6 +1,7 @@
 export const guideRegistry = [
   {
     slug: "effective-app-preview",
+    icon: "storyboard",
     title: "App Preview essentials",
     summary: "Plan the story, capture the app, edit for clarity, and validate the final video before upload.",
     kind: "guide",
@@ -15,6 +16,7 @@ export const guideRegistry = [
   },
   {
     slug: "app-preview-assets",
+    icon: "capture",
     title: "Prepare App Preview footage and audio",
     summary: "Prepare clean recordings, screenshots, audio, and app states before the edit begins.",
     kind: "guide",
@@ -29,6 +31,7 @@ export const guideRegistry = [
   },
   {
     slug: "video-editing-app-preview",
+    icon: "edit",
     title: "Edit an App Preview for clarity",
     summary: "Make each cut, caption, and transition support a clear and credible app experience.",
     kind: "guide",

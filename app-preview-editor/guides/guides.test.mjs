@@ -40,6 +40,7 @@ test("the static catalog and SEO describe the same guide collection", () => {
   assert.equal(cardMatches.length, publishedGuides.length);
   assert.equal(new Set(hrefs).size, hrefs.length);
   assert.equal((hubHTML.match(/Start here/g) ?? []).length, publishedGuides.filter((guide) => guide.featured).length);
+  assert.equal((hubHTML.match(/class="guide-card-icon"/g) ?? []).length, publishedGuides.length);
   assert.match(hubHTML, /<section class="guide-controls"[^>]* hidden>/);
   assert.match(hubHTML, /<input[^>]*type="search"/);
   assert.match(hubHTML, /aria-live="polite"/);

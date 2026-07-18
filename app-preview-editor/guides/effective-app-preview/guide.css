@@ -163,6 +163,7 @@
 .guide-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; color: var(--text-secondary); font-size: 14px; font-weight: 700; }
 .guide-reviewed { font-weight: 500; }
 .guide-start-badge { padding: 4px 8px; border: 1px solid var(--border); border-radius: 999px; color: var(--text); font-size: 12px; }
+.guide-card-icon { display: block; width: 34px; height: 34px; margin-bottom: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .guide-card-copy h3 { margin: 0 0 12px; font-size: clamp(1.45rem, 3vw, 2rem); }
 .guide-card-copy p { max-width: 58ch; margin: 0; color: var(--text-secondary); line-height: 1.55; }
 .guide-card-action { align-self: center; color: var(--text); font-size: 14px; font-weight: 700; text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 4px; }
