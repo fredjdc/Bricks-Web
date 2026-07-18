@@ -1,11 +1,15 @@
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const animateCountUp = (element) => {
-  const target = Number(element.dataset.countUp);
+const numberWords = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"];
+
+const animateNumber = (element) => {
+  const start = Number(element.dataset.countFrom);
+  const target = Number(element.dataset.countTo);
+  const format = element.hasAttribute("data-count-words") ? (value) => numberWords[value] : String;
   const duration = 800;
   let startedAt;
   let previousValue = -1;
-  element.textContent = "0";
+  element.textContent = format(start);
   element.classList.add("is-counting");
 
   const update = (now) => {
@@ -15,8 +19,8 @@ const animateCountUp = (element) => {
       return;
     }
     const progress = Math.min((now - startedAt) / duration, 1);
-    const value = Math.round(target * (1 - Math.pow(1 - progress, 3)));
-    if (value !== previousValue) element.textContent = String(value);
+    const value = Math.round(start + (target - start) * (1 - Math.pow(1 - progress, 3)));
+    if (value !== previousValue) element.textContent = format(value);
     previousValue = value;
     if (progress < 1) requestAnimationFrame(update);
     else element.classList.remove("is-counting");
@@ -51,7 +55,7 @@ if (!reduceMotion && "IntersectionObserver" in window) {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add("is-visible");
-      entry.target.querySelectorAll("[data-count-up]").forEach(animateCountUp);
+      entry.target.querySelectorAll("[data-count-from][data-count-to]").forEach(animateNumber);
       revealObserver.unobserve(entry.target);
     });
   }, { threshold: 0.12 });
