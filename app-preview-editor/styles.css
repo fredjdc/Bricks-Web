@@ -141,6 +141,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .problem-section, .capabilities { background: color-mix(in srgb, var(--surface) 78%, transparent); }
 .capabilities { padding-block: 104px; }
 .problem-layout { display: grid; gap: 28px; }
+.count-up { display: inline-block; width: 2ch; text-align: right; font-variant-numeric: tabular-nums; }
 .problem-list { margin: 0; padding: 0; list-style: none; }
 .problem-list li { display: grid; grid-template-columns: 46px 1fr; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 1.08rem; font-weight: 620; }
 .problem-list span { color: var(--text-secondary); font-variant-numeric: tabular-nums; font-weight: 500; }
@@ -224,6 +225,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .count-up.is-counting { animation: count-up-focus 800ms var(--ease) both; }
+  @keyframes count-up-focus { from { opacity: 0.16; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
   .hero-word, .hero-intro-secondary, .hero-intro-detail { animation: hero-intro-in 420ms var(--ease) both; }
   .hero-word:nth-child(2) { animation-delay: 90ms; }
   .hero-word:nth-child(3) { animation-delay: 180ms; }

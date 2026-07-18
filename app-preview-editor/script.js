@@ -1,5 +1,30 @@
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const animateCountUp = (element) => {
+  const target = Number(element.dataset.countUp);
+  const duration = 800;
+  let startedAt;
+  let previousValue = -1;
+  element.textContent = "0";
+  element.classList.add("is-counting");
+
+  const update = (now) => {
+    if (startedAt === undefined) {
+      startedAt = now;
+      requestAnimationFrame(update);
+      return;
+    }
+    const progress = Math.min((now - startedAt) / duration, 1);
+    const value = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+    if (value !== previousValue) element.textContent = String(value);
+    previousValue = value;
+    if (progress < 1) requestAnimationFrame(update);
+    else element.classList.remove("is-counting");
+  };
+
+  requestAnimationFrame(update);
+};
+
 const showVideoPoster = (video) => {
   const poster = video.parentElement.querySelector(".video-poster");
   poster.src = video.poster;
@@ -26,6 +51,7 @@ if (!reduceMotion && "IntersectionObserver" in window) {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add("is-visible");
+      entry.target.querySelectorAll("[data-count-up]").forEach(animateCountUp);
       revealObserver.unobserve(entry.target);
     });
   }, { threshold: 0.12 });
