@@ -153,7 +153,12 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 [data-video-align="right"] { object-position: right center; }
 .media-toggle { position: absolute; right: 12px; bottom: 12px; min-height: 38px; padding: 0 12px; border: 1px solid var(--border); border-radius: 999px; background: color-mix(in srgb, var(--surface) 90%, transparent); color: var(--text); font-size: 13px; font-weight: 650; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .workflow-steps { display: grid; gap: 72px; }
+.feature-title-icon { width: 32px; height: 32px; margin-bottom: 18px; opacity: 0.88; }
 .workflow-step > p { max-width: 52ch; color: var(--text-secondary); font-size: 1.06rem; }
+
+@media (prefers-color-scheme: dark) {
+  .feature-title-icon { filter: invert(1); }
+}
 .mobile-workflow-media-wrap { position: relative; margin-top: 28px; }
 
 .philosophy { text-align: center; }
