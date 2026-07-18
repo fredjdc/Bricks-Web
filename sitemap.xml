@@ -102,6 +102,16 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://bricks.pe/app-preview-editor/"/>
     </url>
 
+    <!-- app-preview-guides:start -->
+    <url>
+        <loc>https://bricks.pe/app-preview-editor/guides/</loc>
+        <lastmod>2026-07-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://bricks.pe/app-preview-editor/guides/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://bricks.pe/app-preview-editor/guides/"/>
+    </url>
+
     <url>
         <loc>https://bricks.pe/app-preview-editor/guides/effective-app-preview/</loc>
         <lastmod>2026-07-17</lastmod>
@@ -112,15 +122,6 @@
     </url>
 
     <url>
-        <loc>https://bricks.pe/app-preview-editor/guides/video-editing-app-preview/</loc>
-        <lastmod>2026-07-17</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-        <xhtml:link rel="alternate" hreflang="en" href="https://bricks.pe/app-preview-editor/guides/video-editing-app-preview/"/>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://bricks.pe/app-preview-editor/guides/video-editing-app-preview/"/>
-    </url>
-
-    <url>
         <loc>https://bricks.pe/app-preview-editor/guides/app-preview-assets/</loc>
         <lastmod>2026-07-17</lastmod>
         <changefreq>monthly</changefreq>
@@ -128,6 +129,16 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://bricks.pe/app-preview-editor/guides/app-preview-assets/"/>
         <xhtml:link rel="alternate" hreflang="x-default" href="https://bricks.pe/app-preview-editor/guides/app-preview-assets/"/>
     </url>
+
+    <url>
+        <loc>https://bricks.pe/app-preview-editor/guides/video-editing-app-preview/</loc>
+        <lastmod>2026-07-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+        <xhtml:link rel="alternate" hreflang="en" href="https://bricks.pe/app-preview-editor/guides/video-editing-app-preview/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://bricks.pe/app-preview-editor/guides/video-editing-app-preview/"/>
+    </url>
+    <!-- app-preview-guides:end -->
     
     <!-- About Page -->
     <url>

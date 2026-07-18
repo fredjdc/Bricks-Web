@@ -1,0 +1,44 @@
+export const guideRegistry = [
+  {
+    slug: "effective-app-preview",
+    title: "App Preview essentials",
+    summary: "Plan the story, capture the app, edit for clarity, and validate the final video before upload.",
+    kind: "guide",
+    primaryTopic: "plan",
+    tags: ["plan", "capture", "edit", "deliver"],
+    aliases: ["story", "muted", "specifications", "upload", "complete workflow"],
+    locale: "en",
+    reviewedDate: "2026-07-17",
+    owner: "Bricks Apps",
+    status: "published",
+    featured: true
+  },
+  {
+    slug: "app-preview-assets",
+    title: "Prepare App Preview footage and audio",
+    summary: "Prepare clean recordings, screenshots, audio, and app states before the edit begins.",
+    kind: "guide",
+    primaryTopic: "capture",
+    tags: ["plan", "capture"],
+    aliases: ["assets", "screen recordings", "screenshots", "voice over", "localization", "privacy", "source material"],
+    locale: "en",
+    reviewedDate: "2026-07-17",
+    owner: "Bricks Apps",
+    status: "published",
+    featured: false
+  },
+  {
+    slug: "video-editing-app-preview",
+    title: "Edit an App Preview for clarity",
+    summary: "Make each cut, caption, and transition support a clear and credible app experience.",
+    kind: "guide",
+    primaryTopic: "edit",
+    tags: ["edit", "deliver"],
+    aliases: ["cuts", "captions", "pacing", "transitions", "audio", "muted", "export", "believable video"],
+    locale: "en",
+    reviewedDate: "2026-07-17",
+    owner: "Bricks Apps",
+    status: "published",
+    featured: false
+  }
+];
