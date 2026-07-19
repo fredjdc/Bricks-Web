@@ -94,7 +94,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 .hero { min-height: calc(100dvh - 68px); padding-block: 44px 72px; display: grid; gap: 48px; align-items: center; }
 .hero-copy { max-width: 860px; margin-inline: auto; text-align: center; }
-.hero-workflow { width: 100%; margin-inline: auto; border: 1px solid var(--border); border-radius: var(--radius-hero); }
+.hero-workflow { position: relative; width: 100%; margin-inline: auto; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-hero); }
+.hero-workflow video { display: block; width: 100%; height: auto; }
 .hero-word { display: inline-block; }
 .hero-lede { max-width: 25ch; margin: 0 auto 12px; font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 630; letter-spacing: -0.025em; }
 .hero-body { max-width: 58ch; margin: 0 auto 28px; color: var(--text-secondary); font-size: 1.08rem; }
