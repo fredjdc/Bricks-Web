@@ -6,6 +6,16 @@
                     "GTH4V8XM4N.bricks.Bricks-Calc"
                 ],
                 "components": [
+                    { "/": "/app/main" },
+                    { "/": "/app/main/" },
+                    { "/": "/app/mortgage" },
+                    { "/": "/app/mortgage/" },
+                    { "/": "/app/refinance" },
+                    { "/": "/app/refinance/" },
+                    { "/": "/app/affordability" },
+                    { "/": "/app/affordability/" },
+                    { "/": "/app/store" },
+                    { "/": "/app/store/" },
                     {
                         "/": "/homebuyers*"
                     },

@@ -109,6 +109,13 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://bricks.pe/app-preview-editor/"/>
     </url>
 
+    <!-- Bricks Calc Universal Link Fallbacks -->
+    <url><loc>https://bricks.pe/app/main/</loc><lastmod>2026-09-19</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+    <url><loc>https://bricks.pe/app/mortgage/</loc><lastmod>2026-09-19</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+    <url><loc>https://bricks.pe/app/refinance/</loc><lastmod>2026-09-19</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+    <url><loc>https://bricks.pe/app/affordability/</loc><lastmod>2026-09-19</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+    <url><loc>https://bricks.pe/app/store/</loc><lastmod>2026-09-19</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+
     <!-- app-preview-guides:start -->
     <url>
         <loc>https://bricks.pe/app-preview-editor/guides/</loc>

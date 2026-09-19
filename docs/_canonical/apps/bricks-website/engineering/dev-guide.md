@@ -6,7 +6,7 @@ role: canonical
 app_scope: bricks-website
 owner: Freddy
 status: needs-review
-last_reviewed: 2026-04-06
+last_reviewed: 2026-09-19
 review_cycle: monthly
 replacement_path:
 derived_from:
@@ -50,6 +50,7 @@ Shared brand docs and canonical product docs remain the source of truth for mess
 | `images-bricks-scan/` | Bricks Scan screenshots and assets |
 | `images-bricks-calc/` | Bricks Calc screenshots and assets |
 | `images-bricks-leads/` | Bricks Leads screenshots and assets |
+| `app/` | Bricks Calc Universal Link fallback pages |
 | `purrfect-yarm-images/` | Assets for the non-core `purrfect-yarn.html` page |
 | `apple-app-site-association` | Universal links configuration |
 | `apple-app-site-association.json` | Duplicate App Clip association payload kept in repo |
@@ -104,9 +105,11 @@ Do not introduce a build pipeline to solve an organizational problem that can be
 
 ## Universal Links
 
-`apple-app-site-association` and `apple-app-site-association.json` are repo-tracked association payloads for Apple routing. `_headers` sets the required `Content-Type: application/json` for the extensionless association paths. These files are operationally sensitive and should not be changed casually.
+`apple-app-site-association` and `.well-known/apple-app-site-association` are identical repo-tracked association payloads for Apple routing. `_headers` sets the required `Content-Type: application/json` for the extensionless association paths. These files are operationally sensitive and should not be changed casually.
 
-The current payload is App Clip-oriented rather than a broad app-site association document. Treat any change here as a coordinated app-and-hosting change, not a routine content edit.
+The Bricks Calc application entry authorizes `/homebuyers*` plus the exact In-App Event routes `/app/main`, `/app/mortgage`, `/app/refinance`, `/app/affordability`, and `/app/store`, including their trailing-slash forms, for `GTH4V8XM4N.bricks.Bricks-Calc`; the App Clip entry remains scoped separately. Each event route has a static fallback page with a Smart App Banner and App Store CTA.
+
+Deploy association and fallback files first, verify the origin and Apple CDN payloads, then release the matching app build. Only publish an In-App Event after that build is live.
 
 ## Runtime Dependencies
 

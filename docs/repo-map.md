@@ -19,6 +19,7 @@ Fast map of the website repository.
 | `survey.html` | User survey page |
 | `thank-you.html` | Post-purchase thank-you page |
 | `thank-you-feedback.html` | Post-feedback thank-you page |
+| `app/*/index.html` | Bricks Calc Universal Link fallback pages |
 
 ## Core Assets
 
@@ -55,7 +56,7 @@ Fast map of the website repository.
 |---|---|
 | `.well-known/` | AASA and assetlinks files for iOS/Android universal links |
 | `apple-app-site-association` | iOS universal link association (no extension) |
-| `apple-app-site-association.json` | iOS universal link association (JSON) |
+| `.well-known/apple-app-site-association` | Canonical well-known iOS association path |
 
 ## Tooling & Scripts
 
