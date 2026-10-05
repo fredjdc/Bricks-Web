@@ -92,9 +92,15 @@
           <a class="text-link" href="#how-it-works">See how it works</a>
         </div>
       </div>
-      <div class="hero-visual" aria-label="Bricks Calc on iPhone">
-        <img class="hero-shot" src="assets/app-store/iphone-1.jpg" width="1284" height="2778" alt="Bricks mortgage payment calculator showing a 450,000 dollar home scenario">
-        <img class="hero-icon" src="assets/app-store/app-icon.png" width="1024" height="1024" alt="Bricks Calc app icon">
+      <div class="hero-visual">
+        <div class="hero-video-scene">
+          <div class="hero-video-glow" aria-hidden="true"></div>
+          <div class="hero-video-frame">
+            <video class="hero-video" autoplay loop muted playsinline preload="metadata" poster="../images-bricks-calc/hero-video-img-en.png" aria-label="Bricks Calc mortgage planning app on iPhone">
+              <source src="../images-bricks-calc/hero-video-en.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -193,5 +199,34 @@
     </div>
     <div class="footer-bottom shell"><span>© 2026 Bricks Apps</span><span>Financial planning tool. Not financial advice.</span></div>
   </footer>
+  <script>
+    (() => {
+      const scene = document.querySelector('.hero-video-scene');
+      const frame = document.querySelector('.hero-video-frame');
+      const glow = document.querySelector('.hero-video-glow');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let raf = 0;
+
+      const updateParallax = () => {
+        raf = 0;
+        if (reduceMotion.matches) return;
+
+        const rect = scene.getBoundingClientRect();
+        const progress = (window.innerHeight * 0.5 - (rect.top + rect.height * 0.5)) / window.innerHeight;
+        const translateY = -Math.max(-1, Math.min(1, progress)) * 40;
+        frame.style.transform = `translateY(${translateY}px) rotate(-1.5deg)`;
+        glow.style.transform = `translateY(${translateY * 0.5}px)`;
+      };
+
+      const scheduleParallax = () => {
+        if (!raf) raf = window.requestAnimationFrame(updateParallax);
+      };
+
+      scheduleParallax();
+      window.addEventListener('scroll', scheduleParallax, { passive: true });
+      window.addEventListener('resize', scheduleParallax);
+      reduceMotion.addEventListener('change', scheduleParallax);
+    })();
+  </script>
 </body>
 </html>
