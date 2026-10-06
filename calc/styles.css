@@ -73,7 +73,7 @@ h1 { margin: 0 0 24px; font-size: 72px; font-weight: 900; max-width: 11ch; line-
 .hero-copy > p:not(.hero-kicker):not(.hero-subline) { max-width: 520px; margin: 0 0 36px; color: var(--muted); font-size: 19px; line-height: 1.6; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 15px; }
 .hero-actions .button { min-height: 0; padding: 16px 32px; font-size: 15px; font-weight: 600; }
-.hero-subline { max-width: 520px; margin: 12px 0 0; color: var(--tertiary); font-size: 13px; line-height: 1.55; }
+.hero-subline { max-width: 520px; margin: 18px 0 0; color: var(--tertiary); font-size: 13px; line-height: 1.55; }
 .text-link { color: var(--accent-strong); font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 5px; }
 .hero-visual { position: relative; }
 .hero-video-scene { position: relative; min-height: 640px; display: flex; justify-content: center; align-items: center; perspective: 1800px; }
