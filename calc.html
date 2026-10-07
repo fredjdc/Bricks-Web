@@ -141,6 +141,175 @@
     <meta name="theme-color" content="#007AFF" />
     <link rel="stylesheet" href="styles.css" />
 
+    <style>
+        .calc-site-header {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 100;
+            padding-top: 24px;
+            pointer-events: none;
+        }
+
+        .calc-site-nav {
+            width: min(1180px, calc(100% - 96px));
+            min-height: 66px;
+            margin-inline: auto;
+            padding-inline: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            border: 1px solid var(--b-border);
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--b-bg-elevated) 92%, transparent);
+            box-shadow: var(--emboss-soft);
+            backdrop-filter: blur(18px) saturate(145%);
+            -webkit-backdrop-filter: blur(18px) saturate(145%);
+            pointer-events: auto;
+        }
+
+        .calc-site-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--b-text);
+            text-decoration: none;
+            font-weight: 750;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+        }
+
+        .calc-site-brand img {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+        }
+
+        .calc-site-brand:hover {
+            opacity: 1;
+        }
+
+        .calc-site-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-size: 15px;
+            font-weight: 650;
+        }
+
+        .calc-site-nav-links a {
+            color: var(--b-text-2);
+            text-decoration: none;
+        }
+
+        .calc-site-nav-links a:hover {
+            color: var(--b-text);
+            opacity: 1;
+        }
+
+        .calc-site-download {
+            min-height: 40px;
+            padding-inline: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: var(--b-text);
+            color: var(--b-bg) !important;
+            font-weight: 750;
+            white-space: nowrap;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .calc-site-download:hover {
+            background: var(--b-text-2);
+        }
+
+        .calc-site-download:active {
+            transform: scale(0.98);
+        }
+
+        .calc-site-menu {
+            display: none;
+            position: relative;
+        }
+
+        .calc-site-menu summary {
+            cursor: pointer;
+            list-style: none;
+            color: var(--b-text);
+            font-weight: 700;
+        }
+
+        .calc-site-menu summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .calc-site-menu div {
+            position: absolute;
+            top: 42px;
+            right: 0;
+            min-width: 210px;
+            padding: 12px;
+            display: grid;
+            gap: 4px;
+            border: 1px solid var(--b-border);
+            border-radius: 16px;
+            background: var(--b-bg-elevated);
+            box-shadow: var(--emboss-soft);
+        }
+
+        .calc-site-menu div a {
+            padding: 10px 12px;
+            border-radius: 9px;
+        }
+
+        #screenshots,
+        #how-it-works,
+        #faq {
+            scroll-margin-top: 110px;
+        }
+
+        @media (max-width: 900px) {
+            .calc-site-nav-links > a:not(.calc-site-download) {
+                display: none;
+            }
+
+            .calc-site-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .calc-site-header {
+                padding-top: 16px;
+            }
+
+            .calc-site-nav {
+                width: min(100% - 40px, 1180px);
+                min-height: 62px;
+                padding-inline: 16px;
+            }
+
+            .calc-site-nav-links {
+                gap: 12px;
+            }
+
+            .calc-site-download {
+                min-height: 38px;
+                padding-inline: 14px;
+            }
+        }
+
+        @media (prefers-reduced-transparency: reduce) {
+            .calc-site-nav {
+                background: var(--b-bg-elevated);
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+        }
+    </style>
+
     <!-- React & Babel -->
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
@@ -316,52 +485,6 @@
             return n.toLocaleString('en-US');
         };
 
-        window.smoothScrollTo = function smoothScrollTo(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            const y = el.getBoundingClientRect().top + window.scrollY - 24;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-        };
-
-        window.useScrollDirection = function useScrollDirection() {
-            const [state, setState] = React.useState({ dir: 'up', atTop: true });
-            React.useEffect(() => {
-                let last = window.scrollY;
-                let lastDir = 'up';
-                let ticking = false;
-                const THRESHOLD = 10;
-                const TOP_ZONE = 80;
-                const update = () => {
-                    ticking = false;
-                    const max = document.documentElement.scrollHeight - window.innerHeight;
-                    const y = Math.max(0, Math.min(window.scrollY, max));
-                    const atTop = y < TOP_ZONE;
-                    let dir = lastDir;
-                    if (atTop) {
-                        dir = 'up';
-                    } else if (y > last + THRESHOLD) {
-                        dir = 'down';
-                        last = y;
-                    } else if (y < last - THRESHOLD) {
-                        dir = 'up';
-                        last = y;
-                    }
-                    setState((prev) =>
-                        prev.dir === dir && prev.atTop === atTop ? prev : { dir, atTop }
-                    );
-                    lastDir = dir;
-                };
-                const onScroll = () => {
-                    if (ticking) return;
-                    ticking = true;
-                    window.requestAnimationFrame(update);
-                };
-                window.addEventListener('scroll', onScroll, { passive: true });
-                return () => window.removeEventListener('scroll', onScroll);
-            }, []);
-            return state;
-        };
-
         window.useIsMobile = function useIsMobile(breakpoint = 768) {
             const [isMobile, setIsMobile] = React.useState(() => window.innerWidth <= breakpoint);
             React.useEffect(() => {
@@ -405,160 +528,39 @@
         // Header
         // ==========================================================================
 
-        window.Header = function Header({ t, lang, currentProduct, cta }) {
-            const { dir, atTop } = window.useScrollDirection();
-            const isMobile = window.useIsMobile();
-            const hidden = dir === 'down' && !atTop;
-            const [dlOpen, setDlOpen] = React.useState(false);
-            const dlRef = React.useRef(null);
-
-            React.useEffect(() => {
-                if (!dlOpen) return;
-                const handler = (e) => {
-                    if (dlRef.current && !dlRef.current.contains(e.target)) setDlOpen(false);
-                };
-                document.addEventListener('mousedown', handler);
-                return () => document.removeEventListener('mousedown', handler);
-            }, [dlOpen]);
-
-            const downloadItems = [
-                { label: 'Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_header_menu_calc&mt=8', accent: window.ACCENTS.calc.light, external: true },
-                { label: 'Bricks Scan', href: 'https://apps.apple.com/us/app/bricks-scan-scan-to-pdf/id6758148083?ct=bricks_web_calc_header_menu_scan&mt=8', accent: window.ACCENTS.scan.light, external: true },
-                { label: 'Bricks Leads', href: 'leads.html', accent: window.ACCENTS.leads.light, external: false },
-            ];
-
-            const links = currentProduct ? [] : [
-                { id: 'product-scan', label: t.nav.products },
-                { id: 'philosophy', label: t.nav.philosophy },
-                { id: 'changelog', label: t.nav.changelog },
+        window.Header = function Header({ t, lang, cta }) {
+            const labels = lang === 'es'
+                ? { screenshots: 'Capturas', howItWorks: 'Cómo funciona', guides: 'Guías', faq: 'Preguntas', menu: 'Menú', home: 'Inicio de Bricks Calc', navigation: 'Navegación principal' }
+                : { screenshots: 'Screenshots', howItWorks: 'How it works', guides: 'Guides', faq: 'FAQ', menu: 'Menu', home: 'Bricks Calc home', navigation: 'Primary navigation' };
+            const links = [
+                { href: '#screenshots', label: labels.screenshots },
+                { href: '#how-it-works', label: labels.howItWorks },
+                { href: 'calc/index.html#guides', label: labels.guides },
+                { href: '#faq', label: labels.faq },
             ];
 
             return (
-                <header style={{
-                    position: 'fixed', top: isMobile ? 12 : 24,
-                    left: isMobile ? 16 : 48, right: isMobile ? 16 : 48, zIndex: 100,
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    padding: isMobile ? '10px 10px 10px 18px' : '12px 14px 12px 24px',
-                    background: 'color-mix(in srgb, var(--b-bg-elevated) 65%, transparent)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderRadius: 100,
-                    border: '1px solid var(--b-border)',
-                    boxShadow: '0 8px 32px rgba(11,15,20,0.06)',
-                    transform: hidden ? 'translateY(-130%)' : 'translateY(0)',
-                    opacity: hidden ? 0 : 1,
-                    transition: 'transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease',
-                }}>
-                    <a href={currentProduct ? 'index.html' : '#top'}
-                        onClick={(e) => { if (!currentProduct) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}
-                        style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <window.ThemeLogo height={24} />
-                    </a>
-
-                    <nav style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                        {!isMobile && links.map(link => (
-                            <a key={link.id} href={'#' + link.id}
-                                onClick={(e) => { e.preventDefault(); window.smoothScrollTo(link.id); }}
-                                style={{
-                                    fontSize: 14, fontWeight: 500, color: 'var(--b-text)',
-                                    padding: '8px 14px', borderRadius: 100,
-                                    letterSpacing: '-0.01em', opacity: 0.8,
-                                    transition: 'opacity 0.2s, background 0.2s',
-                                }}
-                                onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
-                                onMouseLeave={(e) => e.currentTarget.style.opacity = 0.8}
-                            >{link.label}</a>
-                        ))}
-
-                        {cta ? (
-                            <a href={cta.href}
-                                target={cta.href && cta.href.startsWith('http') ? '_blank' : undefined}
-                                rel={cta.href && cta.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                                onClick={(e) => {
-                                    if (cta.href && cta.href.startsWith('#')) {
-                                        e.preventDefault();
-                                        window.smoothScrollTo(cta.href.slice(1));
-                                    }
-                                    if (cta.onClick) cta.onClick(e);
-                                }}
-                                style={{
-                                    marginLeft: isMobile ? 0 : 6,
-                                    padding: isMobile ? '9px 16px' : '10px 18px', borderRadius: 100,
-                                    background: 'var(--b-text)', color: 'var(--b-bg)',
-                                    border: 'none', fontSize: 14, fontWeight: 600,
-                                    letterSpacing: '-0.01em',
-                                    boxShadow: '0 8px 20px rgba(11,15,20,0.18)',
-                                    transition: 'transform 0.15s ease',
-                                }}
-                                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
-                            >{cta.label}</a>
-                        ) : (
-                            <div ref={dlRef} style={{ position: 'relative' }}>
-                                <button
-                                    onClick={() => setDlOpen(v => !v)}
-                                    style={{
-                                        marginLeft: isMobile ? 0 : 6,
-                                        padding: isMobile ? '9px 16px' : '10px 18px', borderRadius: 100,
-                                        background: 'var(--b-text)', color: 'var(--b-bg)',
-                                        border: 'none', fontSize: 14, fontWeight: 600, cursor: 'pointer',
-                                        fontFamily: 'inherit', letterSpacing: '-0.01em',
-                                        display: 'inline-flex', alignItems: 'center', gap: 6,
-                                        boxShadow: '0 8px 20px rgba(11,15,20,0.18)',
-                                        transition: 'transform 0.15s ease, box-shadow 0.2s',
-                                    }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
-                                >
-                                    {t.nav.download}
-                                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{
-                                        transform: dlOpen ? 'rotate(180deg)' : 'rotate(0)',
-                                        transition: 'transform 0.25s ease',
-                                    }}>
-                                        <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </button>
-
-                                <div style={{
-                                    position: 'absolute', top: 'calc(100% + 10px)', right: 0,
-                                    minWidth: 220,
-                                    background: 'color-mix(in srgb, var(--b-bg-elevated) 85%, transparent)',
-                                    backdropFilter: 'blur(24px) saturate(180%)',
-                                    WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-                                    borderRadius: 20, border: '1px solid var(--b-border)',
-                                    boxShadow: '0 16px 48px rgba(11,15,20,0.16)',
-                                    padding: 8,
-                                    opacity: dlOpen ? 1 : 0,
-                                    transform: dlOpen ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.96)',
-                                    pointerEvents: dlOpen ? 'auto' : 'none',
-                                    transition: 'opacity 0.25s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1)',
-                                }}>
-                                    {downloadItems.map((item, i) => (
-                                        <a key={i} href={item.href}
-                                            target={item.external ? '_blank' : undefined}
-                                            rel={item.external ? 'noopener noreferrer' : undefined}
-                                            onClick={() => setDlOpen(false)}
-                                            style={{
-                                                display: 'flex', alignItems: 'center', gap: 12,
-                                                padding: '12px 16px', borderRadius: 14,
-                                                fontSize: 14, fontWeight: 500, color: 'var(--b-text)',
-                                                transition: 'background 0.15s ease',
-                                                textDecoration: 'none',
-                                            }}
-                                            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--b-bg)'}
-                                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                                        >
-                                            <div style={{ width: 8, height: 8, borderRadius: 4, background: item.accent, flexShrink: 0 }} />
-                                            <span style={{ flex: 1 }}>{item.label}</span>
-                                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.4 }}>
-                                                <path d={item.external ? 'M4 2h6v6M10 2L3 9' : 'M4 2l5 4-5 4'}
-                                                    stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                                            </svg>
-                                        </a>
-                                    ))}
+                <header className="calc-site-header">
+                    <nav className="calc-site-nav" aria-label={labels.navigation}>
+                        <a className="calc-site-brand" href="#top" aria-label={labels.home}>
+                            <img src="calc/assets/app-store/app-icon.png" width="38" height="38" alt="" />
+                            <span>Bricks Calc</span>
+                        </a>
+                        <div className="calc-site-nav-links">
+                            {links.map(link => <a key={link.href} href={link.href}>{link.label}</a>)}
+                            <details className="calc-site-menu">
+                                <summary>{labels.menu}</summary>
+                                <div>
+                                    {links.map(link => <a key={link.href} href={link.href}>{link.label}</a>)}
                                 </div>
-                            </div>
-                        )}
+                            </details>
+                            <a
+                                className="calc-site-download"
+                                href={cta.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >{cta.label}</a>
+                        </div>
                     </nav>
                 </header>
             );
@@ -1390,7 +1392,7 @@
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
             return (
-                <section ref={reveal} style={{
+                <section id="how-it-works" ref={reveal} style={{
                     padding: isMobile ? '56px 20px' : '120px 48px',
                     maxWidth: 1200, margin: '0 auto',
                 }}>
@@ -1459,11 +1461,11 @@
         // CalcFeatureSplit
         // ==========================================================================
 
-        function CalcFeatureSplit({ feature, reverse, shotSrc, theme }) {
+        function CalcFeatureSplit({ id, feature, reverse, shotSrc, theme }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
             return (
-                <section ref={reveal} style={{
+                <section id={id} ref={reveal} style={{
                     padding: isMobile ? '56px 20px' : '96px 48px',
                     maxWidth: 1280, margin: '0 auto',
                 }}>
@@ -1680,7 +1682,7 @@
             const isMobile = window.useIsMobile();
             const [open, setOpen] = React.useState(0);
             return (
-                <section ref={reveal} style={{
+                <section id="faq" ref={reveal} style={{
                     padding: isMobile ? '56px 20px' : '120px 48px',
                     maxWidth: 960, margin: '0 auto',
                 }}>
@@ -1880,11 +1882,10 @@
             const shot2 = `images-bricks-calc/screenshot-share-section-${lang}-light.png`;
 
             return (
-                <div style={{ background: 'var(--b-bg)', minHeight: '100vh', overflow: 'hidden' }}>
+                <div id="top" style={{ background: 'var(--b-bg)', minHeight: '100vh', overflow: 'hidden' }}>
                     <window.Header
                         t={t}
                         lang={lang}
-                        currentProduct="calc"
                         cta={{
                             label: t.nav.download,
                             href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_header_cta&mt=8'
@@ -1895,7 +1896,7 @@
                         <CalcHero t={calcT} lang={lang} theme={effectiveTheme} />
                         <CalcStats t={calcT} />
                         <CalcPillars t={calcT} theme={effectiveTheme} />
-                        <CalcFeatureSplit feature={calcT.feature1} reverse={false} shotSrc={shot1} theme={effectiveTheme} />
+                        <CalcFeatureSplit id="screenshots" feature={calcT.feature1} reverse={false} shotSrc={shot1} theme={effectiveTheme} />
                         <CalcFeatureSplit feature={calcT.feature_prepay} reverse={true} shotSrc={shotPrepay} theme={effectiveTheme} />
                         <CalcFeatureSplit feature={calcT.feature2} reverse={false} shotSrc={shot2} theme={effectiveTheme} />
                         <CalcTestimonials t={calcT} />
