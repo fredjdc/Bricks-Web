@@ -333,7 +333,7 @@
         .calc-intro-phones {
             position: relative;
             width: min(100%, 980px);
-            height: 238px;
+            height:420px;
             margin: 0 auto 8px;
             overflow: hidden;
             pointer-events: none;
@@ -346,7 +346,6 @@
             left: 50%;
             top: 0;
             border-radius: 32px;
-            box-shadow: 0 18px 38px rgba(16, 20, 30, 0.12), 0 2px 10px rgba(16, 20, 30, 0.06);
             overflow: hidden;
             background: #f5f7fa;
             border: 1px solid rgba(17, 24, 39, 0.06);
@@ -1670,9 +1669,10 @@
                         <div
                             className="calc-intro-phones"
                             aria-hidden="true"
-                            style={isMobile ? { width: 'calc(100% + 56px)' } : undefined}
                         >
-                            {phoneData.map((phone, index) => (
+                            {phoneData.map((phone, index) => ({ phone, index }))
+                                .filter(({ index }) => !isMobile || index === 1)
+                                .map(({ phone, index }) => (
                                 <div
                                     key={phone.src}
                                     className="calc-intro-phone"
@@ -1681,7 +1681,7 @@
                                         marginLeft: -(phone.width / 2),
                                         opacity: isVisible ? 1 : 0,
                                         transform: `translate3d(${phone.x}px, ${phone.y + scrollOffset * (index === 1 ? 0.4 : 0.7)}px, 0)`,
-                                        transitionDelay: `${index * 120}ms`,
+                                        transitionDelay: `${isMobile ? 0 : index * 120}ms`,
                                         filter: `saturate(${isVisible ? 1 : 0.85})`,
                                     }}
                                 >
