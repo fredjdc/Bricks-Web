@@ -337,8 +337,8 @@
             margin: 0 auto 40px;
             overflow: hidden;
             pointer-events: none;
-            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 80%, transparent 100%);
         }
 
         .calc-intro-phone {
@@ -1650,9 +1650,9 @@
             }, []);
 
             const phoneData = [
-                { src: 'images-bricks-calc/numbers-section-left.png', width: isMobile ? 189 : 224, x: isMobile ? -77 : -147, y: isMobile ? 10 : 18 },
-                { src: 'images-bricks-calc/numbers-section-center.png', width: isMobile ? 217 : 266, x: 0, y: 8 },
-                { src: 'images-bricks-calc/numbers-section-right.png', width: isMobile ? 189 : 224, x: isMobile ? 77 : 147, y: isMobile ? 10 : 18 },
+                { src: 'images-bricks-calc/numbers-section-left.png', width: 224, x: -147, y: 18 },
+                { src: 'images-bricks-calc/numbers-section-center.png', width: 266, x: 0, y: 8 },
+                { src: 'images-bricks-calc/numbers-section-right.png', width: 224, x: 147, y: 18 },
             ];
 
             return (
@@ -1670,6 +1670,11 @@
                         <div
                             className="calc-intro-phones"
                             aria-hidden="true"
+                            style={isMobile && !isSmallScreen ? {
+                                width: 'calc(100% + 16px)',
+                                maxWidth: 'none',
+                                marginLeft: -8,
+                            } : undefined}
                         >
                             {phoneData.map((phone, index) => ({ phone, index }))
                                 .filter(({ index }) => !isSmallScreen || index === 1)
