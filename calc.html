@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- ── Primary SEO ──────────────────────────────────────────────────── -->
-    <title>Bricks Calc — Mortgage Calculator &amp; Home Loan Planning</title>
+    <title>Bricks Calc — Home planning, made easier</title>
     <meta name="description"
-        content="Estimate mortgage costs, explore affordability, compare loans, and plan extra payments with Bricks Calc. Start free on iPhone, iPad, Mac, and Apple Vision Pro." />
+        content="Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget." />
     <meta name="keywords"
         content="mortgage calculator, loan calculator, amortization calculator, emi calculator, refinance calculator, prepayment calculator, pmi calculator, rental income, calculadora hipotecaria, credito hipotecario, cuota inicial" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
@@ -22,9 +22,9 @@
     <!-- ── Open Graph ────────────────────────────────────────────────────── -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://bricks.pe/calc.html" />
-    <meta property="og:title" content="Bricks Calc — Mortgage Calculator &amp; Home Loan Planning" />
+    <meta property="og:title" content="Bricks Calc — Home planning, made easier" />
     <meta property="og:description"
-        content="Estimate mortgage costs, explore affordability, compare loans, and plan extra payments with Bricks Calc. Start free on iPhone, iPad, Mac, and Apple Vision Pro." />
+        content="Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget." />
     <meta property="og:image" content="https://bricks.pe/images/bricks-calc-web-icon.png" />
     <meta property="og:image:width" content="1024" />
     <meta property="og:image:height" content="1024" />
@@ -32,8 +32,8 @@
 
     <!-- ── Twitter / X Card ──────────────────────────────────────────────── -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Bricks Calc — Mortgage Calculator &amp; Home Loan Planning" />
-    <meta name="twitter:description" content="Estimate mortgage costs, explore affordability, compare loans, and plan extra payments with Bricks Calc. Start free on iPhone, iPad, Mac, and Apple Vision Pro." />
+    <meta name="twitter:title" content="Bricks Calc — Home planning, made easier" />
+    <meta name="twitter:description" content="Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget." />
     <meta name="twitter:image" content="https://bricks.pe/images/bricks-calc-web-icon.png" />
 
     <!-- ── Apple Smart App Banner ────────────────────────────────────────── -->
@@ -60,7 +60,7 @@
           "url": "https://bricks.pe/calc.html",
           "downloadUrl": "https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837",
           "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-          "description": "Estimate mortgage costs, explore affordability, compare loans, and plan extra payments with Bricks Calc. Start free on iPhone, iPad, Mac, and Apple Vision Pro.",
+          "description": "Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget.",
           "image": "https://bricks.pe/images/bricks-calc-web-icon.png",
           "publisher": { "@id": "https://bricks.pe/#org" }
         },
@@ -88,42 +88,50 @@
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Where can I use Bricks Calc?",
+              "name": "Is Bricks Calc free?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Bricks Calc is built for iPhone, iPad, Mac, and Apple Vision Pro. The app is available in English and Spanish."
+                "text": "Yes. Download Bricks Calc for free and save up to three home plans. An optional upgrade removes limits on saved plans, extra payments, and expenses."
               }
             },
             {
               "@type": "Question",
-              "name": "Can I use it offline, without an account?",
+              "name": "Can I compare different mortgage offers?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. Mortgage calculations work on your device without an internet connection or a Bricks account. Syncing saved plans through iCloud needs an internet connection and your Apple account."
+                "text": "Yes. Compare up to three plans to see how different home prices, down payments, and interest rates affect your monthly payment and total cost."
               }
             },
             {
               "@type": "Question",
-              "name": "Can I compare plans and share them?",
+              "name": "Do I need an account or internet connection?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. Compare loan scenarios side by side and share summaries with a partner, advisor, or client. Pro also includes Split Payment to plan each contributor's share."
+                "text": "No account is required. The app works offline, and you can use iCloud to sync across your Apple devices."
               }
             },
             {
               "@type": "Question",
-              "name": "How accurate are the results?",
+              "name": "Can I use Bricks Calc if I already own a home?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Bricks Calc uses standard loan calculations with the details you enter. Results are planning estimates; lender fees, terms, and payment rules may differ. Confirm final figures with your lender."
+                "text": "Yes. Explore extra payments, refinancing options, amortization schedules, and changes to your current mortgage."
               }
             },
             {
               "@type": "Question",
-              "name": "What can I use for free?",
+              "name": "Are the calculations exact?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Estimate payments, explore affordability, compare plans, test extra payments, and check refinance options. Save up to three mortgage plans, with limits on extra payments and expenses. Pro removes those limits and adds Split Payment. Monthly, yearly, and one-time purchase options are available in the app."
+                "text": "Bricks Calc provides planning estimates. Your lender can confirm the actual loan terms, fees, and final payment amounts."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which devices are supported?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Bricks Calc is available on iPhone, iPad, Mac, and Apple Vision Pro."
               }
             }
           ]
@@ -264,10 +272,21 @@
             border-radius: 9px;
         }
 
-        #screenshots,
-        #how-it-works,
+        #monthly-cost,
+        #compare-options,
+        #saved-plans,
+        #features,
+        #privacy,
+        #pricing,
+        #about,
+        #whats-new,
         #faq {
             scroll-margin-top: 110px;
+        }
+
+        #root .calc-download-cta-content h2,
+        #root .calc-download-cta-content p {
+            text-align: center !important;
         }
 
         @media (max-width: 900px) {
@@ -277,6 +296,13 @@
 
             .calc-site-menu {
                 display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .calc-site-nav-links a.calc-site-download {
+                display: inline-flex;
+                margin: 0;
             }
         }
 
@@ -298,6 +324,36 @@
             .calc-site-download {
                 min-height: 38px;
                 padding-inline: 14px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .calc-site-nav {
+                gap: 8px;
+                padding-inline: 12px;
+            }
+
+            .calc-site-brand {
+                gap: 8px;
+                font-size: 14px;
+            }
+
+            .calc-site-brand img {
+                width: 32px;
+                height: 32px;
+            }
+
+            .calc-site-nav-links {
+                gap: 8px;
+            }
+
+            .calc-site-menu summary {
+                font-size: 14px;
+            }
+
+            .calc-site-nav-links a.calc-site-download {
+                padding-inline: 10px;
+                font-size: 13px;
             }
         }
 
@@ -328,17 +384,17 @@
 <body>
     <!-- ── SEO body scaffold (visually hidden, crawlable) ─────────────────── -->
     <div aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">
-        <h1>Bricks Calc — Mortgage Calculator &amp; Home Loan Planning</h1>
-        <p>Picture your home. Plan the payment. Estimate mortgage costs, explore affordability, compare loans, and plan extra payments with Bricks Calc.</p>
-        <h2>Start with your budget or a home you have in mind</h2>
-        <p>Estimate a home price and payment from your income, debts, and budget, or enter a price, down payment, rate, and loan term to create your first mortgage plan.</p>
-        <h2>Plan for the full monthly cost</h2>
-        <p>Include property taxes, insurance, recurring expenses, and expected rental income alongside the loan payment. Follow principal, interest, and the remaining balance through the amortization schedule.</p>
-        <h2>Compare options and plan extra payments</h2>
-        <p>Compare lender offers and refinancing scenarios. Test one-time or recurring extra payments, or estimate the extra amount needed to reach a target payoff date or monthly payment.</p>
-        <h2>Common questions</h2>
-        <p>Bricks Calc is built for iPhone, iPad, Mac, and Apple Vision Pro in English and Spanish. Calculations work offline without a Bricks account. Saved plans can sync through iCloud. Results are planning estimates that should be confirmed with your lender.</p>
-        <p><a href="https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_seo_body&mt=8">Download Bricks Calc on the App Store</a></p>
+        <h1>Home planning, made easier — Bricks Calc</h1>
+        <p>See how your home purchase fits your budget. Estimate your total monthly, compare options, and plan for changes ahead.</p>
+        <h2>Found a home you like? Let's look at the numbers.</h2>
+        <p>The asking price is just the beginning. Bricks Calc brings together mortgage payments, other monthly costs, and different offers so you can see what works for your budget.</p>
+        <h2>Estimate and compare the monthly cost</h2>
+        <p>Enter the home price, down payment, interest rate, and loan term. Add property taxes, insurance, and other expenses. Save and compare plans to see how each option changes your payment, interest, and total cost.</p>
+        <h2>Keep your plans and details together</h2>
+        <p>Save home prices, lender offers, notes, and photos. Explore affordability, shared costs, extra payments, amortization, rental income, and refinancing.</p>
+        <h2>Plan privately, on your device</h2>
+        <p>Calculations work offline without an account. Saved plans sync through iCloud across your Apple devices. Results are planning estimates; confirm actual terms, fees, and payments with your lender.</p>
+        <p><a href="https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_seo_body&amp;mt=8">Download Bricks Calc for free on the App Store</a></p>
         <p>Part of the Bricks suite: <a href="scan.html">Bricks Scan</a> and <a href="leads.html">Bricks Leads</a>.</p>
     </div>
 
@@ -518,8 +574,8 @@
         window.ThemeLogo = function ThemeLogo({ height = 24 }) {
             return (
                 <React.Fragment>
-                    <img src="images/bricks-dark-logo.svg" alt="Bricks" className="logo-light-theme" style={{ height }} />
-                    <img src="images/bricks-light-logo.svg" alt="Bricks" className="logo-dark-theme" style={{ height }} />
+                    <img src="images/bricks-dark-logo.svg" alt="Bricks" className="logo-light-theme" style={{ height, margin: 0 }} />
+                    <img src="images/bricks-light-logo.svg" alt="Bricks" className="logo-dark-theme" style={{ height, margin: 0 }} />
                 </React.Fragment>
             );
         };
@@ -530,12 +586,12 @@
 
         window.Header = function Header({ t, lang, cta }) {
             const labels = lang === 'es'
-                ? { screenshots: 'Capturas', howItWorks: 'Cómo funciona', guides: 'Guías', faq: 'Preguntas', menu: 'Menú', home: 'Inicio de Bricks Calc', navigation: 'Navegación principal' }
-                : { screenshots: 'Screenshots', howItWorks: 'How it works', guides: 'Guides', faq: 'FAQ', menu: 'Menu', home: 'Bricks Calc home', navigation: 'Primary navigation' };
+                ? { monthlyCost: 'Costo mensual', compare: 'Comparar planes', features: 'Funciones', faq: 'Preguntas', menu: 'Menú', home: 'Inicio de Bricks Calc', navigation: 'Navegación principal' }
+                : { monthlyCost: 'Monthly cost', compare: 'Compare plans', features: 'Features', faq: 'FAQ', menu: 'Menu', home: 'Bricks Calc home', navigation: 'Primary navigation' };
             const links = [
-                { href: '#screenshots', label: labels.screenshots },
-                { href: '#how-it-works', label: labels.howItWorks },
-                { href: 'calc/index.html#guides', label: labels.guides },
+                { href: '#monthly-cost', label: labels.monthlyCost },
+                { href: '#compare-options', label: labels.compare },
+                { href: '#features', label: labels.features },
                 { href: '#faq', label: labels.faq },
             ];
 
@@ -727,7 +783,7 @@
         // DownloadCTA
         // ==========================================================================
 
-        window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, productCopy, accent }) {
+        window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, productCopy, accent, id = 'download' }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
             const [hovered, setHovered] = React.useState(null);
@@ -745,10 +801,10 @@
             ];
 
             return (
-                <section id="download" ref={reveal} style={{
+                <section id={id} ref={reveal} style={{
                     padding: isMobile ? '32px 20px 64px' : '60px 48px 120px', maxWidth: 1200, margin: '0 auto',
                 }}>
-                    <div className="reveal" style={{
+                    <div className="reveal calc-download-cta-content" style={{
                         background: 'var(--b-text)', borderRadius: isMobile ? 32 : 48,
                         padding: isMobile ? '56px 24px' : '96px 64px',
                         textAlign: 'center', position: 'relative', overflow: 'hidden',
@@ -762,8 +818,8 @@
                             fontSize: isMobile ? 40 : 64, fontWeight: 900, letterSpacing: '-0.035em',
                             lineHeight: 1.02, margin: '0 0 20px', color: 'var(--b-bg)', position: 'relative',
                         }}>
-                            {title[0]}<br />
-                            <span style={{ opacity: 0.55 }}>{title[1]}</span>
+                            {title[0]}
+                            {title[1] && <><br /><span style={{ opacity: 0.55 }}>{title[1]}</span></>}
                         </h2>
                         <p style={{
                             fontSize: isMobile ? 16 : 18, color: 'var(--b-bg)', opacity: 0.7,
@@ -1000,42 +1056,50 @@
             en: {
                 hero: {
                     eyebrow: 'Bricks Calc',
-                    title: ['Picture your home.', 'Plan the payment.'],
-                    body: 'See how a home could fit your budget. Bricks Calc helps you estimate your monthly mortgage cost, compare options, and plan for the changes ahead.',
-                    cta: 'Download on the App Store',
-                    sub: 'Start free. No Bricks account required. One-time purchase available.',
+                    title: ['Home planning,', 'made easier.'],
+                    body: 'See how your home purchase fits your budget. Estimate your total monthly, compare options, and plan for changes ahead.',
+                    cta: 'Download Bricks Calc',
+                    sub: 'Free to download. No account needed.',
                     imageAlt: 'Bricks Calc mortgage and home loan planning app',
+                },
+                intro: {
+                    title: "Found a home you like? Let's look at the numbers.",
+                    paragraphs: [
+                        "The asking price is just the beginning. There's the mortgage payment, the other monthly costs, and the different offers to consider.",
+                        'Bricks Calc helps you put it all together, so you can see what works for your budget before making a decision.',
+                    ],
                 },
                 stats: {
                     eyebrow: 'On your device',
-                    title: ['Your numbers.', 'Room to think.'],
-                    sub: 'Calculate on your device, even offline. Saved plans sync through your iCloud account across your Apple devices.',
+                    title: 'Plan with numbers.',
+                    sub: 'Your calculations happen on your device, offline. No account required, and your saved plans sync through iCloud across your Apple devices.',
                     items: [
-                        { v: 0, l: 'Ads', suffix: '' },
-                        { v: 0, l: 'Bricks accounts required', suffix: '' },
-                        { v: 1, l: 'One-time purchase option', suffix: '' },
+                        { t: 'Works offline', d: 'Run your calculations on your device.' },
+                        { t: 'No account needed', d: 'Start planning without signing up.' },
+                        { t: 'Syncs with iCloud', d: 'Keep saved plans across your Apple devices.' },
                     ],
                 },
                 pillars: {
-                    eyebrow: 'A place to start',
-                    title: ['Let your budget', 'be part of the picture.'],
-                    body: 'You may already have a home in mind. Or you may be working out where to start. Explore a payment that fits your budget, then see what different choices could mean.',
+                    eyebrow: 'More ways to plan',
+                    title: ["There's more to", 'the numbers.'],
+                    body: "Explore the details that matter to you, whether you're buying your first home or already paying a mortgage.",
                     items: [
-                        { t: 'Start with your budget', d: 'Use the affordability calculator to estimate a home price and payment from your income, debts, and budget.', icon: 'icon-spreadsheets.svg' },
-                        { t: 'Try the home you have in mind', d: 'Enter the price, down payment, rate, and loan term to get your first mortgage estimate.', icon: 'icon-adjust.svg' },
-                        { t: 'Explore what changes', d: 'Adjust the down payment, rate, or term and see how each choice affects the payment and total cost.', icon: 'icon-compare.svg' },
+                        { t: 'Know what you can afford', d: 'Estimate a home price and monthly payment based on your income, debts, and budget.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'See who pays what', d: 'Split the down payment, mortgage, and other costs with a partner or anyone sharing costs.', icon: 'icon-compare.svg' },
+                        { t: 'Explore extra payments', d: 'See how paying a little extra could reduce interest or help you pay off your loan sooner.', icon: 'icon-adjust.svg' },
+                        { t: 'Understand every payment', d: 'Follow your loan balance, principal, and interest with the amortization chart and schedule.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Include rental income', d: 'Factor in expected rental income to see how it could affect your monthly housing cost.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Consider refinancing', d: 'Compare your current loan with a new offer to see how your payments and total costs could change.', icon: 'icon-compare.svg' },
+                        { t: 'Keep your favorites close', d: 'Pin important plans to the top and find them quickly when you need them.', icon: 'icon-adjust.svg' },
+                        { t: 'Quick access, less effort', d: 'Use widgets and quick actions to get back to your numbers across your Apple devices.', icon: 'icon-spreadsheets.svg' },
                     ],
                 },
                 feature1: {
-                    eyebrow: 'Monthly cost',
-                    title: ['Plan for the payment.', 'And what comes with it.'],
-                    body: 'The mortgage is one part of owning a home. Add taxes, insurance, and other expenses to see a fuller monthly estimate and understand what you may need to set aside.',
+                    eyebrow: 'Start with the payment',
+                    title: ['See what the home', 'could cost each month.'],
+                    body: 'Enter the home price, down payment, interest rate, and loan term to estimate your mortgage payment. Add property taxes, insurance, and other expenses to get a clearer picture of the monthly cost.',
                     icon: 'icon-spreadsheets.svg',
-                    bullets: [
-                        { t: 'Bring the costs together', d: 'Include property taxes, insurance, and recurring expenses alongside the loan payment.' },
-                        { t: 'Account for rental income', d: 'Add expected rental income to estimate how it could offset your monthly costs.' },
-                        { t: 'See where the money goes', d: 'Follow principal, interest, and the remaining balance through the amortization schedule.' },
-                    ],
+                    bullets: [],
                 },
                 feature_prepay: {
                     eyebrow: 'Extra payments',
@@ -1049,14 +1113,40 @@
                     ],
                 },
                 feature2: {
-                    eyebrow: 'Your options',
-                    title: ['Give each option', 'a fair comparison.'],
-                    body: 'A lower monthly payment can still mean a higher cost over time. Compare payments, rates, terms, and total costs side by side, then share the plans you want to discuss.',
+                    eyebrow: 'Explore your options',
+                    title: ['A different rate. A different price.', 'See what changes.'],
+                    body: "Maybe another lender offers a lower interest rate. Maybe there's room to negotiate the price. Save and compare plans side by side. See how each option changes your monthly payment, interest, and total cost.",
                     icon: 'icon-compare.svg',
-                    bullets: [
-                        { t: 'Compare lender offers', d: 'Keep different offers together and see what each would mean for your monthly budget and total loan cost.' },
-                        { t: 'Check refinancing', d: 'Compare a new loan with your current mortgage, include refinancing costs, and estimate the break-even point.' },
-                        { t: 'Keep the conversation clear', d: 'Share a calculation or comparison summary with a partner, advisor, or client so you can work through the same numbers.' },
+                    bullets: [],
+                },
+                feature_saved: {
+                    eyebrow: 'Keep it together',
+                    title: ['All the details,', 'right where you left them.'],
+                    body: "Home prices, lender offers, notes, and photos can add up quickly. Keep them together with your saved plans. Update the numbers as things change and come back whenever you're ready.",
+                    icon: 'icon-spreadsheets.svg',
+                    bullets: [],
+                },
+                about: {
+                    eyebrow: 'Made by an independent developer',
+                    title: 'Built from a real home-buying experience.',
+                    paragraphs: [
+                        'I started Bricks Calc after buying my first home and realizing how difficult it was to keep all the numbers organized.',
+                        "What began as a tool for myself has grown into an app I'm continually improving, with a focus on making home planning simpler and clearer for everyone.",
+                    ],
+                },
+                whatsNew: {
+                    eyebrow: 'Always improving',
+                    title: 'A little better with every update.',
+                    body: 'New features, thoughtful improvements, and fixes that make planning easier.',
+                    link: "See what's new",
+                    href: 'index.html#changelog',
+                },
+                finalCta: {
+                    title: ['Have a home in mind?'],
+                    body: 'Start with the numbers. See what works for you.',
+                    sub: 'Available on iPhone, iPad, Mac, and Apple Vision Pro.',
+                    actions: [
+                        { label: 'Download Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_final&mt=8', accent: window.ACCENTS.calc.light, external: true },
                     ],
                 },
                 testimonials: {
@@ -1078,22 +1168,23 @@
                     action: 'Visit Bricks on Instagram',
                 },
                 faq: {
-                    eyebrow: 'A few more details',
+                    eyebrow: '',
                     title: 'Before you get started.',
                     items: [
-                        { q: 'Where can I use Bricks Calc?', a: ['Bricks Calc is built for iPhone, iPad, Mac, and Apple Vision Pro. The app is available in English and Spanish.'] },
-                        { q: 'Can I use it offline, without an account?', a: ['Yes. Mortgage calculations work on your device without an internet connection or a Bricks account. Syncing saved plans through iCloud needs an internet connection and your Apple account.'] },
-                        { q: 'Can I compare plans and share them?', a: ['Yes. Compare loan scenarios side by side and share summaries with a partner, advisor, or client. Pro also includes Split Payment to plan each contributor\u2019s share.'] },
-                        { q: 'How accurate are the results?', a: ['Bricks Calc uses standard loan calculations with the details you enter. Results are planning estimates; lender fees, terms, and payment rules may differ. Confirm final figures with your lender.'] },
-                        { q: 'What can I use for free?', a: ['Estimate payments, explore affordability, compare plans, test extra payments, and check refinance options. Save up to three mortgage plans, with limits on extra payments and expenses.', 'Pro removes those limits and adds Split Payment. Monthly, yearly, and one-time purchase options are available in the app.'] },
+                        { q: 'Is Bricks Calc free?', a: ['Yes. You can download it for free and save up to three plans. An optional upgrade removes limits and gives you more flexibility.'] },
+                        { q: 'Can I compare different mortgage offers?', a: ['Yes. Compare up to three plans to see how different home prices, down payments, and interest rates affect your monthly payment and total cost.'] },
+                        { q: 'Do I need an account or internet connection?', a: ['No account is required. The app works offline, and you can use iCloud to sync across your Apple devices.'] },
+                        { q: 'Can I use Bricks Calc if I already own a home?', a: ['Yes. Explore extra payments, refinancing options, amortization schedules, and changes to your current mortgage.'] },
+                        { q: 'Are the calculations exact?', a: ['Bricks Calc provides planning estimates. Your lender can confirm the actual loan terms, fees, and final payment amounts.'] },
+                        { q: 'Which devices are supported?', a: ['Bricks Calc is available on iPhone, iPad, Mac, and Apple Vision Pro.'] },
                     ],
                 },
                 download: {
-                    title: ['Start with the home', 'you have in mind.'],
-                    body: 'Add the price, down payment, rate, and term. See your first estimate, then build a plan you can come back to.',
-                    sub: 'Start free on iPhone, iPad, Mac, and Apple Vision Pro. No Bricks account required.',
+                    title: ['Start with one home.', 'Explore a few more.'],
+                    body: 'Download for free and save up to three home plans. Need more flexibility? Upgrade to remove limits on saved plans, extra payments, and expenses.',
+                    sub: 'Free to download. No account needed.',
                     actions: [
-                        { label: 'Download on the App Store', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_download_primary&mt=8', accent: window.ACCENTS.calc.light, external: true },
+                        { label: 'Get Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_pricing&mt=8', accent: window.ACCENTS.calc.light, external: true },
                     ],
                 },
                 ecosystem: {
@@ -1111,42 +1202,50 @@
             es: {
                 hero: {
                     eyebrow: 'Bricks Calc',
-                    title: ['Imagina tu hogar.', 'Entiende la cuota.'],
-                    body: 'Descubre cómo una vivienda puede ajustarse a tu presupuesto. Bricks Calc te ayuda a estimar el costo mensual de tu hipoteca, comparar opciones y planificar los cambios que vienen.',
+                    title: ['Planificar tu hogar,', 'ahora es más fácil.'],
+                    body: 'Descubre cómo la compra de una vivienda puede ajustarse a tu presupuesto. Estima el costo mensual de tu hipoteca, compara opciones y planifica los cambios que vienen.',
                     cta: 'Descargar en App Store',
-                    sub: 'Empieza gratis. No necesitas una cuenta de Bricks. Compra única disponible.',
+                    sub: 'Descarga gratis. No necesitas una cuenta.',
                     imageAlt: 'Bricks Calc, app para calcular y planificar créditos hipotecarios',
+                },
+                intro: {
+                    title: '¿Encontraste una vivienda que te gusta? Revisemos los números.',
+                    paragraphs: [
+                        'El precio de venta es solo el comienzo. También está la cuota hipotecaria, los demás gastos mensuales y las distintas ofertas que puedes considerar.',
+                        'Bricks Calc te ayuda a reunirlo todo para que veas qué se ajusta a tu presupuesto antes de decidir.',
+                    ],
                 },
                 stats: {
                     eyebrow: 'En tu dispositivo',
-                    title: ['Tus números.', 'Espacio para pensar.'],
-                    sub: 'Haz tus cálculos en tu dispositivo, incluso sin conexión. Tus planes guardados se sincronizan con iCloud en todos tus dispositivos Apple.',
+                    title: 'Planifica con números.',
+                    sub: 'Tus cálculos se realizan en tu dispositivo, sin conexión. No necesitas una cuenta y tus planes guardados se sincronizan con iCloud en todos tus dispositivos Apple.',
                     items: [
-                        { v: 0, l: 'Anuncios', suffix: '' },
-                        { v: 0, l: 'Cuentas de Bricks obligatorias', suffix: '' },
-                        { v: 1, l: 'Opción de compra única de Pro', suffix: '' },
+                        { t: 'Funciona sin conexión', d: 'Calcula directamente en tu dispositivo.' },
+                        { t: 'Sin cuenta', d: 'Empieza a planificar sin registrarte.' },
+                        { t: 'Sincroniza con iCloud', d: 'Conserva tus planes en tus dispositivos Apple.' },
                     ],
                 },
                 pillars: {
-                    eyebrow: 'Un punto de partida',
-                    title: ['Que tu presupuesto', 'sea parte de la imagen.'],
-                    body: 'Quizás ya tienes una vivienda en mente. O quizás estás viendo por dónde empezar. Explora una cuota que se ajuste a tu presupuesto y luego descubre qué podría significar cada alternativa.',
+                    eyebrow: 'Más formas de planificar',
+                    title: ['Hay más detrás', 'de los números.'],
+                    body: 'Explora los detalles que te importan, ya sea que estés comprando tu primera vivienda o ya estés pagando una hipoteca.',
                     items: [
-                        { t: 'Empieza por tu presupuesto', d: 'Usa la calculadora de capacidad de compra para estimar el precio de una vivienda y la cuota a partir de tus ingresos, deudas y presupuesto.', icon: 'icon-spreadsheets.svg' },
-                        { t: 'Prueba con la vivienda que tienes en mente', d: 'Ingresa el precio, la cuota inicial, la tasa y el plazo para obtener tu primera estimación hipotecaria.', icon: 'icon-adjust.svg' },
-                        { t: 'Explora qué cambia', d: 'Ajusta la cuota inicial, la tasa o el plazo y descubre cómo cada opción afecta la cuota y el costo total.', icon: 'icon-compare.svg' },
+                        { t: 'Calcula cuánto puedes pagar', d: 'Estima el precio de una vivienda y la cuota mensual según tus ingresos, deudas y presupuesto.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Calcula quién paga qué', d: 'Divide la cuota inicial, la hipoteca y otros gastos con tu pareja o con quien comparta los costos.', icon: 'icon-compare.svg' },
+                        { t: 'Explora los pagos extra', d: 'Descubre cómo pagar un poco más podría reducir los intereses o ayudarte a terminar antes.', icon: 'icon-adjust.svg' },
+                        { t: 'Entiende cada pago', d: 'Sigue el saldo, el capital y los intereses con el gráfico y la tabla de amortización.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Incluye ingresos por alquiler', d: 'Agrega los ingresos esperados por alquiler para ver cómo afectan tus gastos mensuales de vivienda.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Considera refinanciar', d: 'Compara tu préstamo actual con una nueva oferta y revisa cómo cambiarían las cuotas y el costo total.', icon: 'icon-compare.svg' },
+                        { t: 'Ten tus favoritos a mano', d: 'Fija los planes importantes en la parte superior y encuéntralos rápidamente.', icon: 'icon-adjust.svg' },
+                        { t: 'Acceso rápido y sencillo', d: 'Usa widgets y acciones rápidas para volver a tus números en tus dispositivos Apple.', icon: 'icon-spreadsheets.svg' },
                     ],
                 },
                 feature1: {
-                    eyebrow: 'Costo mensual',
-                    title: ['Planifica la cuota.', 'Y todo lo que implica.'],
-                    body: 'La hipoteca es solo una parte de tener una vivienda. Agrega impuestos, seguro y otros gastos para ver una estimación mensual más completa y entender cuánto podrías necesitar reservar.',
+                    eyebrow: 'Empieza por la cuota',
+                    title: ['Descubre cuánto podría', 'costar la vivienda al mes.'],
+                    body: 'Ingresa el precio de la vivienda, la cuota inicial, la tasa de interés y el plazo para estimar tu cuota hipotecaria. Agrega impuestos prediales, seguro y otros gastos para tener una idea más clara del costo mensual.',
                     icon: 'icon-spreadsheets.svg',
-                    bullets: [
-                        { t: 'Reúne todos los costos', d: 'Incluye impuestos prediales, seguro y gastos recurrentes junto con la cuota del préstamo.' },
-                        { t: 'Considera los ingresos por alquiler', d: 'Agrega los ingresos por alquiler que esperas recibir para estimar cuánto podrían compensar tus costos mensuales.' },
-                        { t: 'Mira a dónde va el dinero', d: 'Sigue el capital, los intereses y el saldo pendiente en la tabla de amortización.' },
-                    ],
+                    bullets: [],
                 },
                 feature_prepay: {
                     eyebrow: 'Pagos extra',
@@ -1160,14 +1259,40 @@
                     ],
                 },
                 feature2: {
-                    eyebrow: 'Tus opciones',
-                    title: ['Compara cada opción', 'en igualdad de condiciones.'],
-                    body: 'Una cuota mensual más baja puede significar un costo mayor con el tiempo. Compara cuotas, tasas, plazos y costos totales lado a lado. Luego comparte los planes que quieras analizar.',
+                    eyebrow: 'Explora tus opciones',
+                    title: ['Otra tasa. Otro precio.', 'Descubre qué cambia.'],
+                    body: 'Quizás otra entidad ofrece una tasa de interés más baja. Quizás puedas negociar el precio. Guarda y compara planes lado a lado. Descubre cómo cada opción cambia tu cuota mensual, los intereses y el costo total.',
                     icon: 'icon-compare.svg',
-                    bullets: [
-                        { t: 'Compara ofertas de crédito', d: 'Mantén juntas distintas ofertas y revisa qué significaría cada una para tu presupuesto mensual y el costo total del préstamo.' },
-                        { t: 'Evalúa un refinanciamiento', d: 'Compara un nuevo préstamo con tu hipoteca actual, incluye los costos de refinanciamiento y estima el punto de equilibrio.' },
-                        { t: 'Mantén clara la conversación', d: 'Comparte el resumen de un cálculo o una comparación con tu pareja, asesor o cliente para que todos puedan revisar los mismos números.' },
+                    bullets: [],
+                },
+                feature_saved: {
+                    eyebrow: 'Tenlo todo junto',
+                    title: ['Todos los detalles,', 'siempre a mano.'],
+                    body: 'Los precios de viviendas, las ofertas de crédito, las notas y las fotos se acumulan rápidamente. Guárdalo todo en tus planes. Actualiza los números cuando cambien las cosas y vuelve cuando quieras.',
+                    icon: 'icon-spreadsheets.svg',
+                    bullets: [],
+                },
+                about: {
+                    eyebrow: 'Creada por un desarrollador independiente',
+                    title: 'Nació de una experiencia real al comprar una vivienda.',
+                    paragraphs: [
+                        'Empecé Bricks Calc después de comprar mi primera vivienda y darme cuenta de lo difícil que era mantener todos los números organizados.',
+                        'Lo que comenzó como una herramienta para mí se ha convertido en una app que sigo mejorando, con el objetivo de hacer que planificar una vivienda sea más sencillo y claro para todos.',
+                    ],
+                },
+                whatsNew: {
+                    eyebrow: 'Siempre mejorando',
+                    title: 'Un poco mejor con cada actualización.',
+                    body: 'Nuevas funciones, mejoras cuidadas y correcciones para que planificar sea más fácil.',
+                    link: 'Descubre las novedades',
+                    href: 'index.html#changelog',
+                },
+                finalCta: {
+                    title: ['¿Tienes una vivienda en mente?'],
+                    body: 'Empieza por los números. Descubre qué funciona para ti.',
+                    sub: 'Disponible en iPhone, iPad, Mac y Apple Vision Pro.',
+                    actions: [
+                        { label: 'Descargar Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_final&mt=8', accent: window.ACCENTS.calc.light, external: true },
                     ],
                 },
                 testimonials: {
@@ -1189,22 +1314,23 @@
                     action: 'Visita Bricks en Instagram',
                 },
                 faq: {
-                    eyebrow: 'Algunos detalles más',
+                    eyebrow: '',
                     title: 'Antes de empezar.',
                     items: [
-                        { q: '¿Dónde puedo usar Bricks Calc?', a: ['Bricks Calc está diseñada para iPhone, iPad, Mac y Apple Vision Pro. La app está disponible en inglés y español.'] },
-                        { q: '¿Puedo usar Bricks Calc sin conexión y sin una cuenta?', a: ['Sí. Los cálculos hipotecarios se realizan en tu dispositivo sin conexión a internet ni una cuenta de Bricks. Para sincronizar los planes guardados con iCloud necesitas conexión a internet y tu Cuenta de Apple.'] },
-                        { q: '¿Puedo comparar planes y compartirlos?', a: ['Sí. Compara escenarios de crédito lado a lado y comparte resúmenes con tu pareja, asesor o cliente. Pro también incluye Pago Compartido para planificar la parte de cada persona.'] },
-                        { q: '¿Qué tan precisos son los resultados?', a: ['Bricks Calc utiliza cálculos estándar de préstamos con los datos que ingresas. Los resultados son estimaciones para planificar; las comisiones, condiciones y reglas de pago de la entidad financiera pueden variar. Confirma las cifras finales con tu entidad financiera.'] },
-                        { q: '¿Qué puedo usar gratis?', a: ['Estima cuotas, explora tu capacidad de compra, compara planes, prueba pagos extra y revisa opciones de refinanciamiento. Guarda hasta tres planes hipotecarios, con límites para pagos extra y gastos.', 'Pro elimina esos límites y agrega Pago Compartido. Hay opciones mensuales y anuales, además de una compra única dentro de la app.'] },
+                        { q: '¿Bricks Calc es gratis?', a: ['Sí. Puedes descargarla gratis y guardar hasta tres planes. Una mejora opcional elimina los límites y te da más flexibilidad.'] },
+                        { q: '¿Puedo comparar distintas ofertas hipotecarias?', a: ['Sí. Compara hasta tres planes para ver cómo distintos precios, cuotas iniciales y tasas de interés afectan tu cuota mensual y el costo total.'] },
+                        { q: '¿Necesito una cuenta o conexión a internet?', a: ['No necesitas una cuenta. La app funciona sin conexión y puedes usar iCloud para sincronizar tus planes en tus dispositivos Apple.'] },
+                        { q: '¿Puedo usar Bricks Calc si ya tengo una vivienda?', a: ['Sí. Explora pagos extra, opciones de refinanciamiento, tablas de amortización y cambios en tu hipoteca actual.'] },
+                        { q: '¿Los cálculos son exactos?', a: ['Bricks Calc ofrece estimaciones para planificar. Tu entidad financiera puede confirmar las condiciones, comisiones y cuotas finales del préstamo.'] },
+                        { q: '¿Qué dispositivos son compatibles?', a: ['Bricks Calc está disponible en iPhone, iPad, Mac y Apple Vision Pro.'] },
                     ],
                 },
                 download: {
-                    title: ['Empieza con la vivienda', 'que tienes en mente.'],
-                    body: 'Agrega el precio, la cuota inicial, la tasa y el plazo. Consulta tu primera estimación y arma un plan al que puedas volver.',
-                    sub: 'Empieza gratis en iPhone, iPad, Mac y Apple Vision Pro. No necesitas una cuenta de Bricks.',
+                    title: ['Empieza con una vivienda.', 'Explora algunas más.'],
+                    body: 'Descarga la app gratis y guarda hasta tres planes. ¿Necesitas más flexibilidad? Mejora la app para eliminar los límites de planes guardados, pagos extra y gastos.',
+                    sub: 'Descarga gratis. No necesitas una cuenta.',
                     actions: [
-                        { label: 'Descargar en App Store', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_download_primary&mt=8', accent: window.ACCENTS.calc.light, external: true },
+                        { label: 'Obtener Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_pricing&mt=8', accent: window.ACCENTS.calc.light, external: true },
                     ],
                 },
                 ecosystem: {
@@ -1322,37 +1448,48 @@
         // CalcStats
         // ==========================================================================
 
+        function CalcIntro({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            return (
+                <section ref={reveal} style={{
+                    padding: isMobile ? '56px 24px' : '96px 48px',
+                    maxWidth: 960, margin: '0 auto',
+                    textAlign: 'center',
+                }}>
+                    <h2 className="reveal" style={{
+                        fontSize: isMobile ? 36 : 56, fontWeight: 900, letterSpacing: '-0.035em',
+                        lineHeight: 1.02, margin: '0 auto 24px', color: 'var(--b-text)', maxWidth: 840,
+                    }}>{t.intro.title}</h2>
+                    <div className="reveal reveal-d1" style={{
+                        fontSize: isMobile ? 17 : 19, lineHeight: 1.65,
+                        color: 'var(--b-text-2)', maxWidth: 720, margin: '0 auto',
+                    }}>
+                        {t.intro.paragraphs.map(paragraph => <p key={paragraph} style={{ margin: '0 0 14px' }}>{paragraph}</p>)}
+                    </div>
+                </section>
+            );
+        }
+
         function CalcStats({ t }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
-            const [visible, setVisible] = React.useState(false);
-            const bandRef = React.useRef(null);
-
-            React.useEffect(() => {
-                const el = bandRef.current;
-                if (!el) return;
-                const io = new IntersectionObserver((entries) => {
-                    entries.forEach(e => { if (e.isIntersecting) { setVisible(true); io.unobserve(e.target); } });
-                }, { threshold: 0.3 });
-                io.observe(el);
-                return () => io.disconnect();
-            }, []);
 
             return (
-                <section ref={reveal} style={{
+                <section id="privacy" ref={reveal} style={{
                     padding: isMobile ? '40px 20px' : '80px 48px',
                     maxWidth: 1200, margin: '0 auto',
                 }}>
-                    <div className="reveal" style={{ textAlign: 'center', marginBottom: isMobile ? 32 : 48 }}>
+                    <div className="reveal" style={{ textAlign: isMobile ? 'left' : 'center', marginBottom: isMobile ? 32 : 48 }}>
                         <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.stats.eyebrow}</div>
                         <h2 style={{
                             fontSize: isMobile ? 32 : 44, fontWeight: 900, letterSpacing: '-0.035em',
                             lineHeight: 1.05, margin: '0 0 12px', color: 'var(--b-text)',
-                        }}>{t.stats.title[0]}<br /><span style={{ color: 'var(--b-text-2)' }}>{t.stats.title[1]}</span></h2>
-                        <p style={{ fontSize: 16, color: 'var(--b-text-2)', margin: 0 }}>{t.stats.sub}</p>
+                        }}>{t.stats.title}</h2>
+                        <p style={{ fontSize: 16, color: 'var(--b-text-2)', lineHeight: 1.6, margin: '0 auto', maxWidth: 680 }}>{t.stats.sub}</p>
                     </div>
 
-                    <div ref={bandRef} className="reveal reveal-d1" style={{
+                    <div className="reveal reveal-d1" style={{
                         display: 'grid',
                         gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
                         gap: isMobile ? 16 : 24,
@@ -1361,26 +1498,14 @@
                         padding: isMobile ? '28px 24px' : '48px 32px',
                         boxShadow: 'var(--emboss-soft)',
                     }}>
-                        {t.stats.items.map((item, i) => (
-                            <StatCell key={i} item={item} visible={visible} />
+                        {t.stats.items.map(item => (
+                            <div key={item.t} style={{ textAlign: 'center', padding: '12px 8px' }}>
+                                <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--b-text)', marginBottom: 8 }}>{item.t}</div>
+                                <div style={{ fontSize: 14, color: 'var(--b-text-2)', lineHeight: 1.55 }}>{item.d}</div>
+                            </div>
                         ))}
                     </div>
                 </section>
-            );
-        }
-
-        function StatCell({ item, visible }) {
-            const v = window.useCountUp(item.v, visible);
-            return (
-                <div style={{ textAlign: 'center', padding: '12px 8px' }}>
-                    <div style={{
-                        fontSize: 48, fontWeight: 900, letterSpacing: '-0.035em',
-                        color: CALC_ACCENT, lineHeight: 1,
-                    }}>
-                        {window.fmtNum(v)}{item.suffix}
-                    </div>
-                    <div style={{ marginTop: 10, fontSize: 14, color: 'var(--b-text-2)' }}>{item.l}</div>
-                </div>
             );
         }
 
@@ -1391,22 +1516,21 @@
         function CalcPillars({ t, theme }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
+            const isCompact = window.useIsMobile(900);
             return (
-                <section id="how-it-works" ref={reveal} style={{
+                <section id="features" ref={reveal} style={{
                     padding: isMobile ? '56px 20px' : '120px 48px',
                     maxWidth: 1200, margin: '0 auto',
                 }}>
                     <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: isMobile ? '1fr' : '1fr 1.2fr',
-                        gap: isMobile ? 32 : 80,
-                        alignItems: 'start', marginBottom: isMobile ? 40 : 64,
+                        textAlign: isMobile ? 'left' : 'center', maxWidth: 760, margin: '0 auto',
+                        marginBottom: isMobile ? 40 : 64,
                     }}>
                         <div className="reveal">
                             <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.pillars.eyebrow}</div>
                             <h2 style={{
                                 fontSize: isMobile ? 36 : 56, fontWeight: 900, letterSpacing: '-0.035em',
-                                lineHeight: 1.02, margin: 0, color: 'var(--b-text)',
+                                lineHeight: 1.02, margin: '0 0 18px', color: 'var(--b-text)',
                             }}>
                                 {t.pillars.title[0]}<br />
                                 <span style={{ color: 'var(--b-text-2)' }}>{t.pillars.title[1]}</span>
@@ -1419,15 +1543,17 @@
 
                     <div style={{
                         display: 'grid',
-                        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+                        gridTemplateColumns: isMobile ? '1fr' : isCompact ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                        gridAutoRows: '1fr',
                         gap: isMobile ? 16 : 24,
                     }}>
                         {t.pillars.items.map((p, i) => (
                             <div key={i} className={`reveal reveal-d${i + 1}`} style={{
                                 background: 'var(--b-bg-elevated)', borderRadius: 32,
-                                padding: isMobile ? 28 : 36,
+                                padding: isMobile ? 28 : isCompact ? 28 : 30,
                                 boxShadow: 'var(--emboss-soft)',
                                 border: '1px solid var(--b-border)',
+                                gridColumn: !isCompact && [0, 4, 7].includes(i) ? 'span 2' : undefined,
                             }}>
                                 <div style={{
                                     width: 44, height: 44, borderRadius: 14,
@@ -1463,7 +1589,7 @@
 
         function CalcFeatureSplit({ id, feature, reverse, shotSrc, theme }) {
             const reveal = window.useReveal();
-            const isMobile = window.useIsMobile();
+            const isMobile = window.useIsMobile(900);
             return (
                 <section id={id} ref={reveal} style={{
                     padding: isMobile ? '56px 20px' : '96px 48px',
@@ -1478,6 +1604,7 @@
                     }}>
                         <div className="reveal" style={{ direction: 'ltr' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                                <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT, marginBottom: 0 }}>{feature.eyebrow}</div>
                                 <div style={{
                                     width: 20, height: 20,
                                     backgroundColor: CALC_ACCENT,
@@ -1488,7 +1615,6 @@
                                     maskRepeat: 'no-repeat',
                                     WebkitMaskRepeat: 'no-repeat'
                                 }} />
-                                <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT, marginBottom: 0 }}>{feature.eyebrow}</div>
                             </div>
                             <h2 style={{
                                 fontSize: isMobile ? 36 : 52, fontWeight: 900, letterSpacing: '-0.035em',
@@ -1498,15 +1624,79 @@
                                 <span style={{ color: 'var(--b-text-2)' }}>{feature.title[1]}</span>
                             </h2>
                             <p style={{ ...window.leadP, marginBottom: 28 }}>{feature.body}</p>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-                                {feature.bullets.map((b, i) => (
-                                    <window.Bullet key={i} accent={CALC_ACCENT} t={b.t} d={b.d} />
-                                ))}
-                            </div>
+                            {feature.bullets.length > 0 && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                                    {feature.bullets.map((b, i) => (
+                                        <window.Bullet key={i} accent={CALC_ACCENT} t={b.t} d={b.d} />
+                                    ))}
+                                </div>
+                            )}
                         </div>
                         <div className="reveal reveal-d1" style={{ direction: 'ltr' }}>
                             <window.ScreenshotPhone src={shotSrc} alt={feature.title.join(' ')} accent={CALC_ACCENT} tilt={reverse ? 1.5 : -1.5} />
                         </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function CalcAbout({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            return (
+                <section id="about" ref={reveal} style={{
+                    padding: isMobile ? '56px 24px' : '100px 48px',
+                    maxWidth: 960, margin: '0 auto',
+                }}>
+                    <div className="reveal" style={{
+                        maxWidth: 760, margin: '0 auto',
+                        background: 'var(--b-bg-elevated)', borderRadius: 32,
+                        padding: isMobile ? 28 : 56,
+                        boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
+                    }}>
+                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.about.eyebrow}</div>
+                        <h2 style={{
+                            fontSize: isMobile ? 34 : 48, fontWeight: 900, letterSpacing: '-0.035em',
+                            lineHeight: 1.04, margin: '0 0 24px', color: 'var(--b-text)',
+                        }}>{t.about.title}</h2>
+                        {t.about.paragraphs.map(paragraph => (
+                            <p key={paragraph} style={{
+                                fontSize: 16, lineHeight: 1.7, color: 'var(--b-text-2)',
+                                margin: '0 0 14px',
+                            }}>{paragraph}</p>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        function CalcWhatsNew({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            return (
+                <section id="whats-new" ref={reveal} style={{
+                    padding: isMobile ? '32px 20px 56px' : '48px 48px 96px',
+                    maxWidth: 960, margin: '0 auto',
+                }}>
+                    <div className="reveal" style={{
+                        textAlign: isMobile ? 'left' : 'center', padding: isMobile ? '36px 24px' : '52px 48px',
+                        borderRadius: 32, background: 'var(--b-bg-elevated)',
+                        boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
+                    }}>
+                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.whatsNew.eyebrow}</div>
+                        <h2 style={{
+                            fontSize: isMobile ? 32 : 44, fontWeight: 900, letterSpacing: '-0.035em',
+                            lineHeight: 1.05, margin: '0 0 12px', color: 'var(--b-text)',
+                        }}>{t.whatsNew.title}</h2>
+                        <p style={{
+                            fontSize: 16, color: 'var(--b-text-2)', lineHeight: 1.6,
+                            margin: '0 auto 24px', maxWidth: 540,
+                        }}>{t.whatsNew.body}</p>
+                        <a href={t.whatsNew.href} style={{
+                            display: 'inline-flex', alignItems: 'center',
+                            color: CALC_ACCENT, fontSize: 15, fontWeight: 600,
+                            textDecoration: 'none',
+                        }}>{t.whatsNew.link} <span aria-hidden="true" style={{ marginLeft: 6 }}>→</span></a>
                     </div>
                 </section>
             );
@@ -1687,7 +1877,7 @@
                     maxWidth: 960, margin: '0 auto',
                 }}>
                     <div className="reveal" style={{ marginBottom: isMobile ? 32 : 48 }}>
-                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.faq.eyebrow}</div>
+                        {t.faq.eyebrow && <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.faq.eyebrow}</div>}
                         <h2 style={{
                             fontSize: isMobile ? 36 : 52, fontWeight: 900, letterSpacing: '-0.035em',
                             lineHeight: 1.02, margin: 0, color: 'var(--b-text)',
@@ -1861,8 +2051,8 @@
                         description: 'Estima costos hipotecarios, explora tu capacidad de compra, compara créditos y planifica pagos extra con Bricks Calc. Empieza gratis en iPhone, iPad, Mac y Apple Vision Pro.',
                     }
                     : {
-                        title: 'Bricks Calc — Mortgage Calculator & Home Loan Planning',
-                        description: 'Estimate mortgage costs, explore affordability, compare loans, and plan extra payments with Bricks Calc. Start free on iPhone, iPad, Mac, and Apple Vision Pro.',
+                        title: 'Bricks Calc — Home planning, made easier',
+                        description: 'Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget.',
                     };
                 document.title = metadata.title;
                 setMetaContent('meta[name="description"]', metadata.description);
@@ -1878,8 +2068,8 @@
 
             // Note: feature images are language-specific. Using standard ones we know exist from images folder.
             const shot1 = `images-bricks-calc/screenshot-precision-section-${lang}-light.png`;
-            const shotPrepay = lang === 'en' ? 'images-bricks-calc/screenshot-prepay-section-en-light.png' : 'images-bricks-calc/screenshot-prepay-section-es-light.png';
-            const shot2 = `images-bricks-calc/screenshot-share-section-${lang}-light.png`;
+            const shotCompare = `images-bricks-calc/screenshot-compare-section-${lang}-light.png`;
+            const shotSaved = `images-bricks-calc/screenshot-share-section-${lang}-light.png`;
 
             return (
                 <div id="top" style={{ background: 'var(--b-bg)', minHeight: '100vh', overflow: 'hidden' }}>
@@ -1894,16 +2084,17 @@
 
                     <main>
                         <CalcHero t={calcT} lang={lang} theme={effectiveTheme} />
-                        <CalcStats t={calcT} />
+                        <CalcIntro t={calcT} />
+                        <CalcFeatureSplit id="monthly-cost" feature={calcT.feature1} reverse={false} shotSrc={shot1} theme={effectiveTheme} />
+                        <CalcFeatureSplit id="compare-options" feature={calcT.feature2} reverse={true} shotSrc={shotCompare} theme={effectiveTheme} />
+                        <CalcFeatureSplit id="saved-plans" feature={calcT.feature_saved} reverse={false} shotSrc={shotSaved} theme={effectiveTheme} />
                         <CalcPillars t={calcT} theme={effectiveTheme} />
-                        <CalcFeatureSplit id="screenshots" feature={calcT.feature1} reverse={false} shotSrc={shot1} theme={effectiveTheme} />
-                        <CalcFeatureSplit feature={calcT.feature_prepay} reverse={true} shotSrc={shotPrepay} theme={effectiveTheme} />
-                        <CalcFeatureSplit feature={calcT.feature2} reverse={false} shotSrc={shot2} theme={effectiveTheme} />
-                        <CalcTestimonials t={calcT} />
-                        <window.DownloadCTA t={t} variant="product" productCopy={calcT.download} />
-                        <CalcSocialFeed t={calcT} theme={effectiveTheme} />
+                        <CalcStats t={calcT} />
+                        <window.DownloadCTA t={t} variant="product" productCopy={calcT.download} id="pricing" />
+                        <CalcAbout t={calcT} />
+                        <CalcWhatsNew t={calcT} />
                         <CalcFAQ t={calcT} />
-                        <CalcEcosystem t={calcT} />
+                        <window.DownloadCTA t={t} variant="product" productCopy={calcT.finalCta} id="final-cta" />
                     </main>
 
                     <window.Footer t={t} lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
