@@ -158,6 +158,40 @@
             pointer-events: none;
         }
 
+        .calc-hero {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .calc-hero > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .calc-hero::before,
+        .calc-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 100vw;
+            height: max(760px, 100vh);
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .calc-hero::before {
+            z-index: 0;
+            background: url('images-bricks-calc/hero.jpg') center center / cover no-repeat;
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
+        }
+
+        .calc-hero::after {
+            z-index: 1;
+            background: linear-gradient(to bottom, color-mix(in srgb, var(--b-bg) 42%, transparent), transparent 70%);
+        }
+
         .calc-site-nav {
             width: min(1180px, calc(100% - 96px));
             min-height: 66px;
@@ -1377,7 +1411,7 @@
             const posterSrc = `images-bricks-calc/hero-video-img-${lang}.png`;
 
             return (
-                <section ref={reveal} style={{
+                <section className="calc-hero" ref={reveal} style={{
                     padding: isMobile ? '120px 20px 48px' : '160px 48px 80px',
                     maxWidth: 1280, margin: '0 auto',
                 }}>
