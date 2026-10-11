@@ -348,6 +348,24 @@
             transition: stroke-dashoffset 1.25s cubic-bezier(0.65, 0, 0.35, 1) 0.12s;
         }
 
+        @media (max-width: 600px) {
+            .calc-intro-roof-path {
+                stroke-width: 13;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calc-intro-roof-path {
+                stroke-width: 15;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .calc-intro-roof-path {
+                stroke-width: 18;
+            }
+        }
+
         .calc-intro-roof.in {
             transform: scale(1);
         }
