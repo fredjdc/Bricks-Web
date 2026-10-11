@@ -1202,7 +1202,7 @@
                     imageAlt: 'Bricks Calc mortgage and home loan planning app',
                 },
                 intro: {
-                    title: "Found a home you like? Let's look at the numbers.",
+                    title: ['Found a home you like?', "Let's look at the numbers."],
                     paragraphs: [
                         "The asking price is just the beginning. There's the mortgage payment, the other monthly costs, and the different offers to consider.",
                         'Bricks Calc helps you put it all together, so you can see what works for your budget before making a decision.',
@@ -1349,7 +1349,7 @@
                     imageAlt: 'Bricks Calc, app para calcular y planificar créditos hipotecarios',
                 },
                 intro: {
-                    title: '¿Encontraste una vivienda que te gusta? Revisemos los números.',
+                    title: ['¿Encontraste una vivienda que te gusta?', 'Revisemos los números.'],
                     paragraphs: [
                         'El precio de venta es solo el comienzo. También está la cuota hipotecaria, los demás gastos mensuales y las distintas ofertas que puedes considerar.',
                         'Bricks Calc te ayuda a reunirlo todo para que veas qué se ajusta a tu presupuesto antes de decidir.',
@@ -1601,10 +1601,18 @@
                             />
                         </svg>
                     </div>
-                    <h2 className="reveal" style={{
-                        fontSize: isMobile ? 36 : 52, fontWeight: 900, letterSpacing: '-0.035em',
-                        lineHeight: 1.02, margin: '0 auto 16px', color: 'var(--b-text)', maxWidth: 840,
-                    }}>{t.intro.title}</h2>
+                    {(() => {
+                        const titleLines = Array.isArray(t.intro.title) ? t.intro.title : [t.intro.title];
+                        return (
+                            <h2 className="reveal" style={{
+                                fontSize: isMobile ? 36 : 52, fontWeight: 900, letterSpacing: '-0.035em',
+                                lineHeight: 1.02, margin: '0 auto 16px', color: 'var(--b-text)', maxWidth: 840,
+                            }}>
+                                {titleLines[0]}<br />
+                                <span style={{ color: 'var(--b-text-2)' }}>{titleLines[1] || ''}</span>
+                            </h2>
+                        );
+                    })()}
                     <div className="reveal reveal-d1" style={{
                         maxWidth: 720, margin: '0 auto',
                     }}>
