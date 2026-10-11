@@ -322,6 +322,55 @@
             border-radius: 9px;
         }
 
+        .calc-intro-roof.reveal {
+            width: 100%;
+            max-width: 840px;
+            margin: 0 auto 12px;
+            transform: scale(0.78);
+            transition: opacity 1s cubic-bezier(0.65, 0, 0.35, 1), transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .calc-intro-roof svg {
+            display: block;
+            width: 100%;
+            overflow: visible;
+        }
+
+        .calc-intro-roof-path {
+            fill: none;
+            stroke: var(--b-text);
+            stroke-width: 12;
+            opacity: 0.4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 1.25s cubic-bezier(0.65, 0, 0.35, 1) 0.12s;
+        }
+
+        .calc-intro-roof.in {
+            transform: scale(1);
+        }
+
+        .calc-intro-roof.in .calc-intro-roof-path {
+            stroke-dashoffset: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .calc-intro-roof.reveal,
+            .calc-intro-roof-path {
+                transition: none;
+            }
+
+            .calc-intro-roof.reveal {
+                transform: none;
+            }
+
+            .calc-intro-roof-path {
+                stroke-dashoffset: 0;
+            }
+        }
+
         #monthly-cost,
         #compare-options,
         #saved-plans,
@@ -1519,13 +1568,22 @@
             const isMobile = window.useIsMobile();
             return (
                 <section ref={reveal} style={{
-                    padding: isMobile ? '56px 24px' : '96px 48px',
+                    padding: isMobile ? '32px 24px' : '48px',
                     maxWidth: 960, margin: '0 auto',
                     textAlign: 'center',
                 }}>
+                    <div className="calc-intro-roof reveal" aria-hidden="true">
+                        <svg viewBox="0 0 840 190" role="presentation">
+                            <path
+                                className="calc-intro-roof-path"
+                                pathLength="1000"
+                                d="M 13 164 C 145 105, 265 49, 350 10 Q 380 -5, 405 18 L 535 94 L 535 33 Q 535 8, 560 8 L 615 8 Q 640 8, 640 33 L 640 119 L 827 178"
+                            />
+                        </svg>
+                    </div>
                     <h2 className="reveal" style={{
                         fontSize: isMobile ? 36 : 56, fontWeight: 900, letterSpacing: '-0.035em',
-                        lineHeight: 1.02, margin: '0 auto 24px', color: 'var(--b-text)', maxWidth: 840,
+                        lineHeight: 1.02, margin: '0 auto 16px', color: 'var(--b-text)', maxWidth: 840,
                     }}>{t.intro.title}</h2>
                     <div className="reveal reveal-d1" style={{
                         fontSize: isMobile ? 17 : 19, lineHeight: 1.65,
