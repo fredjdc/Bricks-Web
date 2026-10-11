@@ -1800,24 +1800,48 @@
             return (
                 <section id="about" ref={reveal} style={{
                     padding: isMobile ? '56px 20px' : '100px 48px',
-                    maxWidth: 1200, margin: '0 auto',
+                    maxWidth: 1200, margin: '0 auto', textAlign: 'center',
                 }}>
                     <div className="reveal" style={{
                         maxWidth: 1104, margin: '0 auto',
                         background: 'var(--b-bg-elevated)', borderRadius: 32,
                         padding: isMobile ? 28 : 56,
                         boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
+                        textAlign: 'center',
                     }}>
-                        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-                            <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.about.eyebrow}</div>
+                        <div style={{ maxWidth: 840, margin: '0 auto' }}>
+                            <div style={{
+                                width: isMobile ? 110 : 144,
+                                height: isMobile ? 110 : 144,
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                margin: '0 auto 20px',
+                                border: '2px solid rgba(17, 24, 39, 0.08)',
+                                boxShadow: '0 12px 28px rgba(10, 16, 24, 0.12)',
+                                background: 'linear-gradient(180deg, #dfe7f4 0%, #b8c7dc 100%)',
+                            }}>
+                                <img
+                                    src="images/developer-picture.jpg"
+                                    alt="Developer portrait"
+                                    style={{
+                                        display: 'block',
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        objectPosition: 'center top',
+                                    }}
+                                />
+                            </div>
+                            <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT, textAlign: 'center' }}>{t.about.eyebrow}</div>
                             <h2 style={{
                                 fontSize: isMobile ? 34 : 48, fontWeight: 900, letterSpacing: '-0.035em',
-                                lineHeight: 1.04, margin: '0 0 24px', color: 'var(--b-text)',
+                                lineHeight: 1.04, margin: '0 auto 24px', color: 'var(--b-text)',
+                                maxWidth: 860, textAlign: 'center',
                             }}>{t.about.title}</h2>
                             {t.about.paragraphs.map(paragraph => (
                                 <p key={paragraph} style={{
                                     fontSize: 16, lineHeight: 1.7, color: 'var(--b-text-2)',
-                                    margin: '0 0 14px',
+                                    margin: '0 auto 14px', maxWidth: 760, textAlign: 'center',
                                 }}>{paragraph}</p>
                             ))}
                         </div>
