@@ -1499,7 +1499,7 @@
                         boxShadow: 'var(--emboss-soft)',
                     }}>
                         {t.stats.items.map(item => (
-                            <div key={item.t} style={{ textAlign: 'center', padding: '12px 8px' }}>
+                            <div key={item.t} style={{ textAlign: isMobile ? 'left' : 'center', padding: '12px 8px' }}>
                                 <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--b-text)', marginBottom: 8 }}>{item.t}</div>
                                 <div style={{ fontSize: 14, color: 'var(--b-text-2)', lineHeight: 1.55 }}>{item.d}</div>
                             </div>
