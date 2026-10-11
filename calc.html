@@ -334,7 +334,7 @@
             position: relative;
             width: min(100%, 980px);
             height:420px;
-            margin: 0 auto 8px;
+            margin: 0 auto 40px;
             overflow: hidden;
             pointer-events: none;
             -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
@@ -1615,6 +1615,7 @@
         function CalcIntro({ t }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile(900);
+            const isSmallScreen = window.useIsMobile(620);
             const introRef = React.useRef(null);
             const [isVisible, setIsVisible] = React.useState(false);
             const [scrollOffset, setScrollOffset] = React.useState(0);
@@ -1671,7 +1672,7 @@
                             aria-hidden="true"
                         >
                             {phoneData.map((phone, index) => ({ phone, index }))
-                                .filter(({ index }) => !isMobile || index === 1)
+                                .filter(({ index }) => !isSmallScreen || index === 1)
                                 .map(({ phone, index }) => (
                                 <div
                                     key={phone.src}
@@ -1681,7 +1682,7 @@
                                         marginLeft: -(phone.width / 2),
                                         opacity: isVisible ? 1 : 0,
                                         transform: `translate3d(${phone.x}px, ${phone.y + scrollOffset * (index === 1 ? 0.4 : 0.7)}px, 0)`,
-                                        transitionDelay: `${isMobile ? 0 : index * 120}ms`,
+                                        transitionDelay: `${isSmallScreen ? 0 : index * 120}ms`,
                                         filter: `saturate(${isVisible ? 1 : 0.85})`,
                                     }}
                                 >
