@@ -388,7 +388,7 @@
         // ScreenshotPhone & ScreenshotVideo
         // ==========================================================================
 
-        window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent, tilt = 0 }) {
+        window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent }) {
             const ref = React.useRef(null);
             const [y, setY] = React.useState(0);
             const isMobile = window.useIsMobile();
@@ -443,7 +443,7 @@
                             height: 'auto',
                             display: 'block',
                             borderRadius: 48,
-                            transform: `translateY(${translateY}px) rotate(${tilt}deg)`,
+                            transform: `translateY(${translateY}px)`,
                             transition: 'transform 0.05s linear',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
                             willChange: 'transform',
@@ -453,7 +453,7 @@
             );
         };
 
-        window.ScreenshotVideo = function ScreenshotVideo({ src, posterSrc, alt, accent, tilt = 0 }) {
+        window.ScreenshotVideo = function ScreenshotVideo({ src, posterSrc, alt, accent }) {
             const ref = React.useRef(null);
             const [y, setY] = React.useState(0);
             const isMobile = window.useIsMobile();
@@ -503,7 +503,7 @@
                         width: isMobile ? '100%' : 340,
                         maxWidth: isMobile ? 280 : 'none',
                         borderRadius: 48,
-                        transform: `translateY(${translateY}px) rotate(${tilt}deg)`,
+                        transform: `translateY(${translateY}px)`,
                         transition: 'transform 0.05s linear',
                         boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
                         willChange: 'transform',

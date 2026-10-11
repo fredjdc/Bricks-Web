@@ -215,7 +215,7 @@
         const rect = scene.getBoundingClientRect();
         const progress = (window.innerHeight * 0.5 - (rect.top + rect.height * 0.5)) / window.innerHeight;
         const translateY = -Math.max(-1, Math.min(1, progress)) * 40;
-        frame.style.transform = `translateY(${translateY}px) rotate(-1.5deg)`;
+        frame.style.transform = `translateY(${translateY}px)`;
         glow.style.transform = `translateY(${translateY * 0.5}px)`;
       };
 

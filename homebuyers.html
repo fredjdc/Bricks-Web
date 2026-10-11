@@ -609,7 +609,7 @@
         // ScreenshotPhone & ScreenshotVideo
         // ==========================================================================
 
-        window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent, tilt = 0 }) {
+        window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent }) {
             const ref = React.useRef(null);
             const [y, setY] = React.useState(0);
             const [active, setActive] = React.useState(false);
@@ -643,7 +643,6 @@
             }, [reduceMotion]);
 
             const translateY = reduceMotion ? 0 : -y * 40;
-            const activeTilt = active ? tilt * 0.35 : tilt;
             const activeLift = active && !reduceMotion ? -4 : 0;
             const transition = reduceMotion ? 'none' : 'transform 0.22s cubic-bezier(0.16,1,0.3,1)';
             const setInteraction = (next, pointerType) => {
@@ -681,7 +680,7 @@
                             height: 'auto',
                             display: 'block',
                             borderRadius: 48,
-                            transform: `translateY(${translateY + activeLift}px) rotate(${activeTilt}deg)`,
+                            transform: `translateY(${translateY + activeLift}px)`,
                             transition,
                             boxShadow: active
                                 ? '0 2px 4px rgba(0,0,0,0.04), 0 16px 30px rgba(0,0,0,0.08), 0 46px 86px rgba(0,0,0,0.13), 0 86px 148px rgba(0,0,0,0.14)'
@@ -693,7 +692,7 @@
             );
         };
 
-        window.ScreenshotVideo = function ScreenshotVideo({ src, posterSrc, alt, accent, tilt = 0 }) {
+        window.ScreenshotVideo = function ScreenshotVideo({ src, posterSrc, alt, accent }) {
             const ref = React.useRef(null);
             const [y, setY] = React.useState(0);
             const [active, setActive] = React.useState(false);
@@ -727,7 +726,6 @@
             }, [reduceMotion]);
 
             const translateY = reduceMotion ? 0 : -y * 40;
-            const activeTilt = active ? tilt * 0.35 : tilt;
             const activeLift = active && !reduceMotion ? -4 : 0;
             const transition = reduceMotion ? 'none' : 'transform 0.22s cubic-bezier(0.16,1,0.3,1)';
             const setInteraction = (next, pointerType) => {
@@ -760,7 +758,7 @@
                         width: isMobile ? '100%' : 340,
                         maxWidth: isMobile ? 280 : 'none',
                         borderRadius: 48,
-                        transform: `translateY(${translateY + activeLift}px) rotate(${activeTilt}deg)`,
+                        transform: `translateY(${translateY + activeLift}px)`,
                         transition,
                         boxShadow: active
                             ? '0 2px 4px rgba(0,0,0,0.04), 0 16px 30px rgba(0,0,0,0.08), 0 46px 86px rgba(0,0,0,0.13), 0 86px 148px rgba(0,0,0,0.14)'
@@ -1362,7 +1360,6 @@
                                     posterSrc={posterSrc}
                                     alt="Bricks Calc - Mortgage and Loan Calculator App"
                                     accent={CALC_ACCENT}
-                                    tilt={-1.5}
                                     lang={lang}
                                 />
                             </div>
@@ -1615,7 +1612,7 @@
                             </div>
                         </div>
                         <div className="reveal reveal-d1" style={{ direction: 'ltr' }}>
-                            <window.ScreenshotPhone src={shotSrc} alt={feature.title.join(' ')} accent={CALC_ACCENT} tilt={reverse ? 1.5 : -1.5} />
+                            <window.ScreenshotPhone src={shotSrc} alt={feature.title.join(' ')} accent={CALC_ACCENT} />
                         </div>
                     </div>
                 </section>

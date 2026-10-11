@@ -402,7 +402,7 @@ window.Header = function Header({ t, lang, currentProduct, cta }) {
 // ScreenshotPhone — frameless parallax phone
 // ==========================================================================
 
-window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent, tilt = 0 }) {
+window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent }) {
   const ref = React.useRef(null);
   const [y, setY] = React.useState(0);
   const isMobile = window.useIsMobile();
@@ -457,7 +457,7 @@ window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent, tilt = 0 }
           height: 'auto',
           display: 'block',
           borderRadius: 48,
-          transform: `translateY(${translateY}px) rotate(${tilt}deg)`,
+          transform: `translateY(${translateY}px)`,
           transition: 'transform 0.05s linear',
           boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
           willChange: 'transform',

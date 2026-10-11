@@ -225,7 +225,6 @@ scan_app_jsx = """
                                     posterSrc={posterSrc}
                                     alt="Bricks Scan interface"
                                     accent={SCAN_ACCENT}
-                                    tilt={-1.5}
                                     lang={lang}
                                 />
                             </div>
@@ -283,7 +282,7 @@ scan_app_jsx = """
                             </div>
                         </div>
                         <div className="reveal reveal-d1" style={{ direction: 'ltr' }}>
-                            <window.ScreenshotPhone src={shotSrc} alt={feature.title.join(' ')} accent={SCAN_ACCENT} tilt={reverse ? 1.5 : -1.5} />
+                            <window.ScreenshotPhone src={shotSrc} alt={feature.title.join(' ')} accent={SCAN_ACCENT} />
                         </div>
                     </div>
                 </section>

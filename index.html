@@ -979,7 +979,7 @@
     // ==== ScreenshotPhone.jsx ====
     // Frameless floating phone screenshot, parallax on scroll.
     // The PNG has no phone bezel — we treat the screenshot corners as the phone corners.
-    window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent, tilt = 0 }) {
+    window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent }) {
       const ref = React.useRef(null);
       const [y, setY] = React.useState(0);
       const isMobile = window.useIsMobile();
@@ -1037,7 +1037,7 @@
               height: 'auto',
               display: 'block',
               borderRadius: 48,
-              transform: `translateY(${translateY}px) rotate(${tilt}deg)`,
+              transform: `translateY(${translateY}px)`,
               transition: 'transform 0.05s linear',
               boxShadow: `
             0 2px 4px rgba(0,0,0,0.04),
@@ -1124,7 +1124,6 @@
                 src={`assets/bricks-scan-${lang}-${theme}.png`}
                 alt="Bricks Scan home screen"
                 accent={accent}
-                tilt={-1.5}
               />
             </div>
           </div>
@@ -1176,7 +1175,6 @@
                 src={`assets/bricks-calc-${lang}-${theme}.png`}
                 alt="Bricks Calc amortization breakdown"
                 accent={accent}
-                tilt={1.5}
               />
             </div>
 
@@ -1234,7 +1232,6 @@
                 src={`assets/bricks-leads-${lang}-${theme}.png`}
                 alt="Bricks Leads daily schedule"
                 accent={accent}
-                tilt={-1.5}
               />
             </div>
           </div>
@@ -1278,7 +1275,6 @@
                 src="images-bricks-living/whatsapp-01.png"
                 alt="Bricks Living WhatsApp reservation flow"
                 accent={accent}
-                tilt={1.5}
               />
             </div>
           </div>

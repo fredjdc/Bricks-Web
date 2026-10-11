@@ -1064,15 +1064,15 @@ a:hover {
 
 /* Fan-out animation trigger: when hero artwork becomes visible */
 .hero-artwork.is-visible .wrapper-back {
-    transform: translateX(-85px) translateY(-45px) rotate(-5.5deg);
+    transform: translateX(-85px) translateY(-45px);
 }
 
 .hero-artwork.is-visible .wrapper-mid {
-    transform: translateX(0) translateY(0) rotate(0.5deg);
+    transform: translateX(0) translateY(0);
 }
 
 .hero-artwork.is-visible .wrapper-front {
-    transform: translateX(85px) translateY(45px) rotate(5.5deg);
+    transform: translateX(85px) translateY(45px);
 }
 
 .hero-layer {
@@ -1242,12 +1242,10 @@ a:hover {
 
 .screenshot-side.left {
     left: -15%;
-    transform: rotate(-3deg);
 }
 
 .screenshot-side.right {
     right: -15%;
-    transform: rotate(3deg);
 }
 
 /* Mobile Responsive Adjustments */

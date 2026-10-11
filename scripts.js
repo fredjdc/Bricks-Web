@@ -775,19 +775,17 @@ const initBricksScanAnimations = () => {
                 progress = Math.min(Math.max(progress, 0), 1);
 
                 const isMobile = window.innerWidth <= 768;
-                const maxRotation = isMobile ? 3 : 4;
                 const maxTranslateX = isMobile ? 40 : 80;
                 const maxTranslateY = isMobile ? -10 : -20;
 
-                const currentRotation = maxRotation * progress;
                 const currentTranslateX = maxTranslateX * progress;
                 const currentTranslateY = maxTranslateY * progress;
 
                 leftScreenshots.forEach((el) => {
-                    el.style.transform = `translateX(-${currentTranslateX}px) translateY(${currentTranslateY}px) rotate(-${currentRotation}deg)`;
+                    el.style.transform = `translateX(-${currentTranslateX}px) translateY(${currentTranslateY}px)`;
                 });
                 rightScreenshots.forEach((el) => {
-                    el.style.transform = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px) rotate(${currentRotation}deg)`;
+                    el.style.transform = `translateX(${currentTranslateX}px) translateY(${currentTranslateY}px)`;
                 });
                 fanoutTicking = false;
             });
