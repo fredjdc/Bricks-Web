@@ -168,6 +168,15 @@
             z-index: 2;
         }
 
+        .calc-download-button img {
+            display: block;
+            margin: 0;
+        }
+
+        .calc-download-button:hover {
+            opacity: 1;
+        }
+
         .calc-hero::before,
         .calc-hero::after {
             content: '';
@@ -825,14 +834,53 @@
         };
 
         // ==========================================================================
+        // AppleDownloadButton
+        // ==========================================================================
+
+        function AppleDownloadButton({ app, isMobile, className, inverted = false }) {
+            const isDark = window.useTheme() === 'dark';
+            const [isHovered, setIsHovered] = React.useState(false);
+            const showWhiteIcon = isHovered || (inverted ? !isDark : isDark);
+
+            return (
+                <a
+                    className={`calc-download-button ${className || ''}`.trim()}
+                    href={app.href}
+                    target={app.external ? '_blank' : undefined}
+                    rel={app.external ? 'noopener noreferrer' : undefined}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    style={{
+                        display: 'inline-flex', alignItems: 'center', gap: 8,
+                        padding: isMobile ? '14px 22px' : '16px 28px',
+                        background: isHovered ? app.accent : inverted ? 'var(--b-text)' : 'var(--b-bg)',
+                        color: isHovered ? '#fff' : inverted ? 'var(--b-bg)' : 'var(--b-text)',
+                        textDecoration: 'none',
+                        border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
+                        fontFamily: 'inherit', letterSpacing: '-0.01em',
+                        boxShadow: '0 12px 28px rgba(0,0,0,0.25)',
+                        transition: 'background 0.25s ease, color 0.25s ease, transform 0.15s ease',
+                        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+                    }}
+                >
+                    <img
+                        src={showWhiteIcon ? 'images/apple-icon-white.svg' : 'images/apple-icon-black.svg'}
+                        alt=""
+                        aria-hidden="true"
+                        style={{ width: 18, height: 18, flex: '0 0 auto' }}
+                    />
+                    {app.label}
+                </a>
+            );
+        }
+
+        // ==========================================================================
         // DownloadCTA
         // ==========================================================================
 
         window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, productCopy, accent, id = 'download' }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
-            const isDark = window.useTheme() === 'dark';
-            const [hovered, setHovered] = React.useState(null);
 
             const isBeta = variant === 'beta';
             const isProduct = variant === 'product' && productCopy;
@@ -875,34 +923,7 @@
                         </p>
 
                         <div style={{ position: 'relative', display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-                            {apps.map((app, i) => (
-                                <a key={i} href={app.href}
-                                    target={app.external ? '_blank' : undefined}
-                                    rel={app.external ? 'noopener noreferrer' : undefined}
-                                    onMouseEnter={() => setHovered(i)}
-                                    onMouseLeave={() => setHovered(null)}
-                                    style={{
-                                        display: 'inline-flex', alignItems: 'center', gap: 8,
-                                        padding: isMobile ? '14px 22px' : '16px 28px',
-                                        background: hovered === i ? app.accent : 'var(--b-bg)',
-                                        color: hovered === i ? '#fff' : 'var(--b-text)',
-                                        textDecoration: 'none',
-                                        border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
-                                        fontFamily: 'inherit', letterSpacing: '-0.01em',
-                                        boxShadow: '0 12px 28px rgba(0,0,0,0.25)',
-                                        transition: 'background 0.25s ease, color 0.25s ease, transform 0.15s ease',
-                                        transform: hovered === i ? 'translateY(-2px)' : 'translateY(0)',
-                                    }}
-                                >
-                                    <img
-                                        src={hovered === i || isDark ? 'images/apple-icon-white.svg' : 'images/apple-icon-black.svg'}
-                                        alt=""
-                                        aria-hidden="true"
-                                        style={{ width: 18, height: 18, flex: '0 0 auto' }}
-                                    />
-                                    {app.label}
-                                </a>
-                            ))}
+                            {apps.map((app, i) => <AppleDownloadButton key={i} app={app} isMobile={isMobile} />)}
                         </div>
                         {isProduct && (
                             <p style={{
@@ -1404,7 +1425,7 @@
         // CalcHero
         // ==========================================================================
 
-        function CalcHero({ t, lang, theme }) {
+        function CalcHero({ t, lang }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
             const videoSrc = `images-bricks-calc/hero-video-${lang}.mp4`;
@@ -1436,7 +1457,7 @@
                         <div>
                             <div className="reveal" style={{
                                 ...window.eyebrowStyle,
-                                color: CALC_ACCENT,
+                                color: 'var(--b-text)',
                             }}>{t.hero.eyebrow}</div>
 
                             <h1 className="reveal reveal-d1" style={{
@@ -1445,34 +1466,28 @@
                                 margin: '0 0 24px', color: 'var(--b-text)',
                             }}>
                                 {t.hero.title[0]}<br />
-                                <span style={{ color: 'var(--b-text-2)' }}>{t.hero.title[1]}</span>
+                                <span style={{ color: 'var(--b-text)' }}>{t.hero.title[1]}</span>
                             </h1>
 
                             <p className="reveal reveal-d2" style={{
-                                fontSize: isMobile ? 17 : 19, lineHeight: 1.6, color: 'var(--b-text-2)',
+                                fontSize: isMobile ? 17 : 19, lineHeight: 1.6, color: 'var(--b-text)',
                                 margin: '0 0 36px', maxWidth: 520,
                             }}>{t.hero.body}</p>
 
                             <div className="reveal reveal-d3">
-                                <a href="https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_hero&mt=8"
-                                    style={{
-                                        display: 'inline-flex', alignItems: 'center', gap: 10,
-                                        padding: isMobile ? '14px 26px' : '16px 32px',
-                                        background: CALC_ACCENT,
-                                        color: '#fff', textDecoration: 'none',
-                                        border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
-                                        fontFamily: 'inherit', letterSpacing: '-0.01em',
-                                        boxShadow: '0 12px 28px rgba(0,122,255,0.25)',
-                                        transition: 'transform 0.15s ease',
+                                <AppleDownloadButton
+                                    className="calc-hero-cta"
+                                    app={{
+                                        label: t.hero.cta,
+                                        href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_hero&mt=8',
+                                        accent: CALC_ACCENT,
+                                        external: true,
                                     }}
-                                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
-                                >
-                                    <img src="images/apple-icon-white.svg" alt="" aria-hidden="true" style={{ width: 18, height: 18, flex: '0 0 auto' }} />
-                                    {t.hero.cta}
-                                </a>
+                                    isMobile={isMobile}
+                                    inverted
+                                />
                                 <p style={{
-                                    fontSize: 13, color: 'var(--b-text-3)', lineHeight: 1.55, marginTop: 32
+                                    fontSize: 13, color: 'var(--b-text)', lineHeight: 1.55, marginTop: 32
                                 }}>
                                     {t.hero.sub}
                                 </p>
@@ -2137,7 +2152,7 @@
                     />
 
                     <main>
-                        <CalcHero t={calcT} lang={lang} theme={effectiveTheme} />
+                        <CalcHero t={calcT} lang={lang} />
                         <CalcIntro t={calcT} />
                         <CalcFeatureSplit id="monthly-cost" feature={calcT.feature1} reverse={false} shotSrc={shot1} theme={effectiveTheme} />
                         <CalcFeatureSplit id="compare-options" feature={calcT.feature2} reverse={true} shotSrc={shotCompare} theme={effectiveTheme} />
