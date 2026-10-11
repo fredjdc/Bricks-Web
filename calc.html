@@ -1565,7 +1565,7 @@
 
         function CalcIntro({ t }) {
             const reveal = window.useReveal();
-            const isMobile = window.useIsMobile();
+            const isMobile = window.useIsMobile(900);
             return (
                 <section ref={reveal} style={{
                     padding: isMobile ? '32px 24px' : '48px',
@@ -1582,14 +1582,17 @@
                         </svg>
                     </div>
                     <h2 className="reveal" style={{
-                        fontSize: isMobile ? 36 : 56, fontWeight: 900, letterSpacing: '-0.035em',
+                        fontSize: isMobile ? 36 : 52, fontWeight: 900, letterSpacing: '-0.035em',
                         lineHeight: 1.02, margin: '0 auto 16px', color: 'var(--b-text)', maxWidth: 840,
                     }}>{t.intro.title}</h2>
                     <div className="reveal reveal-d1" style={{
-                        fontSize: isMobile ? 17 : 19, lineHeight: 1.65,
-                        color: 'var(--b-text-2)', maxWidth: 720, margin: '0 auto',
+                        maxWidth: 720, margin: '0 auto',
                     }}>
-                        {t.intro.paragraphs.map(paragraph => <p key={paragraph} style={{ margin: '0 0 14px' }}>{paragraph}</p>)}
+                        {t.intro.paragraphs.map(paragraph => (
+                            <p key={paragraph} style={{
+                                ...window.leadP, maxWidth: 'none', margin: '0 0 14px',
+                            }}>{paragraph}</p>
+                        ))}
                     </div>
                 </section>
             );
