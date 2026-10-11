@@ -1645,26 +1645,28 @@
             const isMobile = window.useIsMobile();
             return (
                 <section id="about" ref={reveal} style={{
-                    padding: isMobile ? '56px 24px' : '100px 48px',
-                    maxWidth: 960, margin: '0 auto',
+                    padding: isMobile ? '56px 20px' : '100px 48px',
+                    maxWidth: 1200, margin: '0 auto',
                 }}>
                     <div className="reveal" style={{
-                        maxWidth: 760, margin: '0 auto',
+                        maxWidth: 1104, margin: '0 auto',
                         background: 'var(--b-bg-elevated)', borderRadius: 32,
                         padding: isMobile ? 28 : 56,
                         boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
                     }}>
-                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.about.eyebrow}</div>
-                        <h2 style={{
-                            fontSize: isMobile ? 34 : 48, fontWeight: 900, letterSpacing: '-0.035em',
-                            lineHeight: 1.04, margin: '0 0 24px', color: 'var(--b-text)',
-                        }}>{t.about.title}</h2>
-                        {t.about.paragraphs.map(paragraph => (
-                            <p key={paragraph} style={{
-                                fontSize: 16, lineHeight: 1.7, color: 'var(--b-text-2)',
-                                margin: '0 0 14px',
-                            }}>{paragraph}</p>
-                        ))}
+                        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+                            <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.about.eyebrow}</div>
+                            <h2 style={{
+                                fontSize: isMobile ? 34 : 48, fontWeight: 900, letterSpacing: '-0.035em',
+                                lineHeight: 1.04, margin: '0 0 24px', color: 'var(--b-text)',
+                            }}>{t.about.title}</h2>
+                            {t.about.paragraphs.map(paragraph => (
+                                <p key={paragraph} style={{
+                                    fontSize: 16, lineHeight: 1.7, color: 'var(--b-text-2)',
+                                    margin: '0 0 14px',
+                                }}>{paragraph}</p>
+                            ))}
+                        </div>
                     </div>
                 </section>
             );
@@ -1676,7 +1678,7 @@
             return (
                 <section id="whats-new" ref={reveal} style={{
                     padding: isMobile ? '32px 20px 56px' : '48px 48px 96px',
-                    maxWidth: 960, margin: '0 auto',
+                    maxWidth: 1200, margin: '0 auto',
                 }}>
                     <div className="reveal" style={{
                         textAlign: isMobile ? 'left' : 'center', padding: isMobile ? '36px 24px' : '52px 48px',
@@ -1874,7 +1876,7 @@
             return (
                 <section id="faq" ref={reveal} style={{
                     padding: isMobile ? '56px 20px' : '120px 48px',
-                    maxWidth: 960, margin: '0 auto',
+                    maxWidth: 1200, margin: '0 auto',
                 }}>
                     <div className="reveal" style={{ marginBottom: isMobile ? 32 : 48 }}>
                         {t.faq.eyebrow && <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.faq.eyebrow}</div>}
