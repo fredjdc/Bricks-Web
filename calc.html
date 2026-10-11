@@ -1587,39 +1587,37 @@
             const isMobile = window.useIsMobile(900);
             return (
                 <section ref={reveal} style={{
-                    padding: isMobile ? '32px 24px' : '48px',
-                    maxWidth: 960, margin: '0 auto',
-                    textAlign: 'center',
+                    padding: isMobile ? '32px 20px 48px' : '48px 48px 88px',
+                    maxWidth: 1200, margin: '0 auto',
                 }}>
-                    <div className="calc-intro-roof reveal" aria-hidden="true">
-                        <svg viewBox="0 0 840 190" role="presentation">
-                            <path
-                                className="calc-intro-roof-path"
-                                pathLength="1000"
-                                d="M 13 164 C 145 105, 265 49, 350 10 Q 380 -5, 405 18 L 535 94 L 535 33 Q 535 8, 560 8 L 615 8 Q 640 8, 640 33 L 640 119 L 827 178"
-                            />
-                        </svg>
-                    </div>
-                    {(() => {
-                        const titleLines = Array.isArray(t.intro.title) ? t.intro.title : [t.intro.title];
-                        return (
-                            <h2 className="reveal" style={{
-                                fontSize: isMobile ? 36 : 52, fontWeight: 900, letterSpacing: '-0.035em',
-                                lineHeight: 1.02, margin: '0 auto 16px', color: 'var(--b-text)', maxWidth: 840,
-                            }}>
-                                {titleLines[0]}<br />
-                                <span style={{ color: 'var(--b-text-2)' }}>{titleLines[1] || ''}</span>
-                            </h2>
-                        );
-                    })()}
-                    <div className="reveal reveal-d1" style={{
-                        maxWidth: 720, margin: '0 auto',
+                    <div className="reveal" style={{
+                        maxWidth: 1104, margin: '0 auto',
+                        background: 'var(--b-bg-elevated)', borderRadius: 32,
+                        padding: isMobile ? 28 : 56,
+                        boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
+                        textAlign: 'center',
                     }}>
-                        {t.intro.paragraphs.map(paragraph => (
-                            <p key={paragraph} style={{
-                                ...window.leadP, maxWidth: 'none', margin: '0 0 14px',
-                            }}>{paragraph}</p>
-                        ))}
+                        {(() => {
+                            const titleLines = Array.isArray(t.intro.title) ? t.intro.title : [t.intro.title];
+                            return (
+                                <h2 className="reveal" style={{
+                                    fontSize: isMobile ? 42 : 56, fontWeight: 900, letterSpacing: '-0.035em',
+                                    lineHeight: 1.02, margin: '0 auto 20px', color: 'var(--b-text)', maxWidth: 860,
+                                }}>
+                                    {titleLines[0]}<br />
+                                    <span style={{ color: 'var(--b-text-2)' }}>{titleLines[1] || ''}</span>
+                                </h2>
+                            );
+                        })()}
+                        <div className="reveal reveal-d1" style={{
+                            maxWidth: 760, margin: '0 auto',
+                        }}>
+                            {t.intro.paragraphs.map(paragraph => (
+                                <p key={paragraph} style={{
+                                    ...window.leadP, maxWidth: 'none', margin: '0 auto 14px', textAlign: 'center',
+                                }}>{paragraph}</p>
+                            ))}
+                        </div>
                     </div>
                 </section>
             );
