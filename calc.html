@@ -330,6 +330,37 @@
             transition: opacity 1s cubic-bezier(0.65, 0, 0.35, 1), transform 1s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
+        .calc-intro-phones {
+            position: relative;
+            width: min(100%, 980px);
+            height: 238px;
+            margin: 0 auto 8px;
+            overflow: hidden;
+            pointer-events: none;
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
+        }
+
+        .calc-intro-phone {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            border-radius: 32px;
+            box-shadow: 0 18px 38px rgba(16, 20, 30, 0.12), 0 2px 10px rgba(16, 20, 30, 0.06);
+            overflow: hidden;
+            background: #f5f7fa;
+            border: 1px solid rgba(17, 24, 39, 0.06);
+            will-change: transform, opacity;
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .calc-intro-phone img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
         .calc-intro-roof svg {
             display: block;
             width: 100%;
@@ -1585,18 +1616,79 @@
         function CalcIntro({ t }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile(900);
+            const introRef = React.useRef(null);
+            const [isVisible, setIsVisible] = React.useState(false);
+            const [scrollOffset, setScrollOffset] = React.useState(0);
+
+            React.useEffect(() => {
+                const el = introRef.current;
+                if (!el) return;
+
+                const update = () => {
+                    const rect = el.getBoundingClientRect();
+                    const vh = window.innerHeight || 1;
+                    const progress = (vh - rect.top) / (vh + rect.height || 1);
+                    setScrollOffset((progress - 0.5) * 42);
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) setIsVisible(true);
+                    });
+                }, { threshold: 0.22 });
+
+                observer.observe(el);
+                update();
+                window.addEventListener('scroll', update, { passive: true });
+                window.addEventListener('resize', update);
+
+                return () => {
+                    observer.disconnect();
+                    window.removeEventListener('scroll', update);
+                    window.removeEventListener('resize', update);
+                };
+            }, []);
+
+            const phoneData = [
+                { src: 'images-bricks-calc/numbers-section-left.png', width: isMobile ? 189 : 224, x: isMobile ? -77 : -147, y: isMobile ? 10 : 18 },
+                { src: 'images-bricks-calc/numbers-section-center.png', width: isMobile ? 217 : 266, x: 0, y: 8 },
+                { src: 'images-bricks-calc/numbers-section-right.png', width: isMobile ? 189 : 224, x: isMobile ? 77 : 147, y: isMobile ? 10 : 18 },
+            ];
+
             return (
                 <section ref={reveal} style={{
                     padding: isMobile ? '32px 20px 48px' : '48px 48px 88px',
                     maxWidth: 1200, margin: '0 auto',
                 }}>
-                    <div className="reveal" style={{
+                    <div ref={introRef} className="reveal" style={{
                         maxWidth: 1104, margin: '0 auto',
                         background: 'var(--b-bg-elevated)', borderRadius: 32,
                         padding: isMobile ? 28 : 56,
                         boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
                         textAlign: 'center',
                     }}>
+                        <div
+                            className="calc-intro-phones"
+                            aria-hidden="true"
+                            style={isMobile ? { width: 'calc(100% + 56px)' } : undefined}
+                        >
+                            {phoneData.map((phone, index) => (
+                                <div
+                                    key={phone.src}
+                                    className="calc-intro-phone"
+                                    style={{
+                                        width: phone.width,
+                                        marginLeft: -(phone.width / 2),
+                                        opacity: isVisible ? 1 : 0,
+                                        transform: `translate3d(${phone.x}px, ${phone.y + scrollOffset * (index === 1 ? 0.4 : 0.7)}px, 0)`,
+                                        transitionDelay: `${index * 120}ms`,
+                                        filter: `saturate(${isVisible ? 1 : 0.85})`,
+                                    }}
+                                >
+                                    <img src={phone.src} alt="" />
+                                </div>
+                            ))}
+                        </div>
                         {(() => {
                             const titleLines = Array.isArray(t.intro.title) ? t.intro.title : [t.intro.title];
                             return (
