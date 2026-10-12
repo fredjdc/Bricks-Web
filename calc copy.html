@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ── Primary SEO ──────────────────────────────────────────────────── -->
+    <title>Bricks Calc — Home planning, made easier</title>
+    <meta name="description"
+        content="Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget." />
+    <meta name="keywords"
+        content="mortgage calculator, loan calculator, amortization calculator, emi calculator, refinance calculator, prepayment calculator, pmi calculator, rental income, calculadora hipotecaria, credito hipotecario, cuota inicial" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="https://bricks.pe/" />
+
+    <!-- ── International SEO / hreflang ─────────────────────────────────── -->
+    <link rel="alternate" hreflang="en" href="https://bricks.pe/" />
+    <link rel="alternate" hreflang="es-PE" href="https://bricks.pe/calculadora-hipotecaria.html" />
+    <link rel="alternate" hreflang="x-default" href="https://bricks.pe/" />
+
+    <!-- ── Open Graph ────────────────────────────────────────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bricks.pe/" />
+    <meta property="og:title" content="Bricks Calc — Home planning, made easier" />
+    <meta property="og:description"
+        content="Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget." />
+    <meta property="og:image" content="https://bricks.pe/images/bricks-calc-web-icon.png" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    <meta property="og:site_name" content="Bricks Apps" />
+
+    <!-- ── Twitter / X Card ──────────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Bricks Calc — Home planning, made easier" />
+    <meta name="twitter:description" content="Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget." />
+    <meta name="twitter:image" content="https://bricks.pe/images/bricks-calc-web-icon.png" />
+
+    <!-- ── Apple Smart App Banner ────────────────────────────────────────── -->
+    <meta name="apple-itunes-app" content="app-id=6754506837, app-argument=brickscalc://" />
+
+    <!-- ── Structured Data: SoftwareApplication ──────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://bricks.pe/#org",
+          "name": "Bricks Apps",
+          "url": "https://bricks.pe",
+          "logo": "https://bricks.pe/images/apple-touch-icon.png"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://bricks.pe/#app",
+          "name": "Bricks Calc",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "iOS, iPadOS, macOS, visionOS",
+          "url": "https://bricks.pe/",
+          "downloadUrl": "https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "description": "Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget.",
+          "image": "https://bricks.pe/images/bricks-calc-web-icon.png",
+          "publisher": { "@id": "https://bricks.pe/#org" }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://bricks.pe/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is Bricks Calc free?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Download Bricks Calc for free and save up to three home plans. An optional upgrade removes limits on saved plans, extra payments, and expenses."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I compare different mortgage offers?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Compare up to three plans to see how different home prices, down payments, and interest rates affect your monthly payment and total cost."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need an account or internet connection?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No account is required. The app works offline, and you can use iCloud to sync across your Apple devices."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use Bricks Calc if I already own a home?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Explore extra payments, refinancing options, amortization schedules, and changes to your current mortgage."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are the calculations exact?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Bricks Calc provides planning estimates. Your lender can confirm the actual loan terms, fees, and final payment amounts."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which devices are supported?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Bricks Calc is available on iPhone, iPad, Mac, and Apple Vision Pro."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- Favicon & Styles -->
+    <link rel="icon" href="favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <meta name="theme-color" content="#007AFF" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <style>
+        .calc-site-header {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 100;
+            padding-top: 24px;
+            pointer-events: none;
+        }
+
+        .calc-hero {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .calc-hero > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .calc-download-button img {
+            display: block;
+            margin: 0;
+        }
+
+        .calc-download-button:hover {
+            opacity: 1;
+        }
+
+        .calc-hero::before,
+        .calc-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 100vw;
+            height: max(760px, 100vh);
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .calc-hero::before {
+            z-index: 0;
+            background: url('images-bricks-calc/hero.jpg') center center / cover no-repeat;
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
+        }
+
+        .calc-hero::after {
+            z-index: 1;
+            background: linear-gradient(to bottom, color-mix(in srgb, var(--b-bg) 42%, transparent), transparent 70%);
+        }
+
+        .calc-site-nav {
+            width: min(1180px, calc(100% - 96px));
+            min-height: 66px;
+            margin-inline: auto;
+            padding-inline: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            border: 1px solid var(--b-border);
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--b-bg-elevated) 92%, transparent);
+            box-shadow: var(--emboss-soft);
+            backdrop-filter: blur(18px) saturate(145%);
+            -webkit-backdrop-filter: blur(18px) saturate(145%);
+            pointer-events: auto;
+        }
+
+        .calc-site-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--b-text);
+            text-decoration: none;
+            font-weight: 750;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+        }
+
+        .calc-site-brand img {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+        }
+
+        .calc-site-brand:hover {
+            opacity: 1;
+        }
+
+        .calc-site-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-size: 15px;
+            font-weight: 650;
+        }
+
+        .calc-site-nav-links a {
+            color: var(--b-text-2);
+            text-decoration: none;
+        }
+
+        .calc-site-nav-links a:hover {
+            color: var(--b-text);
+            opacity: 1;
+        }
+
+        .calc-site-download {
+            min-height: 40px;
+            padding-inline: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 999px;
+            background: var(--b-text);
+            color: var(--b-bg) !important;
+            font-weight: 750;
+            white-space: nowrap;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .calc-site-download img {
+            width: 16px;
+            height: 16px;
+            flex: 0 0 auto;
+        }
+
+        .calc-site-download:hover {
+            background: var(--b-text-2);
+        }
+
+        .calc-site-download:active {
+            transform: scale(0.98);
+        }
+
+        .calc-site-menu {
+            display: none;
+            position: relative;
+        }
+
+        .calc-site-menu summary {
+            cursor: pointer;
+            list-style: none;
+            color: var(--b-text);
+            font-weight: 700;
+        }
+
+        .calc-site-menu summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .calc-site-menu div {
+            position: absolute;
+            top: 42px;
+            right: 0;
+            min-width: 210px;
+            padding: 12px;
+            display: grid;
+            gap: 4px;
+            border: 1px solid var(--b-border);
+            border-radius: 16px;
+            background: var(--b-bg-elevated);
+            box-shadow: var(--emboss-soft);
+        }
+
+        .calc-site-menu div a {
+            padding: 10px 12px;
+            border-radius: 9px;
+        }
+
+        .calc-intro-roof.reveal {
+            width: 100%;
+            max-width: 840px;
+            margin: 0 auto 12px;
+            transform: scale(0.78);
+            transition: opacity 1s cubic-bezier(0.65, 0, 0.35, 1), transform 1s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .calc-intro-phones {
+            position: relative;
+            width: min(100%, 980px);
+            height:420px;
+            margin: 0 auto 40px;
+            overflow: hidden;
+            pointer-events: none;
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 64%, transparent 100%);
+        }
+
+        .calc-intro-phone {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            border-radius: 32px;
+            overflow: hidden;
+            background: #f5f7fa;
+            border: 1px solid rgba(17, 24, 39, 0.06);
+            will-change: transform, opacity;
+            transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .calc-intro-phone img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .calc-intro-roof svg {
+            display: block;
+            width: 100%;
+            overflow: visible;
+        }
+
+        .calc-intro-roof-path {
+            fill: none;
+            stroke: var(--b-text);
+            stroke-width: 12;
+            opacity: 0.4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 1.25s cubic-bezier(0.65, 0, 0.35, 1) 0.12s;
+        }
+
+        @media (max-width: 600px) {
+            .calc-intro-roof-path {
+                stroke-width: 13;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calc-intro-roof-path {
+                stroke-width: 15;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .calc-intro-roof-path {
+                stroke-width: 18;
+            }
+        }
+
+        .calc-intro-roof.in {
+            transform: scale(1);
+        }
+
+        .calc-intro-roof.in .calc-intro-roof-path {
+            stroke-dashoffset: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .calc-intro-roof.reveal,
+            .calc-intro-roof-path {
+                transition: none;
+            }
+
+            .calc-intro-roof.reveal {
+                transform: none;
+            }
+
+            .calc-intro-roof-path {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        #monthly-cost,
+        #compare-options,
+        #saved-plans,
+        #features,
+        #privacy,
+        #pricing,
+        #about,
+        #whats-new,
+        #faq {
+            scroll-margin-top: 110px;
+        }
+
+        #root .calc-download-cta-content h2,
+        #root .calc-download-cta-content p {
+            text-align: center !important;
+        }
+
+        @media (max-width: 900px) {
+            .calc-site-nav-links > a:not(.calc-site-download) {
+                display: none;
+            }
+
+            .calc-site-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .calc-site-nav-links a.calc-site-download {
+                display: inline-flex;
+                margin: 0;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .calc-site-header {
+                padding-top: 16px;
+            }
+
+            .calc-site-nav {
+                width: min(100% - 40px, 1180px);
+                min-height: 62px;
+                padding-inline: 16px;
+            }
+
+            .calc-site-nav-links {
+                gap: 12px;
+            }
+
+            .calc-site-download {
+                min-height: 38px;
+                padding-inline: 14px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .calc-site-nav {
+                gap: 8px;
+                padding-inline: 12px;
+            }
+
+            .calc-site-brand {
+                gap: 8px;
+                font-size: 14px;
+            }
+
+            .calc-site-brand img {
+                width: 32px;
+                height: 32px;
+            }
+
+            .calc-site-nav-links {
+                gap: 8px;
+            }
+
+            .calc-site-menu summary {
+                font-size: 14px;
+            }
+
+            .calc-site-nav-links a.calc-site-download {
+                padding-inline: 10px;
+                font-size: 13px;
+            }
+        }
+
+        @media (prefers-reduced-transparency: reduce) {
+            .calc-site-nav {
+                background: var(--b-bg-elevated);
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+        }
+    </style>
+
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0NE96SRV4V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag("js", new Date());
+        gtag("config", "G-0NE96SRV4V");
+    </script>
+</head>
+
+<body>
+    <!-- ── SEO body scaffold (visually hidden, crawlable) ─────────────────── -->
+    <div aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">
+        <h1>Home planning, made easier — Bricks Calc</h1>
+        <p>See how your home purchase fits your budget. Estimate your total monthly, compare options, and plan for changes ahead.</p>
+        <h2>Found a home you like? Let's look at the numbers.</h2>
+        <p>The asking price is just the start—there’s the mortgage payment, other monthly costs, and different offers to weigh.</p>
+        <h2>Estimate and compare the monthly cost</h2>
+        <p>Enter the home price, down payment, interest rate, and loan term. Add property taxes, insurance, and other expenses. Save and compare plans to see how each option changes your payment, interest, and total cost.</p>
+        <h2>Keep your plans and details together</h2>
+        <p>Save home prices, lender offers, notes, and photos. Explore affordability, shared costs, extra payments, amortization, rental income, and refinancing.</p>
+        <h2>Plan privately, on your device</h2>
+        <p>Calculations work offline without an account. Saved plans sync through iCloud across your Apple devices. Results are planning estimates; confirm actual terms, fees, and payments with your lender.</p>
+        <p><a href="https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_seo_body&amp;mt=8">Download Bricks Calc for free on the App Store</a></p>
+    </div>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // ==========================================================================
+        // COPY
+        // ==========================================================================
+
+        window.COPY = {
+            en: {
+                nav: { products: 'Products', philosophy: 'Philosophy', changelog: "What's new", download: 'Download' },
+                hero: {
+                    eyebrow: 'A suite for real estate',
+                    title: ['Three focused tools.', 'One quiet suite.'],
+                    body: 'Scan, calculate, follow up. Without bloat, without accounts, without distractions.',
+                    cta: 'Explore the suite',
+                    secondary: 'See what changed',
+                    pickLabel: 'Pick a tool',
+                },
+                products: {
+                    scan: { name: 'Scan', tagline: 'Documents, organized.', pitch: 'Scan, read, file.' },
+                    calc: { name: 'Calc', tagline: 'Mortgages, instantly.', pitch: 'Model a deal.' },
+                    leads: { name: 'Leads', tagline: 'A calm CRM.', pitch: 'Stay on follow-up.' },
+                },
+                cta: {
+                    title: ['Three tools.', 'One quiet suite.'],
+                    sub: 'Free to try. No account. Native on Apple.',
+                    primary: 'Download on the App Store',
+                },
+                footer: {
+                    tag: 'Focused Apple apps for real estate.',
+                    sections: [
+                        { h: 'Apps', l: [{ label: 'Bricks Scan', href: 'scan.html' }, { label: 'Bricks Calc', href: 'calc.html' }, { label: 'Bricks Leads', href: 'leads.html' }, { label: 'Bricks Living', href: 'living.html' }] },
+                        { h: 'Business', l: [{ label: 'About Bricks', href: 'about.html' }, { label: 'Purchase guide', href: 'purchase-guide-01.html' }, { label: 'hello@bricks.pe', href: 'mailto:hello@bricks.pe' }] },
+                        { h: 'Support', l: [{ label: 'Contact', href: 'support.html' }, { label: 'Vote on features', href: 'https://bricksapps.userjot.com' }, { label: 'Guides', href: 'help.html' }, { label: 'Share feedback', href: 'survey.html' }] },
+                    ],
+                    social: { instagram: 'Bricks on Instagram', linkedin: 'Bricks on LinkedIn' },
+                    legal: [{ label: 'Privacy Policy', href: 'privacy.html' }, { label: 'Terms of Service', href: 'terms.html' }],
+                    copyright: '\u00a9 2026 Bricks Apps. Made with care.',
+                    language: 'Language', appearance: 'Appearance',
+                    light: 'Light', dark: 'Dark', auto: 'System',
+                },
+            },
+            es: {
+                nav: { products: 'Productos', philosophy: 'Filosof\u00eda', changelog: 'Novedades', download: 'Descargar' },
+                hero: {
+                    eyebrow: 'Una suite para bienes ra\u00edces',
+                    title: ['Tres herramientas.', 'Una suite simple.'],
+                    body: 'Escanea, calcula, da seguimiento. Sin relleno, sin cuentas, sin distracciones.',
+                    cta: 'Explorar la suite',
+                    secondary: 'Ver novedades',
+                    pickLabel: 'Elige una herramienta',
+                },
+                products: {
+                    scan: { name: 'Scan', tagline: 'Documentos ordenados.', pitch: 'Escanea, lee, archiva.' },
+                    calc: { name: 'Calc', tagline: 'Hipotecas al instante.', pitch: 'Modela una oferta.' },
+                    leads: { name: 'Leads', tagline: 'Un CRM sin distracciones.', pitch: 'Mant\u00e9n el seguimiento.' },
+                },
+                cta: {
+                    title: ['Tres herramientas.', 'Una suite simple.'],
+                    sub: 'Gratis para empezar. Sin cuenta. Nativa en Apple.',
+                    primary: 'Descargar en el App Store',
+                },
+                footer: {
+                    tag: 'Apps enfocadas para bienes ra\u00edces, creadas para Apple.',
+                    sections: [
+                        { h: 'Apps', l: [{ label: 'Bricks Scan', href: 'scan.html' }, { label: 'Bricks Calc', href: 'calc.html' }, { label: 'Bricks Leads', href: 'leads.html' }, { label: 'Bricks Living', href: 'living.html' }] },
+                        { h: 'Empresa', l: [{ label: 'Acerca de Bricks', href: 'about.html' }, { label: 'Gu\u00eda de compra', href: 'purchase-guide-01.html' }, { label: 'hello@bricks.pe', href: 'mailto:hello@bricks.pe' }] },
+                        { h: 'Soporte', l: [{ label: 'Contacto', href: 'support.html' }, { label: 'Vota por nuevas funciones', href: 'https://bricksapps.userjot.com' }, { label: 'Gu\u00edas', href: 'help.html' }, { label: 'Comparte tus comentarios', href: 'survey.html' }] },
+                    ],
+                    social: { instagram: 'Bricks en Instagram', linkedin: 'Bricks en LinkedIn' },
+                    legal: [{ label: 'Pol\u00edtica de privacidad', href: 'privacy.html' }, { label: 'T\u00e9rminos del servicio', href: 'terms.html' }],
+                    copyright: '\u00a9 2026 Bricks Apps. Hecho con cuidado.',
+                    language: 'Idioma', appearance: 'Apariencia',
+                    light: 'Claro', dark: 'Oscuro', auto: 'Sistema',
+                },
+            },
+        };
+
+        window.ACCENTS = {
+            scan: { light: '#00A6A1', vivid: '#00C7B2' },
+            calc: { light: '#007AFF', vivid: '#2E90FF' },
+            leads: { light: '#FF9500', vivid: '#FFAD33' },
+        };
+
+        window.eyebrowStyle = {
+            fontSize: 12, fontWeight: 700, color: 'var(--b-text-3)',
+            letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 14,
+        };
+
+        window.h2Big = {
+            fontSize: 56, fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.02,
+            margin: '0 0 24px', color: 'var(--b-text)',
+        };
+
+        window.leadP = {
+            fontSize: 18, lineHeight: 1.6, color: 'var(--b-text-2)', margin: 0, maxWidth: 520,
+        };
+
+        // ==========================================================================
+        // Hooks + utilities
+        // ==========================================================================
+
+        window.useReveal = function useReveal() {
+            const ref = React.useRef(null);
+            React.useEffect(() => {
+                const el = ref.current;
+                if (!el) return;
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add('in');
+                            io.unobserve(e.target);
+                        }
+                    });
+                }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+                el.querySelectorAll('.reveal').forEach(n => io.observe(n));
+                return () => io.disconnect();
+            }, []);
+            return ref;
+        };
+
+        window.useCountUp = function useCountUp(target, when, durationMs = 1400) {
+            const [val, setVal] = React.useState(0);
+            React.useEffect(() => {
+                if (!when) return;
+                let raf;
+                const start = performance.now();
+                const tick = (now) => {
+                    const t = Math.min(1, (now - start) / durationMs);
+                    const eased = 1 - Math.pow(1 - t, 3);
+                    setVal(Math.floor(eased * target));
+                    if (t < 1) raf = requestAnimationFrame(tick);
+                };
+                raf = requestAnimationFrame(tick);
+                return () => cancelAnimationFrame(raf);
+            }, [when, target]);
+            return val;
+        };
+
+        window.fmtNum = function fmtNum(n) {
+            return n.toLocaleString('en-US');
+        };
+
+        window.useIsMobile = function useIsMobile(breakpoint = 768) {
+            const [isMobile, setIsMobile] = React.useState(() => window.innerWidth <= breakpoint);
+            React.useEffect(() => {
+                const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+                setIsMobile(mq.matches);
+                const handler = (e) => setIsMobile(e.matches);
+                mq.addEventListener('change', handler);
+                return () => mq.removeEventListener('change', handler);
+            }, [breakpoint]);
+            return isMobile;
+        };
+
+        window.useTheme = function useTheme() {
+            const [theme, setTheme] = React.useState(
+                () => document.documentElement.getAttribute('data-theme') || 'light'
+            );
+            React.useEffect(() => {
+                const observer = new MutationObserver(() => {
+                    setTheme(document.documentElement.getAttribute('data-theme') || 'light');
+                });
+                observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+                return () => observer.disconnect();
+            }, []);
+            return theme;
+        };
+
+        // ==========================================================================
+        // ThemeLogo
+        // ==========================================================================
+
+        window.ThemeLogo = function ThemeLogo({ height = 24 }) {
+            return (
+                <React.Fragment>
+                    <img src="images/bricks-dark-logo.svg" alt="Bricks" className="logo-light-theme" style={{ height, margin: 0 }} />
+                    <img src="images/bricks-light-logo.svg" alt="Bricks" className="logo-dark-theme" style={{ height, margin: 0 }} />
+                </React.Fragment>
+            );
+        };
+
+        // ==========================================================================
+        // Header
+        // ==========================================================================
+
+        window.Header = function Header({ t, lang, cta }) {
+            const isDark = window.useTheme() === 'dark';
+            const labels = lang === 'es'
+                ? { monthlyCost: 'Costo mensual', compare: 'Comparar planes', features: 'Funciones', faq: 'Preguntas', menu: 'Menú', home: 'Inicio de Bricks Calc', navigation: 'Navegación principal' }
+                : { monthlyCost: 'Monthly cost', compare: 'Compare plans', features: 'Features', faq: 'FAQ', menu: 'Menu', home: 'Bricks Calc home', navigation: 'Primary navigation' };
+            const links = [
+                { href: '#monthly-cost', label: labels.monthlyCost },
+                { href: '#compare-options', label: labels.compare },
+                { href: '#features', label: labels.features },
+                { href: '#faq', label: labels.faq },
+            ];
+
+            return (
+                <header className="calc-site-header">
+                    <nav className="calc-site-nav" aria-label={labels.navigation}>
+                        <a className="calc-site-brand" href="#top" aria-label={labels.home}>
+                            <img src="calc/assets/app-store/app-icon.png" width="38" height="38" alt="" />
+                            <span>Bricks Calc</span>
+                        </a>
+                        <div className="calc-site-nav-links">
+                            {links.map(link => <a key={link.href} href={link.href}>{link.label}</a>)}
+                            <details className="calc-site-menu">
+                                <summary>{labels.menu}</summary>
+                                <div>
+                                    {links.map(link => <a key={link.href} href={link.href}>{link.label}</a>)}
+                                </div>
+                            </details>
+                            <a
+                                className="calc-site-download"
+                                href={cta.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img src={isDark ? 'images/apple-icon-black.svg' : 'images/apple-icon-white.svg'} alt="" aria-hidden="true" />
+                                {cta.label}
+                            </a>
+                        </div>
+                    </nav>
+                </header>
+            );
+        };
+
+        // ==========================================================================
+        // ScreenshotPhone & ScreenshotVideo
+        // ==========================================================================
+
+        window.ScreenshotPhone = function ScreenshotPhone({ src, alt, accent }) {
+            const ref = React.useRef(null);
+            const [y, setY] = React.useState(0);
+            const isMobile = window.useIsMobile();
+
+            React.useEffect(() => {
+                let raf = 0;
+                const onScroll = () => {
+                    if (raf) return;
+                    raf = requestAnimationFrame(() => {
+                        raf = 0;
+                        const el = ref.current;
+                        if (!el) return;
+                        const rect = el.getBoundingClientRect();
+                        const vh = window.innerHeight;
+                        const progress = (vh * 0.5 - (rect.top + rect.height * 0.5)) / vh;
+                        setY(Math.max(-1, Math.min(1, progress)));
+                    });
+                };
+                onScroll();
+                window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('resize', onScroll);
+                return () => {
+                    window.removeEventListener('scroll', onScroll);
+                    window.removeEventListener('resize', onScroll);
+                    if (raf) cancelAnimationFrame(raf);
+                };
+            }, []);
+
+            const translateY = -y * 40;
+
+            return (
+                <div ref={ref} style={{
+                    position: 'relative',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    perspective: 1800,
+                    minHeight: isMobile ? 360 : 640,
+                }}>
+                    <div aria-hidden="true" style={{
+                        position: 'absolute', inset: '10% 15%',
+                        background: `radial-gradient(ellipse at 50% 55%, ${accent}22 0%, ${accent}10 35%, transparent 70%)`,
+                        filter: 'blur(40px)',
+                        pointerEvents: 'none',
+                        transform: `translateY(${translateY * 0.5}px)`,
+                        transition: 'transform 0.05s linear',
+                    }} />
+                    <img
+                        src={src + (window.location.search || '')}
+                        alt={alt}
+                        style={{
+                            width: isMobile ? '100%' : 340,
+                            maxWidth: isMobile ? 280 : 'none',
+                            height: 'auto',
+                            display: 'block',
+                            borderRadius: 48,
+                            transform: `translateY(${translateY}px)`,
+                            transition: 'transform 0.05s linear',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
+                            willChange: 'transform',
+                        }}
+                    />
+                </div>
+            );
+        };
+
+        window.ScreenshotVideo = function ScreenshotVideo({ src, posterSrc, alt, accent }) {
+            const ref = React.useRef(null);
+            const [y, setY] = React.useState(0);
+            const isMobile = window.useIsMobile();
+
+            React.useEffect(() => {
+                let raf = 0;
+                const onScroll = () => {
+                    if (raf) return;
+                    raf = requestAnimationFrame(() => {
+                        raf = 0;
+                        const el = ref.current;
+                        if (!el) return;
+                        const rect = el.getBoundingClientRect();
+                        const vh = window.innerHeight;
+                        const progress = (vh * 0.5 - (rect.top + rect.height * 0.5)) / vh;
+                        setY(Math.max(-1, Math.min(1, progress)));
+                    });
+                };
+                onScroll();
+                window.addEventListener('scroll', onScroll, { passive: true });
+                window.addEventListener('resize', onScroll);
+                return () => {
+                    window.removeEventListener('scroll', onScroll);
+                    window.removeEventListener('resize', onScroll);
+                    if (raf) cancelAnimationFrame(raf);
+                };
+            }, []);
+
+            const translateY = -y * 40;
+
+            return (
+                <div ref={ref} style={{
+                    position: 'relative',
+                    display: 'flex', justifyContent: 'center', alignItems: 'center',
+                    perspective: 1800,
+                    minHeight: isMobile ? 360 : 640,
+                }}>
+                    <div aria-hidden="true" style={{
+                        position: 'absolute', inset: '10% 15%',
+                        background: `radial-gradient(ellipse at 50% 55%, ${accent}22 0%, ${accent}10 35%, transparent 70%)`,
+                        filter: 'blur(40px)',
+                        pointerEvents: 'none',
+                        transform: `translateY(${translateY * 0.5}px)`,
+                        transition: 'transform 0.05s linear',
+                    }} />
+                    <div style={{
+                        width: isMobile ? '100%' : 340,
+                        maxWidth: isMobile ? 280 : 'none',
+                        borderRadius: 48,
+                        transform: `translateY(${translateY}px)`,
+                        transition: 'transform 0.05s linear',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 12px 24px rgba(0,0,0,0.08), 0 40px 80px rgba(0,0,0,0.12), 0 80px 140px rgba(0,0,0,0.14)',
+                        willChange: 'transform',
+                        overflow: 'hidden',
+                        background: 'var(--b-bg-elevated)',
+                        display: 'flex',
+                    }}>
+                        <video
+                            key={src}
+                            autoPlay loop muted playsInline
+                            poster={posterSrc}
+                            style={{ width: '100%', height: 'auto', display: 'block', outline: 'none' }}
+                            aria-label={alt}
+                        >
+                            <source src={src} type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================================================
+        // Bullet
+        // ==========================================================================
+
+        window.Bullet = function Bullet({ accent, t, d }) {
+            return (
+                <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 4, background: accent, marginTop: 9, flexShrink: 0 }} />
+                    <div>
+                        <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--b-text)', marginBottom: 3, letterSpacing: '-0.01em' }}>{t}</div>
+                        <div style={{ fontSize: 15, color: 'var(--b-text-2)', lineHeight: 1.5 }}>{d}</div>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================================================
+        // AppleDownloadButton
+        // ==========================================================================
+
+        function AppleDownloadButton({ app, isMobile, className, inverted = false }) {
+            const isDark = window.useTheme() === 'dark';
+            const [isHovered, setIsHovered] = React.useState(false);
+            const showWhiteIcon = isHovered || (inverted ? !isDark : isDark);
+
+            return (
+                <a
+                    className={`calc-download-button ${className || ''}`.trim()}
+                    href={app.href}
+                    target={app.external ? '_blank' : undefined}
+                    rel={app.external ? 'noopener noreferrer' : undefined}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    style={{
+                        display: 'inline-flex', alignItems: 'center', gap: 8,
+                        padding: isMobile ? '14px 22px' : '16px 28px',
+                        background: isHovered ? app.accent : inverted ? 'var(--b-text)' : 'var(--b-bg)',
+                        color: isHovered ? '#fff' : inverted ? 'var(--b-bg)' : 'var(--b-text)',
+                        textDecoration: 'none',
+                        border: 'none', borderRadius: 100, fontSize: 15, fontWeight: 600,
+                        fontFamily: 'inherit', letterSpacing: '-0.01em',
+                        boxShadow: '0 12px 28px rgba(0,0,0,0.25)',
+                        transition: 'background 0.25s ease, color 0.25s ease, transform 0.15s ease',
+                        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+                    }}
+                >
+                    <img
+                        src={showWhiteIcon ? 'images/apple-icon-white.svg' : 'images/apple-icon-black.svg'}
+                        alt=""
+                        aria-hidden="true"
+                        style={{ width: 18, height: 18, flex: '0 0 auto' }}
+                    />
+                    {app.label}
+                </a>
+            );
+        }
+
+        // ==========================================================================
+        // DownloadCTA
+        // ==========================================================================
+
+        window.DownloadCTA = function DownloadCTA({ t, variant = 'default', betaCopy, productCopy, accent, id = 'download' }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+
+            const isBeta = variant === 'beta';
+            const isProduct = variant === 'product' && productCopy;
+            const title = isProduct ? productCopy.title : isBeta ? betaCopy.title : t.cta.title;
+            const sub = isProduct ? productCopy.sub : isBeta ? betaCopy.sub : t.cta.sub;
+            const body = isProduct ? productCopy.body : sub;
+
+            const apps = isProduct ? productCopy.actions : [
+                { label: 'Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_download_calc&mt=8', accent: window.ACCENTS.calc.light, external: true },
+                { label: 'Bricks Scan', href: 'https://apps.apple.com/us/app/bricks-scan-scan-to-pdf/id6758148083?ct=bricks_web_calc_download_scan&mt=8', accent: window.ACCENTS.scan.light, external: true },
+                { label: 'Bricks Leads', href: 'leads.html', accent: window.ACCENTS.leads.light, external: false },
+            ];
+
+            return (
+                <section id={id} ref={reveal} style={{
+                    padding: isMobile ? '32px 20px 64px' : '60px 48px 120px', maxWidth: 1200, margin: '0 auto',
+                }}>
+                    <div className="reveal calc-download-cta-content" style={{
+                        background: 'var(--b-text)', borderRadius: isMobile ? 32 : 48,
+                        padding: isMobile ? '56px 24px' : '96px 64px',
+                        textAlign: 'center', position: 'relative', overflow: 'hidden',
+                        boxShadow: '0 20px 60px rgba(11,15,20,0.25)',
+                    }}>
+                        <div style={{
+                            position: 'absolute', inset: 0, pointerEvents: 'none',
+                            background: 'radial-gradient(circle at 20% 10%, rgba(0,166,161,0.1), transparent 55%), radial-gradient(circle at 80% 90%, rgba(255,149,0,0.08), transparent 55%)',
+                        }} />
+                        <h2 style={{
+                            fontSize: isMobile ? 40 : 64, fontWeight: 900, letterSpacing: '-0.035em',
+                            lineHeight: 1.02, margin: '0 0 20px', color: 'var(--b-bg)', position: 'relative',
+                        }}>
+                            {title[0]}
+                            {title[1] && <><br /><span style={{ opacity: 0.55 }}>{title[1]}</span></>}
+                        </h2>
+                        <p style={{
+                            fontSize: isMobile ? 16 : 18, color: 'var(--b-bg)', opacity: 0.7,
+                            lineHeight: 1.6, margin: '0 auto 40px', maxWidth: 520, position: 'relative',
+                        }}>
+                            {body}
+                        </p>
+
+                        <div style={{ position: 'relative', display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                            {apps.map((app, i) => <AppleDownloadButton key={i} app={app} isMobile={isMobile} />)}
+                        </div>
+                        {isProduct && (
+                            <p style={{
+                                fontSize: 13, color: 'var(--b-bg)', opacity: 0.62,
+                                lineHeight: 1.55, margin: '18px auto 0', maxWidth: 560, position: 'relative',
+                            }}>{sub}</p>
+                        )}
+                    </div>
+                </section>
+            );
+        };
+
+        // ==========================================================================
+        // Footer
+        // ==========================================================================
+
+        window.Footer = function Footer({ t, lang, setLang, theme, setTheme }) {
+            const isMobile = window.useIsMobile();
+            return (
+                <footer style={{
+                    padding: isMobile ? '48px 20px 32px' : '80px 48px 48px', borderTop: '1px solid var(--b-border)',
+                    background: 'var(--b-bg)',
+                }}>
+                    <div style={{
+                        maxWidth: 1200, margin: '0 auto',
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr 1fr 1fr',
+                        gap: isMobile ? 32 : 48,
+                        marginBottom: isMobile ? 40 : 56,
+                    }}>
+                        <div style={{ gridColumn: isMobile ? '1 / -1' : undefined }}>
+                            <window.ThemeLogo />
+                            <p style={{ fontSize: 14, color: 'var(--b-text-2)', lineHeight: 1.6, margin: '16px 0 24px', maxWidth: 300 }}>
+                                {t.footer.tag}
+                            </p>
+                            <div style={{ display: 'flex', gap: 10 }}>
+                                {[
+                                    { kind: 'instagram', href: 'https://www.instagram.com/hellobricksapps/', label: t.footer.social.instagram },
+                                    { kind: 'linkedin', href: 'https://www.linkedin.com/company/bricksapps/', label: t.footer.social.linkedin },
+                                ].map(s => (
+                                    <a key={s.kind} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label} style={{
+                                        width: 36, height: 36, borderRadius: '50%', background: 'var(--b-bg-elevated)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        boxShadow: 'var(--emboss-soft)', color: 'var(--b-text-2)',
+                                        transition: 'color 0.2s',
+                                    }}
+                                        onMouseEnter={(e) => e.currentTarget.style.color = 'var(--b-text)'}
+                                        onMouseLeave={(e) => e.currentTarget.style.color = 'var(--b-text-2)'}>
+                                        <SocialIcon kind={s.kind} />
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                        {t.footer.sections.map((s, i) => (
+                            <div key={i}>
+                                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--b-text-3)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 18 }}>{s.h}</div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                    {s.l.map((l, j) => (
+                                        <a key={j} href={l.href} style={{ fontSize: 14, color: 'var(--b-text)', opacity: 0.85 }}>{l.label}</a>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div style={{
+                        maxWidth: 1200, margin: '0 auto',
+                        padding: isMobile ? '24px 0' : '32px 0', borderTop: '1px solid var(--b-border)',
+                        display: 'flex', gap: isMobile ? 20 : 32, flexWrap: 'wrap', alignItems: 'center',
+                    }}>
+                        <ToggleGroup label={t.footer.language} options={[{ v: 'en', l: 'EN' }, { v: 'es', l: 'ES' }]} value={lang} setValue={setLang} />
+                        <ToggleGroup label={t.footer.appearance} options={[{ v: 'auto', l: t.footer.auto }, { v: 'light', l: t.footer.light }, { v: 'dark', l: t.footer.dark }]} value={theme} setValue={setTheme} />
+                    </div>
+
+                    <div style={{
+                        maxWidth: 1200, margin: '24px auto 0',
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        flexWrap: 'wrap', gap: 16,
+                    }}>
+                        <div style={{ fontSize: 13, color: 'var(--b-text-2)' }}>{t.footer.copyright}</div>
+                        <div style={{ display: 'flex', gap: 20 }}>
+                            {t.footer.legal.map((l, i) => (
+                                <a key={i} href={l.href} style={{ fontSize: 13, color: 'var(--b-text-2)' }}>{l.label}</a>
+                            ))}
+                        </div>
+                    </div>
+                </footer>
+            );
+        };
+
+        function ToggleGroup({ label, options, value, setValue }) {
+            return (
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                    <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--b-text-3)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{label}</div>
+                    <div style={{ display: 'inline-flex', gap: 2 }}>
+                        {options.map((o, i) => (
+                            <React.Fragment key={o.v}>
+                                {i > 0 && <span style={{ color: 'var(--b-text-3)', fontSize: 12, alignSelf: 'center', opacity: 0.5 }}>·</span>}
+                                <button onClick={() => setValue(o.v)}
+                                    style={{
+                                        border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: 'inherit',
+                                        padding: '2px 6px', fontSize: 12,
+                                        fontWeight: value === o.v ? 600 : 400,
+                                        color: value === o.v ? 'var(--b-text)' : 'var(--b-text-2)',
+                                        opacity: value === o.v ? 1 : 0.7,
+                                        transition: 'opacity 0.2s ease, color 0.2s ease',
+                                    }}
+                                    onMouseEnter={(e) => { if (value !== o.v) e.currentTarget.style.opacity = 1; }}
+                                    onMouseLeave={(e) => { if (value !== o.v) e.currentTarget.style.opacity = 0.7; }}
+                                >{o.l}</button>
+                            </React.Fragment>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        function SocialIcon({ kind }) {
+            const s = { stroke: 'currentColor', fill: 'none', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };
+            if (kind === 'instagram') return (
+                <svg width="15" height="15" viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="14" rx="4" {...s} /><circle cx="10" cy="10" r="3.2" {...s} /><circle cx="14.3" cy="5.7" r="0.5" fill="currentColor" /></svg>
+            );
+            if (kind === 'x') return (
+                <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path d="M15.2 2h2.8l-6.1 7 7.2 9h-5.6l-4.4-5.8L4 18H1.2l6.5-7.5L1 2h5.7l4 5.3zm-1 14.6h1.5L5.9 3.3H4.3z" /></svg>
+            );
+            return (
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M5.4 7.5h2.4v8.6H5.4zM6.6 3.5c-.8 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4 1.4-.6 1.4-1.4-.6-1.4-1.4-1.4zM9.4 7.5h2.3v1.2c.3-.6 1.1-1.3 2.3-1.3 2.4 0 2.9 1.6 2.9 3.7v5h-2.4v-4.4c0-1-.02-2.4-1.5-2.4-1.5 0-1.7 1.2-1.7 2.3v4.5H9.4z" /></svg>
+            );
+        }
+
+        // ==========================================================================
+        // Tweaks (edit-mode toolbar)
+        // ==========================================================================
+
+        window.useTweaks = function useTweaks({ lang, setLang, theme, setTheme }) {
+            const [visible, setVisible] = React.useState(false);
+
+            React.useEffect(() => {
+                const handler = (e) => {
+                    const d = e.data || {};
+                    if (d.type === '__activate_edit_mode') setVisible(true);
+                    if (d.type === '__deactivate_edit_mode') setVisible(false);
+                };
+                window.addEventListener('message', handler);
+                window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+                return () => window.removeEventListener('message', handler);
+            }, []);
+
+            if (!visible) return null;
+
+            return (
+                <div style={{
+                    position: 'fixed', right: 24, bottom: 24, zIndex: 200,
+                    background: 'var(--b-bg-elevated)', borderRadius: 24,
+                    boxShadow: '0 12px 40px rgba(0,0,0,0.18), var(--emboss-soft)',
+                    padding: 20, minWidth: 260,
+                    border: '1px solid var(--b-border)',
+                }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--b-text-3)', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 14 }}>Tweaks</div>
+                    <TweakRow label="Language">
+                        {['en', 'es'].map(v => (
+                            <button key={v} onClick={() => { setLang(v); tweakPersist({ lang: v }); }} style={tweakBtn(lang === v)}>{v.toUpperCase()}</button>
+                        ))}
+                    </TweakRow>
+                    <TweakRow label="Appearance">
+                        {[['auto', 'System'], ['light', 'Light'], ['dark', 'Dark']].map(([v, l]) => (
+                            <button key={v} onClick={() => { setTheme(v); tweakPersist({ theme: v }); }} style={tweakBtn(theme === v)}>{l}</button>
+                        ))}
+                    </TweakRow>
+                </div>
+            );
+        };
+
+        function tweakPersist(edits) {
+            window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+        }
+        function TweakRow({ label, children }) {
+            return (
+                <div style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: 11, color: 'var(--b-text-2)', marginBottom: 6 }}>{label}</div>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>{children}</div>
+                </div>
+            );
+        }
+        function tweakBtn(active) {
+            return {
+                padding: '6px 12px', borderRadius: 100, border: 'none', cursor: 'pointer',
+                fontSize: 12, fontWeight: 600, fontFamily: 'inherit',
+                background: active ? 'var(--b-text)' : 'var(--b-bg)',
+                color: active ? 'var(--b-bg)' : 'var(--b-text)',
+                boxShadow: active ? 'none' : 'var(--emboss-soft)',
+            };
+        }
+    </script>
+
+    <script type="text/babel">
+        // ==========================================================================
+        // CALC_COPY — page-specific copy (EN/ES)
+        // ==========================================================================
+
+        const CALC_COPY = {
+            en: {
+                hero: {
+                    eyebrow: 'Bricks Calc',
+                    title: ['Home planning,', 'made easier.'],
+                    body: 'See how your home purchase fits your budget. Estimate your total monthly, compare options, and plan for changes ahead.',
+                    cta: 'Download Bricks Calc',
+                    sub: 'Free to download. No account needed.',
+                    imageAlt: 'Bricks Calc mortgage and home loan planning app',
+                },
+                intro: {
+                    title: ['Found a home you like?', "Let's look at the numbers."],
+                    paragraphs: [
+                        "The asking price is just the start—there’s the mortgage payment, other monthly costs, and different offers to weigh. We help you bring it all together so you can see what fits your budget before deciding.",
+                    ],
+                },
+                stats: {
+                    eyebrow: 'On your device',
+                    title: 'Keep your plans close.',
+                    sub: 'Your calculations happen on your device, offline. No account required, and your saved plans sync through iCloud across your Apple devices.',
+                    items: [
+                        { t: 'Works offline', d: 'Run your calculations on your device.' },
+                        { t: 'No account needed', d: 'Start planning without signing up.' },
+                        { t: 'Syncs with iCloud', d: 'Keep saved plans across your Apple devices.' },
+                    ],
+                },
+                pillars: {
+                    eyebrow: 'More ways to plan',
+                    title: ["There's more to", 'the numbers.'],
+                    body: "Explore the details that matter to you, whether you're buying your first home or already paying a mortgage.",
+                    items: [
+                        { t: 'Know what you can afford', d: 'Estimate a home price and monthly payment based on your income, debts, and budget.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'See who pays what', d: 'Divide the down payment, monthly payments, and other home costs between members.', icon: 'icon-compare.svg' },
+                        { t: 'Explore extra payments', d: 'See how extra payments could save interest and help you pay off your mortgage sooner.', icon: 'icon-adjust.svg' },
+                        { t: 'Share your numbers', d: 'Share calculations, costs, and charts with anyone involved in your home plans.', icon: 'icon-compare.svg' },
+                        { t: 'Understand every payment', d: 'Follow your loan balance, principal, and interest over time.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Include rental income', d: 'See how rental income could offset your monthly housing costs.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Consider refinancing', d: 'Compare your current loan with a new offer.', icon: 'icon-compare.svg' },
+                        { t: 'Keep your favorites', d: 'Pin important plans to the top.', icon: 'icon-adjust.svg' },
+                        { t: 'Quick access, less effort', d: 'Get to your numbers with widgets and quick actions.', icon: 'icon-spreadsheets.svg' },
+                    ],
+                },
+                feature1: {
+                    eyebrow: 'Start with the payment',
+                    title: ['See what the home', 'could cost each month.'],
+                    body: 'Enter the home price, down payment, interest rate, and loan term to estimate your mortgage payment. Add property taxes, insurance, and other expenses to get a clearer picture of the monthly cost.',
+                    icon: 'icon-spreadsheets.svg',
+                    bullets: [],
+                },
+                feature_prepay: {
+                    eyebrow: 'Extra payments',
+                    title: ['See what a little extra', 'could change.'],
+                    body: 'An extra payment could bring your payoff closer or reduce future monthly payments. Try an extra amount, or start with the payoff date or monthly payment you want. Review the estimated savings before deciding.',
+                    icon: 'icon-adjust.svg',
+                    bullets: [
+                        { t: 'Start with an amount', d: 'Test a one-time or recurring extra payment and estimate its effect on interest and the time left on your loan.' },
+                        { t: 'Plan toward a payoff date', d: 'Choose when you would like to finish the loan and estimate the extra payment needed.' },
+                        { t: 'Explore a target payment', d: 'Enter a lower target monthly payment and estimate the extra payment that could get you there.' },
+                    ],
+                },
+                feature2: {
+                    eyebrow: 'Explore your options',
+                    title: ['A different rate. A different price.', 'See what changes.'],
+                    body: "Maybe another lender offers a lower interest rate. Maybe there's room to negotiate the price. Save and compare plans side by side. See how each option changes your monthly payment, interest, and total cost.",
+                    icon: 'icon-compare.svg',
+                    bullets: [],
+                },
+                feature_saved: {
+                    eyebrow: 'Keep it together',
+                    title: ['All the details,', 'right where you left them.'],
+                    body: "Home prices, lender offers, notes, and photos can add up quickly. Keep them together with your saved plans. Update the numbers as things change and come back whenever you're ready.",
+                    icon: 'icon-spreadsheets.svg',
+                    bullets: [],
+                },
+                about: {
+                    eyebrow: 'Made by an independent developer',
+                    title: 'Built from a real home-buying experience.',
+                    paragraphs: [
+                        'I started Bricks Calc after buying my first home and realizing how difficult it was to keep all the numbers organized.',
+                        "What began as a tool for myself has grown into an app I'm continually improving, with a focus on making home planning simpler and clearer for everyone.",
+                    ],
+                },
+                whatsNew: {
+                    eyebrow: 'Always improving',
+                    title: 'A little better with every update.',
+                    body: 'New features, thoughtful improvements, and fixes that make planning easier.',
+                    link: "See what's new",
+                    href: 'https://bricksapps.userjot.com/updates',
+                },
+                finalCta: {
+                    title: ['Have a home in mind?'],
+                    body: 'Start with the numbers. See what works for you.',
+                    sub: 'Available on iPhone, iPad, Mac, and Apple Vision Pro.',
+                    actions: [
+                        { label: 'Download Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_final&mt=8', accent: window.ACCENTS.calc.light, external: true },
+                    ],
+                },
+                testimonials: {
+                    eyebrow: 'Your plan over time',
+                    sub: 'Three ways to use Bricks Calc, from your first estimate to the decisions that come later.',
+                    cards: [
+                        { body: 'Keep the homes and loan offers you are considering in one place. Save your plans, add notes, and pin the ones you want to return to.', title: 'Before you buy', subtitle: 'Comparing possibilities' },
+                        { body: 'Return to your saved mortgage plan as your budget changes. Test extra payments, review your projected balance, and explore refinancing when you are ready.', title: 'While you own', subtitle: 'Planning what comes next' },
+                        { body: 'With Pro, divide the down payment, monthly payments, extra payments, and expenses between contributors. See each person\u2019s planned share before you agree on a shared approach.', title: 'When you buy together', subtitle: 'Shared costs with Pro' },
+                    ],
+                },
+                social: {
+                    eyebrow: 'From Bricks',
+                    title: 'See what\u2019s new at Bricks.',
+                    sub: 'Follow Bricks for product updates and practical ways to use the apps.',
+                    fallback: 'Posts by @hellobricksapps',
+                    loading: 'Loading Instagram posts...',
+                    unavailable: 'View the latest updates on Instagram.',
+                    action: 'Visit Bricks on Instagram',
+                },
+                faq: {
+                    eyebrow: '',
+                    title: 'Before you get started.',
+                    items: [
+                        { q: 'Is Bricks Calc free?', a: ['Yes. You can download it for free and save up to three plans. An optional upgrade removes limits and gives you more flexibility.'] },
+                        { q: 'Can I compare different mortgage offers?', a: ['Yes. Compare up to three plans to see how different home prices, down payments, and interest rates affect your monthly payment and total cost.'] },
+                        { q: 'Do I need an account or internet connection?', a: ['No account is required. The app works offline, and you can use iCloud to sync across your Apple devices.'] },
+                        { q: 'Can I use Bricks Calc if I already own a home?', a: ['Yes. Explore extra payments, refinancing options, amortization schedules, and changes to your current mortgage.'] },
+                        { q: 'Are the calculations exact?', a: ['Bricks Calc provides planning estimates. Your lender can confirm the actual loan terms, fees, and final payment amounts.'] },
+                        { q: 'Which devices are supported?', a: ['Bricks Calc is available on iPhone, iPad, Mac, and Apple Vision Pro.'] },
+                    ],
+                },
+                download: {
+                    title: ['Start with one home.', 'Explore a few more.'],
+                    body: 'Download for free and save up to three home plans. Need more flexibility? Upgrade to remove limits on saved plans, extra payments, and expenses.',
+                    sub: 'Free to download. No account needed.',
+                    actions: [
+                        { label: 'Get Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_pricing&mt=8', accent: window.ACCENTS.calc.light, external: true },
+                    ],
+                },
+                ecosystem: {
+                    eyebrow: 'The Bricks suite',
+                    title: 'More clarity for the work around real estate.',
+                    sub: 'Focused Apple apps for your documents, mortgage plans, and client relationships.',
+                    activeLabel: 'You\u2019re here',
+                    items: [
+                        { id: 'scan', name: 'Bricks Scan', tagline: 'Keep documents in order.', href: 'scan.html', active: false },
+                        { id: 'calc', name: 'Bricks Calc', tagline: 'Understand your mortgage.', href: 'calc.html', active: true },
+                        { id: 'leads', name: 'Bricks Leads', tagline: 'Keep client relationships in view.', href: 'leads.html', active: false },
+                    ],
+                },
+            },
+            es: {
+                hero: {
+                    eyebrow: 'Bricks Calc',
+                    title: ['Planificar tu hogar,', 'ahora es más fácil.'],
+                    body: 'Descubre cómo la compra de una vivienda puede ajustarse a tu presupuesto. Estima el costo mensual de tu hipoteca, compara opciones y planifica los cambios que vienen.',
+                    cta: 'Descargar en App Store',
+                    sub: 'Descarga gratis. No necesitas una cuenta.',
+                    imageAlt: 'Bricks Calc, app para calcular y planificar créditos hipotecarios',
+                },
+                intro: {
+                    title: ['¿Encontraste una vivienda que te gusta?', 'Revisemos los números.'],
+                    paragraphs: [
+                        'El precio de venta es solo el comienzo. También está la cuota hipotecaria, los demás gastos mensuales y las distintas ofertas que puedes considerar.',
+                        'Bricks Calc te ayuda a reunirlo todo para que veas qué se ajusta a tu presupuesto antes de decidir.',
+                    ],
+                },
+                stats: {
+                    eyebrow: 'En tu dispositivo',
+                    title: 'Planifica con números.',
+                    sub: 'Tus cálculos se realizan en tu dispositivo, sin conexión. No necesitas una cuenta y tus planes guardados se sincronizan con iCloud en todos tus dispositivos Apple.',
+                    items: [
+                        { t: 'Funciona sin conexión', d: 'Calcula directamente en tu dispositivo.' },
+                        { t: 'Sin cuenta', d: 'Empieza a planificar sin registrarte.' },
+                        { t: 'Sincroniza con iCloud', d: 'Conserva tus planes en tus dispositivos Apple.' },
+                    ],
+                },
+                pillars: {
+                    eyebrow: 'Más formas de planificar',
+                    title: ['Hay más detrás', 'de los números.'],
+                    body: 'Explora los detalles que te importan, ya sea que estés comprando tu primera vivienda o ya estés pagando una hipoteca.',
+                    items: [
+                        { t: 'Calcula cuánto puedes pagar', d: 'Estima el precio de una vivienda y la cuota mensual según tus ingresos, deudas y presupuesto.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Calcula quién paga qué', d: 'Divide la cuota inicial, la hipoteca y otros gastos con las personas que los comparten contigo.', icon: 'icon-compare.svg' },
+                        { t: 'Explora los pagos extra', d: 'Descubre cómo los pagos extra pueden reducir los intereses y ayudarte a terminar de pagar antes.', icon: 'icon-adjust.svg' },
+                        { t: 'Comparte tus números', d: 'Comparte cálculos, costos y gráficos con quienes participan en tus planes de vivienda.', icon: 'icon-compare.svg' },
+                        { t: 'Entiende cada pago', d: 'Sigue el saldo de tu préstamo, el capital y los intereses a lo largo del tiempo.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Incluye ingresos por alquiler', d: 'Descubre cómo los ingresos por alquiler pueden compensar tus gastos mensuales de vivienda.', icon: 'icon-spreadsheets.svg' },
+                        { t: 'Considera refinanciar', d: 'Compara tu préstamo actual con una nueva oferta.', icon: 'icon-compare.svg' },
+                        { t: 'Ten tus favoritos a mano', d: 'Fija los planes importantes en la parte superior.', icon: 'icon-adjust.svg' },
+                        { t: 'Acceso rápido y sencillo', d: 'Accede a tus números con widgets y acciones rápidas.', icon: 'icon-spreadsheets.svg' },
+                    ],
+                },
+                feature1: {
+                    eyebrow: 'Empieza por la cuota',
+                    title: ['Descubre cuánto podría', 'costar la vivienda al mes.'],
+                    body: 'Ingresa el precio de la vivienda, la cuota inicial, la tasa de interés y el plazo para estimar tu cuota hipotecaria. Agrega impuestos prediales, seguro y otros gastos para tener una idea más clara del costo mensual.',
+                    icon: 'icon-spreadsheets.svg',
+                    bullets: [],
+                },
+                feature_prepay: {
+                    eyebrow: 'Pagos extra',
+                    title: ['Mira cuánto puede cambiar', 'un pequeño extra.'],
+                    body: 'Un pago extra podría acercar la fecha en que termines de pagar o reducir las cuotas mensuales futuras. Prueba con un monto extra o empieza por la fecha de pago total o la cuota mensual que quieres alcanzar. Revisa el ahorro estimado antes de decidir.',
+                    icon: 'icon-adjust.svg',
+                    bullets: [
+                        { t: 'Empieza con un monto', d: 'Prueba un pago extra único o recurrente y estima su efecto en los intereses y el plazo restante del préstamo.' },
+                        { t: 'Planifica cuándo terminar de pagar', d: 'Elige cuándo te gustaría terminar de pagar el préstamo y estima el pago extra necesario.' },
+                        { t: 'Explora una cuota objetivo', d: 'Ingresa una cuota mensual objetivo más baja y estima el pago extra que podría llevarte a ella.' },
+                    ],
+                },
+                feature2: {
+                    eyebrow: 'Explora tus opciones',
+                    title: ['Otra tasa. Otro precio.', 'Descubre qué cambia.'],
+                    body: 'Quizás otra entidad ofrece una tasa de interés más baja. Quizás puedas negociar el precio. Guarda y compara planes lado a lado. Descubre cómo cada opción cambia tu cuota mensual, los intereses y el costo total.',
+                    icon: 'icon-compare.svg',
+                    bullets: [],
+                },
+                feature_saved: {
+                    eyebrow: 'Tenlo todo junto',
+                    title: ['Todos los detalles,', 'siempre a mano.'],
+                    body: 'Los precios de viviendas, las ofertas de crédito, las notas y las fotos se acumulan rápidamente. Guárdalo todo en tus planes. Actualiza los números cuando cambien las cosas y vuelve cuando quieras.',
+                    icon: 'icon-spreadsheets.svg',
+                    bullets: [],
+                },
+                about: {
+                    eyebrow: 'Creada por un desarrollador independiente',
+                    title: 'Nació de una experiencia real al comprar una vivienda.',
+                    paragraphs: [
+                        'Empecé Bricks Calc después de comprar mi primera vivienda y darme cuenta de lo difícil que era mantener todos los números organizados.',
+                        'Lo que comenzó como una herramienta para mí se ha convertido en una app que sigo mejorando, con el objetivo de hacer que planificar una vivienda sea más sencillo y claro para todos.',
+                    ],
+                },
+                whatsNew: {
+                    eyebrow: 'Siempre mejorando',
+                    title: 'Un poco mejor con cada actualización.',
+                    body: 'Nuevas funciones, mejoras cuidadas y correcciones para que planificar sea más fácil.',
+                    link: 'Descubre las novedades',
+                    href: 'index.html#changelog',
+                },
+                finalCta: {
+                    title: ['¿Tienes una vivienda en mente?'],
+                    body: 'Empieza por los números. Descubre qué funciona para ti.',
+                    sub: 'Disponible en iPhone, iPad, Mac y Apple Vision Pro.',
+                    actions: [
+                        { label: 'Descargar Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_final&mt=8', accent: window.ACCENTS.calc.light, external: true },
+                    ],
+                },
+                testimonials: {
+                    eyebrow: 'Tu plan a lo largo del tiempo',
+                    sub: 'Tres formas de usar Bricks Calc, desde tu primera estimación hasta las decisiones que vienen después.',
+                    cards: [
+                        { body: 'Mantén en un solo lugar las viviendas y ofertas de crédito que estás considerando. Guarda tus planes, agrega notas y fija los que quieras volver a revisar.', title: 'Antes de comprar', subtitle: 'Compara posibilidades' },
+                        { body: 'Vuelve a tu plan hipotecario guardado a medida que cambie tu presupuesto. Prueba pagos extra, revisa el saldo proyectado y explora un refinanciamiento cuando estés listo.', title: 'Cuando ya es tuya', subtitle: 'Planifica lo que sigue' },
+                        { body: 'Con Pro, divide la cuota inicial, las cuotas mensuales, los pagos extra y los gastos entre quienes aportan. Revisa la parte planificada de cada persona antes de acordar cómo compartir los costos.', title: 'Cuando compran juntos', subtitle: 'Costos compartidos con Pro' },
+                    ],
+                },
+                social: {
+                    eyebrow: 'De Bricks',
+                    title: 'Descubre las novedades de Bricks.',
+                    sub: 'Sigue a Bricks para conocer novedades de producto y formas prácticas de usar las apps.',
+                    fallback: 'Publicaciones de @hellobricksapps',
+                    loading: 'Cargando publicaciones de Instagram...',
+                    unavailable: 'Mira las últimas novedades en Instagram.',
+                    action: 'Visita Bricks en Instagram',
+                },
+                faq: {
+                    eyebrow: '',
+                    title: 'Antes de empezar.',
+                    items: [
+                        { q: '¿Bricks Calc es gratis?', a: ['Sí. Puedes descargarla gratis y guardar hasta tres planes. Una mejora opcional elimina los límites y te da más flexibilidad.'] },
+                        { q: '¿Puedo comparar distintas ofertas hipotecarias?', a: ['Sí. Compara hasta tres planes para ver cómo distintos precios, cuotas iniciales y tasas de interés afectan tu cuota mensual y el costo total.'] },
+                        { q: '¿Necesito una cuenta o conexión a internet?', a: ['No necesitas una cuenta. La app funciona sin conexión y puedes usar iCloud para sincronizar tus planes en tus dispositivos Apple.'] },
+                        { q: '¿Puedo usar Bricks Calc si ya tengo una vivienda?', a: ['Sí. Explora pagos extra, opciones de refinanciamiento, tablas de amortización y cambios en tu hipoteca actual.'] },
+                        { q: '¿Los cálculos son exactos?', a: ['Bricks Calc ofrece estimaciones para planificar. Tu entidad financiera puede confirmar las condiciones, comisiones y cuotas finales del préstamo.'] },
+                        { q: '¿Qué dispositivos son compatibles?', a: ['Bricks Calc está disponible en iPhone, iPad, Mac y Apple Vision Pro.'] },
+                    ],
+                },
+                download: {
+                    title: ['Empieza con una vivienda.', 'Explora algunas más.'],
+                    body: 'Descarga la app gratis y guarda hasta tres planes. ¿Necesitas más flexibilidad? Mejora la app para eliminar los límites de planes guardados, pagos extra y gastos.',
+                    sub: 'Descarga gratis. No necesitas una cuenta.',
+                    actions: [
+                        { label: 'Obtener Bricks Calc', href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_pricing&mt=8', accent: window.ACCENTS.calc.light, external: true },
+                    ],
+                },
+                ecosystem: {
+                    eyebrow: 'La suite Bricks',
+                    title: 'Más claridad para todo lo que rodea a los bienes raíces.',
+                    sub: 'Apps enfocadas, creadas para Apple, para tus documentos, planes hipotecarios y relaciones con clientes.',
+                    activeLabel: 'Estás aquí',
+                    items: [
+                        { id: 'scan', name: 'Bricks Scan', tagline: 'Mantén tus documentos en orden.', href: 'scan.html', active: false },
+                        { id: 'calc', name: 'Bricks Calc', tagline: 'Entiende tu hipoteca.', href: 'calc.html', active: true },
+                        { id: 'leads', name: 'Bricks Leads', tagline: 'Mantén tus relaciones con clientes a la vista.', href: 'leads.html', active: false },
+                    ],
+                },
+            },
+        };
+
+        const CALC_ACCENT = window.ACCENTS.calc.light;
+
+        // ==========================================================================
+        // CalcHero
+        // ==========================================================================
+
+        function CalcHero({ t, lang }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            const videoSrc = `images-bricks-calc/hero-video-${lang}.mp4`;
+            const posterSrc = `images-bricks-calc/hero-video-img-${lang}.png`;
+
+            return (
+                <section className="calc-hero" ref={reveal} style={{
+                    padding: isMobile ? '120px 20px 48px' : '160px 48px 80px',
+                    maxWidth: 1280, margin: '0 auto',
+                }}>
+                    {isMobile && (
+                        <div className="reveal" style={{ marginBottom: 40 }}>
+                            <window.ScreenshotVideo
+                                src={videoSrc}
+                                posterSrc={posterSrc}
+                                alt={t.hero.imageAlt}
+                                accent={CALC_ACCENT}
+                                lang={lang}
+                            />
+                        </div>
+                    )}
+
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr' : '1.1fr 1fr',
+                        gap: isMobile ? 40 : 64,
+                        alignItems: 'center',
+                    }}>
+                        <div>
+                            <div className="reveal" style={{
+                                ...window.eyebrowStyle,
+                                color: 'var(--b-text)',
+                            }}>{t.hero.eyebrow}</div>
+
+                            <h1 className="reveal reveal-d1" style={{
+                                fontSize: isMobile ? 44 : 72,
+                                fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.02,
+                                margin: '0 0 24px', color: 'var(--b-text)',
+                            }}>
+                                {t.hero.title[0]}<br />
+                                <span style={{ color: 'var(--b-text)' }}>{t.hero.title[1]}</span>
+                            </h1>
+
+                            <p className="reveal reveal-d2" style={{
+                                fontSize: isMobile ? 17 : 19, lineHeight: 1.6, color: 'var(--b-text)',
+                                margin: '0 0 36px', maxWidth: 520,
+                            }}>{t.hero.body}</p>
+
+                            <div className="reveal reveal-d3">
+                                <AppleDownloadButton
+                                    className="calc-hero-cta"
+                                    app={{
+                                        label: t.hero.cta,
+                                        href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_hero&mt=8',
+                                        accent: CALC_ACCENT,
+                                        external: true,
+                                    }}
+                                    isMobile={isMobile}
+                                    inverted
+                                />
+                                <p style={{
+                                    fontSize: 13, color: 'var(--b-text)', lineHeight: 1.55, marginTop: 32
+                                }}>
+                                    {t.hero.sub}
+                                </p>
+                            </div>
+                        </div>
+
+                        {!isMobile && (
+                            <div className="reveal reveal-d2">
+                                <window.ScreenshotVideo
+                                    src={videoSrc}
+                                    posterSrc={posterSrc}
+                                    alt={t.hero.imageAlt}
+                                    accent={CALC_ACCENT}
+                                    lang={lang}
+                                />
+                            </div>
+                        )}
+                    </div>
+                </section>
+            );
+        }
+
+        // ==========================================================================
+        // CalcStats
+        // ==========================================================================
+
+        function CalcIntro({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile(900);
+            const isSmallScreen = window.useIsMobile(620);
+            const introRef = React.useRef(null);
+            const [isVisible, setIsVisible] = React.useState(false);
+            const [scrollOffset, setScrollOffset] = React.useState(0);
+
+            React.useEffect(() => {
+                const el = introRef.current;
+                if (!el) return;
+
+                const update = () => {
+                    const rect = el.getBoundingClientRect();
+                    const vh = window.innerHeight || 1;
+                    const progress = (vh - rect.top) / (vh + rect.height || 1);
+                    setScrollOffset((progress - 0.5) * 42);
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) setIsVisible(true);
+                    });
+                }, { threshold: 0.22 });
+
+                observer.observe(el);
+                update();
+                window.addEventListener('scroll', update, { passive: true });
+                window.addEventListener('resize', update);
+
+                return () => {
+                    observer.disconnect();
+                    window.removeEventListener('scroll', update);
+                    window.removeEventListener('resize', update);
+                };
+            }, []);
+
+            const phoneData = [
+                { src: 'images-bricks-calc/numbers-section-left.png', width: 224, x: -147, y: 18 },
+                { src: 'images-bricks-calc/numbers-section-center.png', width: 266, x: 0, y: 8 },
+                { src: 'images-bricks-calc/numbers-section-right.png', width: 224, x: 147, y: 18 },
+            ];
+
+            return (
+                <section ref={reveal} style={{
+                    padding: isMobile ? '32px 20px 48px' : '48px 48px 88px',
+                    maxWidth: 1200, margin: '0 auto',
+                }}>
+                    <div ref={introRef} className="reveal" style={{
+                        maxWidth: 1104, margin: '0 auto',
+                        background: 'var(--b-bg-elevated)', borderRadius: 32,
+                        padding: isMobile ? 28 : 56,
+                        boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
+                        textAlign: 'center',
+                    }}>
+                        <div
+                            className="calc-intro-phones"
+                            aria-hidden="true"
+                            style={isMobile && !isSmallScreen ? {
+                                width: 'calc(100% + 16px)',
+                                maxWidth: 'none',
+                                marginLeft: -8,
+                            } : undefined}
+                        >
+                            {phoneData.map((phone, index) => ({ phone, index }))
+                                .filter(({ index }) => !isSmallScreen || index === 1)
+                                .map(({ phone, index }) => (
+                                <div
+                                    key={phone.src}
+                                    className="calc-intro-phone"
+                                    style={{
+                                        width: phone.width,
+                                        marginLeft: -(phone.width / 2),
+                                        opacity: isVisible ? 1 : 0,
+                                        transform: `translate3d(${phone.x}px, ${phone.y + scrollOffset * (index === 1 ? 0.4 : 0.7)}px, 0)`,
+                                        transitionDelay: `${isSmallScreen ? 0 : index * 120}ms`,
+                                        filter: `saturate(${isVisible ? 1 : 0.85})`,
+                                    }}
+                                >
+                                    <img src={phone.src} alt="" />
+                                </div>
+                            ))}
+                        </div>
+                        {(() => {
+                            const titleLines = Array.isArray(t.intro.title) ? t.intro.title : [t.intro.title];
+                            return (
+                                <h2 className="reveal" style={{
+                                    fontSize: isMobile ? 42 : 56, fontWeight: 900, letterSpacing: '-0.035em',
+                                    lineHeight: 1.02, margin: '0 auto 20px', color: 'var(--b-text)', maxWidth: 860,
+                                }}>
+                                    {titleLines[0]}<br />
+                                    <span style={{ color: 'var(--b-text-2)' }}>{titleLines[1] || ''}</span>
+                                </h2>
+                            );
+                        })()}
+                        <div className="reveal reveal-d1" style={{
+                            maxWidth: 760, margin: '0 auto',
+                        }}>
+                            {t.intro.paragraphs.map(paragraph => (
+                                <p key={paragraph} style={{
+                                    ...window.leadP, maxWidth: 'none', margin: '0 auto 14px', textAlign: 'center',
+                                }}>{paragraph}</p>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function CalcStats({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+
+            return (
+                <section id="privacy" ref={reveal} style={{
+                    padding: isMobile ? '40px 20px' : '80px 48px',
+                    maxWidth: 1200, margin: '0 auto',
+                }}>
+                    <div className="reveal" style={{ textAlign: isMobile ? 'left' : 'center', marginBottom: isMobile ? 32 : 48 }}>
+                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.stats.eyebrow}</div>
+                        <h2 style={{
+                            fontSize: isMobile ? 32 : 44, fontWeight: 900, letterSpacing: '-0.035em',
+                            lineHeight: 1.05, margin: '0 0 12px', color: 'var(--b-text)',
+                        }}>{t.stats.title}</h2>
+                        <p style={{ fontSize: 16, color: 'var(--b-text-2)', lineHeight: 1.6, margin: '0 auto', maxWidth: 680 }}>{t.stats.sub}</p>
+                    </div>
+
+                    <div className="reveal reveal-d1" style={{
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+                        gap: isMobile ? 16 : 24,
+                        background: 'var(--b-bg-elevated)',
+                        borderRadius: isMobile ? 32 : 48,
+                        padding: isMobile ? '28px 24px' : '48px 32px',
+                        boxShadow: 'var(--emboss-soft)',
+                    }}>
+                        {t.stats.items.map(item => (
+                            <div key={item.t} style={{ textAlign: isMobile ? 'left' : 'center', padding: '12px 8px' }}>
+                                <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--b-text)', marginBottom: 8 }}>{item.t}</div>
+                                <div style={{ fontSize: 14, color: 'var(--b-text-2)', lineHeight: 1.55 }}>{item.d}</div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        // ==========================================================================
+        // CalcPillars
+        // ==========================================================================
+
+        function CalcPillars({ t, theme }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            const isCompact = window.useIsMobile(900);
+            return (
+                <section id="features" ref={reveal} style={{
+                    padding: isMobile ? '56px 20px' : '120px 48px',
+                    maxWidth: 1200, margin: '0 auto',
+                }}>
+                    <div style={{
+                        textAlign: isMobile ? 'left' : 'center', maxWidth: 760, margin: '0 auto',
+                        marginBottom: isMobile ? 40 : 64,
+                    }}>
+                        <div className="reveal">
+                            <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.pillars.eyebrow}</div>
+                            <h2 style={{
+                                fontSize: isMobile ? 36 : 56, fontWeight: 900, letterSpacing: '-0.035em',
+                                lineHeight: 1.02, margin: '0 0 18px', color: 'var(--b-text)',
+                            }}>
+                                {t.pillars.title[0]}<br />
+                                <span style={{ color: 'var(--b-text-2)' }}>{t.pillars.title[1]}</span>
+                            </h2>
+                        </div>
+                        <p className="reveal reveal-d1" style={{
+                            fontSize: 18, lineHeight: 1.6, color: 'var(--b-text-2)', margin: 0,
+                        }}>{t.pillars.body}</p>
+                    </div>
+
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr' : isCompact ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                        gridAutoRows: '1fr',
+                        gap: isMobile ? 16 : 24,
+                    }}>
+                        {t.pillars.items.map((p, i) => (
+                            <div key={i} className={`reveal reveal-d${i + 1}`} style={{
+                                background: 'var(--b-bg-elevated)', borderRadius: 32,
+                                padding: isMobile ? 28 : isCompact ? 28 : 30,
+                                boxShadow: 'var(--emboss-soft)',
+                                border: '1px solid var(--b-border)',
+                                gridColumn: !isCompact && [0, 1, 2].includes(i) ? 'span 2' : undefined,
+                            }}>
+                                <div style={{
+                                    width: 44, height: 44, borderRadius: 14,
+                                    background: `${CALC_ACCENT}1a`,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    marginBottom: 20,
+                                    boxShadow: 'var(--emboss-soft)',
+                                    border: '1px solid var(--b-border)',
+                                }}>
+                                    <div style={{
+                                        width: 22, height: 22,
+                                        backgroundColor: CALC_ACCENT,
+                                        maskImage: `url(images-bricks-calc/${p.icon})`,
+                                        WebkitMaskImage: `url(images-bricks-calc/${p.icon})`,
+                                        maskSize: 'contain',
+                                        WebkitMaskSize: 'contain',
+                                        maskRepeat: 'no-repeat',
+                                        WebkitMaskRepeat: 'no-repeat'
+                                    }} />
+                                </div>
+                                <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--b-text)', marginBottom: 8, letterSpacing: '-0.01em' }}>{p.t}</div>
+                                <div style={{ fontSize: 15, color: 'var(--b-text-2)', lineHeight: 1.55 }}>{p.d}</div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        // ==========================================================================
+        // CalcFeatureSplit
+        // ==========================================================================
+
+        function CalcFeatureSplit({ id, feature, reverse, shotSrc, theme }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile(900);
+            return (
+                <section id={id} ref={reveal} style={{
+                    padding: isMobile ? '56px 20px' : '96px 48px',
+                    maxWidth: 1280, margin: '0 auto',
+                }}>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+                        gap: isMobile ? 40 : 96,
+                        alignItems: 'center',
+                        direction: reverse && !isMobile ? 'rtl' : 'ltr',
+                    }}>
+                        <div className="reveal" style={{ direction: 'ltr' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                                <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT, marginBottom: 0 }}>{feature.eyebrow}</div>
+                                <div style={{
+                                    width: 20, height: 20,
+                                    backgroundColor: CALC_ACCENT,
+                                    maskImage: `url(images-bricks-calc/${feature.icon})`,
+                                    WebkitMaskImage: `url(images-bricks-calc/${feature.icon})`,
+                                    maskSize: 'contain',
+                                    WebkitMaskSize: 'contain',
+                                    maskRepeat: 'no-repeat',
+                                    WebkitMaskRepeat: 'no-repeat'
+                                }} />
+                            </div>
+                            <h2 style={{
+                                fontSize: isMobile ? 36 : 52, fontWeight: 900, letterSpacing: '-0.035em',
+                                lineHeight: 1.02, margin: '0 0 20px', color: 'var(--b-text)',
+                            }}>
+                                {feature.title[0]}<br />
+                                <span style={{ color: 'var(--b-text-2)' }}>{feature.title[1]}</span>
+                            </h2>
+                            <p style={{ ...window.leadP, marginBottom: 28 }}>{feature.body}</p>
+                            {feature.bullets.length > 0 && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                                    {feature.bullets.map((b, i) => (
+                                        <window.Bullet key={i} accent={CALC_ACCENT} t={b.t} d={b.d} />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        <div className="reveal reveal-d1" style={{ direction: 'ltr' }}>
+                            <window.ScreenshotPhone src={shotSrc} alt={feature.title.join(' ')} accent={CALC_ACCENT} />
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function CalcAbout({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            return (
+                <section id="about" ref={reveal} style={{
+                    padding: isMobile ? '56px 20px' : '100px 48px',
+                    maxWidth: 1200, margin: '0 auto', textAlign: 'center',
+                }}>
+                    <div className="reveal" style={{
+                        maxWidth: 1104, margin: '0 auto',
+                        background: 'var(--b-bg-elevated)', borderRadius: 32,
+                        padding: isMobile ? 28 : 56,
+                        boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
+                        textAlign: 'center',
+                    }}>
+                        <div style={{ maxWidth: 840, margin: '0 auto' }}>
+                            <div style={{
+                                width: isMobile ? 110 : 144,
+                                height: isMobile ? 110 : 144,
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                margin: '0 auto 20px',
+                                border: '2px solid rgba(17, 24, 39, 0.08)',
+                                boxShadow: '0 12px 28px rgba(10, 16, 24, 0.12)',
+                                background: 'linear-gradient(180deg, #dfe7f4 0%, #b8c7dc 100%)',
+                            }}>
+                                <img
+                                    src="images/developer-picture.jpg"
+                                    alt="Developer portrait"
+                                    style={{
+                                        display: 'block',
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        objectPosition: 'center top',
+                                    }}
+                                />
+                            </div>
+                            <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT, textAlign: 'center' }}>{t.about.eyebrow}</div>
+                            <h2 style={{
+                                fontSize: isMobile ? 34 : 48, fontWeight: 900, letterSpacing: '-0.035em',
+                                lineHeight: 1.04, margin: '0 auto 24px', color: 'var(--b-text)',
+                                maxWidth: 860, textAlign: 'center',
+                            }}>{t.about.title}</h2>
+                            {t.about.paragraphs.map(paragraph => (
+                                <p key={paragraph} style={{
+                                    fontSize: 16, lineHeight: 1.7, color: 'var(--b-text-2)',
+                                    margin: '0 auto 14px', maxWidth: 760, textAlign: 'center',
+                                }}>{paragraph}</p>
+                            ))}
+                            <a
+                                href="https://x.com/freddyjdc"
+                                target="_blank"
+                                rel="me noopener noreferrer"
+                                aria-label="Follow me on X"
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 8,
+                                    marginTop: 8,
+                                    color: 'var(--b-text-2)',
+                                    fontSize: 15,
+                                    fontWeight: 600,
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3L12 14.6 5.6 22H2.4l7.3-8.4L1.9 2h6.4l4.5 6.8L18.9 2Zm-1.1 18h1.7L7.4 3.9H5.6L17.8 20Z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function CalcWhatsNew({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            return (
+                <section id="whats-new" ref={reveal} style={{
+                    padding: isMobile ? '32px 20px 56px' : '48px 48px 96px',
+                    maxWidth: 1200, margin: '0 auto',
+                }}>
+                    <div className="reveal" style={{
+                        textAlign: isMobile ? 'left' : 'center', padding: isMobile ? '36px 24px' : '52px 48px',
+                        borderRadius: 32, background: 'var(--b-bg-elevated)',
+                        boxShadow: 'var(--emboss-soft)', border: '1px solid var(--b-border)',
+                    }}>
+                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.whatsNew.eyebrow}</div>
+                        <h2 style={{
+                            fontSize: isMobile ? 32 : 44, fontWeight: 900, letterSpacing: '-0.035em',
+                            lineHeight: 1.05, margin: '0 0 12px', color: 'var(--b-text)',
+                        }}>{t.whatsNew.title}</h2>
+                        <p style={{
+                            fontSize: 16, color: 'var(--b-text-2)', lineHeight: 1.6,
+                            margin: '0 auto 24px', maxWidth: 540,
+                        }}>{t.whatsNew.body}</p>
+                        <a href={t.whatsNew.href} style={{
+                            display: 'inline-flex', alignItems: 'center',
+                            color: CALC_ACCENT, fontSize: 15, fontWeight: 600,
+                            textDecoration: 'none',
+                        }}>{t.whatsNew.link} <span aria-hidden="true" style={{ marginLeft: 6 }}>→</span></a>
+                    </div>
+                </section>
+            );
+        }
+
+        // ==========================================================================
+        // CalcTestimonials
+        // ==========================================================================
+
+        function CalcTestimonials({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            return (
+                <section ref={reveal} style={{
+                    padding: isMobile ? '56px 20px' : '120px 48px',
+                    maxWidth: 1280, margin: '0 auto',
+                }}>
+                    <div className="reveal" style={{ textAlign: 'center', marginBottom: isMobile ? 32 : 56 }}>
+                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.testimonials.eyebrow}</div>
+                        <p style={{ fontSize: 16, color: 'var(--b-text-2)', margin: 0, maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>{t.testimonials.sub}</p>
+                    </div>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+                        gap: isMobile ? 16 : 24,
+                    }}>
+                        {t.testimonials.cards.map((card, i) => (
+                            <article key={i} className={`reveal reveal-d${i + 1}`} style={{
+                                background: 'var(--b-bg-elevated)', borderRadius: 32,
+                                padding: isMobile ? 28 : 36,
+                                boxShadow: 'var(--emboss-soft)',
+                                border: '1px solid var(--b-border)',
+                                margin: 0,
+                                display: 'flex', flexDirection: 'column', gap: 20,
+                            }}>
+                                <div aria-hidden="true" style={{
+                                    width: 28, height: 28, borderRadius: 14,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    background: `${CALC_ACCENT}1a`, color: CALC_ACCENT,
+                                    fontSize: 13, fontWeight: 700,
+                                }}>{i + 1}</div>
+                                <p style={{
+                                    margin: 0, fontSize: isMobile ? 16 : 17, lineHeight: 1.5,
+                                    color: 'var(--b-text)', letterSpacing: '-0.005em', flex: 1,
+                                }}>{card.body}</p>
+                                <div style={{ fontSize: 14, color: 'var(--b-text-2)', lineHeight: 1.5 }}>
+                                    <div style={{ fontWeight: 600, color: 'var(--b-text)' }}>{card.title}</div>
+                                    <div>{card.subtitle}</div>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
+            );
+        }
+
+        // ==========================================================================
+        // CalcSocialFeed
+        // ==========================================================================
+
+        function CalcSocialFeed({ t, theme }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            const [embedStatus, setEmbedStatus] = React.useState('loading');
+            const instagramUrl = 'https://www.instagram.com/hellobricksapps/';
+            const instagramEmbedUrl = 'https://www.instagram.com/hellobricksapps/embed';
+
+            React.useEffect(() => {
+                setEmbedStatus('loading');
+
+                const fallbackTimer = window.setTimeout(() => {
+                    setEmbedStatus((status) => status === 'loading' ? 'blocked' : status);
+                }, 5000);
+
+                return () => {
+                    window.clearTimeout(fallbackTimer);
+                };
+            }, [theme]);
+
+            return (
+                <section ref={reveal} style={{
+                    padding: isMobile ? '56px 20px' : '96px 48px',
+                    maxWidth: 960, margin: '0 auto',
+                }}>
+                    <div className="reveal" style={{ textAlign: 'center', marginBottom: isMobile ? 28 : 40 }}>
+                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.social.eyebrow}</div>
+                        <h2 style={{
+                            fontSize: isMobile ? 32 : 44, fontWeight: 900, letterSpacing: '-0.035em',
+                            lineHeight: 1.05, margin: '0 0 12px', color: 'var(--b-text)',
+                        }}>{t.social.title}</h2>
+                        <p style={{
+                            fontSize: 16, color: 'var(--b-text-2)', lineHeight: 1.6, margin: 0,
+                            maxWidth: 540, marginLeft: 'auto', marginRight: 'auto',
+                        }}>{t.social.sub}</p>
+                    </div>
+
+                    <div className="reveal reveal-d1" style={{
+                        background: 'var(--b-bg-elevated)', borderRadius: 32,
+                        boxShadow: 'var(--emboss-soft)',
+                        border: '1px solid var(--b-border)',
+                        padding: isMobile ? 12 : 16,
+                        overflow: 'hidden',
+                    }}>
+                        <div key={theme} style={{
+                            minHeight: embedStatus === 'blocked' ? 0 : (isMobile ? 560 : 620),
+                            display: 'flex', justifyContent: 'center',
+                            position: 'relative',
+                        }}>
+                            {embedStatus !== 'blocked' && (
+                                <iframe
+                                    src={instagramEmbedUrl}
+                                    title={t.social.fallback}
+                                    loading="lazy"
+                                    onLoad={() => setEmbedStatus('ready')}
+                                    onError={() => setEmbedStatus('blocked')}
+                                    style={{
+                                        width: '100%',
+                                        maxWidth: 540,
+                                        minHeight: isMobile ? 560 : 620,
+                                        border: 'none',
+                                        borderRadius: 24,
+                                        background: 'var(--b-bg)',
+                                        opacity: embedStatus === 'ready' ? 1 : 0,
+                                        transition: 'opacity 0.25s ease',
+                                    }}
+                                />
+                            )}
+                        </div>
+                        {embedStatus === 'loading' && (
+                            <div style={{
+                                textAlign: 'center',
+                                padding: isMobile ? '28px 18px' : '36px 28px',
+                                fontSize: 14,
+                                color: 'var(--b-text-2)',
+                            }}>{t.social.loading}</div>
+                        )}
+                        {embedStatus === 'blocked' && (
+                            <div style={{
+                                textAlign: 'center',
+                                padding: isMobile ? '28px 18px' : '36px 28px',
+                            }}>
+                                <p style={{
+                                    fontSize: 15, lineHeight: 1.6, color: 'var(--b-text-2)',
+                                    margin: '0 auto 18px', maxWidth: 520,
+                                }}>{t.social.unavailable}</p>
+                                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" style={{
+                                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                                    minHeight: 40, padding: '0 18px', borderRadius: 999,
+                                    background: CALC_ACCENT, color: '#fff', fontSize: 14,
+                                    fontWeight: 600, textDecoration: 'none',
+                                }}>{t.social.action}</a>
+                            </div>
+                        )}
+                    </div>
+
+                    {embedStatus === 'ready' && (
+                        <div className="reveal reveal-d2" style={{ textAlign: 'center', marginTop: 20 }}>
+                            <a href={instagramUrl} target="_blank" rel="noopener noreferrer" style={{
+                                fontSize: 14, fontWeight: 600, color: CALC_ACCENT, textDecoration: 'none',
+                            }}>{t.social.action}</a>
+                        </div>
+                    )}
+                </section>
+            );
+        }
+
+        // ==========================================================================
+        // CalcFAQ
+        // ==========================================================================
+
+        function CalcFAQ({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            const [open, setOpen] = React.useState(0);
+            return (
+                <section id="faq" ref={reveal} style={{
+                    padding: isMobile ? '56px 20px' : '120px 48px',
+                    maxWidth: 1200, margin: '0 auto',
+                }}>
+                    <div className="reveal" style={{ marginBottom: isMobile ? 32 : 48 }}>
+                        {t.faq.eyebrow && <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.faq.eyebrow}</div>}
+                        <h2 style={{
+                            fontSize: isMobile ? 36 : 52, fontWeight: 900, letterSpacing: '-0.035em',
+                            lineHeight: 1.02, margin: 0, color: 'var(--b-text)',
+                        }}>{t.faq.title}</h2>
+                    </div>
+                    <div className="reveal reveal-d1" style={{
+                        background: 'var(--b-bg-elevated)', borderRadius: 32,
+                        boxShadow: 'var(--emboss-soft)',
+                        border: '1px solid var(--b-border)',
+                        overflow: 'hidden',
+                    }}>
+                        {t.faq.items.map((item, i) => {
+                            const isOpen = open === i;
+                            return (
+                                <div key={i} style={{
+                                    borderTop: i === 0 ? 'none' : '1px solid var(--b-border)',
+                                }}>
+                                    <button
+                                        id={`faq-question-${i}`}
+                                        aria-expanded={isOpen}
+                                        aria-controls={`faq-answer-${i}`}
+                                        onClick={() => setOpen(isOpen ? -1 : i)}
+                                        style={{
+                                            width: '100%', textAlign: 'left', background: 'transparent',
+                                            border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                                            padding: isMobile ? '20px 24px' : '24px 32px',
+                                            display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16,
+                                            fontSize: isMobile ? 16 : 17, fontWeight: 600, color: 'var(--b-text)',
+                                            letterSpacing: '-0.01em',
+                                        }}
+                                    >
+                                        <span>{item.q}</span>
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{
+                                            flexShrink: 0,
+                                            transform: isOpen ? 'rotate(180deg)' : 'rotate(0)',
+                                            transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)',
+                                        }}>
+                                            <path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </button>
+                                    <div
+                                        id={`faq-answer-${i}`}
+                                        role="region"
+                                        aria-labelledby={`faq-question-${i}`}
+                                        aria-hidden={!isOpen}
+                                        style={{
+                                        maxHeight: isOpen ? 400 : 0,
+                                        overflow: 'hidden',
+                                        transition: 'max-height 0.35s cubic-bezier(0.16,1,0.3,1)',
+                                    }}>
+                                        <div style={{
+                                            padding: isMobile ? '0 24px 22px' : '0 32px 28px',
+                                            fontSize: 15, lineHeight: 1.6, color: 'var(--b-text-2)',
+                                            maxWidth: 720,
+                                        }}>
+                                            {item.a.map((paragraph, paragraphIndex) => (
+                                                <p key={paragraphIndex} style={{ margin: paragraphIndex === 0 ? 0 : '12px 0 0' }}>{paragraph}</p>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </section>
+            );
+        }
+
+        // ==========================================================================
+        // CalcEcosystem
+        // ==========================================================================
+
+        function CalcEcosystem({ t }) {
+            const reveal = window.useReveal();
+            const isMobile = window.useIsMobile();
+            return (
+                <section id="ecosystem" ref={reveal} style={{
+                    padding: isMobile ? '56px 20px' : '120px 48px',
+                    maxWidth: 1200, margin: '0 auto',
+                }}>
+                    <div className="reveal" style={{ textAlign: 'center', marginBottom: isMobile ? 32 : 48 }}>
+                        <div style={{ ...window.eyebrowStyle, color: CALC_ACCENT }}>{t.ecosystem.eyebrow}</div>
+                        <h2 style={{
+                            fontSize: isMobile ? 32 : 44, fontWeight: 900, letterSpacing: '-0.035em',
+                            lineHeight: 1.05, margin: '0 0 12px', color: 'var(--b-text)',
+                        }}>{t.ecosystem.title}</h2>
+                        <p style={{ fontSize: 16, color: 'var(--b-text-2)', margin: 0, maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>{t.ecosystem.sub}</p>
+                    </div>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+                        gap: isMobile ? 16 : 20,
+                    }}>
+                        {t.ecosystem.items.map((it, i) => {
+                            const accent = window.ACCENTS[it.id].light;
+                            return (
+                                <a key={i} href={it.href} className={`reveal reveal-d${i + 1}`} style={{
+                                    background: 'var(--b-bg-elevated)', borderRadius: 28,
+                                    padding: isMobile ? 24 : 32,
+                                    boxShadow: 'var(--emboss-soft)',
+                                    border: `1px solid ${it.active ? accent + '55' : 'var(--b-border)'}`,
+                                    display: 'flex', flexDirection: 'column', gap: 14,
+                                    textDecoration: 'none',
+                                    transition: 'transform 0.2s ease',
+                                    position: 'relative',
+                                }}
+                                    onMouseEnter={(e) => { if (!it.active) e.currentTarget.style.transform = 'translateY(-3px)'; }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                        <div style={{ width: 12, height: 12, borderRadius: 6, background: accent }} />
+                                        <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--b-text)', letterSpacing: '-0.01em' }}>{it.name}</div>
+                                        {it.active && (
+                                            <span style={{
+                                                marginLeft: 'auto', fontSize: 11, fontWeight: 700,
+                                                color: accent, letterSpacing: '0.08em', textTransform: 'uppercase',
+                                            }}>{t.ecosystem.activeLabel}</span>
+                                        )}
+                                    </div>
+                                    <div style={{ fontSize: 15, color: 'var(--b-text-2)', lineHeight: 1.5 }}>{it.tagline}</div>
+                                </a>
+                            );
+                        })}
+                    </div>
+                </section>
+            );
+        }
+
+        // ==========================================================================
+        // App
+        // ==========================================================================
+
+        const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+            "lang": "en",
+            "theme": "auto"
+        }/*EDITMODE-END*/;
+
+        function getInitialLang() {
+            const params = new URLSearchParams(window.location.search);
+            const requested = params.get('lang');
+            return requested === 'es' ? 'es' : TWEAK_DEFAULTS.lang;
+        }
+
+        function setMetaContent(selector, content) {
+            const el = document.querySelector(selector);
+            if (el) el.setAttribute('content', content);
+        }
+
+        function App() {
+            const [lang, setLang] = React.useState(getInitialLang);
+            const [theme, setTheme] = React.useState(TWEAK_DEFAULTS.theme);
+
+            React.useEffect(() => {
+                const mq = window.matchMedia('(prefers-color-scheme: dark)');
+                const apply = () => {
+                    const effective = theme === 'auto' ? (mq.matches ? 'dark' : 'light') : theme;
+                    document.documentElement.setAttribute('data-theme', effective);
+                };
+                apply();
+                if (theme === 'auto') {
+                    mq.addEventListener('change', apply);
+                    return () => mq.removeEventListener('change', apply);
+                }
+            }, [theme]);
+
+            React.useEffect(() => {
+                document.documentElement.setAttribute('lang', lang === 'es' ? 'es-419' : 'en');
+                const metadata = lang === 'es'
+                    ? {
+                        title: 'Bricks Calc — Calculadora y planificación de créditos hipotecarios',
+                        description: 'Estima costos hipotecarios, explora tu capacidad de compra, compara créditos y planifica pagos extra con Bricks Calc. Empieza gratis en iPhone, iPad, Mac y Apple Vision Pro.',
+                    }
+                    : {
+                        title: 'Bricks Calc — Home planning, made easier',
+                        description: 'Plan a home purchase with Bricks Calc. Estimate your total monthly, compare options, and explore what works for your budget.',
+                    };
+                document.title = metadata.title;
+                setMetaContent('meta[name="description"]', metadata.description);
+                setMetaContent('meta[property="og:title"]', metadata.title);
+                setMetaContent('meta[property="og:description"]', metadata.description);
+                setMetaContent('meta[name="twitter:title"]', metadata.title);
+                setMetaContent('meta[name="twitter:description"]', metadata.description);
+            }, [lang]);
+
+            const effectiveTheme = window.useTheme();
+            const t = window.COPY[lang] || window.COPY.en;
+            const calcT = CALC_COPY[lang] || CALC_COPY.en;
+
+            // Note: feature images are language-specific. Using standard ones we know exist from images folder.
+            const shot1 = `images-bricks-calc/screenshot-precision-section-${lang}-light.png`;
+            const shotCompare = `images-bricks-calc/screenshot-compare-section-${lang}-light.png`;
+            const shotSaved = `images-bricks-calc/screenshot-share-section-${lang}-light.png`;
+
+            return (
+                <div id="top" style={{ background: 'var(--b-bg)', minHeight: '100vh', overflow: 'hidden' }}>
+                    <window.Header
+                        t={t}
+                        lang={lang}
+                        cta={{
+                            label: t.nav.download,
+                            href: 'https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_header_cta&mt=8'
+                        }}
+                    />
+
+                    <main>
+                        <CalcHero t={calcT} lang={lang} />
+                        <CalcIntro t={calcT} />
+                        <CalcFeatureSplit id="monthly-cost" feature={calcT.feature1} reverse={false} shotSrc={shot1} theme={effectiveTheme} />
+                        <CalcFeatureSplit id="compare-options" feature={calcT.feature2} reverse={true} shotSrc={shotCompare} theme={effectiveTheme} />
+                        <CalcFeatureSplit id="saved-plans" feature={calcT.feature_saved} reverse={false} shotSrc={shotSaved} theme={effectiveTheme} />
+                        <CalcPillars t={calcT} theme={effectiveTheme} />
+                        <CalcStats t={calcT} />
+                        <window.DownloadCTA t={t} variant="product" productCopy={calcT.download} id="pricing" />
+                        <CalcAbout t={calcT} />
+                        <CalcWhatsNew t={calcT} />
+                        <CalcFAQ t={calcT} />
+                        <window.DownloadCTA t={t} variant="product" productCopy={calcT.finalCta} id="final-cta" />
+                    </main>
+
+                    <window.Footer t={t} lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
+
+                    {/* Tweaks Menu (hidden in production unless activated) */}
+                    <window.useTweaks lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+
+    </script>
+</body>
+
+</html>
