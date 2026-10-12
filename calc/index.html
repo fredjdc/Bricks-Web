@@ -123,13 +123,13 @@
     </script>
 
     <!-- Favicon & Styles -->
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16" />
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" href="favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <meta name="theme-color" content="#007AFF" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
 
     <style>
         .calc-site-header {
@@ -173,7 +173,7 @@
 
         .calc-hero::before {
             z-index: 0;
-            background: url('/images-bricks-calc/hero.jpg') center center / cover no-repeat;
+            background: url('images-bricks-calc/hero.jpg') center center / cover no-repeat;
             -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
             mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
         }
@@ -702,8 +702,8 @@
         window.ThemeLogo = function ThemeLogo({ height = 24 }) {
             return (
                 <React.Fragment>
-                    <img src="/images/bricks-dark-logo.svg" alt="Bricks" className="logo-light-theme" style={{ height, margin: 0 }} />
-                    <img src="/images/bricks-light-logo.svg" alt="Bricks" className="logo-dark-theme" style={{ height, margin: 0 }} />
+                    <img src="images/bricks-dark-logo.svg" alt="Bricks" className="logo-light-theme" style={{ height, margin: 0 }} />
+                    <img src="images/bricks-light-logo.svg" alt="Bricks" className="logo-dark-theme" style={{ height, margin: 0 }} />
                 </React.Fragment>
             );
         };
@@ -728,7 +728,7 @@
                 <header className="calc-site-header">
                     <nav className="calc-site-nav" aria-label={labels.navigation}>
                         <a className="calc-site-brand" href="#top" aria-label={labels.home}>
-                            <img src="/calc/assets/app-store/app-icon.png" width="38" height="38" alt="" />
+                            <img src="calc/assets/app-store/app-icon.png" width="38" height="38" alt="" />
                             <span>Bricks Calc</span>
                         </a>
                         <div className="calc-site-nav-links">
@@ -745,7 +745,7 @@
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <img src={isDark ? '/images/apple-icon-black.svg' : '/images/apple-icon-white.svg'} alt="" aria-hidden="true" />
+                                <img src={isDark ? 'images/apple-icon-black.svg' : 'images/apple-icon-white.svg'} alt="" aria-hidden="true" />
                                 {cta.label}
                             </a>
                         </div>
@@ -942,7 +942,7 @@
                     }}
                 >
                     <img
-                        src={showWhiteIcon ? '/images/apple-icon-white.svg' : '/images/apple-icon-black.svg'}
+                        src={showWhiteIcon ? 'images/apple-icon-white.svg' : 'images/apple-icon-black.svg'}
                         alt=""
                         aria-hidden="true"
                         style={{ width: 18, height: 18, flex: '0 0 auto' }}
@@ -1507,8 +1507,8 @@
         function CalcHero({ t, lang }) {
             const reveal = window.useReveal();
             const isMobile = window.useIsMobile();
-            const videoSrc = `/images-bricks-calc/hero-video-${lang}.mp4`;
-            const posterSrc = `/images-bricks-calc/hero-video-img-${lang}.png`;
+            const videoSrc = `images-bricks-calc/hero-video-${lang}.mp4`;
+            const posterSrc = `images-bricks-calc/hero-video-img-${lang}.png`;
 
             return (
                 <section className="calc-hero" ref={reveal} style={{
@@ -1631,9 +1631,9 @@
             }, []);
 
             const phoneData = [
-                { src: '/images-bricks-calc/numbers-section-left.png', width: 224, x: -147, y: 18 },
-                { src: '/images-bricks-calc/numbers-section-center.png', width: 266, x: 0, y: 8 },
-                { src: '/images-bricks-calc/numbers-section-right.png', width: 224, x: 147, y: 18 },
+                { src: 'images-bricks-calc/numbers-section-left.png', width: 224, x: -147, y: 18 },
+                { src: 'images-bricks-calc/numbers-section-center.png', width: 266, x: 0, y: 8 },
+                { src: 'images-bricks-calc/numbers-section-right.png', width: 224, x: 147, y: 18 },
             ];
 
             return (
@@ -1797,8 +1797,8 @@
                                     <div style={{
                                         width: 22, height: 22,
                                         backgroundColor: CALC_ACCENT,
-                                        maskImage: `url(/images-bricks-calc/${p.icon})`,
-                                        WebkitMaskImage: `url(/images-bricks-calc/${p.icon})`,
+                                        maskImage: `url(images-bricks-calc/${p.icon})`,
+                                        WebkitMaskImage: `url(images-bricks-calc/${p.icon})`,
                                         maskSize: 'contain',
                                         WebkitMaskSize: 'contain',
                                         maskRepeat: 'no-repeat',
@@ -1839,8 +1839,8 @@
                                 <div style={{
                                     width: 20, height: 20,
                                     backgroundColor: CALC_ACCENT,
-                                    maskImage: `url(/images-bricks-calc/${feature.icon})`,
-                                    WebkitMaskImage: `url(/images-bricks-calc/${feature.icon})`,
+                                    maskImage: `url(images-bricks-calc/${feature.icon})`,
+                                    WebkitMaskImage: `url(images-bricks-calc/${feature.icon})`,
                                     maskSize: 'contain',
                                     WebkitMaskSize: 'contain',
                                     maskRepeat: 'no-repeat',
@@ -1898,7 +1898,7 @@
                                 background: 'linear-gradient(180deg, #dfe7f4 0%, #b8c7dc 100%)',
                             }}>
                                 <img
-                                    src="/images/developer-picture.jpg"
+                                    src="images/developer-picture.jpg"
                                     alt="Developer portrait"
                                     style={{
                                         display: 'block',
@@ -2344,9 +2344,9 @@
             const calcT = CALC_COPY[lang] || CALC_COPY.en;
 
             // Note: feature images are language-specific. Using standard ones we know exist from images folder.
-            const shot1 = `/images-bricks-calc/screenshot-precision-section-${lang}-light.png`;
-            const shotCompare = `/images-bricks-calc/screenshot-compare-section-${lang}-light.png`;
-            const shotSaved = `/images-bricks-calc/screenshot-share-section-${lang}-light.png`;
+            const shot1 = `images-bricks-calc/screenshot-precision-section-${lang}-light.png`;
+            const shotCompare = `images-bricks-calc/screenshot-compare-section-${lang}-light.png`;
+            const shotSaved = `images-bricks-calc/screenshot-share-section-${lang}-light.png`;
 
             return (
                 <div id="top" style={{ background: 'var(--b-bg)', minHeight: '100vh', overflow: 'hidden' }}>
