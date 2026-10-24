@@ -371,3 +371,5 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 @media (prefers-reduced-motion: reduce) {
   .apes-landing .workflow-media, .apes-landing .faq > h2 { position: static; }
 }
+
+.apes-landing .final-panel > .trial-details { margin-top: 24px; }
