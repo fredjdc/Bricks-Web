@@ -16,7 +16,7 @@ assert.match(html, /<span>App Preview Editor<\/span>/);
 assert.doesNotMatch(html, /<form|beta|TestFlight|list-manage|hero-email|drops in extra clips to cover more features/i);
 assert.doesNotMatch(script, /signup|mailchimp|FormData|beta-cta/i);
 assert.match(html, /Built for App Store formats\./);
-assert.match(html, /APEs checks whether your video exceeds Apple’s applicable duration limit\./);
+assert.match(html, /APEs checks video duration and format\. Review the results, then trim or adjust your video on the timeline\./);
 const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
 const faq = schema["@graph"].find((item) => item["@type"] === "FAQPage");
 for (const question of faq.mainEntity) {
@@ -38,14 +38,10 @@ assert.doesNotMatch(html, /<s>|<del>|50%|30.days|limited.time|offer ends|resubsc
 
 assert.equal((html.match(/aria-label="Download for Mac"/g) ?? []).length, 3);
 
-assert.match(html, /Full editing, including Scene Clips\./);
-assert.match(html, /Full-length H\.264 drafts and PNG images with a static “Made with APEs” watermark in the lower-right corner\./);
-assert.match(html, /Clean H\.264 and ProRes video exports, clean PNG images, and direct App Store Connect upload\./);
 assert.match(html, /Your projects remain available to save and edit with Free after the trial\./);
 
 assert.match(html, /It ends without an automatic charge\./);
 assert.match(html, /The trial is managed locally on each Mac\./);
-assert.match(html, /static “Made with APEs” watermark in the lower-right corner\./);
 
 const pricing = html.match(/<section\b[^>]*\bid="download"[^>]*>[\s\S]*?<\/section>/)?.[0];
 assert.ok(pricing, "The pricing section must be present");
@@ -56,5 +52,23 @@ for (const question of faq.mainEntity) {
   const copy = `${question.name} ${question.acceptedAnswer.text}`.replaceAll("Apple Vision Pro", "");
   assert.doesNotMatch(copy, planLanguage, "FAQ copy and structured answers must remain plan-free");
 }
-assert.match(pricing, /static “Made with APEs” watermark in the lower-right corner\./);
 assert.match(pricing, /Start the 7 day Pro trial in the app/);
+
+const comparison = pricing.match(/<table class="plan-comparison">([\s\S]*?)<\/table>/)?.[1];
+assert.ok(comparison, "Pricing must include a semantic comparison table");
+assert.match(comparison, /<caption>Compare Free and Pro<\/caption>/);
+assert.equal((comparison.match(/scope="col"/g) ?? []).length, 3);
+const cells = (cell) => cell.match(/aria-label="([^"]+)"/)?.[1] ?? cell.replace(/&shy;|\u00ad/g, "").replace(/<[^>]*>/g, "").trim();
+const rows = [...comparison.matchAll(/<tr><th scope="row">(.*?)<\/th><td[^>]*>(.*?)<\/td><td[^>]*>(.*?)<\/td><\/tr>/g)];
+assert.deepEqual(rows.map(([, feature, free, pro]) => [feature, cells(free), cells(pro)]), [
+  ["All editing tools, including Scene Clips", "Included", "Included"],
+  ["Save and edit projects", "Included", "Included"],
+  ["H.264 and PNG exports", "Watermarked", "No watermark"],
+  ["ProRes exports", "Not included", "Included"],
+  ["Direct App Store Connect upload", "Not included", "Included"],
+]);
+assert.match(html, /Show your app in action in App Store search ads\./);
+assert.match(html, /Showcase your next event\./);
+assert.match(html, /Create videos for your Event Card and Event Details Page\./);
+assert.match(html, /Upload your finished videos directly to App Store Connect\./);
+assert.doesNotMatch(html, /supported App Store search placements|does not translate|guarantee (?:Apple’s )?approval|Uploading (?:doesn’t|does not) publish|Some uploads require|Export them to a folder/i);

@@ -171,10 +171,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .final-panel { padding: 80px 20px; border: 1px solid var(--border); border-radius: var(--radius-large); background: color-mix(in srgb, var(--surface) 94%, transparent); text-align: center; box-shadow: var(--shadow); }
 .final-panel > img { width: 112px; height: 112px; margin: 0 auto 28px; border-radius: 26px; }
 .final-panel > h2 { max-width: 860px; margin-inline: auto; }
-.plan-benefits { display: grid; gap: 24px; max-width: 760px; margin: 32px auto 0; text-align: left; }
-.plan-benefits p { margin: 0; color: var(--text-secondary); font-size: 1rem; }
-.plan-benefits strong { display: block; margin-bottom: 8px; color: var(--text); }
-@media (min-width: 560px) { .plan-benefits { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; } }
 .pricing-options { display: grid; gap: 0; max-width: 760px; margin: 36px auto 12px; text-align: left; }
 .pricing-options > div { display: grid; grid-template-columns: auto auto; align-items: baseline; justify-content: space-between; gap: 8px 16px; padding: 16px 0; border-top: 1px solid var(--border); }
 .pricing-options dt { color: var(--text-secondary); font-size: 1rem; }
@@ -325,9 +321,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .faq details p { line-height: 1.7; }
 .apes-landing .final-panel { padding: 56px 24px; box-shadow: var(--soft-shadow); }
 .apes-landing .final-panel > img { width: 88px; height: 88px; border-radius: 20px; }
-.apes-landing .plan-benefits { gap: 16px; }
-.apes-landing .plan-benefits p { padding: 24px; border-radius: 20px; background: var(--surface-muted); line-height: 1.65; }
-.apes-landing .plan-benefits strong { font-size: 1.1rem; }
 .apes-landing .pricing-options { margin-top: 24px; }
 .apes-landing .footer { margin-top: 24px; }
 @media (min-width: 900px) {
@@ -362,8 +355,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .result-section { gap: 40px; }
   .apes-landing .workflow > .shell { padding-inline: 20px; }
   .apes-landing .workflow-heading { margin-bottom: 40px; }
-  .apes-landing .final-panel { padding-inline: 20px; }
-  .apes-landing .plan-benefits p { padding: 20px; }
+  .apes-landing .final-panel { padding-inline: 12px; }
 }
 @media (prefers-color-scheme: dark) {
   .apes-landing { --bg: #0b0f14; --surface: #12181f; --surface-muted: #1c252e; --border: rgba(242,245,247,.12); --detail: #65cff3; --soft-shadow: 4px 6px 16px #05080b,-2px -2px 6px #161d25; --shadow: 12px 16px 40px rgba(0,0,0,.35),-4px -4px 16px rgba(22,29,37,.6); }
@@ -373,3 +365,22 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 .apes-landing .final-panel > .trial-details { margin-top: 24px; }
+
+/* A standard comparison table, with the same surfaces and type as the page. */
+.apes-landing .plan-comparison { width: 100%; max-width: 760px; margin: 32px auto 0; border-collapse: collapse; table-layout: fixed; text-align: left; font-size: 1rem; line-height: 1.5; }
+.apes-landing .plan-comparison caption { padding-bottom: 16px; text-align: left; color: var(--text); font-weight: 650; }
+.apes-landing .plan-comparison col:first-child { width: 50%; }
+.apes-landing .plan-comparison th, .apes-landing .plan-comparison td { padding: 18px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.apes-landing .plan-comparison thead th { background: var(--surface-muted); font-weight: 650; }
+.apes-landing .plan-comparison tbody th { font-weight: 500; }
+.apes-landing .plan-comparison :is(td, thead th:not(:first-child)) { text-align: center; }
+.apes-landing .plan-comparison td { color: var(--text-secondary); overflow-wrap: anywhere; hyphens: auto; }
+.apes-landing .plan-comparison [role="img"] { font-size: 1.15rem; font-weight: 650; }
+.apes-landing .plan-comparison .plan-included { color: var(--detail); }
+@media (max-width: 559px) {
+  .apes-landing .plan-comparison { font-size: 0.8125rem; }
+  .apes-landing .plan-comparison col:first-child { width: 38%; }
+  .apes-landing .plan-comparison th, .apes-landing .plan-comparison td { padding: 14px 4px; }
+}
+
+.apes-landing .plan-comparison td[aria-label="Watermarked"] { hyphens: manual; }

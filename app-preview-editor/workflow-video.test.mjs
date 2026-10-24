@@ -13,8 +13,8 @@ assert.doesNotMatch(html, /hero-visual|hero-parallax/);
 assert.doesNotMatch(html, /proof-strip|proof-grid/);
 assert.doesNotMatch(styles, /proof-strip|proof-grid/);
 assert.match(html, /<source src="assets\/hero-demo\.mp4" type="video\/mp4">[\s\S]*?<\/section>\s*<section class="result-section section shell"/);
-assert.match(html, /<h2 id="result-title">See what your app could look like\.<\/h2>/);
-assert.match(html, /Bring your screenshots, recordings, text, and audio together in an App Preview like this one\./);
+assert.match(html, /<h2 id="result-title">See what you can create for the App Store\.<\/h2>/);
+assert.match(html, /From App Previews to promotional videos, give your app a polished presentation that shows what makes it worth a closer look\./);
 assert.match(html, /<video id="finished-preview-video"[^>]*poster="assets\/heroResultiphone\.png"[\s\S]*?<source src="assets\/heroResultiphone\.mp4" type="video\/mp4">/);
 
 
