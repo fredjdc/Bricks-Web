@@ -25,7 +25,7 @@
 
   <link rel="icon" href="AppIcon.png" type="image/png">
   <link rel="apple-touch-icon" href="AppIcon.png">
-  <link rel="stylesheet" href="styles.css?v=20261024-8">
+  <link rel="stylesheet" href="styles.css?v=20261024-11">
   <style>
     .hero h1 { max-width: 14ch; white-space: normal; font-size: clamp(2.5rem, 9vw, 7.25rem); }
     .hero h1 .hero-word { display: block; }
@@ -85,20 +85,11 @@
       <div class="result-media reveal">
         <div class="result-video-frame">
           <video id="finished-preview-video" width="886" height="1920" poster="assets/heroResultiphone.png" preload="metadata" muted loop playsinline data-autoplay-video role="button" tabindex="0" aria-label="Play finished App Preview">
-            <source src="assets/heroResultiphone.mp4" type="video/mp4">
+            <source src="assets/heroResult.mp4" type="video/mp4">
           </video>
         </div>
       </div>
     </section>
-
-    <aside class="founder-note shell reveal" aria-label="From the developer">
-      <div class="founder-panel">
-        <img src="assets/freddy-jimenez.jpg" width="144" height="144" alt="Freddy Jimenez, the developer of APEs" loading="lazy" decoding="async">
-        <h2>From one app developer to another.</h2>
-        <p>I’m Freddy, an Apple developer. I built App Preview Editor Studio, or APEs, because updating my apps shouldn’t mean starting their previews from scratch or needing advanced and expensive video editing software.</p>
-        <a class="founder-link" href="https://x.com/freddyjdc" target="_blank" rel="me noopener noreferrer">@freddyjdc on X</a>
-      </div>
-    </aside>
 
     <section class="workflow section" id="workflow" aria-labelledby="workflow-title">
       <div class="shell">
@@ -224,24 +215,21 @@
       </div>
     </section>
 
-    <section class="faq section shell" id="faq" aria-labelledby="faq-title">
-      <h2 id="faq-title" class="section-heading reveal">Before you get started.</h2>
-      <div class="faq-list reveal">
-        <details name="faq"><summary>Do I need a separate account?</summary><div class="faq-answer"><div><p>You can create and edit projects without a separate APEs account.</p></div></div></details>
-        <details name="faq"><summary>Which devices and languages can I create previews for?</summary><div class="faq-answer"><div><p>APEs runs on Mac. Prepare App Previews for iPhone, iPad, Mac, and Apple Vision Pro, and keep your language versions together in one project.</p></div></div></details>
-        <details name="faq"><summary>What does APEs check before export?</summary><div class="faq-answer"><div><p>APEs checks video duration and format. Review the results, then trim or adjust your video on the timeline.</p></div></div></details>
-        <details name="faq"><summary>Can I save files locally?</summary><div class="faq-answer"><div><p>Yes. Save videos as H.264 MP4 or ProRes 422 HQ MOV files, and export individual frames as PNG images.</p></div></div></details>
-        <details name="faq"><summary>What do I need for direct upload?</summary><div class="faq-answer"><div><p>Direct upload connects to your App Store Connect account using your API credentials.</p></div></div></details>
-        <details name="faq"><summary>Where are my projects and credentials stored?</summary><div class="faq-answer"><div><p>Projects are saved as files on your Mac. Your App Store Connect API credentials are stored in macOS Keychain.</p></div></div></details>
-        <details name="faq"><summary>How do I make my first preview?</summary><div class="faq-answer"><div><p>Start with the <a href="guides/getting-started/index.html">getting-started guide</a> for an import-to-export walkthrough.</p></div></div></details>
-      </div>
-    </section>
 
-    <section class="final-cta section shell" id="download" aria-labelledby="final-title">
-      <div class="final-panel reveal">
-        <img src="AppIcon.png" width="144" height="144" alt="">
-        <h2 id="final-title">You built it. Show it off.</h2>
-        <table class="plan-comparison">
+
+    <section class="pricing section shell" id="download" aria-labelledby="pricing-title">
+      <div class="pricing-block reveal">
+        <h2 id="pricing-title">Introductory Price</h2>
+        <dl class="pricing-options" aria-label="Pro plans and prices in US dollars">
+          <div><dt>Monthly <span class="price-saving">Save 29%</span></dt><dd>$4.99<span>/month</span></dd><dd class="planned-price"><s>$6.99/month</s></dd></div>
+          <div><dt>Yearly <span class="price-saving">Save 33%</span></dt><dd>$39.99<span>/year</span></dd><dd class="planned-price"><s>$59.99/year</s></dd></div>
+          <div><dt>Lifetime</dt><dd>$149.99</dd></div>
+        </dl>
+        <p class="pricing-note">Introductory pricing applies to subscriptions. All prices in USD.</p>
+      </div>
+      <div class="pricing-block reveal">
+        <h2 id="included-title">What’s included</h2>
+        <table class="plan-comparison" aria-labelledby="included-title">
           <colgroup><col><col><col></colgroup>
           <thead><tr><th scope="col">Feature</th><th scope="col">Free</th><th scope="col">Pro</th></tr></thead>
           <tbody>
@@ -252,17 +240,6 @@
             <tr><th scope="row">Direct App Store Connect upload</th><td><span role="img" aria-label="Not included">—</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
           </tbody>
         </table>
-        <p class="pricing-intro">Introductory Pricing</p>
-        <dl class="pricing-options" aria-label="Pro plans and prices in US dollars">
-          <div><dt>Monthly</dt><dd>$4.99<span>/month</span></dd><dd class="planned-price">Regular: $6.99/month</dd></div>
-          <div><dt>Yearly</dt><dd>$39.99<span>/year</span></dd><dd class="planned-price">Regular: $59.99/year</dd></div>
-          <div><dt>Lifetime</dt><dd>$149.99</dd></div>
-        </dl>
-        <p class="pricing-note">Introductory pricing applies to subscriptions. All prices in USD.</p>
-        <a class="button download-button" href="https://apps.apple.com/us/app/app-preview-editor-studio/id6785711605" aria-label="Download for Mac">
-          <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
-          <span>Download</span>
-        </a>
       </div>
 
       <script type="application/ld+json">
@@ -366,6 +343,39 @@
 }
       </script>
     </section>
+
+    <section class="faq section shell" id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title" class="section-heading reveal">Before you get started.</h2>
+      <div class="faq-list reveal">
+        <details name="faq"><summary>Do I need a separate account?</summary><div class="faq-answer"><div><p>You can create and edit projects without a separate APEs account.</p></div></div></details>
+        <details name="faq"><summary>Which devices and languages can I create previews for?</summary><div class="faq-answer"><div><p>APEs runs on Mac. Prepare App Previews for iPhone, iPad, Mac, and Apple Vision Pro, and keep your language versions together in one project.</p></div></div></details>
+        <details name="faq"><summary>What does APEs check before export?</summary><div class="faq-answer"><div><p>APEs checks video duration and format. Review the results, then trim or adjust your video on the timeline.</p></div></div></details>
+        <details name="faq"><summary>Can I save files locally?</summary><div class="faq-answer"><div><p>Yes. Save videos as H.264 MP4 or ProRes 422 HQ MOV files, and export individual frames as PNG images.</p></div></div></details>
+        <details name="faq"><summary>What do I need for direct upload?</summary><div class="faq-answer"><div><p>Direct upload connects to your App Store Connect account using your API credentials.</p></div></div></details>
+        <details name="faq"><summary>Where are my projects and credentials stored?</summary><div class="faq-answer"><div><p>Projects are saved as files on your Mac. Your App Store Connect API credentials are stored in macOS Keychain.</p></div></div></details>
+        <details name="faq"><summary>How do I make my first preview?</summary><div class="faq-answer"><div><p>Start with the <a href="guides/getting-started/index.html">getting-started guide</a> for an import-to-export walkthrough.</p></div></div></details>
+      </div>
+    </section>
+
+    <section class="final-cta section shell" aria-labelledby="final-title">
+      <div class="final-panel reveal">
+        <img src="AppIcon.png" width="144" height="144" alt="">
+        <h2 id="final-title">You built it. Show it off.</h2>
+        <a class="button download-button" href="https://apps.apple.com/us/app/app-preview-editor-studio/id6785711605" aria-label="Download for Mac">
+          <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
+          <span>Download</span>
+        </a>
+      </div>
+    </section>
+
+    <aside class="founder-note shell reveal" aria-label="From the developer">
+      <div class="founder-panel">
+        <img src="assets/freddy-jimenez.jpg" width="144" height="144" alt="Freddy Jimenez, the developer of APEs" loading="lazy" decoding="async">
+        <h2>From one app developer to another.</h2>
+        <p>I’m Freddy, an Apple developer. I built App Preview Editor Studio, or APEs, because updating my apps shouldn’t mean starting their previews from scratch or needing advanced and expensive video editing software.</p>
+        <a class="founder-link" href="https://x.com/freddyjdc" target="_blank" rel="me noopener noreferrer">@freddyjdc on X</a>
+      </div>
+    </aside>
   </main>
 
   <footer class="footer shell">

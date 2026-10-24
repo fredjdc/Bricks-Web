@@ -31,10 +31,10 @@ for (const price of ["$4.99", "$39.99", "$6.99", "$59.99", "$149.99"]) assert.ok
 assert.doesNotMatch(html, /10.second|auto.renew|billed after|Scene Clips.*Pro.only/i);
 
 assert.match(html, /Introductory pricing/i);
-assert.match(html, /Regular: \$6\.99\/month/);
-assert.match(html, /Regular: \$59\.99\/year/);
+assert.match(html, /Regular: <s>\$6\.99\/month<\/s>/);
+assert.match(html, /Regular: <s>\$59\.99\/year<\/s>/);
 assert.doesNotMatch(html, /Early subscribers keep their lower renewal price|Planned regular price:/);
-assert.doesNotMatch(html, /<s>|<del>|50%|30.days|limited.time|offer ends|resubscribe|plan.switch|first.billing.period/i);
+assert.doesNotMatch(html, /<del>|50%|30.days|limited.time|offer ends|resubscribe|plan.switch|first.billing.period/i);
 
 assert.equal((html.match(/aria-label="Download for Mac"/g) ?? []).length, 3);
 
@@ -50,7 +50,7 @@ for (const question of faq.mainEntity) {
   assert.doesNotMatch(copy, planLanguage, "FAQ copy and structured answers must remain plan-free");
 }
 
-const comparison = pricing.match(/<table class="plan-comparison">([\s\S]*?)<\/table>/)?.[1];
+const comparison = pricing.match(/<table class="plan-comparison"[^>]*>([\s\S]*?)<\/table>/)?.[1];
 assert.ok(comparison, "Pricing must include a semantic comparison table");
 assert.equal((comparison.match(/scope="col"/g) ?? []).length, 3);
 const cells = (cell) => cell.match(/aria-label="([^"]+)"/)?.[1] ?? cell.replace(/&shy;|\u00ad/g, "").replace(/<[^>]*>/g, "").trim();
@@ -69,3 +69,19 @@ assert.match(html, /Upload your finished videos directly to App Store Connect\./
 assert.doesNotMatch(html, /supported App Store search placements|does not translate|guarantee (?:Apple’s )?approval|Uploading (?:doesn’t|does not) publish|Some uploads require|Export them to a folder/i);
 
 assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({description}) => description).filter(Boolean), ["Regular: $6.99/month.", "Regular: $59.99/year."]);
+
+assert.match(pricing, /<h2 id="pricing-title">Pricing<\/h2>/);
+assert.match(pricing, /<h2 id="included-title">What’s included<\/h2>/);
+assert.ok(pricing.indexOf('class="pricing-options"') < pricing.indexOf('class="plan-comparison"'), "Purchase options must precede the feature comparison");
+assert.match(pricing, /<table class="plan-comparison" aria-labelledby="included-title">/);
+
+assert.deepEqual([...pricing.matchAll(/<s>(.*?)<\/s>/g)].map((match) => match[1]), ["$6.99/month", "$59.99/year"]);
+
+const subscriptionOffers = schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.slice(0, 2);
+const savings = subscriptionOffers.map(({price, description}) => {
+  const regular = Number(description.match(/\$([\d.]+)/)[1]);
+  return `Save ${Math.round((regular - Number(price)) / regular * 100)}%`;
+});
+assert.deepEqual([...pricing.matchAll(/class="price-saving">([^<]+)<\/span>/g)].map((match) => match[1]), savings);
+assert.deepEqual(savings, ["Save 29%", "Save 33%"]);
+assert.doesNotMatch(pricing, /<dt>Lifetime[\s\S]*?price-saving[\s\S]*?<\/dt>/);

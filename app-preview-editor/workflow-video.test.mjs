@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 
 const [html, script, styles] = await Promise.all([
   readFile(new URL("index.html", import.meta.url), "utf8"),
@@ -15,11 +15,13 @@ assert.doesNotMatch(styles, /proof-strip|proof-grid/);
 assert.match(html, /<source src="assets\/hero-demo\.mp4" type="video\/mp4">[\s\S]*?<\/section>\s*<section class="result-section section shell"/);
 assert.match(html, /<h2 id="result-title">See what you can create for the App Store\.<\/h2>/);
 assert.match(html, /From App Previews to promotional videos, give your app a polished presentation that shows what makes it worth a closer look\./);
-assert.match(html, /<video id="finished-preview-video"[^>]*poster="assets\/heroResultiphone\.png"[\s\S]*?<source src="assets\/heroResultiphone\.mp4" type="video\/mp4">/);
+const finishedPreview = html.match(/<video id="finished-preview-video"[^>]*poster="assets\/heroResultiphone\.png"[\s\S]*?<source src="([^"]+\.mp4)" type="video\/mp4">/);
+assert.ok(finishedPreview, "The finished preview must have a poster and an MP4 source");
+assert.ok((await stat(new URL(finishedPreview[1], import.meta.url))).size > 0, "The current showcase video must be a nonempty file");
 
 
 const sectionOrder = [...html.matchAll(/<section class="([^"]+)"/g)].map((match) => match[1]);
-assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "capabilities section", "product-tour section shell", "delivery section shell", "faq section shell", "final-cta section shell"]);
+assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "capabilities section", "product-tour section shell", "delivery section shell", "pricing section shell", "faq section shell", "final-cta section shell"]);
 assert.doesNotMatch(html, /data-philosophy|data-count-from|problem-section/);
 const productTourStart = html.indexOf('<section class="product-tour');
 const storyOrder = ["Update the screen. Keep the work.", "Keep your versions together."];
@@ -66,7 +68,9 @@ assert.match(styles, /\.video-poster \{ position: absolute; inset: 0;[^}]+pointe
 assert.match(styles, /\.product-story video \{ height: auto; aspect-ratio: 16 \/ 9; \}/);
 assert.match(styles, /\.capabilities \{ padding-block: 104px; \}/);
 assert.match(styles, /@media \(min-width: 900px\)[\s\S]*?\.capabilities \{ padding-block: 148px; \}/);
-assert.ok(html.indexOf('aria-label="From the developer"') < html.indexOf('<section class="workflow'));
+const founder = html.match(/<aside class="founder-note[\s\S]*?<\/aside>/)?.[0];
+assert.ok(founder, "The developer section must be present");
+assert.match(html.slice(html.indexOf(founder) + founder.length), /^\s*<\/main>\s*<footer\b/, "The developer section must be the final content before the footer");
 assert.match(styles, /\[data-video-align="left"\]\s*\{\s*object-position:\s*left center;/);
 assert.match(styles, /\[data-video-align="right"\]\s*\{\s*object-position:\s*right center;/);
 
