@@ -98,7 +98,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .hero-lede { max-width: 52ch; margin: 0 auto 24px; font-size: clamp(1.2rem, 2.7vw, 2rem); font-weight: 630; letter-spacing: -0.025em; line-height: 1.4; text-wrap: balance; }
 .download-button { gap: 10px; }
 .download-button picture, .download-button img { display: block; width: 20px; height: 20px; }
-.download-caption, .final-panel > .download-caption { margin: 18px auto 0; color: var(--text-secondary); font-size: 0.875rem; }
+.download-caption { margin: 18px auto 0; color: var(--text-secondary); font-size: 0.875rem; }
 
 .section-heading { max-width: 800px; margin-bottom: 48px; }
 .section-heading h2, h2.section-heading { margin-bottom: 16px; }
@@ -162,24 +162,18 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .faq details[open] .faq-answer { grid-template-rows: 1fr; opacity: 1; }
 .faq-answer > div { min-height: 0; overflow: hidden; }
 
-.final-panel { padding: 80px 20px; border: 1px solid var(--border); border-radius: var(--radius-large); background: color-mix(in srgb, var(--surface) 94%, transparent); text-align: center; box-shadow: var(--shadow); }
-.final-panel > img { width: 112px; height: 112px; margin: 0 auto 28px; border-radius: 26px; }
-.final-panel > h2 { max-width: 860px; margin-inline: auto; }
 .pricing-options { display: grid; gap: 0; max-width: 760px; margin: 36px auto 12px; text-align: left; }
 .pricing-options > div { display: grid; grid-template-columns: auto auto; align-items: baseline; justify-content: space-between; gap: 8px 16px; padding: 16px 0; border-top: 1px solid var(--border); }
 .pricing-options dt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--text-secondary); font-size: 1rem; }
 .price-saving { display: inline-block; padding: 3px 7px; border-radius: 6px; background: #ffdf6b; color: #3b2b00; font-size: 0.6875rem; font-weight: 650; line-height: 1.3; white-space: nowrap; }
 .pricing-options dd { margin: 0; font-size: 1.7rem; font-weight: 680; letter-spacing: -0.025em; }
 .pricing-options dd span { margin-left: 4px; color: var(--text-secondary); font-size: 0.875rem; font-weight: 400; letter-spacing: normal; }
-.final-panel > .pricing-intro { margin: 28px auto 0; color: var(--text); font-size: 1rem; font-weight: 650; }
 .pricing-options .planned-price { grid-column: 1 / -1; margin-top: 8px; color: var(--text-secondary); font-size: 0.8rem; font-weight: 400; line-height: 1.5; letter-spacing: normal; }
-.final-panel > .pricing-note { max-width: 58ch; margin: 0 auto 28px; font-size: 0.875rem; }
 @media (min-width: 560px) {
   .pricing-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 3vw, 32px); text-align: center; }
   .pricing-options > div { display: block; }
   .pricing-options dt { justify-content: center; margin-bottom: 8px; }
 }
-.final-panel > p { margin: 20px auto 32px; color: var(--text-secondary); font-size: 1.08rem; }
 .founder-note { margin: 0 auto; padding-bottom: 48px; color: var(--text-secondary); font-size: 14px; text-align: center; }
 .founder-link { display: inline-flex; max-width: 620px; align-items: center; gap: 14px; color: inherit; text-align: left; text-decoration: none; }
 .founder-link img { width: 48px; height: 48px; flex: 0 0 auto; border: 1px solid var(--border); border-radius: 50%; object-fit: cover; }
@@ -237,7 +231,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 72px; align-items: start; }
   .faq > .section-heading { margin-bottom: 0; }
   .faq-list { max-width: none; }
-  .final-panel { padding-block: 112px; }
 }
 
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
@@ -314,8 +307,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .faq summary { padding-right: 0; font-size: 1rem; }
 .apes-landing .faq summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; border-radius: 4px; }
 .apes-landing .faq details p { line-height: 1.7; }
-.apes-landing .final-panel { padding: 56px 24px; box-shadow: var(--soft-shadow); }
-.apes-landing .final-panel > img { width: 88px; height: 88px; border-radius: 20px; }
 .apes-landing .pricing-options { margin-top: 24px; }
 .apes-landing .footer { margin-top: 24px; }
 @media (min-width: 900px) {
@@ -338,7 +329,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .product-stories { gap: 112px; }
   .apes-landing .product-story { gap: 56px; }
   .apes-landing .faq-list { padding-block: 56px; padding-inline: 32px; }
-  .apes-landing .final-panel { padding: 72px 56px; }
 }
 @media (max-width: 559px) {
   .apes-landing .faq { gap: 24px; }
@@ -350,7 +340,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .result-section { gap: 40px; }
   .apes-landing .workflow > .shell { padding-inline: 20px; }
   .apes-landing .workflow-heading { margin-bottom: 40px; }
-  .apes-landing .final-panel { padding-inline: 12px; }
 }
 @media (prefers-color-scheme: dark) {
   .apes-landing { --bg: #0b0f14; --surface: #12181f; --surface-muted: #1c252e; --border: rgba(242,245,247,.12); --detail: #65cff3; --soft-shadow: 4px 6px 16px #05080b,-2px -2px 6px #161d25; --shadow: 12px 16px 40px rgba(0,0,0,.35),-4px -4px 16px rgba(22,29,37,.6); }
@@ -359,7 +348,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .workflow-media, .apes-landing .faq > h2 { position: static; }
 }
 
-.apes-landing .final-panel > .trial-details { margin-top: 24px; }
 
 /* A standard comparison table, with the same surfaces and type as the page. */
 .apes-landing .plan-comparison { width: 100%; max-width: 760px; margin: 32px auto 0; border-collapse: collapse; table-layout: fixed; text-align: left; font-size: 1rem; line-height: 1.5; }
@@ -395,19 +383,13 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .pricing .plan-comparison { margin: 0 auto; }
 .apes-landing .pricing-block > .pricing-note { max-width: 760px; margin: 16px auto 0; color: var(--text-secondary); text-align: center; font-size: 0.875rem; line-height: 1.6; }
 .apes-landing .final-cta { padding-top: 32px; }
-.apes-landing .final-cta .final-panel { padding: 64px 24px; }
-.apes-landing .final-cta .final-panel > img { width: 64px; height: 64px; margin-bottom: 20px; border-radius: 16px; }
-.apes-landing .final-cta .final-panel > h2 { margin: 0 auto 24px; }
-.apes-landing .final-cta .final-panel > p { max-width: 52ch; margin: 0 auto 24px; }
 @media (max-width: 559px) {
   .apes-landing .pricing-block { padding: 48px 16px; }
-  .apes-landing .final-cta .final-panel { padding-block: 48px; }
   .apes-landing .pricing-block > #included-title { margin-top: 24px; padding-top: 24px; }
 }
 
 @media (min-width: 900px) {
-  .apes-landing .pricing-block,
-  .apes-landing .final-cta .final-panel { padding-block: 80px; }
+  .apes-landing .pricing-block { padding-block: 80px; }
   .apes-landing .pricing-block > #included-title { padding-top: 48px; }
 }
 
@@ -459,3 +441,28 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 .apes-landing #features .section-heading > p,
 .apes-landing .product-tour > .section-heading > p { margin-inline: auto; text-align: center; }
+
+/* A resident pair of workflow demos crossfades inside one bounded sticky frame. */
+#workflow .workflow-media { opacity: 1; transform: none; transition: none; }
+#workflow .workflow-frames { display: grid; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); }
+#workflow .workflow-frame { grid-area: 1 / 1; min-width: 0; width: 100%; height: 100%; opacity: 0; transform: translateY(10px); transition: opacity 420ms var(--ease), transform 420ms var(--ease); pointer-events: none; }
+#workflow .workflow-frame.is-active { z-index: 1; opacity: 1; transform: none; pointer-events: auto; }
+#workflow .workflow-frame .video-stage { height: 100%; border: 0; border-radius: 0; box-shadow: none; }
+#workflow .workflow-frame video { height: 100%; border: 0; border-radius: 0; box-shadow: none; }
+#workflow .workflow-media .video-stage > :is(video, .video-poster) { transform: none; transition: none; }
+#workflow .workflow-frame:first-child .video-poster { object-position: left center; }
+#workflow [data-workflow-video-button] { z-index: 2; }
+#workflow .workflow-step { opacity: 1; filter: none; transform: none; }
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  #workflow .workflow-step h3 { color: var(--text-secondary); transition: color 300ms var(--ease); }
+  #workflow .workflow-step.is-active h3 { color: var(--text); }
+  #workflow .workflow-step .feature-title-icon { opacity: .6; transition: opacity 300ms var(--ease); }
+  #workflow .workflow-step.is-active .feature-title-icon { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #workflow .workflow-layout { display: block; }
+  #workflow .workflow-media { display: none; }
+  #workflow .workflow-steps { gap: 72px; }
+  #workflow .workflow-step { display: block; min-height: 0; }
+  #workflow .mobile-workflow-media-wrap { display: block; }
+}

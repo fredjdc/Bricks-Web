@@ -10,8 +10,8 @@ assert.match(hero, /Create, update, and upload videos for the App Store, all in 
 assert.equal((hero.match(/<p\b/g) ?? []).length, 2);
 assert.match(hero, /No account required\./);
 assert.equal((html.match(/<a[^>]*download-button[^>]*href="https:\/\/apps\.apple\.com\/us\/app\/app-preview-editor-studio\/id6785711605"/g) ?? []).length, 3);
-assert.equal((html.match(/src="\.\.\/images\/apple-icon-white\.svg"/g) ?? []).length, 3);
-assert.equal((html.match(/srcset="\.\.\/images\/apple-icon-black\.svg"/g) ?? []).length, 3);
+assert.equal((html.match(/src="\.\.\/images\/apple-icon-white\.svg"/g) ?? []).length, 2);
+assert.equal((html.match(/srcset="\.\.\/images\/apple-icon-black\.svg"/g) ?? []).length, 2);
 assert.match(html, /<span>App Preview Editor<\/span>/);
 assert.doesNotMatch(html, /<form|beta|TestFlight|list-manage|hero-email|drops in extra clips to cover more features/i);
 assert.doesNotMatch(script, /signup|mailchimp|FormData|beta-cta/i);
@@ -42,7 +42,7 @@ assert.equal((html.match(/aria-label="Download for Mac"/g) ?? []).length, 3);
 
 const pricing = html.match(/<section\b[^>]*\bid="download"[^>]*>[\s\S]*?<\/section>/)?.[0];
 assert.ok(pricing, "The pricing section must be present");
-const approvedHeroCaption = '<p class="download-caption">Free to use. Try Pro free for 7 days. No account required.</p>';
+const approvedHeroCaption = '<p class="download-caption">No account required. 7 days free trial.</p>';
 assert.equal(hero.split(approvedHeroCaption).length - 1, 1, "Only the approved hero caption may describe plans outside pricing");
 assert.equal(html.split(approvedHeroCaption).length - 1, 1);
 const outsidePricing = html.replace(pricing, "").replace(approvedHeroCaption, "").replaceAll("Apple Vision Pro", "");

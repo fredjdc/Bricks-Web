@@ -1,0 +1,90 @@
+/* Shared presentation from Calc's DownloadCTA; each page owns its outer layout. */
+.bricks-download-cta {
+  --cta-surface: var(--b-text, var(--text));
+  --cta-text: var(--b-bg, var(--bg));
+  --cta-hover: #087ea4;
+  position: relative;
+  overflow: hidden;
+  padding: 96px 64px;
+  border-radius: 48px;
+  background: var(--cta-surface);
+  box-shadow: 0 20px 60px rgba(11, 15, 20, .25);
+  text-align: center;
+}
+.bricks-download-cta > img { position: relative; display: block; width: 64px; height: 64px; margin: 0 auto 20px; border-radius: 16px; }
+.bricks-download-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 10%, rgba(0,166,161,.1), transparent 55%), radial-gradient(circle at 80% 90%, rgba(255,149,0,.08), transparent 55%);
+}
+#root .bricks-download-cta > h2,
+.bricks-download-cta > h2 {
+  position: relative;
+  margin: 0 0 20px;
+  font-size: 64px;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.02;
+  color: var(--cta-text);
+  text-wrap: wrap;
+}
+.bricks-download-cta > p {
+  position: relative;
+  max-width: 520px;
+  margin: 0 auto 40px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--cta-text);
+  opacity: .7;
+}
+.bricks-download-cta > .bricks-cta-note {
+  max-width: 560px;
+  margin: 18px auto 0;
+  font-size: 13px;
+  line-height: 1.55;
+  opacity: .62;
+}
+.bricks-cta-actions {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.bricks-download-cta .bricks-cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 28px;
+  border: 0;
+  border-radius: 100px;
+  background: var(--cta-text);
+  color: var(--cta-surface);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 12px 28px rgba(0,0,0,.25);
+  transition: background .25s ease, color .25s ease, transform .15s ease;
+}
+.bricks-cta-button img { display: block; width: 18px; height: 18px; margin: 0; flex: 0 0 auto; }
+.bricks-cta-button:hover { background: var(--cta-hover); color: #fff; opacity: 1; transform: translateY(-2px); }
+.bricks-cta-button:hover img { filter: brightness(0) invert(1); }
+.bricks-cta-button:focus-visible { outline: 3px solid var(--cta-text); outline-offset: 4px; }
+@media (max-width: 768px) {
+  .bricks-download-cta { padding: 56px 24px; border-radius: 32px; }
+  #root .bricks-download-cta > h2,
+.bricks-download-cta > h2 { font-size: 40px; }
+  .bricks-download-cta > p { font-size: 16px; }
+  .bricks-download-cta > .bricks-cta-note { font-size: 13px; }
+  .bricks-download-cta .bricks-cta-button { padding: 14px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bricks-download-cta .bricks-cta-button { transition: none; }
+  .bricks-cta-button:hover { transform: none; }
+}
