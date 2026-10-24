@@ -42,7 +42,10 @@ assert.equal((html.match(/aria-label="Download for Mac"/g) ?? []).length, 3);
 
 const pricing = html.match(/<section\b[^>]*\bid="download"[^>]*>[\s\S]*?<\/section>/)?.[0];
 assert.ok(pricing, "The pricing section must be present");
-const outsidePricing = html.replace(pricing, "").replaceAll("Apple Vision Pro", "");
+const approvedHeroCaption = '<p class="download-caption">Free to use. Try Pro free for 7 days. No account required.</p>';
+assert.equal(hero.split(approvedHeroCaption).length - 1, 1, "Only the approved hero caption may describe plans outside pricing");
+assert.equal(html.split(approvedHeroCaption).length - 1, 1);
+const outsidePricing = html.replace(pricing, "").replace(approvedHeroCaption, "").replaceAll("Apple Vision Pro", "");
 const planLanguage = /\b(?:free|pro|trial|upgrade|watermarks?|watermarked|plans?|pricing|subscriptions?|introductory|renewals?)\b|Made with APEs/i;
 assert.doesNotMatch(outsidePricing, planLanguage, "Plan, trial and watermark language belongs only in pricing");
 for (const question of faq.mainEntity) {
@@ -64,8 +67,8 @@ assert.deepEqual(rows.map(([, feature, free, pro]) => [feature, cells(free), cel
 ]);
 assert.match(html, /Show your app in action with the App Store’s new search creative asset or in search ads\./);
 assert.match(html, /Showcase your next event\./);
-assert.match(html, /Create videos for your Event Card and Event Details Page\./);
-assert.match(html, /Upload your finished videos directly to App Store Connect\./);
+assert.match(html, /Bring your Event Card and Event Details Page to life with video that shows what’s coming\./);
+assert.match(html, /Export your work to your Mac, or upload directly to App Store Connect\./);
 assert.doesNotMatch(html, /supported App Store search placements|does not translate|guarantee (?:Apple’s )?approval|Uploading (?:doesn’t|does not) publish|Some uploads require|Export them to a folder/i);
 
 assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({description}) => description).filter(Boolean), ["Regular: $6.99/month.", "Regular: $59.99/year."]);

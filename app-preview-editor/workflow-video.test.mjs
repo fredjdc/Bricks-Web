@@ -30,7 +30,7 @@ const sectionOrder = [...html.matchAll(/<section class="([^"]+)"/g)].map((match)
 assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "capabilities section", "product-tour section shell", "delivery section shell", "pricing section shell", "faq section shell", "final-cta section shell"]);
 assert.doesNotMatch(html, /data-philosophy|data-count-from|problem-section/);
 const productTourStart = html.indexOf('<section class="product-tour');
-const storyOrder = ["Update the screen. Keep the work.", "Keep your versions together."];
+const storyOrder = ["Update the screen. Keep the work.", "Keep your timelines together."];
 assert.ok(storyOrder.every((title) => html.includes(title)));
 assert.ok(html.indexOf(storyOrder[0], productTourStart) < html.indexOf(storyOrder[1], productTourStart));
 for (const [video, poster] of [

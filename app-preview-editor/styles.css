@@ -276,7 +276,9 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .nav { width: auto; min-height: 64px; margin-inline: 20px; }
 .apes-landing .section { padding-block: 72px; }
 .apes-landing .hero { padding-top: 64px; gap: 56px; }
-.apes-landing .hero-lede { font-weight: 500; }
+.apes-landing .hero-lede { max-width: 32ch; font-weight: 500; }
+/* Widen the measured 148.28px hero button by 50%, retaining narrow-screen fit. */
+.apes-landing .hero .download-button { width: calc(148.28125px * 1.5); max-width: 100%; }
 .apes-landing h2 { font-size: clamp(2.15rem,4.6vw,3.5rem); letter-spacing: -.035em; line-height: 1.08; text-wrap: balance; }
 .apes-landing .section-heading p, .apes-landing .result-copy p { font-size: 1.125rem; line-height: 1.65; }
 .apes-landing .result-copy { max-width: 540px; }
@@ -298,13 +300,14 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .capability-grid { gap: 32px; }
 .apes-landing .capability-grid article { padding: 0 0 32px; border: 0; border-bottom: 1px solid var(--border); }
 .apes-landing .capability-grid h3 { max-width: 19ch; font-size: 1.8rem; }
-.apes-landing .capability-grid .feature-title-icon { width: 40px; height: 40px; margin-bottom: 28px; }
+.apes-landing .capability-media { display: grid; place-items: center; height: 300px; margin-bottom: 28px; padding: 16px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface-muted); }
+.apes-landing .capability-media img { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
 .apes-landing .capability-grid .capability-label { color: var(--detail); }
 .apes-landing .capability-grid article > p { line-height: 1.65; }
 .apes-landing .product-story .story-copy h3, .apes-landing .delivery .story-copy h2 { font-size: clamp(1.9rem,3.4vw,2.75rem); }
 .apes-landing .faq { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; justify-items: center; }
 .apes-landing .faq > .section-heading { position: static; top: auto; width: 100%; max-width: 880px; margin: 0; text-align: center; }
-.apes-landing .faq-list { width: 100%; max-width: none; margin-inline: auto; padding: 8px 24px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); box-shadow: var(--soft-shadow); text-align: left; }
+.apes-landing .faq-list { width: 100%; max-width: none; margin-inline: auto; padding: 40px 24px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); box-shadow: var(--soft-shadow); text-align: left; }
 /* Preserve the readable content width of the former 880px card. */
 .apes-landing .faq details { max-width: 814px; margin-inline: auto; }
 .apes-landing .faq details:last-child { border-bottom: 0; }
@@ -328,16 +331,19 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .workflow-step { min-height: 50vh; }
   .apes-landing .workflow-steps .workflow-step { opacity: 1; filter: none; }
   .apes-landing .capability-grid { grid-template-columns: 1fr 1fr 1.1fr; gap: 48px; }
+  .apes-landing .capability-media { height: 320px; }
   .apes-landing .capability-grid article { padding-bottom: 0; border-bottom: 0; }
   .apes-landing .capability-grid article + article { border-left: 0; }
   .apes-landing .product-tour > .section-heading { max-width: 760px; margin-bottom: 72px; }
   .apes-landing .product-stories { gap: 112px; }
   .apes-landing .product-story { gap: 56px; }
-  .apes-landing .faq-list { padding-inline: 32px; }
+  .apes-landing .faq-list { padding-block: 56px; padding-inline: 32px; }
   .apes-landing .final-panel { padding: 72px 56px; }
 }
 @media (max-width: 559px) {
   .apes-landing .faq { gap: 24px; }
+  .apes-landing .faq-list { padding-block: 24px; }
+  .apes-landing .capability-media { height: 280px; }
   .apes-landing .site-header { top: 8px; margin-top: 8px; border-radius: 24px; }
   .apes-landing .nav { min-height: 56px; margin-inline: 12px; }
   .apes-landing .hero { padding-top: 48px; gap: 40px; }
@@ -380,21 +386,29 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .product-tour + .delivery { margin-top: 48px; }
 }
 
-/* Keep pricing, feature comparison and the closing invitation distinct. */
+/* Pricing and comparison share one surface, separate from the closing invitation. */
 .apes-landing .pricing { padding-bottom: 32px; }
-.apes-landing .pricing-block { max-width: none; margin-inline: auto; padding: 32px; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--soft-shadow); }
-.apes-landing .pricing-block + .pricing-block { margin-top: 32px; }
+.apes-landing .pricing-block { max-width: none; margin-inline: auto; padding: 64px 32px; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--soft-shadow); }
+.apes-landing .pricing-block > #included-title { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
 .apes-landing .pricing-block > h2 { max-width: 760px; margin: 0 auto 24px; font-size: clamp(2rem, 4.2vw, 3rem); }
 .apes-landing .pricing .pricing-options { margin: 0 auto 16px; }
 .apes-landing .pricing .plan-comparison { margin: 0 auto; }
 .apes-landing .pricing-block > .pricing-note { max-width: 760px; margin: 16px auto 0; color: var(--text-secondary); text-align: center; font-size: 0.875rem; line-height: 1.6; }
 .apes-landing .final-cta { padding-top: 32px; }
-.apes-landing .final-cta .final-panel { padding: 40px 24px; }
+.apes-landing .final-cta .final-panel { padding: 64px 24px; }
 .apes-landing .final-cta .final-panel > img { width: 64px; height: 64px; margin-bottom: 20px; border-radius: 16px; }
 .apes-landing .final-cta .final-panel > h2 { margin: 0 auto 24px; }
+.apes-landing .final-cta .final-panel > p { max-width: 52ch; margin: 0 auto 24px; }
 @media (max-width: 559px) {
-  .apes-landing .pricing-block { padding: 24px 16px; }
-  .apes-landing .pricing-block + .pricing-block { margin-top: 24px; }
+  .apes-landing .pricing-block { padding: 48px 16px; }
+  .apes-landing .final-cta .final-panel { padding-block: 48px; }
+  .apes-landing .pricing-block > #included-title { margin-top: 24px; padding-top: 24px; }
+}
+
+@media (min-width: 900px) {
+  .apes-landing .pricing-block,
+  .apes-landing .final-cta .final-panel { padding-block: 80px; }
+  .apes-landing .pricing-block > #included-title { padding-top: 48px; }
 }
 
 @media (min-width: 560px) and (max-width: 899px) {
