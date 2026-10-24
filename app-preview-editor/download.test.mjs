@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 
 const html = await readFile(new URL("index.html", import.meta.url), "utf8");
 const script = await readFile(new URL("script.js", import.meta.url), "utf8");
-const hero = html.match(/<div class="hero-copy">([\s\S]*?)<div class="hero-workflow">/)[1];
+const hero = html.match(/<div class="hero-copy">([\s\S]*?)<div class="hero-results"/)[1];
 assert.match(hero, /Show your app/);
 assert.match(hero, /at its best\./);
 assert.match(hero, /Create and update App Store preview videos and promotional visuals in one place\./);
@@ -31,8 +31,8 @@ for (const price of ["$4.99", "$39.99", "$6.99", "$59.99", "$149.99"]) assert.ok
 assert.doesNotMatch(html, /10.second|auto.renew|billed after|Scene Clips.*Pro.only/i);
 
 assert.match(html, /Introductory pricing/i);
-assert.match(html, /Regular: <s>\$6\.99\/month<\/s>/);
-assert.match(html, /Regular: <s>\$59\.99\/year<\/s>/);
+assert.match(html, /<s>\$6\.99\/month<\/s>/);
+assert.match(html, /<s>\$59\.99\/year<\/s>/);
 assert.doesNotMatch(html, /Early subscribers keep their lower renewal price|Planned regular price:/);
 assert.doesNotMatch(html, /<del>|50%|30.days|limited.time|offer ends|resubscribe|plan.switch|first.billing.period/i);
 
@@ -70,7 +70,7 @@ assert.doesNotMatch(html, /supported App Store search placements|does not transl
 
 assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({description}) => description).filter(Boolean), ["Regular: $6.99/month.", "Regular: $59.99/year."]);
 
-assert.match(pricing, /<h2 id="pricing-title">Pricing<\/h2>/);
+assert.match(pricing, /<h2 id="pricing-title">Introductory Price<\/h2>/);
 assert.match(pricing, /<h2 id="included-title">What’s included<\/h2>/);
 assert.ok(pricing.indexOf('class="pricing-options"') < pricing.indexOf('class="plan-comparison"'), "Purchase options must precede the feature comparison");
 assert.match(pricing, /<table class="plan-comparison" aria-labelledby="included-title">/);

@@ -25,7 +25,7 @@
 
   <link rel="icon" href="AppIcon.png" type="image/png">
   <link rel="apple-touch-icon" href="AppIcon.png">
-  <link rel="stylesheet" href="styles.css?v=20261024-11">
+  <link rel="stylesheet" href="styles.css?v=20261024-12">
   <style>
     .hero h1 { max-width: 14ch; white-space: normal; font-size: clamp(2.5rem, 9vw, 7.25rem); }
     .hero h1 .hero-word { display: block; }
@@ -70,24 +70,34 @@
         </div>
       </div>
 
-      <div class="hero-workflow">
-        <video width="1480" height="925" poster="assets/product/hero-workflow.png" preload="metadata" muted loop playsinline data-autoplay-video role="button" tabindex="0" aria-label="Play editor demo">
-          <source src="assets/hero-demo.mp4" type="video/mp4">
-        </video>
+      <div class="hero-results" role="group" aria-label="Finished App Preview examples">
+        <div class="hero-result hero-result-left" aria-hidden="true">
+          <video width="886" height="1920" poster="assets/product/hero-result-left.jpg" preload="none" muted loop playsinline data-autoplay-video data-hero-side data-start-time="8">
+            <source data-src="assets/heroResultLeft.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="hero-result hero-result-center">
+          <video id="finished-preview-video" width="886" height="1920" poster="assets/product/hero-result-center.jpg" preload="none" muted loop playsinline data-autoplay-video data-start-time="6" data-playback-toggle data-playback-label="App Preview examples" role="button" tabindex="0" aria-label="Play App Preview examples">
+            <source data-src="assets/heroResult.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="hero-result hero-result-right" aria-hidden="true">
+          <video width="886" height="1920" poster="assets/product/hero-result-right.jpg" preload="none" muted loop playsinline data-autoplay-video data-hero-side data-start-time="14">
+            <source data-src="assets/heroResultRight.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
     </section>
 
     <section class="result-section section shell" aria-labelledby="result-title">
       <div class="result-copy reveal">
-        <h2 id="result-title">See what you can create for the App Store.</h2>
-        <p>From App Previews to promotional videos, give your app a polished presentation that shows what makes it worth a closer look.</p>
+        <h2 id="result-title">Bring it all together.</h2>
+        <p>Bring your screenshots, recordings, text, and audio into the editor. Shape them into a preview that shows your app at its best.</p>
       </div>
-      <div class="result-media reveal">
-        <div class="result-video-frame">
-          <video id="finished-preview-video" width="886" height="1920" poster="assets/heroResultiphone.png" preload="metadata" muted loop playsinline data-autoplay-video role="button" tabindex="0" aria-label="Play finished App Preview">
-            <source src="assets/heroResult.mp4" type="video/mp4">
-          </video>
-        </div>
+      <div class="result-media editor-demo reveal">
+        <video width="1920" height="1080" poster="assets/product/hero-workflow.png" preload="none" muted loop playsinline data-autoplay-video data-playback-toggle data-playback-label="editor demo" role="button" tabindex="0" aria-label="Play editor demo">
+          <source data-src="assets/hero-demo.mp4" type="video/mp4">
+        </video>
       </div>
     </section>
 
@@ -120,7 +130,7 @@
             </article>
             <article class="workflow-step reveal" data-workflow-video="assets/edit-demo.mp4" data-workflow-poster="assets/product/edit-timeline.png" data-workflow-align="center">
               <img class="feature-title-icon" src="assets/icons/edit.svg" width="32" height="32" alt="" aria-hidden="true">
-              <h3>Give the story its shape.</h3>
+              <h3>Shape your app’s story.</h3>
               <p>Trim and arrange your clips, then add text, motion, and audio. Use Auto Cut to trim pauses and dead time.</p>
               <div class="mobile-workflow-media-wrap">
                 <video class="mobile-workflow-media" poster="assets/product/edit-timeline.png" preload="none" muted loop playsinline data-autoplay-video aria-label="Adjusting clips and text on the APEs timeline">
@@ -137,7 +147,7 @@
     <section class="capabilities section" id="features" aria-labelledby="features-title">
       <div class="shell">
         <div class="section-heading reveal">
-          <h2 id="features-title">More ways to show your app.</h2>
+          <h2 id="features-title">Go beyond the App Preview.</h2>
           <p>Create videos for App Store search ads, your product page header, and in-app events.</p>
         </div>
         <div class="capability-grid reveal">
@@ -383,6 +393,6 @@
     <div><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:hello@bricks.pe">Contact</a><span>© 2026 Bricks Apps</span></div>
   </footer>
 
-  <script src="script.js?v=20261024-3" defer></script>
+  <script src="script.js?v=20261024-12" defer></script>
 </body>
 </html>

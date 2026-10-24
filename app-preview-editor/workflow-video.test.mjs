@@ -8,17 +8,23 @@ const [html, script, styles] = await Promise.all([
 ]);
 
 assert.equal(html.match(/<h1(?:\s|>)/g)?.length, 1);
-assert.match(html, /<div class="hero-workflow">\s*<video/);
-assert.doesNotMatch(html, /hero-visual|hero-parallax/);
-assert.doesNotMatch(html, /proof-strip|proof-grid/);
+const hero = html.match(/<section class="hero shell"[\s\S]*?<\/section>/)[0];
+const showcase = html.match(/<section class="result-section section shell"[\s\S]*?<\/section>/)[0];
+assert.doesNotMatch(html, /hero-visual|hero-parallax|proof-strip|proof-grid/);
 assert.doesNotMatch(styles, /proof-strip|proof-grid/);
-assert.match(html, /<source src="assets\/hero-demo\.mp4" type="video\/mp4">[\s\S]*?<\/section>\s*<section class="result-section section shell"/);
-assert.match(html, /<h2 id="result-title">See what you can create for the App Store\.<\/h2>/);
-assert.match(html, /From App Previews to promotional videos, give your app a polished presentation that shows what makes it worth a closer look\./);
-const finishedPreview = html.match(/<video id="finished-preview-video"[^>]*poster="assets\/heroResultiphone\.png"[\s\S]*?<source src="([^"]+\.mp4)" type="video\/mp4">/);
-assert.ok(finishedPreview, "The finished preview must have a poster and an MP4 source");
-assert.ok((await stat(new URL(finishedPreview[1], import.meta.url))).size > 0, "The current showcase video must be a nonempty file");
-
+for (const [file, poster] of [["heroResultLeft", "left"], ["heroResult", "center"], ["heroResultRight", "right"]]) {
+  assert.ok(hero.includes(`data-src="assets/${file}.mp4"`));
+  assert.ok(hero.includes(`poster="assets/product/hero-result-${poster}.jpg"`));
+  assert.ok((await stat(new URL(`assets/${file}.mp4`, import.meta.url))).size > 0);
+  assert.ok((await stat(new URL(`assets/product/hero-result-${poster}.jpg`, import.meta.url))).size > 0);
+}
+assert.doesNotMatch(hero, /hero-demo|preload="metadata"|<source src=/);
+assert.match(showcase, /<h2 id="result-title">Bring it all together\.<\/h2>/);
+assert.match(showcase, /class="result-media editor-demo reveal"/);
+assert.match(showcase, /width="1920" height="1080"/);
+assert.match(showcase, /data-src="assets\/hero-demo\.mp4"/);
+assert.doesNotMatch(showcase, /heroResult|finished-preview-video/);
+assert.equal((html.match(/data-src="assets\/hero-demo\.mp4"/g) ?? []).length, 1);
 
 const sectionOrder = [...html.matchAll(/<section class="([^"]+)"/g)].map((match) => match[1]);
 assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "capabilities section", "product-tour section shell", "delivery section shell", "pricing section shell", "faq section shell", "final-cta section shell"]);
@@ -50,10 +56,9 @@ assert.doesNotMatch(header, /nav-link|nav-menu/);
 assert.equal(header.match(/<a /g)?.length, 2);
 assert.match(header, /App Preview Editor/);
 assert.match(header, /Download/);
-const heroDemo = html.match(/<div class="hero-workflow">([\s\S]*?)<\/div>/)[1];
-assert.doesNotMatch(heroDemo, /<button|media-toggle|data-adjacent-video-button/);
+assert.doesNotMatch(hero, /<button|media-toggle|data-adjacent-video-button/);
 assert.equal(html.match(/data-adjacent-video-button/g)?.length, 6);
-assert.match(html, /<video id="finished-preview-video"[^>]*muted loop playsinline data-autoplay-video role="button" tabindex="0"/);
+assert.match(hero, /<video id="finished-preview-video"[^>]*data-playback-toggle[^>]*role="button" tabindex="0"/);
 assert.doesNotMatch(html, /data-video-button/);
 assert.doesNotMatch(html, /<video[^>]*\scontrols(?:\s|>)/);
 assert.doesNotMatch(html, /class="native-section|<h2>Built natively for Mac\.<\/h2>/);
@@ -74,5 +79,5 @@ assert.match(html.slice(html.indexOf(founder) + founder.length), /^\s*<\/main>\s
 assert.match(styles, /\[data-video-align="left"\]\s*\{\s*object-position:\s*left center;/);
 assert.match(styles, /\[data-video-align="right"\]\s*\{\s*object-position:\s*right center;/);
 
-assert.match(html, /data-autoplay-video role="button" tabindex="0" aria-label="Play editor demo"/);
-assert.match(script, /querySelectorAll\("\.hero-workflow video, #finished-preview-video"\)/);
+assert.match(showcase, /data-playback-label="editor demo" role="button" tabindex="0" aria-label="Play editor demo"/);
+assert.match(script, /querySelectorAll\("\[data-playback-toggle\]"\)/);

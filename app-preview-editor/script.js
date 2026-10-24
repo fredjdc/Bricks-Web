@@ -1,6 +1,31 @@
 document.documentElement.classList.add("js");
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const desktopResults = window.matchMedia("(min-width: 900px)");
+const visibleVideos = new Set();
+
+const loadVideo = (video) => {
+  const source = video.querySelector("source[data-src]");
+  if (!source) return;
+  source.src = source.dataset.src;
+  source.removeAttribute("data-src");
+  if (video.dataset.startTime) {
+    video.addEventListener("loadedmetadata", () => {
+      video.currentTime = Number(video.dataset.startTime);
+    }, { once: true });
+  }
+  video.load();
+};
+
+const canPlayVideo = (video) => !document.hidden
+  && video.getClientRects().length > 0
+  && (!video.hasAttribute("data-hero-side") || desktopResults.matches)
+  && video.dataset.userPaused !== "true";
+
+const playVideo = (video) => {
+  loadVideo(video);
+  return video.play();
+};
 
 const showVideoPoster = (video) => {
   const poster = video.parentElement.querySelector(".video-poster");
@@ -59,10 +84,19 @@ document.querySelectorAll("[data-adjacent-video-button]").forEach((button) => {
   connectVideoButton(button.parentElement.querySelector("video"), button, "Play");
 });
 
-document.querySelectorAll(".hero-workflow video, #finished-preview-video").forEach((video) => {
-  const name = video.id === "finished-preview-video" ? "finished App Preview" : "editor demo";
+document.querySelectorAll("[data-playback-toggle]").forEach((video) => {
+  const name = video.dataset.playbackLabel;
   const updateLabel = () => video.setAttribute("aria-label", `${video.paused ? "Play" : "Pause"} ${name}`);
-  const togglePlayback = () => video.paused ? video.play().catch(updateLabel) : video.pause();
+  const togglePlayback = () => {
+    const pause = !video.paused;
+    const targets = video.id === "finished-preview-video"
+      ? document.querySelectorAll(".hero-results video") : [video];
+    targets.forEach((target) => {
+      target.dataset.userPaused = String(pause);
+      if (pause) target.pause();
+      else if (canPlayVideo(target)) playVideo(target).catch(updateLabel);
+    });
+  };
   video.addEventListener("click", togglePlayback);
   video.addEventListener("keydown", (event) => {
     if (!["Enter", " "].includes(event.key)) return;
@@ -95,7 +129,7 @@ if (workflowVideo && workflowSteps.length && "IntersectionObserver" in window) {
       source.setAttribute("src", step.dataset.workflowVideo);
       workflowVideo.load();
     }
-    if (!reduceMotion) workflowVideo.play().catch(() => setVideoButtonLabel(workflowVideo, workflowButton, "Play"));
+    if (!reduceMotion && canPlayVideo(workflowVideo)) workflowVideo.play().catch(() => setVideoButtonLabel(workflowVideo, workflowButton, "Play"));
   };
 
   const workflowObserver = new IntersectionObserver((entries) => {
@@ -123,18 +157,42 @@ if (workflowVideo && workflowSteps.length && "IntersectionObserver" in window) {
 const observedVideos = document.querySelectorAll("video");
 const autoplayVideos = document.querySelectorAll("[data-autoplay-video]");
 
+const resumeVisibleVideos = () => {
+  if (reduceMotion) return;
+  visibleVideos.forEach((video) => {
+    if (canPlayVideo(video)) playVideo(video).catch(() => {});
+    else video.pause();
+  });
+};
+
 if (!reduceMotion && observedVideos.length) {
   if ("IntersectionObserver" in window) {
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.target.hasAttribute("data-autoplay-video")) entry.target.play().catch(() => {});
-        else entry.target.pause();
+        if (entry.isIntersecting) visibleVideos.add(entry.target);
+        else visibleVideos.delete(entry.target);
+        if (entry.isIntersecting && entry.target.hasAttribute("data-autoplay-video") && canPlayVideo(entry.target)) {
+          playVideo(entry.target).catch(() => {});
+        } else entry.target.pause();
       });
-    }, { rootMargin: "120px 0px" });
+    }, { threshold: 0.05 });
     observedVideos.forEach((video) => videoObserver.observe(video));
-  } else {
-    autoplayVideos.forEach((video) => video.play().catch(() => {}));
   }
 } else {
   autoplayVideos.forEach((video) => video.pause());
 }
+
+desktopResults.addEventListener("change", () => {
+  document.querySelectorAll("[data-hero-side]").forEach((video) => {
+    if (!desktopResults.matches) {
+      video.pause();
+      showVideoPoster(video);
+    }
+  });
+  resumeVisibleVideos();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) observedVideos.forEach((video) => video.pause());
+  else resumeVisibleVideos();
+});
