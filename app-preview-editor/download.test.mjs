@@ -6,7 +6,7 @@ const script = await readFile(new URL("script.js", import.meta.url), "utf8");
 const hero = html.match(/<div class="hero-copy">([\s\S]*?)<div class="hero-results"/)[1];
 assert.match(hero, /Show your app/);
 assert.match(hero, /at its best\./);
-assert.match(hero, /Create and update App Store preview videos and promotional visuals in one place\./);
+assert.match(hero, /Create, update, and upload videos for the App Store, all in one place\./);
 assert.equal((hero.match(/<p\b/g) ?? []).length, 2);
 assert.match(hero, /No account required\./);
 assert.equal((html.match(/<a[^>]*download-button[^>]*href="https:\/\/apps\.apple\.com\/us\/app\/app-preview-editor-studio\/id6785711605"/g) ?? []).length, 3);
@@ -16,7 +16,7 @@ assert.match(html, /<span>App Preview Editor<\/span>/);
 assert.doesNotMatch(html, /<form|beta|TestFlight|list-manage|hero-email|drops in extra clips to cover more features/i);
 assert.doesNotMatch(script, /signup|mailchimp|FormData|beta-cta/i);
 assert.match(html, /Built for App Store formats\./);
-assert.match(html, /APEs checks video duration and format\. Review the results, then trim or adjust your video on the timeline\./);
+assert.match(html, /APEs checks video duration and format before export\./);
 const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
 const faq = schema["@graph"].find((item) => item["@type"] === "FAQPage");
 for (const question of faq.mainEntity) {

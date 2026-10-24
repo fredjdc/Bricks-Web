@@ -432,3 +432,16 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 .apes-landing [data-playback-toggle]:focus-visible { outline: 3px solid var(--focus); outline-offset: -4px; }
+
+/* Center these section titles and their introductions. */
+.apes-landing #features .section-heading,
+.apes-landing .product-tour > .section-heading { max-width: none; }
+.apes-landing #features-title { max-width: 800px; margin-inline: auto; }
+.apes-landing #tour-title { max-width: 900px; margin-inline: auto; }
+.apes-landing :is(#features-title, #tour-title, #pricing-title, #included-title) { text-align: center; }
+@media (min-width: 900px) {
+  .apes-landing #tour-title { max-width: 760px; }
+}
+
+.apes-landing #features .section-heading > p,
+.apes-landing .product-tour > .section-heading > p { margin-inline: auto; text-align: center; }
