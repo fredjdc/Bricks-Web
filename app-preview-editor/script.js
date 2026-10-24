@@ -2,35 +2,6 @@ document.documentElement.classList.add("js");
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const numberWords = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"];
-
-const animateNumber = (element) => {
-  const start = Number(element.dataset.countFrom);
-  const target = Number(element.dataset.countTo);
-  const format = element.hasAttribute("data-count-words") ? (value) => numberWords[value] : String;
-  const duration = 800;
-  let startedAt;
-  let previousValue = -1;
-  element.textContent = format(start);
-  element.classList.add("is-counting");
-
-  const update = (now) => {
-    if (startedAt === undefined) {
-      startedAt = now;
-      requestAnimationFrame(update);
-      return;
-    }
-    const progress = Math.min((now - startedAt) / duration, 1);
-    const value = Math.round(start + (target - start) * (1 - Math.pow(1 - progress, 3)));
-    if (value !== previousValue) element.textContent = format(value);
-    previousValue = value;
-    if (progress < 1) requestAnimationFrame(update);
-    else element.classList.remove("is-counting");
-  };
-
-  requestAnimationFrame(update);
-};
-
 const showVideoPoster = (video) => {
   const poster = video.parentElement.querySelector(".video-poster");
   poster.src = video.poster;
@@ -57,7 +28,6 @@ if (!reduceMotion && "IntersectionObserver" in window) {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add("is-visible");
-      entry.target.querySelectorAll("[data-count-from][data-count-to]").forEach(animateNumber);
       revealObserver.unobserve(entry.target);
     });
   }, { threshold: 0.12 });
@@ -66,33 +36,6 @@ if (!reduceMotion && "IntersectionObserver" in window) {
   document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 } else {
   document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
-}
-
-const philosophyStage = document.querySelector("[data-philosophy-stage]");
-const nearestPhilosophyLineIndex = (centers, viewportCenter) => centers.reduce((nearest, center, index) => Math.abs(center - viewportCenter) < Math.abs(centers[nearest] - viewportCenter) ? index : nearest, 0);
-
-if (philosophyStage && !reduceMotion && "IntersectionObserver" in window) {
-  const philosophyLines = [...philosophyStage.querySelectorAll("[data-philosophy-line]")];
-  const philosophyTriggers = philosophyStage.querySelectorAll("[data-philosophy-trigger]");
-
-  const activatePhilosophyLine = (index) => {
-    philosophyLines.forEach((line, lineIndex) => {
-      line.classList.toggle("is-active", lineIndex === index);
-      line.classList.toggle("is-past", lineIndex < index);
-    });
-  };
-
-  if (philosophyLines.length && philosophyLines.length === philosophyTriggers.length) {
-    philosophyStage.classList.add("is-scroll-ready");
-    const philosophyObserver = new IntersectionObserver(() => {
-      const centers = [...philosophyTriggers].map((trigger) => {
-        const bounds = trigger.getBoundingClientRect();
-        return bounds.top + bounds.height / 2;
-      });
-      activatePhilosophyLine(nearestPhilosophyLineIndex(centers, innerHeight / 2));
-    }, { rootMargin: "-45% 0px -45%", threshold: 0 });
-    philosophyTriggers.forEach((trigger) => philosophyObserver.observe(trigger));
-  }
 }
 
 const setVideoButtonLabel = (video, button, idleLabel = "Play") => {
@@ -116,20 +59,20 @@ document.querySelectorAll("[data-adjacent-video-button]").forEach((button) => {
   connectVideoButton(button.parentElement.querySelector("video"), button, "Play");
 });
 
-const finishedPreviewVideo = document.getElementById("finished-preview-video");
-if (finishedPreviewVideo) {
-  const updateFinishedPreviewLabel = () => finishedPreviewVideo.setAttribute("aria-label", `${finishedPreviewVideo.paused ? "Play" : "Pause"} finished App Preview`);
-  const toggleFinishedPreview = () => finishedPreviewVideo.paused ? finishedPreviewVideo.play().catch(updateFinishedPreviewLabel) : finishedPreviewVideo.pause();
-  finishedPreviewVideo.addEventListener("click", toggleFinishedPreview);
-  finishedPreviewVideo.addEventListener("keydown", (event) => {
+document.querySelectorAll(".hero-workflow video, #finished-preview-video").forEach((video) => {
+  const name = video.id === "finished-preview-video" ? "finished App Preview" : "editor demo";
+  const updateLabel = () => video.setAttribute("aria-label", `${video.paused ? "Play" : "Pause"} ${name}`);
+  const togglePlayback = () => video.paused ? video.play().catch(updateLabel) : video.pause();
+  video.addEventListener("click", togglePlayback);
+  video.addEventListener("keydown", (event) => {
     if (!["Enter", " "].includes(event.key)) return;
     event.preventDefault();
-    toggleFinishedPreview();
+    togglePlayback();
   });
-  finishedPreviewVideo.addEventListener("play", updateFinishedPreviewLabel);
-  finishedPreviewVideo.addEventListener("pause", updateFinishedPreviewLabel);
-  updateFinishedPreviewLabel();
-}
+  video.addEventListener("play", updateLabel);
+  video.addEventListener("pause", updateLabel);
+  updateLabel();
+});
 
 const workflowVideo = document.querySelector(".workflow-media video");
 const workflowButton = document.querySelector(".workflow-media [data-adjacent-video-button]");
@@ -190,189 +133,4 @@ if (!reduceMotion && observedVideos.length) {
   }
 } else {
   autoplayVideos.forEach((video) => video.pause());
-}
-
-document.querySelectorAll("[data-signup-form]").forEach((form) => {
-  const openButton = form.querySelector("[data-beta-open]");
-  const emailStep = form.querySelector('[data-signup-step="email"]');
-  const betaStep = form.querySelector('[data-signup-step="beta"]');
-  const email = form.querySelector('[name="EMAIL"]');
-  const firstName = form.querySelector('[name="FNAME"]');
-  const lastName = form.querySelector('[name="LNAME"]');
-  const building = form.querySelector('[name="BUILDING"]');
-  const appLink = form.querySelector('[name="APPLINK"]');
-  const challenge = form.querySelector('[name="CHALLENGE"]');
-  const status = form.querySelector(".form-status");
-  let submitting = false;
-
-  const setStatus = (message = "", state = "") => {
-    status.textContent = message;
-    status.dataset.state = state;
-  };
-  const animateState = (element) => {
-    if (reduceMotion) return;
-    element.classList.remove("signup-state-entering");
-    void element.offsetWidth;
-    element.classList.add("signup-state-entering");
-  };
-  const showCollapsedStep = (animate = true) => {
-    openButton.hidden = false;
-    openButton.setAttribute("aria-expanded", "false");
-    emailStep.hidden = true;
-    betaStep.hidden = true;
-    form.dataset.signupState = "collapsed";
-    form.dataset.betaReady = "false";
-    if (animate) animateState(openButton);
-  };
-  const showEmailStep = () => {
-    openButton.hidden = true;
-    openButton.setAttribute("aria-expanded", "true");
-    betaStep.hidden = true;
-    emailStep.hidden = false;
-    form.dataset.signupState = "email";
-    form.dataset.betaReady = "false";
-    setStatus();
-    animateState(emailStep);
-  };
-  const showBetaStep = () => {
-    openButton.hidden = true;
-    emailStep.hidden = true;
-    betaStep.hidden = false;
-    form.dataset.signupState = "beta";
-    form.dataset.betaReady = "true";
-    setStatus();
-    animateState(betaStep);
-    firstName.focus();
-  };
-
-  openButton.addEventListener("click", () => {
-    showEmailStep();
-    email.focus();
-  });
-  const validateEmail = () => {
-    const valid = email.value.trim() && email.validity.valid;
-    email.setAttribute("aria-invalid", String(!valid));
-    if (!valid) {
-      setStatus("Enter a valid email address.", "error");
-      email.focus();
-    }
-    return valid;
-  };
-  const validateBetaApplication = () => {
-    for (const field of [firstName, lastName]) {
-      const valid = new TextEncoder().encode(field.value).length <= 255;
-      field.setAttribute("aria-invalid", String(!valid));
-      if (!valid) {
-        setStatus("Keep each name within 255 bytes.", "error");
-        field.focus();
-        return false;
-      }
-    }
-    for (const field of [building, challenge]) {
-      const valid = field.value.trim().length > 0 && new TextEncoder().encode(field.value).length <= 255;
-      field.setAttribute("aria-invalid", String(!valid));
-      if (!valid) {
-        setStatus(field.value.trim() ? "Keep each answer within 255 bytes." : "Add a short answer so we can review your application.", "error");
-        field.focus();
-        return false;
-      }
-    }
-    if (new TextEncoder().encode(appLink.value).length > 255) {
-      appLink.setAttribute("aria-invalid", "true");
-      setStatus("Keep the app or website within 255 bytes.", "error");
-      appLink.focus();
-      return false;
-    }
-    appLink.removeAttribute("aria-invalid");
-    return true;
-  };
-
-  form.querySelector("[data-beta-back]").addEventListener("click", () => {
-    showEmailStep();
-    email.focus();
-  });
-
-  showCollapsedStep(false);
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    if (submitting) return;
-
-    if (!validateEmail()) {
-      return;
-    }
-    if (form.dataset.betaReady !== "true") {
-      showBetaStep();
-      return;
-    }
-    if (!validateBetaApplication()) {
-      return;
-    }
-
-    submitting = true;
-    const submitButton = betaStep.querySelector('button[type="submit"]');
-    const buttonLabel = submitButton.querySelector("span");
-    const originalButtonLabel = buttonLabel.textContent;
-    submitButton.disabled = true;
-    buttonLabel.textContent = "Sending...";
-    setStatus("Submitting your request...");
-    const callbackName = `mailchimpCallback${Date.now()}${Math.random().toString(36).slice(2)}`;
-    const requestUrl = new URL(form.action);
-    requestUrl.pathname = requestUrl.pathname.replace(/\/post$/, "/post-json");
-    new FormData(form).forEach((value, key) => requestUrl.searchParams.append(key, value));
-    requestUrl.searchParams.set("c", callbackName);
-    const request = document.createElement("script");
-
-    try {
-      const data = await new Promise((resolve, reject) => {
-        const timeout = window.setTimeout(() => reject(new Error("Mailchimp request timed out")), 15000);
-        window[callbackName] = (result) => {
-          window.clearTimeout(timeout);
-          resolve(result);
-        };
-        request.onerror = () => {
-          window.clearTimeout(timeout);
-          reject(new Error("Mailchimp request failed"));
-        };
-        request.src = requestUrl;
-        document.body.append(request);
-      });
-      if (data.result !== "success") {
-        const message = document.createElement("div");
-        message.innerHTML = data.msg || "";
-        setStatus(message.textContent?.replace(/^\d+\s*-\s*/, "") || "Check your email address and try again.", "error");
-        return;
-      }
-
-      form.reset();
-      showCollapsedStep();
-      setStatus("Thanks! Your beta request has been received. I’ll be in touch by email.", "success");
-      openButton.focus();
-    } catch {
-      setStatus("Form service is temporarily unavailable. Email hello@bricks.pe instead.", "error");
-    } finally {
-      request.remove();
-      window[callbackName] = () => {};
-      window.setTimeout(() => delete window[callbackName], 60000);
-      submitting = false;
-      submitButton.disabled = false;
-      buttonLabel.textContent = originalButtonLabel;
-    }
-  });
-});
-
-document.querySelectorAll("[data-beta-cta]").forEach((cta) => {
-  cta.addEventListener("click", (event) => {
-    event.preventDefault();
-    const form = document.querySelector('[data-signup-form][data-placement="hero"]');
-    const openButton = form.querySelector("[data-beta-open]");
-    const email = form.querySelector('[name="EMAIL"]');
-    openButton.click();
-    email.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
-    window.setTimeout(() => email.focus(), reduceMotion ? 0 : 350);
-  });
-});
-
-if (window.location.hash === "#hero-email") {
-  document.querySelector('[data-signup-form][data-placement="hero"] [data-beta-open]').click();
 }

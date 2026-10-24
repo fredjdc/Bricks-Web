@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>APEs — App Preview Editor Studio for Mac</title>
-  <meta name="description" content="Show your app at its best. Create, update, check, and upload App Store creative assets with APEs, an App Store creative studio for Mac.">
+  <title>App Preview Editor Studio — App Store creative for Mac</title>
+  <meta name="description" content="Create and update App Store preview videos and promotional visuals in one place. Edit your media, prepare versions, and export or upload with App Preview Editor Studio.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://bricks.pe/app-preview-editor/">
   <meta name="theme-color" content="#f6f7f8" media="(prefers-color-scheme: light)">
@@ -13,25 +13,22 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Bricks Apps">
   <meta property="og:url" content="https://bricks.pe/app-preview-editor/">
-  <meta property="og:title" content="APEs — Show your app at its best.">
-  <meta property="og:description" content="Your app keeps getting better. Let your App Store assets keep up. Create previews and promotional visuals with APEs for Mac.">
+  <meta property="og:title" content="Show your app at its best. — App Preview Editor Studio">
+  <meta property="og:description" content="Create and update App Store preview videos and promotional visuals in one place. Edit your media, prepare versions, and export or upload with App Preview Editor Studio.">
   <meta property="og:image" content="https://bricks.pe/app-preview-editor/assets/product/social-preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="APEs — Show your app at its best.">
-  <meta name="twitter:description" content="Your app keeps getting better. Let your App Store assets keep up. Create previews and promotional visuals with APEs for Mac.">
+  <meta name="twitter:title" content="Show your app at its best. — App Preview Editor Studio">
+  <meta name="twitter:description" content="Create and update App Store preview videos and promotional visuals in one place. Edit your media, prepare versions, and export or upload with App Preview Editor Studio.">
   <meta name="twitter:image" content="https://bricks.pe/app-preview-editor/assets/product/social-preview.png">
 
   <link rel="icon" href="AppIcon.png" type="image/png">
   <link rel="apple-touch-icon" href="AppIcon.png">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .hero-brand { margin: 0 0 18px; color: var(--text-secondary); font-size: 1rem; }
-    .hero-brand strong { color: var(--text); }
     .hero h1 { max-width: 14ch; white-space: normal; font-size: clamp(2.5rem, 9vw, 7.25rem); }
     .hero h1 .hero-word { display: block; }
-    .hero-beta-note { max-width: 58ch; margin: 18px auto 0; color: var(--text-secondary); font-size: 0.875rem; }
     .capability-grid .capability-label { margin: 0 0 12px; color: var(--text-secondary); font-size: 0.875rem; font-weight: 650; }
     @media (min-width: 900px) {
       .capability-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 40px; }
@@ -45,87 +42,61 @@
   "@graph": [
     {
       "@type": "SoftwareApplication",
-      "name": "APEs — App Preview Editor Studio",
+      "name": "App Preview Editor Studio",
       "alternateName": "APEs",
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "macOS",
       "url": "https://bricks.pe/app-preview-editor/",
       "image": "https://bricks.pe/app-preview-editor/AppIcon.png",
-      "description": "Show your app at its best. Create, update, check, and upload App Store creative assets with APEs, an App Store creative studio for Mac."
+      "description": "Create and update App Store preview videos and promotional visuals in one place. Edit your media, prepare versions, and export or upload with App Preview Editor Studio.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Monthly — introductory pricing",
+          "price": "4.99",
+          "priceCurrency": "USD",
+          "description": "Early subscribers keep their lower renewal price. Planned regular price: $6.99/month."
+        },
+        {
+          "@type": "Offer",
+          "name": "Yearly — introductory pricing",
+          "price": "39.99",
+          "priceCurrency": "USD",
+          "description": "Early subscribers keep their lower renewal price. Planned regular price: $59.99/year."
+        },
+        {
+          "@type": "Offer",
+          "name": "Lifetime",
+          "price": "149.99",
+          "priceCurrency": "USD"
+        }
+      ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Is the beta open?",
+          "name": "Is there a free trial?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Request access using the form on this page. Requests are reviewed manually, and approved testers receive a TestFlight invitation by email."
+            "text": "Yes. There’s a free 7 day trial, and you don’t need a separate APEs account. Direct uploads use your own App Store Connect API credentials."
           }
         },
         {
           "@type": "Question",
-          "name": "Will APEs remain free after the beta?",
+          "name": "What is introductory pricing?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "APEs is free during the beta. Pricing for the full release has not been announced."
+            "text": "Introductory pricing is $4.99/month or $39.99/year. Early subscribers keep their lower renewal price. Planned regular subscription prices are $6.99/month and $59.99/year. Lifetime access is $149.99 and is not part of the introductory offer. All prices are in USD."
           }
         },
         {
           "@type": "Question",
-          "name": "What about early adopters?",
+          "name": "Which devices and languages can I prepare?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Early beta testers will receive something special when the app launches."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is APEs?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "APEs stands for App Preview Editor Studio. It is an App Store creative studio for Mac, built to help you create, update, check, and deliver the assets that show your app at its best."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Who is it for?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Indie Apple developers and small app teams who create and update their own App Store assets."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What can I create with APEs?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Create App Preview videos, Search Results Videos, Product Page Headers, and visuals for In-App Event Cards and Event Details Pages. Available App Store placements depend on your app and Apple’s support for each format."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Which Apple platforms are supported?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "APEs runs on Mac. App Preview presets cover iPhone, iPad, Mac, and Apple Vision Pro, including portrait and landscape where App Store Connect supports them."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I create previews for multiple languages?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Keep separate device and language timelines in the same project. You adapt the text and media for each language; APEs does not translate them automatically."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I update a preview after my app changes?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. Replace or relink screenshots and recordings while preserving compatible timing, text, and styling."
+            "text": "APEs runs on Mac. App Preview presets cover iPhone, iPad, Mac, and Apple Vision Pro, with portrait and landscape where supported. Keep separate language timelines and adapt the text and media yourself; APEs does not translate them automatically."
           }
         },
         {
@@ -133,47 +104,47 @@
           "name": "Does APEs shorten my video to meet a duration limit?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. APEs checks whether your video exceeds Apple’s applicable duration limit. You decide where to trim it. Auto Cut can trim pauses and dead time, but it does not automatically fit your video to an App Store duration limit."
+            "text": "No. APEs checks whether your video exceeds Apple’s applicable duration limit. You choose where to trim. Auto Cut can trim pauses and dead time, but it does not automatically fit a video to an App Store duration limit."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I upload directly to App Store Connect?",
+          "name": "Can I save files locally?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Add your App Store Connect API credentials and configure your app to upload previews, screenshots, search videos, and header videos to supported destinations. Uploading does not publish an asset or guarantee approval."
+            "text": "Yes. Export video as H.264 in an MP4 file or ProRes 422 HQ in a MOV file. You can also save individual frames as PNG images."
           }
         },
         {
           "@type": "Question",
-          "name": "How does APEs protect my privacy?",
+          "name": "What do I need for direct upload?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "App Store Connect credentials are stored in macOS Keychain. Projects and media are stored locally. Files you choose to upload are sent to App Store Connect."
+            "text": "Add your App Store Connect API credentials, select your app, and choose a supported destination. Appropriate permissions and an editable app version may be required. In-App Event videos support folder export only."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I build my first App Preview?",
+          "name": "Do App Store checks guarantee approval?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Import your screenshots and recordings, arrange your best moments, then refine timing, text, audio, and motion. Review the checks, make any edits you need, and export or upload."
+            "text": "No. APEs flags common technical issues and potentially risky text for your review. Apple makes the final acceptance decision. Uploading does not publish an asset."
           }
         },
         {
           "@type": "Question",
-          "name": "What can I export?",
+          "name": "Where are my projects and credentials stored?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "H.264 or ProRes 422 HQ video, plus individual PNG frames. Choose the format that fits your destination."
+            "text": "Projects are saved as files on your Mac, and App Store Connect API credentials are stored in macOS Keychain. Files you choose to upload are sent to App Store Connect."
           }
         },
         {
           "@type": "Question",
-          "name": "Do App Store Checks guarantee approval?",
+          "name": "How do I make my first preview?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. APEs flags common technical issues, duration overruns, and potentially risky text such as pricing or “#1” claims for your review. Apple makes the final decision on App Store acceptance."
+            "text": "Start with the getting-started guide for an import-to-export walkthrough."
           }
         }
       ]
@@ -187,20 +158,15 @@
 
   <header class="site-header">
     <nav class="nav shell" aria-label="Primary navigation">
-      <a class="brand" href="#top" aria-label="APEs — App Preview Editor Studio home">
+      <a class="brand" href="#top" aria-label="App Preview Editor home">
         <img src="AppIcon.png" width="40" height="40" alt="">
-        <span>APEs</span>
+        <span>App Preview Editor</span>
       </a>
       <div class="nav-actions">
-        <a class="nav-link" href="#workflow">How it works</a>
-        <a class="nav-link" href="#features">Features</a>
-        <a class="nav-link" href="guides/index.html">Guides</a>
-        <a class="nav-link" href="#faq">FAQ</a>
-        <details class="nav-menu">
-          <summary>Menu</summary>
-          <div><a href="#workflow">How it works</a><a href="#features">Features</a><a href="guides/index.html">Guides</a><a href="#faq">FAQ</a></div>
-        </details>
-        <a class="button button-small" href="#hero-email" data-beta-cta>Request Beta Access</a>
+        <a class="button button-small download-button" href="https://apps.apple.com/us/app/app-preview-editor-studio/id6785711605" aria-label="Download for Mac">
+          <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
+          <span>Download</span>
+        </a>
       </div>
     </nav>
   </header>
@@ -208,68 +174,28 @@
   <main id="main">
     <section class="hero shell" id="top">
       <div class="hero-copy">
-        <p class="hero-brand hero-intro-secondary"><strong>APEs</strong> · App Preview Editor Studio</p>
         <h1><span class="hero-word">Show your app</span> <span class="hero-word">at its best.</span></h1>
-        <p class="hero-lede hero-intro-secondary">An App Store creative studio for Mac.</p>
-        <p class="hero-body hero-intro-detail">Turn recordings and screenshots into previews and App Store visuals. Update what changed, keep the work you love, and get back to building.</p>
+        <p class="hero-lede hero-intro-secondary">Create and update App Store preview videos and promotional visuals in one place.</p>
         <div class="hero-intro-detail">
-          <form class="signup-form" action="https://bricks.us11.list-manage.com/subscribe/post?u=8254d04472ab0d25110f41edb&amp;id=0bbe1c0355&amp;f_id=00310fe1f0" method="POST" data-signup-form data-placement="hero" data-signup-state="collapsed" novalidate>
-            <input type="hidden" name="tags" value="9327311">
-            <input class="honey" type="text" name="b_8254d04472ab0d25110f41edb_0bbe1c0355" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button class="button signup-trigger" type="button" data-beta-open aria-expanded="false" aria-controls="hero-email-step">Request Beta Access</button>
-            <div class="signup-step" id="hero-email-step" data-signup-step="email">
-              <label for="hero-email">Email</label>
-              <input class="email-input" id="hero-email" name="EMAIL" type="email" inputmode="email" autocomplete="email" placeholder="john@address.com" aria-describedby="hero-form-note hero-form-status" required>
-              <button class="button submit-button" type="submit"><span>Continue</span></button>
-              <p class="form-note" id="hero-form-note">We’ll review your request and follow up by email.</p>
-            </div>
-            <div class="signup-step beta-step" data-signup-step="beta" hidden>
-              <div class="beta-heading">
-                <h2>Tell us what you’re building.</h2>
-                <p>A few details help us review requests and invite testers who match the current beta.</p>
-              </div>
-              <label for="hero-first-name">First name</label>
-              <input id="hero-first-name" name="FNAME" type="text" autocomplete="given-name" maxlength="255" aria-describedby="hero-form-status">
-              <label for="hero-last-name">Last name</label>
-              <input id="hero-last-name" name="LNAME" type="text" autocomplete="family-name" maxlength="255" aria-describedby="hero-form-status">
-              <label for="hero-building">What are you building?</label>
-              <textarea id="hero-building" name="BUILDING" rows="4" maxlength="255" placeholder="Tell us about your app and where you are in development." aria-describedby="hero-form-status" required></textarea>
-              <label for="hero-link">App or website (optional)</label>
-              <input id="hero-link" name="APPLINK" type="text" inputmode="url" maxlength="255" placeholder="https://" aria-describedby="hero-form-status">
-              <label for="hero-challenge">What’s the hardest part about preparing your App Store assets?</label>
-              <textarea id="hero-challenge" name="CHALLENGE" rows="4" maxlength="255" placeholder="Editing videos, updating screens, preparing versions, checking formats, or uploading." aria-describedby="hero-form-status" required></textarea>
-              <div class="beta-actions">
-                <button class="button button-secondary" type="button" data-beta-back>Back</button>
-                <button class="button submit-button" type="submit"><span>Submit beta request</span></button>
-              </div>
-            </div>
-            <p class="form-status" id="hero-form-status" role="status" aria-live="polite"></p>
-          </form>
+          <a class="button download-button" href="https://apps.apple.com/us/app/app-preview-editor-studio/id6785711605" aria-label="Download for Mac">
+            <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
+            <span>Download</span>
+          </a>
+          <p class="download-caption">Free 7 day trial. No Accounts.</p>
         </div>
-        <p class="hero-beta-note hero-intro-detail">Free during beta. Requests are reviewed manually; approved testers receive a TestFlight invitation by email.</p>
       </div>
 
       <div class="hero-workflow">
-        <video width="1480" height="925" poster="assets/product/hero-workflow.png" preload="metadata" muted loop playsinline data-autoplay-video aria-label="APEs showing a multi-language App Preview timeline">
+        <video width="1480" height="925" poster="assets/product/hero-workflow.png" preload="metadata" muted loop playsinline data-autoplay-video role="button" tabindex="0" aria-label="Play editor demo">
           <source src="assets/hero-demo.mp4" type="video/mp4">
         </video>
-        <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
-      </div>
-    </section>
-
-    <section class="proof-strip" aria-label="Product highlights">
-      <div class="shell proof-grid">
-        <p>Native for Mac</p>
-        <p>Reuse your work</p>
-        <p>Built for App Store formats</p>
-        <p>Direct App Store Connect upload</p>
       </div>
     </section>
 
     <section class="result-section section shell" aria-labelledby="result-title">
       <div class="result-copy reveal">
-        <h2 id="result-title">Your app. Having a moment.</h2>
-        <p>A finished App Preview made from screenshots, recordings, text, and audio. The good stuff, in motion.</p>
+        <h2 id="result-title">See what your app could look like.</h2>
+        <p>Bring your screenshots, recordings, text, and audio together in an App Preview like this one.</p>
       </div>
       <div class="result-media reveal">
         <div class="result-video-frame">
@@ -280,26 +206,20 @@
       </div>
     </section>
 
-    <section class="problem-section section">
-      <div class="shell problem-layout">
-        <div class="section-heading reveal">
-          <h2>New release. Same asset chores?</h2>
-          <p>You ship a feature. Then come the recordings, the edits, the versions, and the uploads. APEs brings that work into one Mac app, so showing what’s new feels like part of shipping.</p>
-        </div>
-        <ol class="problem-list reveal">
-          <li><span>01</span>Pick your best moments</li>
-          <li><span>02</span>Shape the story</li>
-          <li><span>03</span>Make the formats you need</li>
-          <li><span>04</span>Refresh what changed</li>
-          <li><span>05</span>Check and upload</li>
-        </ol>
-      </div>
-    </section>
+      <aside class="founder-note shell reveal" aria-label="From the developer">
+        <a class="founder-link" href="https://x.com/freddyjdc" target="_blank" rel="me noopener">
+          <img src="assets/freddy-jimenez.jpg" width="48" height="48" alt="" loading="lazy" decoding="async">
+          <span>
+            <strong>I’m Freddy, an Apple developer. I built App Preview Editor Studio, or APEs, because updating my apps shouldn’t mean starting their previews from scratch.</strong>
+            <span class="founder-handle">@freddyjdc on X</span>
+          </span>
+        </a>
+      </aside>
 
     <section class="workflow section" id="workflow" aria-labelledby="workflow-title">
       <div class="shell">
         <div class="section-heading workflow-heading reveal">
-          <h2 id="workflow-title" aria-label="From your app to App Store assets in three steps">From your app to App Store assets in <span class="count-animation word-countdown" data-count-from="12" data-count-to="3" data-count-words aria-hidden="true">three</span> steps</h2>
+          <h2 id="workflow-title">Start with what you’ve already made.</h2>
         </div>
         <div class="workflow-layout">
           <div class="workflow-media reveal">
@@ -311,13 +231,8 @@
           <div class="workflow-steps">
             <article class="workflow-step reveal" data-workflow-video="assets/drop-demo.mp4" data-workflow-poster="assets/product/drop-import.png" data-workflow-align="left">
               <img class="feature-title-icon" src="assets/icons/drop.svg" width="32" height="32" alt="" aria-hidden="true">
-              <h3>Drop.</h3>
-              <p>Start with what you’ve already made.</p>
-              <ul>
-                <li>Import screenshots, recordings, and audio</li>
-                <li>Arrange your first sequence on the timeline</li>
-                <li>Keep your assets together as you edit</li>
-              </ul>
+              <h3>Bring your app in.</h3>
+              <p>Drop in recordings, screenshots, and audio, then arrange the moments you want people to see.</p>
               <div class="mobile-workflow-media-wrap">
                 <video class="mobile-workflow-media" poster="assets/product/drop-import.png" preload="none" muted loop playsinline data-autoplay-video data-video-align="left" aria-label="Dragging screenshots, recordings, and audio from Finder into APEs">
                   <source src="assets/drop-demo.mp4" type="video/mp4">
@@ -327,13 +242,8 @@
             </article>
             <article class="workflow-step reveal" data-workflow-video="assets/edit-demo.mp4" data-workflow-poster="assets/product/edit-timeline.png" data-workflow-align="center">
               <img class="feature-title-icon" src="assets/icons/edit.svg" width="32" height="32" alt="" aria-hidden="true">
-              <h3>Edit.</h3>
-              <p>Give your app the spotlight.</p>
-              <ul>
-                <li>Review repeated footage flagged by Smart Duplicate Detection</li>
-                <li>Use Auto Cut to trim pauses and dead time</li>
-                <li>Add text, motion, and smooth transitions</li>
-              </ul>
+              <h3>Give the story its shape.</h3>
+              <p>Refine the timing, add text and motion, and bring in audio. Use Auto Cut to trim pauses and dead time, and review repeated footage marked by duplicate detection.</p>
               <div class="mobile-workflow-media-wrap">
                 <video class="mobile-workflow-media" poster="assets/product/edit-timeline.png" preload="none" muted loop playsinline data-autoplay-video aria-label="Adjusting clips and text on the APEs timeline">
                   <source src="assets/edit-demo.mp4" type="video/mp4">
@@ -341,46 +251,6 @@
                 <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
               </div>
             </article>
-            <article class="workflow-step reveal" data-workflow-video="assets/upload-demo.mp4" data-workflow-poster="assets/product/upload-validation.png" data-workflow-align="right">
-              <img class="feature-title-icon" src="assets/icons/upload.svg" width="32" height="32" alt="" aria-hidden="true">
-              <h3>Upload.</h3>
-              <p>Check the details. Send it to App Store Connect.</p>
-              <ul>
-                <li>Check formats and applicable duration limits</li>
-                <li>Queue the versions you need</li>
-                <li>Upload to the supported destination you choose</li>
-              </ul>
-              <div class="mobile-workflow-media-wrap">
-                <video class="mobile-workflow-media" poster="assets/product/upload-validation.png" preload="none" muted loop playsinline data-autoplay-video data-video-align="right" aria-label="Selecting an App Store Connect preview slot for upload">
-                  <source src="assets/upload-demo.mp4" type="video/mp4">
-                </video>
-                <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="philosophy section shell" aria-labelledby="philosophy-title">
-      <div class="philosophy-copy reveal">
-        <div class="philosophy-stage" data-philosophy-stage>
-          <div class="philosophy-lines">
-            <h2 class="philosophy-line is-active" id="philosophy-title" data-philosophy-line>You built something good.</h2>
-            <p class="philosophy-line" data-philosophy-line>Show the moment it clicks.</p>
-            <p class="philosophy-line" data-philosophy-line>Give each feature its spotlight.</p>
-            <p class="philosophy-line" data-philosophy-line>Keep your next update moving.</p>
-            <div class="philosophy-line philosophy-final" data-philosophy-line>
-              <p class="philosophy-final-title">Show your app at its best.</p>
-              <p class="philosophy-summary">APEs · App Preview Editor Studio</p>
-            </div>
-          </div>
-          <div class="philosophy-triggers" aria-hidden="true">
-            <span data-philosophy-trigger="0"></span>
-            <span data-philosophy-trigger="1"></span>
-            <span data-philosophy-trigger="2"></span>
-            <span data-philosophy-trigger="3"></span>
-            <span data-philosophy-trigger="4"></span>
           </div>
         </div>
       </div>
@@ -389,67 +259,27 @@
     <section class="capabilities section" id="features" aria-labelledby="features-title">
       <div class="shell">
         <div class="section-heading reveal">
-          <h2 id="features-title">Meet your app’s creative sidekick.</h2>
-          <p>From the first cut to the next release, APEs helps you show what makes your app worth a look.</p>
+          <h2 id="features-title">More ways to show your app.</h2>
+          <p>Create a search results video, a product page header, or visuals for an in-app event. Available placements depend on your app and Apple’s support.</p>
         </div>
         <div class="capability-grid reveal">
           <article>
-            <img class="feature-title-icon" src="assets/icons/create.svg" width="32" height="32" alt="" aria-hidden="true">
-            <p class="capability-label">Assisted Editing</p>
-            <h3>Keep the good parts.</h3>
-            <ul>
-              <li>Smart Duplicate Detection marks repeated footage for review.</li>
-              <li>Auto Cut trims pauses and dead time.</li>
-              <li>Add text, motion, and smooth transitions to shape the story.</li>
-            </ul>
-          </article>
-          <article>
-            <img class="feature-title-icon" src="assets/icons/organize.svg" width="32" height="32" alt="" aria-hidden="true">
-            <p class="capability-label">Format Preparation</p>
-            <h3>Built for App Store formats.</h3>
-            <ul>
-              <li>Resolution and frame rate adapt to the selected format.</li>
-              <li>APEs checks whether your video exceeds Apple’s applicable duration limit.</li>
-              <li>You choose where to trim.</li>
-            </ul>
-          </article>
-          <article>
             <img class="feature-title-icon" src="assets/icons/drop.svg" width="32" height="32" alt="" aria-hidden="true">
             <p class="capability-label">Search Results Video</p>
-            <h3>Three moments. One first impression.</h3>
-            <ul>
-              <li>Choose a different moment for each of three phones.</li>
-              <li>Bring them together under your headline.</li>
-              <li>Create video for supported search placements where it replaces screenshots.</li>
-            </ul>
+            <h3>A clear first look.</h3>
+            <p>Prepare a video for supported App Store search placements. Choose the footage and text you want people to see first.</p>
           </article>
           <article>
             <img class="feature-title-icon" src="assets/icons/edit.svg" width="32" height="32" alt="" aria-hidden="true">
             <p class="capability-label">Product Page Header</p>
-            <h3>Give your app an entrance.</h3>
-            <ul>
-              <li>Create a looping 21:9 product page header.</li>
-              <li>Start with your preview, a clip from your project library, or your own file.</li>
-              <li>Trim and style the loop.</li>
-            </ul>
+            <h3>Set the scene.</h3>
+            <p>Create a looping 21:9 header from your preview, a library clip, or your own video. Trim and style it for your product page.</p>
           </article>
           <article>
             <img class="feature-title-icon" src="assets/icons/create.svg" width="32" height="32" alt="" aria-hidden="true">
             <p class="capability-label">In-App Events</p>
             <h3>Give your next event its own look.</h3>
-            <ul>
-              <li>Prepare visuals for your Event Card.</li>
-              <li>Create visuals for the Event Details Page.</li>
-            </ul>
-          </article>
-          <article>
-            <img class="feature-title-icon" src="assets/icons/deliver.svg" width="32" height="32" alt="" aria-hidden="true">
-            <p class="capability-label">App Store Checks &amp; Upload</p>
-            <h3>Check it. Send it.</h3>
-            <ul>
-              <li>Flag duration overruns and potentially risky text, including pricing and “#1” claims.</li>
-              <li>Upload previews, screenshots, search videos, and header videos directly to supported App Store Connect destinations.</li>
-            </ul>
+            <p>Prepare videos for the Event Card and Event Details Page. Export them to a folder to add in App Store Connect.</p>
           </article>
         </div>
       </div>
@@ -457,20 +287,15 @@
 
     <section class="product-tour section shell" aria-labelledby="tour-title">
       <div class="section-heading reveal">
-        <h2 id="tour-title">Your app moved on. Your assets can too.</h2>
-        <p>Refresh the screens that changed, keep your versions together, and carry your work into the next release.</p>
+        <h2 id="tour-title">Keep going when your app changes.</h2>
+        <p>Your next release doesn’t need an empty timeline. Refresh the screens that changed, then adapt the versions you need.</p>
       </div>
 
       <div class="product-stories">
         <article class="product-story reveal">
           <div class="story-copy">
             <h3>Update the screen. Keep the work.</h3>
-            <p>New UI? Swap in the new screens. Replace or relink media while keeping compatible timing, text, and styling.</p>
-            <ul>
-              <li>Preserve compatible timing and text</li>
-              <li>Relink missing project media</li>
-              <li>Refresh previews after your app changes</li>
-            </ul>
+            <p>Swap in a new screenshot or recording while keeping compatible timing, text, and styling. Relink missing files when media has moved.</p>
           </div>
           <div class="story-media">
             <video width="1920" height="1080" poster="assets/product/replace-media.png" preload="none" muted loop playsinline data-autoplay-video aria-label="Replacing a screenshot while preserving the existing timeline">
@@ -482,13 +307,8 @@
 
         <article class="product-story product-story-reverse reveal">
           <div class="story-copy">
-            <h3>One project. All your preview versions.</h3>
-            <p>Keep separate timelines for each device, orientation, and language in the same project.</p>
-            <ul>
-              <li>iPhone, iPad, Mac, and Apple Vision Pro</li>
-              <li>Portrait and landscape where supported</li>
-              <li>Separate language variants in one project</li>
-            </ul>
+            <h3>Keep your versions together.</h3>
+            <p>Keep separate device, orientation, and language timelines in one project. Start from an existing edit, then adapt the text and media for each version.</p>
           </div>
           <div class="story-media">
             <video width="1920" height="1080" poster="assets/product/project-variants.png" preload="none" muted loop playsinline data-autoplay-video aria-label="Managing device and language variants in one project">
@@ -501,73 +321,55 @@
       </div>
     </section>
 
-    <section class="faq section shell" id="faq" aria-labelledby="faq-title">
-      <h2 id="faq-title" class="section-heading reveal">Frequently asked questions</h2>
-      <div class="faq-list reveal">
-        <details name="faq"><summary>Is the beta open?</summary><div class="faq-answer"><div><p>Yes. Request access using the form on this page. Requests are reviewed manually, and approved testers receive a TestFlight invitation by email.</p></div></div></details>
-        <details name="faq"><summary>Will APEs remain free after the beta?</summary><div class="faq-answer"><div><p>APEs is free during the beta. Pricing for the full release has not been announced.</p></div></div></details>
-        <details name="faq"><summary>What about early adopters?</summary><div class="faq-answer"><div><p>Early beta testers will receive something special when the app launches.</p></div></div></details>
-        <details name="faq"><summary>What is APEs?</summary><div class="faq-answer"><div><p>APEs stands for App Preview Editor Studio. It is an App Store creative studio for Mac, built to help you create, update, check, and deliver the assets that show your app at its best.</p></div></div></details>
-        <details name="faq"><summary>Who is it for?</summary><div class="faq-answer"><div><p>Indie Apple developers and small app teams who create and update their own App Store assets.</p></div></div></details>
-        <details name="faq"><summary>What can I create with APEs?</summary><div class="faq-answer"><div><p>Create App Preview videos, Search Results Videos, Product Page Headers, and visuals for In-App Event Cards and Event Details Pages. Available App Store placements depend on your app and Apple’s support for each format.</p></div></div></details>
-        <details name="faq"><summary>Which Apple platforms are supported?</summary><div class="faq-answer"><div><p>APEs runs on Mac. App Preview presets cover iPhone, iPad, Mac, and Apple Vision Pro, including portrait and landscape where App Store Connect supports them.</p></div></div></details>
-        <details name="faq"><summary>Can I create previews for multiple languages?</summary><div class="faq-answer"><div><p>Yes. Keep separate device and language timelines in the same project. You adapt the text and media for each language; APEs does not translate them automatically.</p></div></div></details>
-        <details name="faq"><summary>Can I update a preview after my app changes?</summary><div class="faq-answer"><div><p>Yes. Replace or relink screenshots and recordings while preserving compatible timing, text, and styling.</p></div></div></details>
-        <details name="faq"><summary>Does APEs shorten my video to meet a duration limit?</summary><div class="faq-answer"><div><p>No. APEs checks whether your video exceeds Apple’s applicable duration limit. You decide where to trim it. Auto Cut can trim pauses and dead time, but it does not automatically fit your video to an App Store duration limit.</p></div></div></details>
-        <details name="faq"><summary>Can I upload directly to App Store Connect?</summary><div class="faq-answer"><div><p>Yes. Add your App Store Connect API credentials and configure your app to upload previews, screenshots, search videos, and header videos to supported destinations. Uploading does not publish an asset or guarantee approval.</p></div></div></details>
-        <details name="faq"><summary>How does APEs protect my privacy?</summary><div class="faq-answer"><div><p>App Store Connect credentials are stored in macOS Keychain. Projects and media are stored locally. Files you choose to upload are sent to App Store Connect.</p></div></div></details>
-        <details name="faq"><summary>How do I build my first App Preview?</summary><div class="faq-answer"><div><p>Import your screenshots and recordings, arrange your best moments, then refine timing, text, audio, and motion. Review the checks, make any edits you need, and export or upload.</p></div></div></details>
-        <details name="faq"><summary>What can I export?</summary><div class="faq-answer"><div><p>H.264 or ProRes 422 HQ video, plus individual PNG frames. Choose the format that fits your destination.</p></div></div></details>
-        <details name="faq"><summary>Do App Store Checks guarantee approval?</summary><div class="faq-answer"><div><p>No. APEs flags common technical issues, duration overruns, and potentially risky text such as pricing or “#1” claims for your review. Apple makes the final decision on App Store acceptance.</p></div></div></details>
+    <section class="delivery section shell" id="delivery" aria-labelledby="delivery-title">
+      <div class="product-story reveal">
+        <div class="story-copy">
+          <h2 id="delivery-title">Check the details. Send it on.</h2>
+          <p>Built for App Store formats. Review duration and format checks, make any edits you need, then export a file or upload to a supported App Store Connect destination using your own API credentials.</p>
+          <p>Uploading doesn’t publish an asset or guarantee Apple’s approval.</p>
+        </div>
+        <div class="story-media">
+          <video width="1920" height="1080" poster="assets/product/upload-validation.png" preload="none" muted loop playsinline data-autoplay-video data-video-align="right" aria-label="Selecting an App Store Connect preview slot for upload">
+            <source src="assets/upload-demo.mp4" type="video/mp4">
+          </video>
+          <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
+        </div>
       </div>
     </section>
 
-    <section class="final-cta section shell" id="signup" aria-labelledby="final-title">
+    <section class="faq section shell" id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title" class="section-heading reveal">Before you get started.</h2>
+      <div class="faq-list reveal">
+        <details name="faq"><summary>Is there a free trial?</summary><div class="faq-answer"><div><p>Yes. There’s a free 7 day trial, and you don’t need a separate APEs account. Direct uploads use your own App Store Connect API credentials.</p></div></div></details>
+        <details name="faq"><summary>What is introductory pricing?</summary><div class="faq-answer"><div><p>Introductory pricing is $4.99/month or $39.99/year. Early subscribers keep their lower renewal price. Planned regular subscription prices are $6.99/month and $59.99/year. Lifetime access is $149.99 and is not part of the introductory offer. All prices are in USD.</p></div></div></details>
+        <details name="faq"><summary>Which devices and languages can I prepare?</summary><div class="faq-answer"><div><p>APEs runs on Mac. App Preview presets cover iPhone, iPad, Mac, and Apple Vision Pro, with portrait and landscape where supported. Keep separate language timelines and adapt the text and media yourself; APEs does not translate them automatically.</p></div></div></details>
+        <details name="faq"><summary>Does APEs shorten my video to meet a duration limit?</summary><div class="faq-answer"><div><p>No. APEs checks whether your video exceeds Apple’s applicable duration limit. You choose where to trim. Auto Cut can trim pauses and dead time, but it does not automatically fit a video to an App Store duration limit.</p></div></div></details>
+        <details name="faq"><summary>Can I save files locally?</summary><div class="faq-answer"><div><p>Yes. Export video as H.264 in an MP4 file or ProRes 422 HQ in a MOV file. You can also save individual frames as PNG images.</p></div></div></details>
+        <details name="faq"><summary>What do I need for direct upload?</summary><div class="faq-answer"><div><p>Add your App Store Connect API credentials, select your app, and choose a supported destination. Appropriate permissions and an editable app version may be required. In-App Event videos support folder export only.</p></div></div></details>
+        <details name="faq"><summary>Do App Store checks guarantee approval?</summary><div class="faq-answer"><div><p>No. APEs flags common technical issues and potentially risky text for your review. Apple makes the final acceptance decision. Uploading does not publish an asset.</p></div></div></details>
+        <details name="faq"><summary>Where are my projects and credentials stored?</summary><div class="faq-answer"><div><p>Projects are saved as files on your Mac, and App Store Connect API credentials are stored in macOS Keychain. Files you choose to upload are sent to App Store Connect.</p></div></div></details>
+        <details name="faq"><summary>How do I make my first preview?</summary><div class="faq-answer"><div><p>Start with the <a href="guides/getting-started/index.html">getting-started guide</a> for an import-to-export walkthrough.</p></div></div></details>
+      </div>
+    </section>
+
+    <section class="final-cta section shell" id="download" aria-labelledby="final-title">
       <div class="final-panel reveal">
         <img src="AppIcon.png" width="144" height="144" alt="">
-        <h2 id="final-title">Made something good? Let’s show it.</h2>
-        <form class="signup-form signup-form-centered" action="https://bricks.us11.list-manage.com/subscribe/post?u=8254d04472ab0d25110f41edb&amp;id=0bbe1c0355&amp;f_id=00310fe1f0" method="POST" data-signup-form data-placement="final" data-signup-state="collapsed" novalidate>
-          <input type="hidden" name="tags" value="9327311">
-          <input class="honey" type="text" name="b_8254d04472ab0d25110f41edb_0bbe1c0355" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button class="button signup-trigger" type="button" data-beta-open aria-expanded="false" aria-controls="final-email-step">Request Beta Access</button>
-          <div class="signup-step" id="final-email-step" data-signup-step="email">
-            <label for="final-email">Email</label>
-            <input class="email-input" id="final-email" name="EMAIL" type="email" inputmode="email" autocomplete="email" placeholder="john@address.com" aria-describedby="final-form-note final-form-status" required>
-            <button class="button submit-button" type="submit"><span>Continue</span></button>
-            <p class="form-note" id="final-form-note">Try APEs for your next release. Free during beta; requests are reviewed manually, and approved testers receive a TestFlight invitation by email.</p>
-          </div>
-          <div class="signup-step beta-step" data-signup-step="beta" hidden>
-            <div class="beta-heading">
-              <h2>Tell us what you’re building.</h2>
-              <p>A few details help us review requests and invite testers who match the current beta.</p>
-            </div>
-            <label for="final-first-name">First name (optional)</label>
-            <input id="final-first-name" name="FNAME" type="text" autocomplete="given-name" maxlength="255" aria-describedby="final-form-status">
-            <label for="final-last-name">Last name (optional)</label>
-            <input id="final-last-name" name="LNAME" type="text" autocomplete="family-name" maxlength="255" aria-describedby="final-form-status">
-            <label for="final-building">What are you building?</label>
-            <textarea id="final-building" name="BUILDING" rows="4" maxlength="255" placeholder="Tell us about your app and where you are in development." aria-describedby="final-form-status" required></textarea>
-            <label for="final-link">App or website (optional)</label>
-            <input id="final-link" name="APPLINK" type="text" inputmode="url" maxlength="255" placeholder="https://" aria-describedby="final-form-status">
-            <label for="final-challenge">What’s the hardest part about preparing your App Store assets?</label>
-            <textarea id="final-challenge" name="CHALLENGE" rows="4" maxlength="255" placeholder="Editing videos, updating screens, preparing versions, checking formats, or uploading." aria-describedby="final-form-status" required></textarea>
-            <div class="beta-actions">
-              <button class="button button-secondary" type="button" data-beta-back>Back</button>
-              <button class="button submit-button" type="submit"><span>Submit beta request</span></button>
-            </div>
-          </div>
-          <p class="form-status" id="final-form-status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
-      <div class="founder-note reveal">
-        <a class="founder-link" href="https://x.com/freddyjdc" target="_blank" rel="me noopener">
-          <img src="assets/freddy-jimenez.jpg" width="48" height="48" alt="" loading="lazy" decoding="async">
-          <span>
-            <strong>I’m Freddy, an Apple developer. I built APEs because updating my apps shouldn’t mean starting their creative assets from scratch.</strong>
-            <span class="founder-handle">@freddyjdc on X</span>
-          </span>
+        <h2 id="final-title">You built it. Show it off.</h2>
+        <p class="pricing-intro">Introductory pricing</p>
+        <dl class="pricing-options" aria-label="Plans and prices in US dollars">
+          <div><dt>Monthly</dt><dd>$4.99<span>/month</span></dd><dd class="planned-price">Planned regular price: $6.99/month</dd></div>
+          <div><dt>Yearly</dt><dd>$39.99<span>/year</span></dd><dd class="planned-price">Planned regular price: $59.99/year</dd></div>
+          <div><dt>Lifetime</dt><dd>$149.99</dd></div>
+        </dl>
+        <p class="pricing-note">The introductory offer applies to subscriptions. Early subscribers keep their lower renewal price. All prices in USD.</p>
+        <a class="button download-button" href="https://apps.apple.com/us/app/app-preview-editor-studio/id6785711605" aria-label="Download for Mac">
+          <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
+          <span>Download</span>
         </a>
+        <p class="download-caption">Free 7 day trial. No Accounts.</p>
       </div>
+
     </section>
   </main>
 
@@ -576,6 +378,6 @@
     <div><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:hello@bricks.pe">Contact</a><span>© 2026 Bricks Apps</span></div>
   </footer>
 
-  <script src="script.js?v=20260718-3" defer></script>
+  <script src="script.js?v=20261024-2" defer></script>
 </body>
 </html>

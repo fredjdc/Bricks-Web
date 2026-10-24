@@ -75,8 +75,6 @@ test("local navigation targets files instead of filesystem directories", () => {
     assert.doesNotMatch(html, /href="(?:\.\/|\.\.\/|\.\.\/\.\.\/)(?:#[^"]*)?"/);
   });
 
-  const productHTML = readFileSync(new URL("../index.html", import.meta.url), "utf8");
-  assert.match(productHTML, /href="guides\/index\.html"/);
 });
 
 test("each article breadcrumb includes the Guides collection", () => {
