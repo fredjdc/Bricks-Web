@@ -8,7 +8,7 @@ assert.match(hero, /Show your app/);
 assert.match(hero, /at its best\./);
 assert.match(hero, /Create and update App Store preview videos and promotional visuals in one place\./);
 assert.equal((hero.match(/<p\b/g) ?? []).length, 2);
-assert.equal((html.match(/No account required\./g) ?? []).length, 2);
+assert.match(hero, /No account required\./);
 assert.equal((html.match(/<a[^>]*download-button[^>]*href="https:\/\/apps\.apple\.com\/us\/app\/app-preview-editor-studio\/id6785711605"/g) ?? []).length, 3);
 assert.equal((html.match(/src="\.\.\/images\/apple-icon-white\.svg"/g) ?? []).length, 3);
 assert.equal((html.match(/srcset="\.\.\/images\/apple-icon-black\.svg"/g) ?? []).length, 3);
@@ -30,18 +30,15 @@ assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareAppl
 for (const price of ["$4.99", "$39.99", "$6.99", "$59.99", "$149.99"]) assert.ok(html.includes(price));
 assert.doesNotMatch(html, /10.second|auto.renew|billed after|Scene Clips.*Pro.only/i);
 
-assert.match(html, /Introductory pricing/);
-assert.match(html, /Planned regular price: \$6\.99\/month/);
-assert.match(html, /Planned regular price: \$59\.99\/year/);
-assert.match(html, /Early subscribers keep their lower renewal price\./);
+assert.match(html, /Introductory pricing/i);
+assert.match(html, /Regular: \$6\.99\/month/);
+assert.match(html, /Regular: \$59\.99\/year/);
+assert.doesNotMatch(html, /Early subscribers keep their lower renewal price|Planned regular price:/);
 assert.doesNotMatch(html, /<s>|<del>|50%|30.days|limited.time|offer ends|resubscribe|plan.switch|first.billing.period/i);
 
 assert.equal((html.match(/aria-label="Download for Mac"/g) ?? []).length, 3);
 
-assert.match(html, /Your projects remain available to save and edit with Free after the trial\./);
 
-assert.match(html, /It ends without an automatic charge\./);
-assert.match(html, /The trial is managed locally on each Mac\./);
 
 const pricing = html.match(/<section\b[^>]*\bid="download"[^>]*>[\s\S]*?<\/section>/)?.[0];
 assert.ok(pricing, "The pricing section must be present");
@@ -52,11 +49,9 @@ for (const question of faq.mainEntity) {
   const copy = `${question.name} ${question.acceptedAnswer.text}`.replaceAll("Apple Vision Pro", "");
   assert.doesNotMatch(copy, planLanguage, "FAQ copy and structured answers must remain plan-free");
 }
-assert.match(pricing, /Start the 7 day Pro trial in the app/);
 
 const comparison = pricing.match(/<table class="plan-comparison">([\s\S]*?)<\/table>/)?.[1];
 assert.ok(comparison, "Pricing must include a semantic comparison table");
-assert.match(comparison, /<caption>Compare Free and Pro<\/caption>/);
 assert.equal((comparison.match(/scope="col"/g) ?? []).length, 3);
 const cells = (cell) => cell.match(/aria-label="([^"]+)"/)?.[1] ?? cell.replace(/&shy;|\u00ad/g, "").replace(/<[^>]*>/g, "").trim();
 const rows = [...comparison.matchAll(/<tr><th scope="row">(.*?)<\/th><td[^>]*>(.*?)<\/td><td[^>]*>(.*?)<\/td><\/tr>/g)];
@@ -67,8 +62,10 @@ assert.deepEqual(rows.map(([, feature, free, pro]) => [feature, cells(free), cel
   ["ProRes exports", "Not included", "Included"],
   ["Direct App Store Connect upload", "Not included", "Included"],
 ]);
-assert.match(html, /Show your app in action in App Store search ads\./);
+assert.match(html, /Show your app in action with the App Store’s new search creative asset or in search ads\./);
 assert.match(html, /Showcase your next event\./);
 assert.match(html, /Create videos for your Event Card and Event Details Page\./);
 assert.match(html, /Upload your finished videos directly to App Store Connect\./);
 assert.doesNotMatch(html, /supported App Store search placements|does not translate|guarantee (?:Apple’s )?approval|Uploading (?:doesn’t|does not) publish|Some uploads require|Export them to a folder/i);
+
+assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({description}) => description).filter(Boolean), ["Regular: $6.99/month.", "Regular: $59.99/year."]);

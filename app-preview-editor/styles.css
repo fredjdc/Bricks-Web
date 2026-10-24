@@ -384,3 +384,9 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 .apes-landing .plan-comparison td[aria-label="Watermarked"] { hyphens: manual; }
+
+/* Wide layout: give the three feature stories the same breathing room. */
+@media (min-width: 1200px) {
+  .apes-landing .product-stories { row-gap: 256px; }
+  .apes-landing .product-tour + .delivery { margin-top: 48px; }
+}
