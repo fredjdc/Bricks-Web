@@ -26,9 +26,9 @@ for (const question of faq.mainEntity) {
   assert.equal(answer, question.acceptedAnswer.text);
 }
 
-assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({name, price, priceCurrency}) => [name, price, priceCurrency]), [["Monthly — introductory pricing", "4.99", "USD"], ["Yearly — introductory pricing", "39.99", "USD"], ["Lifetime", "149.99", "USD"]]);
+assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({name, price, priceCurrency}) => [name, price, priceCurrency]), [["Pro monthly — introductory pricing", "4.99", "USD"], ["Pro yearly — introductory pricing", "39.99", "USD"], ["Pro lifetime", "149.99", "USD"]]);
 for (const price of ["$4.99", "$39.99", "$6.99", "$59.99", "$149.99"]) assert.ok(html.includes(price));
-assert.doesNotMatch(html, /watermark|10.second|Pro.only|auto.renew|billed after/i);
+assert.doesNotMatch(html, /10.second|auto.renew|billed after|Scene Clips.*Pro.only/i);
 
 assert.match(html, /Introductory pricing/);
 assert.match(html, /Planned regular price: \$6\.99\/month/);
@@ -37,3 +37,12 @@ assert.match(html, /Early subscribers keep their lower renewal price\./);
 assert.doesNotMatch(html, /<s>|<del>|50%|30.days|limited.time|offer ends|resubscribe|plan.switch|first.billing.period/i);
 
 assert.equal((html.match(/aria-label="Download for Mac"/g) ?? []).length, 3);
+
+assert.match(html, /Full editing, including Scene Clips\./);
+assert.match(html, /Full-length watermarked H\.264 drafts and watermarked PNG images\./);
+assert.match(html, /Clean H\.264 and ProRes video exports, clean PNG images, and direct App Store Connect upload\./);
+assert.match(html, /Your projects remain available to save and edit with Free after the trial\./);
+
+assert.match(html, /It ends without an automatic charge\./);
+assert.match(html, /The trial is managed locally on each Mac\./);
+assert.match(html, /static “Made with APEs” watermark in the lower-right corner\./);

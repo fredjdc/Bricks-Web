@@ -82,6 +82,10 @@ const desktopWorkflow = window.matchMedia("(min-width: 900px)");
 if (workflowVideo && workflowSteps.length && "IntersectionObserver" in window) {
   const activateWorkflowStep = (step) => {
     workflowSteps.forEach((item) => item.classList.toggle("is-active", item === step));
+    document.querySelectorAll(".workflow-progress span").forEach((phase, index) => {
+      if (workflowSteps[index] === step) phase.setAttribute("aria-current", "step");
+      else phase.removeAttribute("aria-current");
+    });
     workflowVideo.dataset.videoAlign = step.dataset.workflowAlign;
     const source = workflowVideo.querySelector("source");
     if (source.getAttribute("src") !== step.dataset.workflowVideo) {
