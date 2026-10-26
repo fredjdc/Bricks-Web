@@ -58,7 +58,7 @@ assert.deepEqual(rows.map(([, feature, free, pro]) => [feature, cells(free), cel
   ["All editing tools, including Scene Clips", "Included", "Included"],
   ["Save and edit projects", "Included", "Included"],
   ["H.264 video and PNG image", "Included", "Included"],
-  ["Watermark", "Export with a watermark", "Export without a watermark"],
+  ["Watermark", "Exports include a watermark", "Exports have no watermark"],
   ["ProRes exports", "Not included", "Included"],
   ["Direct App Store Connect upload", "Not included", "Included"],
 ]);

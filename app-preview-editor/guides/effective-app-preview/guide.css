@@ -202,7 +202,7 @@
 .guide-card-link:focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 35%, transparent); outline-offset: 3px; }
 .guide-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; color: var(--text-secondary); font-size: 14px; font-weight: 700; }
 .guide-reviewed { font-weight: 500; }
-.guide-start-badge { padding: 4px 8px; border: 1px solid var(--border); border-radius: 999px; color: var(--text); font-size: 12px; }
+.guide-start-badge { padding: 4px 8px; border: 1px solid transparent; border-radius: var(--ape-badge-radius); background: var(--ape-badge-bg); color: var(--ape-badge-text); font-size: 12px; }
 .guide-card-icon { display: block; width: 34px; height: 34px; margin-bottom: 20px; opacity: 0.9; }
 .guide-section-icon { display: block; width: 32px; height: 32px; margin-bottom: 18px; opacity: 0.88; }
 .guide-section-icon-small { width: 26px; height: 26px; margin-bottom: 14px; }
