@@ -415,6 +415,9 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .hero-result { min-width: 0; padding: 4px; overflow: hidden; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: 0 8px 40px rgba(0, 0, 0, 0.24); }
 .apes-landing .hero-result .video-stage { overflow: hidden; border-radius: 27px; }
 .apes-landing .hero-result video { display: block; width: 100%; height: auto; aspect-ratio: 886 / 1920; object-fit: contain; }
+/* Keep the shared hero camera when the exit wrapper isolates the tilted card. */
+.apes-landing .hero-side-slot { --hero-exit-direction: -1; --hero-exit-distance: clamp(48px, 18vw, 220px); --hero-exit-blur: 6px; min-width: 0; pointer-events: none; perspective: inherit; perspective-origin: calc(50% - var(--hero-exit-direction) * var(--hero-side-distance, 100%)) calc(50% + var(--hero-perspective-y, 6px)); }
+.apes-landing .hero-side-right { --hero-exit-direction: 1; }
 .apes-landing .hero-center-slot { --hero-center-scale: 1.08; position: relative; z-index: 2; min-width: 0; }
 .apes-landing .hero-preview-traveler { transform-origin: center; }
 .apes-landing .hero-result-center { z-index: 2; transform: scale(var(--hero-center-scale)); }
@@ -433,7 +436,9 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .editor-preview-static { width: 100%; height: 100%; object-fit: contain; }
 @media (prefers-reduced-motion: no-preference) {
   .apes-landing .hero-preview-traveler { transform: translate(var(--preview-x, 0px), var(--preview-y, 0px)) scale(var(--preview-scale, 1)); }
-  .apes-landing .editor-composition.is-handoff-ready .editor-preview-static { visibility: hidden; }
+  .apes-landing .is-handoff-ready .hero-side-slot { transform: translateX(calc(var(--handoff-progress) * var(--hero-exit-direction) * var(--hero-exit-distance))); opacity: calc(1 - var(--handoff-progress)); filter: blur(calc(var(--handoff-progress) * var(--hero-exit-blur))); }
+  .apes-landing .is-handoff-ready .result-section :is(.result-copy h2, .result-copy p, .editor-composition) { opacity: var(--handoff-progress); }
+  .apes-landing .is-handoff-ready .editor-preview-static { visibility: hidden; }
 }
 @media (max-width: 899px) {
   .apes-landing .hero-result-left { transform: translateX(6%) rotateY(6deg) scale(.9); }
@@ -441,7 +446,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 @media (max-width: 559px) {
   /* Side-to-center distance: (.72 + 1.35) / (2 * .72). */
-  .apes-landing .hero-results { --hero-side-distance: 143.75%; grid-template-columns: minmax(0, .72fr) minmax(0, 1.35fr) minmax(0, .72fr); padding-block: 12px 20px; }
+  .apes-landing .hero-results { --hero-side-distance: 143.75%; grid-template-columns: minmax(0, .72fr) minmax(0, 1.35fr) minmax(0, .72fr); padding-block: 12px 20px; --hero-perspective-y: 4px; }
   .apes-landing .hero-result { padding: 2px; border-radius: 16px; }
   .apes-landing .hero-result .video-stage { border-radius: 13px; }
   .apes-landing .hero-result-left { transform: translateX(6%) rotateY(3deg) scale(.94); }

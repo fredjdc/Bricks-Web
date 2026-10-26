@@ -304,13 +304,16 @@ const setupPreviewHandoff = () => {
   const origin = document.querySelector("[data-hero-preview-origin]");
   const composition = document.querySelector("[data-editor-composition]");
   if (!origin || !composition) return;
+  const scene = origin.closest("main");
+  if (!scene || !scene.contains(composition)) return;
   const traveler = origin.querySelector(".hero-preview-traveler");
   const target = composition.querySelector("[data-editor-preview-target]");
   if (!traveler || !target) return;
   let frame = 0;
   const reset = () => {
     ["--preview-x", "--preview-y", "--preview-scale"].forEach(name => traveler.style.removeProperty(name));
-    composition.classList.remove("is-handoff-ready");
+    scene.style.removeProperty("--handoff-progress");
+    scene.classList.remove("is-handoff-ready");
   };
   const update = () => {
     if (motionPreference.matches) { reset(); return; }
@@ -321,7 +324,8 @@ const setupPreviewHandoff = () => {
       traveler.style.setProperty("--preview-x", `${state.x}px`);
       traveler.style.setProperty("--preview-y", `${state.y}px`);
       traveler.style.setProperty("--preview-scale", String(state.scale));
-      composition.classList.add("is-handoff-ready");
+      scene.style.setProperty("--handoff-progress", String(state.progress));
+      scene.classList.add("is-handoff-ready");
     } catch {
       reset();
     }

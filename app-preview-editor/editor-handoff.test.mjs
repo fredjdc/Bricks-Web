@@ -75,7 +75,7 @@ test("scroll geometry clamps at the original hero position and fits the centered
 
 function page({ reduced = false } = {}) {
   let scroll = 0, targetWidth = 140, targetHeight = 300, broken = false, reads = 0;
-  const listeners = {}, motionListeners = {}, frames = new Map(), properties = new Map(), classes = new Set(), imageListeners = [];
+  const listeners = {}, motionListeners = {}, frames = new Map(), properties = new Map(), sceneProperties = new Map(), classes = new Set(), imageListeners = [];
   const traveler = { style: { setProperty: (name, value) => properties.set(name, value), removeProperty: name => properties.delete(name) } };
   const origin = {
     querySelector: selector => selector === ".hero-preview-traveler" ? traveler : null,
@@ -85,8 +85,13 @@ function page({ reduced = false } = {}) {
   const composition = {
     querySelector: () => target,
     querySelectorAll: () => [0, 1, 2].map(() => ({ addEventListener: (name, callback) => imageListeners.push([name, callback]) })),
-    classList: { add: name => classes.add(name), remove: name => classes.delete(name) },
   };
+  const scene = {
+    style: { setProperty: (name, value) => sceneProperties.set(name, value), removeProperty: name => sceneProperties.delete(name) },
+    classList: { add: name => classes.add(name), remove: name => classes.delete(name) },
+    contains: node => node === composition,
+  };
+  origin.closest = selector => selector === "main" ? scene : null;
   const motion = { matches: reduced, addEventListener: (name, callback) => { motionListeners[name] = callback; } };
   const window = {
     innerHeight: 800,
@@ -100,7 +105,7 @@ function page({ reduced = false } = {}) {
     requestAnimationFrame: callback => { frames.set(++nextFrame, callback); return nextFrame; },
   });
   return {
-    properties, classes, frames, listeners, imageListeners, origin,
+    properties, sceneProperties, classes, frames, listeners, imageListeners, origin,
     scroll: value => { scroll = value; listeners.scroll.callback(); },
     resize: (width, height) => { targetWidth = width; targetHeight = height; listeners.resize.callback(); },
     preference: reduced => { motion.matches = reduced; motionListeners.change(); },
@@ -136,15 +141,75 @@ test("resize and image loading remeasure the target instead of using fixed viewp
   assert.equal(p.frames.size, 1);
 });
 
+test("one clamped scroll progress synchronizes the center, side exits, and editor fade in both directions", () => {
+  const p = page();
+  for (const [scroll, expected] of [[0, 0], [1100, .5], [2000, 1], [1100, .5], [0, 0], [-1000, 0], [5000, 1]]) {
+    p.scroll(scroll); p.flush();
+    const progress = Number(p.sceneProperties.get("--handoff-progress"));
+    near(progress, expected);
+    near(parseFloat(p.properties.get("--preview-y")), 1000 * expected);
+    assert.ok(progress >= 0 && progress <= 1);
+  }
+  assert.match(css, /\.is-handoff-ready \.hero-side-slot \{ transform: translateX\(calc\(var\(--handoff-progress\) \* var\(--hero-exit-direction\) \* var\(--hero-exit-distance\)\)\); opacity: calc\(1 - var\(--handoff-progress\)\); filter: blur\(calc\(var\(--handoff-progress\) \* var\(--hero-exit-blur\)\)\); \}/);
+  assert.match(css, /\.is-handoff-ready \.result-section :is\(\.result-copy h2, \.result-copy p, \.editor-composition\) \{ opacity: var\(--handoff-progress\); \}/);
+  const limits = css.match(/--hero-exit-distance: clamp\((\d+)px, (\d+)vw, (\d+)px\); --hero-exit-blur: (\d+)px;/).slice(1).map(Number);
+  for (const viewport of [240, 390, 1440]) {
+    const distance = Math.max(limits[0], Math.min(limits[2], viewport * limits[1] / 100));
+    for (const progress of [0, .5, 1]) {
+      const left = -distance * progress, right = distance * progress;
+      near(left, -right);
+      assert.ok(Math.abs(left) <= 220);
+      assert.ok(limits[3] * progress <= 6);
+      near((1 - progress) + progress, 1);
+    }
+  }
+  assert.equal((handoffScript.match(/addEventListener\("scroll"/g) ?? []).length, 1);
+  assert.doesNotMatch(handoffScript, /setTimeout|setInterval/);
+});
+
+test("side wrappers compose exits with the original entrances and preserve the shared perspective", () => {
+  for (const side of ["left", "right"]) {
+    assert.match(html, new RegExp(`<div class="hero-side-slot hero-side-${side}">\\s*<div class="hero-result hero-result-${side}" aria-hidden="true" data-hero-entrance>`));
+  }
+  const entry = css.slice(css.indexOf("@media (prefers-reduced-motion: no-preference) {"), css.indexOf("@media (min-width: 560px)", css.indexOf("@keyframes hero-preview-in")));
+  assert.doesNotMatch(entry, /hero-side-slot|--handoff-progress/);
+  assert.match(css, /perspective: inherit; perspective-origin: calc\(50% - var\(--hero-exit-direction\) \* var\(--hero-side-distance, 100%\)\) calc\(50% \+ var\(--hero-perspective-y, 6px\)\)/);
+  assert.match(css, /--hero-perspective-y: 4px/);
+  for (const [width, sideUnits, centerUnits, paddingTop, paddingBottom] of [[860, 1, 1, 16, 28], [328, .72, 1.35, 12, 20]]) {
+    const unit = (width - 8) / (sideUnits * 2 + centerUnits);
+    const sideWidth = unit * sideUnits;
+    const distance = (sideUnits + centerUnits) / (sideUnits * 2);
+    const leftCamera = 4 + sideWidth * (.5 + distance);
+    const rightStart = 4 + unit * (sideUnits + centerUnits);
+    const rightCamera = rightStart + sideWidth * (.5 - distance);
+    near(leftCamera, width / 2); near(rightCamera, width / 2);
+    near((paddingBottom - paddingTop) / 2, width === 860 ? 6 : 4);
+  }
+});
+
+test("the reveal observer cannot compete with scroll fades and unfocused static content stays accessible", () => {
+  assert.match(composition, /<div class="result-copy">\s*<h2 id="result-title">Your app\. Your story\.<\/h2>/);
+  const copy = composition.match(/<div class="result-copy">[\s\S]*?<\/div>/)[0];
+  assert.doesNotMatch(copy, /reveal|aria-hidden|tabindex|<a\b|<button\b/);
+  const scrollCSS = css.match(/@media \(prefers-reduced-motion: no-preference\) \{\n  \.apes-landing \.hero-preview-traveler[\s\S]*?\n\}/)[0];
+  assert.doesNotMatch(css.replace(scrollCSS, ""), /--handoff-progress|\.is-handoff-ready/);
+  assert.doesNotMatch(scrollCSS, /animation:|transition:/);
+  assert.doesNotMatch(css, /\.editor-(?:desktop|app) \{[^}]*opacity:/);
+  assert.match(css, /\.hero-side-slot \{[^}]*pointer-events: none;/);
+});
+
 test("reduced motion, invalid geometry, and no JavaScript retain a useful static composition", () => {
   const reduced = page({ reduced: true });
   assert.equal(reduced.classes.size, 0); assert.equal(reduced.properties.size, 0); assert.equal(reduced.reads(), 0);
+  assert.equal(reduced.sceneProperties.size, 0);
   reduced.preference(false); reduced.flush(); assert.equal(reduced.classes.has("is-handoff-ready"), true);
   reduced.scroll(1100); reduced.flush(); reduced.preference(true);
   assert.equal(reduced.properties.size, 0); assert.equal(reduced.classes.size, 0);
+  assert.equal(reduced.sceneProperties.size, 0);
   const broken = page(); broken.scroll(1100); broken.flush(); broken.fail(); broken.flush();
   assert.equal(broken.properties.size, 0); assert.equal(broken.classes.size, 0);
-  assert.match(css, /@media \(prefers-reduced-motion: no-preference\) \{\s*\.apes-landing \.hero-preview-traveler \{[^}]+\}\s*\.apes-landing \.editor-composition\.is-handoff-ready \.editor-preview-static \{ visibility: hidden; \}\s*\}/);
+  assert.equal(broken.sceneProperties.size, 0);
+  assert.match(css, /\.apes-landing \.is-handoff-ready \.editor-preview-static \{ visibility: hidden; \}/);
   assert.match(css, /\.editor-preview-static \{ width: 100%; height: 100%; object-fit: contain; \}/);
   const stage = composition.match(/<div class="result-media[^>]+>/)[0];
   assert.doesNotMatch(stage, /reveal|hidden|style="[^"]*(?:visibility|opacity)/);
