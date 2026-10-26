@@ -53,7 +53,7 @@ document.querySelectorAll("video[poster]").forEach((video) => {
 
 const setupReveals = () => {
   if (motionPreference.matches || !("IntersectionObserver" in window)) return;
-  const selector = "h2, h3, p, .feature-title-icon, .workflow-progress, .workflow-frames, .workflow-media > .media-toggle, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .founder-panel > img, .founder-link";
+  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .workflow-media > .media-toggle, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .founder-panel > img, .founder-link";
   const targets = new Map();
   try {
     document.querySelectorAll(".reveal").forEach(root => {

@@ -509,3 +509,11 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing #features.is-placement-ready .capability-grid > article:nth-child(2) { z-index: 2; opacity: 1; background: var(--bg); }
   .apes-landing #features.is-placement-ready :focus-within { opacity: 1; filter: none; }
 }
+
+/* Custom device drawings: one responsive row with room for wrapping labels. */
+.apes-landing .device-support { --device-icon-size: clamp(28px, 7vw, 36px); --device-icon-fill: color-mix(in srgb, var(--text) 12%, var(--surface)); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(4px, 1vw, 8px); margin: 24px 0; padding: 0; list-style: none; }
+.apes-landing .device-support li { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 6px; margin: 0; padding: 0; color: var(--text-secondary); font-size: .8125rem; line-height: 1.35; text-align: center; }
+.apes-landing .device-support li::before { display: none; }
+.apes-landing .device-support li > span { max-width: 100%; overflow-wrap: anywhere; text-wrap: balance; }
+.apes-landing .device-support svg { display: block; flex: none; width: var(--device-icon-size); height: var(--device-icon-size); color: var(--text); }
+.apes-landing .device-support .device-new { padding: 1px 5px; font-size: .625rem; }
