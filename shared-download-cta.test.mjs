@@ -25,8 +25,8 @@ test("APE closing CTA preserves its copy, link, shell and accessible Apple icon 
   const closing = ape.match(/<section class="final-cta section shell"[^>]*>[\s\S]*?<\/section>/)?.[0];
   assert.ok(closing);
   assert.match(closing, /class="bricks-download-cta reveal"/);
-  assert.match(closing, /<h2 id="final-title">You built it\. Show it off\.<\/h2>/);
-  assert.match(closing, /<p>Give people a closer look at what makes your app worth downloading\.<\/p>/);
+  assert.match(closing, /<h2 id="final-title">Give people a closer look\.<\/h2>/);
+  assert.match(closing, /<p>Turn the screens and features you’ve built into videos for your app’s next appearance on the App Store\.<\/p>/);
   assert.equal((closing.match(/<p\b/g) ?? []).length, 1);
   assert.match(closing, /<img src="AppIcon\.png" width="64" height="64" alt="">/);
   assert.doesNotMatch(closing, /trial|availability|bricks-cta-note/i);

@@ -8,9 +8,9 @@ const cards = [...section.matchAll(/<article>([\s\S]*?)<\/article>/g)].map((matc
 
 test("feature samples match their labels and declare their real image dimensions", async () => {
   const expected = [
-    ["searchResultsSample.png", "Search Results Video", "A clear first look."],
-    ["productPageHeaderSample.png", "Product Page Header", "Set the scene."],
-    ["In-AppEventsSample.png", "In-App Events", "Showcase your next event."],
+    ["searchResultsSample.png", "Search Results Video", "Give people a reason to look closer."],
+    ["productPageHeaderSample.png", "Product Page Header", "Set the scene for your app."],
+    ["In-AppEventsSample.png", "In-App Events", "Show what’s coming."],
   ];
   assert.equal(cards.length, expected.length);
   for (const [index, [file, label, title]] of expected.entries()) {

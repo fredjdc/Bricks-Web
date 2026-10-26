@@ -19,7 +19,7 @@ for (const [file, poster] of [["heroResultLeft", "left"], ["heroResult", "center
   assert.ok((await stat(new URL(`assets/product/hero-result-${poster}.jpg`, import.meta.url))).size > 0);
 }
 assert.doesNotMatch(hero, /hero-demo|preload="metadata"|<source src=/);
-assert.match(showcase, /<h2 id="result-title">Bring it all together\.<\/h2>/);
+assert.match(showcase, /<h2 id="result-title">Your app\. Your story\.<\/h2>/);
 assert.match(showcase, /class="result-media editor-demo reveal"/);
 assert.match(showcase, /width="1920" height="1080"/);
 assert.match(showcase, /data-src="assets\/hero-demo\.mp4"/);
