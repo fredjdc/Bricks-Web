@@ -113,7 +113,7 @@ test("settling removes blur and uses the unchanged responsive transforms without
 
 test("reduced motion has no hero animation or delayed hidden state", () => {
   assert.ok(start >= 0 && depth === 0);
-  assert.match(entrance, /from \{ opacity: 0; transform: translateY\(8px\); \}/);
+  assert.match(entrance, /from \{ opacity: 0; filter: blur\(3px\); transform: translateY\(8px\); \} to \{ filter: blur\(0\); \}/);
   const outsideEntrance = css.slice(0, start) + css.slice(end);
   assert.doesNotMatch(outsideEntrance, /hero-intro-in|hero-preview-in|\[data-hero-entrance\]|--hero-delay/);
   assert.doesNotMatch(hero, /style="[^\"]*(?:opacity|visibility|display|animation-delay):/);

@@ -51,20 +51,64 @@ document.querySelectorAll("video[poster]").forEach((video) => {
   video.addEventListener("playing", () => { poster.hidden = true; });
 });
 
-if (!reduceMotion && "IntersectionObserver" in window) {
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      revealObserver.unobserve(entry.target);
+const setupReveals = () => {
+  const selector = "h2, h3, p, .feature-title-icon, .workflow-progress, .workflow-frames, .workflow-media > .media-toggle, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .founder-panel > img, .founder-link";
+  const targets = new Map();
+  document.querySelectorAll(".reveal").forEach(root => {
+    const candidates = root.matches(selector) ? [root] : [...root.querySelectorAll(selector)];
+    candidates.filter(item => !candidates.some(parent => parent !== item && parent.contains(item))).forEach(item => {
+      if (!targets.has(item)) targets.set(item, { order: targets.size, group: item.closest("section, aside") || root });
     });
-  }, { threshold: 0.12 });
-
-  document.documentElement.classList.add("js");
-  document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
-} else {
-  document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
-}
+  });
+  if (!targets.size || motionPreference.matches || !("IntersectionObserver" in window)) return;
+  const pending = new Set(targets.keys());
+  const active = new Map();
+  let observer;
+  const showAll = () => {
+    observer?.disconnect();
+    active.forEach(animation => animation.cancel());
+    active.clear();
+    pending.clear();
+  };
+  try {
+    observer = new IntersectionObserver(entries => {
+      try {
+        if (motionPreference.matches) { showAll(); return; }
+        const eligible = [...new Set(entries.filter(entry => entry.isIntersecting && pending.has(entry.target) && entry.target.getClientRects().length).map(entry => entry.target))];
+        eligible.sort((a, b) => targets.get(a).order - targets.get(b).order);
+        const groups = new Map();
+        // Read the batch before starting animations; offscreen siblings add no delay.
+        const plans = eligible.flatMap(item => {
+          pending.delete(item);
+          observer.unobserve(item);
+          if (typeof item.animate !== "function" || item.matches(":focus-within")) return [];
+          const group = targets.get(item).group;
+          const index = groups.get(group) || 0;
+          groups.set(group, index + 1);
+          const base = window.getComputedStyle(item);
+          return [{ item, delay: Math.min(index * 70, 210), frames: [
+            { opacity: 0, filter: base.filter === "none" ? "blur(3px)" : `${base.filter} blur(3px)`, transform: `${base.transform === "none" ? "" : `${base.transform} `}translateY(10px)` },
+            { opacity: base.opacity, filter: base.filter, transform: base.transform },
+          ] }];
+        });
+        plans.forEach(({ item, frames, delay }) => {
+          const animation = item.animate(frames, { duration: 480, delay, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "backwards" });
+          active.set(item, animation);
+          animation.addEventListener("finish", () => active.delete(item), { once: true });
+          animation.addEventListener("cancel", () => active.delete(item), { once: true });
+        });
+      } catch { showAll(); }
+    }, { threshold: 0 });
+    targets.forEach((_, item) => observer.observe(item));
+    motionPreference.addEventListener("change", () => { if (motionPreference.matches) showAll(); });
+    document.addEventListener("focusin", event => {
+      active.forEach((animation, item) => {
+        if (item.contains(event.target)) { animation.cancel(); active.delete(item); }
+      });
+    });
+  } catch { showAll(); }
+};
+setupReveals();
 
 const setVideoButtonLabel = (video, button, idleLabel = "Play") => {
   const label = video.paused ? idleLabel : "Pause";
@@ -286,9 +330,11 @@ const previewHandoff = (source, target, viewportHeight, sourceScale) => {
   const sourceY = source.top + source.height / 2;
   const targetX = target.left + target.width / 2;
   const targetY = target.top + target.height / 2;
-  // Keep the preview near mid-screen while its document position moves into the canvas.
-  const start = sourceY - viewportHeight * .45;
-  const end = targetY - viewportHeight * .55;
+  const startViewportFraction = .6;
+  const settleViewportFraction = .78;
+  // Settle while the canvas is substantially visible, before it reaches mid-screen.
+  const start = sourceY - viewportHeight * startViewportFraction;
+  const end = targetY - viewportHeight * settleViewportFraction;
   if (end <= start) return null;
   const progress = Math.max(0, Math.min(1, -start / (end - start)));
   const fit = Math.min(target.width / (source.width * sourceScale), target.height / (source.height * sourceScale));
@@ -298,6 +344,11 @@ const previewHandoff = (source, target, viewportHeight, sourceScale) => {
     y: (targetY - sourceY) * progress,
     scale: 1 + (fit - 1) * progress,
   };
+};
+
+const handoffEntrances = progress => {
+  const stage = (start, end) => Math.max(0, Math.min(1, (progress - start) / (end - start)));
+  return { title: stage(0, .35), subtitle: stage(.12, .5), desktop: stage(.24, .75), app: stage(.4, 1) };
 };
 
 const setupPreviewHandoff = () => {
@@ -313,6 +364,10 @@ const setupPreviewHandoff = () => {
   const reset = () => {
     ["--preview-x", "--preview-y", "--preview-scale"].forEach(name => traveler.style.removeProperty(name));
     scene.style.removeProperty("--handoff-progress");
+    ["title", "subtitle", "desktop", "app"].forEach(stage => {
+      scene.style.removeProperty(`--handoff-${stage}`);
+      scene.style.removeProperty(`--handoff-${stage}-filter`);
+    });
     scene.classList.remove("is-handoff-ready");
   };
   const update = () => {
@@ -325,6 +380,10 @@ const setupPreviewHandoff = () => {
       traveler.style.setProperty("--preview-y", `${state.y}px`);
       traveler.style.setProperty("--preview-scale", String(state.scale));
       scene.style.setProperty("--handoff-progress", String(state.progress));
+      Object.entries(handoffEntrances(state.progress)).forEach(([stage, progress]) => {
+        scene.style.setProperty(`--handoff-${stage}`, String(progress));
+        scene.style.setProperty(`--handoff-${stage}-filter`, progress === 1 ? "none" : `blur(${(1 - progress) * 3}px)`);
+      });
       scene.classList.add("is-handoff-ready");
     } catch {
       reset();
