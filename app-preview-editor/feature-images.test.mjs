@@ -3,13 +3,14 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const html = await readFile(new URL("index.html", import.meta.url), "utf8");
+const css = await readFile(new URL("styles.css", import.meta.url), "utf8");
 const section = html.match(/<section class="capabilities section"[\s\S]*?<\/section>/)[0];
 const cards = [...section.matchAll(/<article>([\s\S]*?)<\/article>/g)].map((match) => match[1]);
 
 test("feature samples match their labels and declare their real image dimensions", async () => {
   const expected = [
-    ["searchResultsSample.png", "Search Results Video", "Give people a reason to look closer."],
-    ["productPageHeaderSample.png", "Product Page Header", "Set the scene for your app."],
+    ["searchResultsSample.png", "Search Results Video", "Give a reason to look."],
+    ["productPageHeaderSample.png", "Product Page Header", "Set the scene."],
     ["In-AppEventsSample.png", "In-App Events", "Show what’s coming."],
   ];
   assert.equal(cards.length, expected.length);
@@ -27,4 +28,20 @@ test("feature samples match their labels and declare their real image dimensions
     assert.equal(Number(image.match(/width="(\d+)"/)[1]), png.readUInt32BE(16));
     assert.equal(Number(image.match(/height="(\d+)"/)[1]), png.readUInt32BE(20));
   }
+});
+
+test("all three placement images fill equal square media areas with rounded clipping at every width", () => {
+  const frame = css.match(/\.apes-landing \.capability-media \{([^}]+)\}/)[1];
+  assert.match(frame, /aspect-ratio: 1;/);
+  assert.match(frame, /overflow: hidden;/);
+  assert.match(frame, /border-radius: 24px;/);
+  assert.doesNotMatch(frame, /(?:^|;)\s*(?:height|padding):/);
+  const image = css.match(/\.apes-landing \.capability-media img \{([^}]+)\}/)[1];
+  assert.match(image, /width: 100%; height: 100%;/);
+  assert.match(image, /object-fit: cover;/);
+  assert.match(image, /border-radius: inherit;/);
+  for (const [, rule] of css.matchAll(/\.apes-landing \.capability-media \{([^}]+)\}/g)) {
+    assert.doesNotMatch(rule, /(?:^|;)\s*height:/);
+  }
+  assert.match(css, /\.apes-landing \.capability-grid \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/);
 });

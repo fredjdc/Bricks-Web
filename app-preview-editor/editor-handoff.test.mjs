@@ -11,6 +11,7 @@ const [html, css, script] = await Promise.all([
 const composition = html.match(/<section class="result-section section shell"[\s\S]*?<\/section>/)[0];
 const handoffScript = script.slice(script.indexOf("const previewHandoff ="));
 const geometry = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; previewHandoff`);
+const entrances = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; handoffEntrances`);
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < .0001, `${actual} must equal ${expected}`);
 const rect = (x, y, width, height, scroll = 0) => ({ left: x - width / 2, top: y - height / 2 - scroll, width, height });
 
@@ -60,7 +61,7 @@ test("scroll geometry clamps at the original hero position and fits the centered
   const first = geometry(source(0), target(0), 800, 1.08);
   assert.equal(first.progress, 0);
   near(first.x, 0); near(first.y, 0); near(first.scale, 1);
-  const middle = geometry(source(1100), target(1100), 800, 1.08);
+  const middle = geometry(source(948), target(948), 800, 1.08);
   near(middle.progress, .5); near(middle.x, 20); near(middle.y, 500);
   const last = geometry(source(2000), target(2000), 800, 1.08);
   assert.equal(last.progress, 1);
@@ -71,6 +72,23 @@ test("scroll geometry clamps at the original hero position and fits the centered
   assert.equal(geometry({ ...source(0), width: 0 }, target(0), 800, 1.08), null);
   assert.equal(geometry({ ...source(0), left: NaN }, target(0), 800, 1.08), null);
   assert.equal(geometry(source(0), rect(500, 900, 140, 300), 800, 1.08), null);
+});
+
+test("the portrait settles earlier while the measured canvas is substantially visible", () => {
+  for (const [viewport, sourceY, targetY, sourceWidth, sourceHeight, targetWidth, targetHeight] of [[800, 1000, 2000, 300, 650, 140, 300], [400, 750, 1500, 140, 304, 55, 120]]) {
+    const settleScroll = targetY - viewport * .78;
+    assert.ok(settleScroll < targetY - viewport * .55);
+    const source = rect(500, sourceY, sourceWidth, sourceHeight, settleScroll);
+    const target = rect(540, targetY, targetWidth, targetHeight, settleScroll);
+    const state = geometry(source, target, viewport, 1.08);
+    near(state.progress, 1);
+    near(target.top + target.height / 2, viewport * .78);
+    near(source.top + source.height / 2 + state.y, target.top + target.height / 2);
+    near(source.left + source.width / 2 + state.x, target.left + target.width / 2);
+    assert.ok(sourceWidth * 1.08 * state.scale <= targetWidth + .0001);
+    assert.ok(sourceHeight * 1.08 * state.scale <= targetHeight + .0001);
+    assert.ok(geometry(rect(500, sourceY, sourceWidth, sourceHeight, settleScroll - 1), rect(540, targetY, targetWidth, targetHeight, settleScroll - 1), viewport, 1.08).progress < 1);
+  }
 });
 
 function page({ reduced = false } = {}) {
@@ -120,7 +138,7 @@ test("one animation frame follows scroll and reverses without moving nodes or co
   assert.equal(p.classes.has("is-handoff-ready"), true);
   assert.equal(p.listeners.scroll.options.passive, true);
   const initialOrigin = p.origin.getBoundingClientRect();
-  p.scroll(1100); p.scroll(1100);
+  p.scroll(948); p.scroll(948);
   assert.equal(p.frames.size, 1);
   p.flush(); near(parseFloat(p.properties.get("--preview-y")), 500);
   p.scroll(2000); p.flush(); near(parseFloat(p.properties.get("--preview-y")), 1000);
@@ -143,7 +161,7 @@ test("resize and image loading remeasure the target instead of using fixed viewp
 
 test("one clamped scroll progress synchronizes the center, side exits, and editor fade in both directions", () => {
   const p = page();
-  for (const [scroll, expected] of [[0, 0], [1100, .5], [2000, 1], [1100, .5], [0, 0], [-1000, 0], [5000, 1]]) {
+  for (const [scroll, expected] of [[0, 0], [948, .5], [2000, 1], [948, .5], [0, 0], [-1000, 0], [5000, 1]]) {
     p.scroll(scroll); p.flush();
     const progress = Number(p.sceneProperties.get("--handoff-progress"));
     near(progress, expected);
@@ -151,7 +169,7 @@ test("one clamped scroll progress synchronizes the center, side exits, and edito
     assert.ok(progress >= 0 && progress <= 1);
   }
   assert.match(css, /\.is-handoff-ready \.hero-side-slot \{ transform: translateX\(calc\(var\(--handoff-progress\) \* var\(--hero-exit-direction\) \* var\(--hero-exit-distance\)\)\); opacity: calc\(1 - var\(--handoff-progress\)\); filter: blur\(calc\(var\(--handoff-progress\) \* var\(--hero-exit-blur\)\)\); \}/);
-  assert.match(css, /\.is-handoff-ready \.result-section :is\(\.result-copy h2, \.result-copy p, \.editor-composition\) \{ opacity: var\(--handoff-progress\); \}/);
+  assert.match(css, /\.is-handoff-ready \.result-section :is\(\.result-copy h2, \.result-copy p, \.editor-backdrop, \.editor-app\) \{ opacity: var\(--enter-progress\); filter: var\(--enter-filter\); \}/);
   const limits = css.match(/--hero-exit-distance: clamp\((\d+)px, (\d+)vw, (\d+)px\); --hero-exit-blur: (\d+)px;/).slice(1).map(Number);
   for (const viewport of [240, 390, 1440]) {
     const distance = Math.max(limits[0], Math.min(limits[2], viewport * limits[1] / 100));
@@ -165,6 +183,28 @@ test("one clamped scroll progress synchronizes the center, side exits, and edito
   }
   assert.equal((handoffScript.match(/addEventListener\("scroll"/g) ?? []).length, 1);
   assert.doesNotMatch(handoffScript, /setTimeout|setInterval/);
+});
+
+test("title, subtitle, desktop, and app use reversible staggered scroll ranges and finish with no filter", () => {
+  const early = entrances(.1);
+  assert.ok(early.title > 0);
+  assert.equal(early.subtitle, 0); assert.equal(early.desktop, 0); assert.equal(early.app, 0);
+  const middle = entrances(.5);
+  assert.equal(middle.title, 1); assert.equal(middle.subtitle, 1);
+  assert.ok(middle.desktop > middle.app && middle.app > 0);
+  const p = page();
+  for (const [scroll, progress] of [[0, 0], [948, .5], [2000, 1], [948, .5], [0, 0]]) {
+    p.scroll(scroll); p.flush();
+    for (const [stage, expected] of Object.entries(entrances(progress))) {
+      near(Number(p.sceneProperties.get(`--handoff-${stage}`)), expected);
+      const filter = p.sceneProperties.get(`--handoff-${stage}-filter`);
+      if (expected === 1) assert.equal(filter, "none");
+      else near(Number(filter.match(/blur\(([\d.]+)px\)/)[1]), (1 - expected) * 3);
+    }
+  }
+  for (const [selector, stage] of [["result-copy h2", "title"], ["result-copy p", "subtitle"], ["editor-backdrop", "desktop"], ["editor-app", "app"]]) {
+    assert.ok(css.includes(`.${selector} { --enter-progress: var(--handoff-${stage}); --enter-filter: var(--handoff-${stage}-filter); }`));
+  }
 });
 
 test("side wrappers compose exits with the original entrances and preserve the shared perspective", () => {
@@ -203,10 +243,10 @@ test("reduced motion, invalid geometry, and no JavaScript retain a useful static
   assert.equal(reduced.classes.size, 0); assert.equal(reduced.properties.size, 0); assert.equal(reduced.reads(), 0);
   assert.equal(reduced.sceneProperties.size, 0);
   reduced.preference(false); reduced.flush(); assert.equal(reduced.classes.has("is-handoff-ready"), true);
-  reduced.scroll(1100); reduced.flush(); reduced.preference(true);
+  reduced.scroll(948); reduced.flush(); reduced.preference(true);
   assert.equal(reduced.properties.size, 0); assert.equal(reduced.classes.size, 0);
   assert.equal(reduced.sceneProperties.size, 0);
-  const broken = page(); broken.scroll(1100); broken.flush(); broken.fail(); broken.flush();
+  const broken = page(); broken.scroll(948); broken.flush(); broken.fail(); broken.flush();
   assert.equal(broken.properties.size, 0); assert.equal(broken.classes.size, 0);
   assert.equal(broken.sceneProperties.size, 0);
   assert.match(css, /\.apes-landing \.is-handoff-ready \.editor-preview-static \{ visibility: hidden; \}/);

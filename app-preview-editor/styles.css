@@ -305,8 +305,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .capability-grid { gap: 32px; }
 .apes-landing .capability-grid article { padding: 0 0 32px; border: 0; border-bottom: 1px solid var(--border); }
 .apes-landing .capability-grid h3 { max-width: 19ch; font-size: 1.8rem; }
-.apes-landing .capability-media { display: grid; place-items: center; height: 300px; margin-bottom: 28px; padding: 16px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface-muted); }
-.apes-landing .capability-media img { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+.apes-landing .capability-media { display: grid; place-items: center; aspect-ratio: 1; overflow: hidden; margin-bottom: 28px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface-muted); }
+.apes-landing .capability-media img { width: 100%; height: 100%; min-height: 0; object-fit: cover; border-radius: inherit; }
 .apes-landing .capability-grid .capability-label { color: var(--detail); }
 .apes-landing .capability-grid article > p { line-height: 1.65; }
 .apes-landing .product-story .story-copy h3, .apes-landing .delivery .story-copy h2 { font-size: clamp(1.9rem,3.4vw,2.75rem); }
@@ -333,8 +333,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .workflow-media { top: 120px; }
   .apes-landing .workflow-step { min-height: 50vh; }
   .apes-landing .workflow-steps .workflow-step { opacity: 1; filter: none; }
-  .apes-landing .capability-grid { grid-template-columns: 1fr 1fr 1.1fr; gap: 48px; }
-  .apes-landing .capability-media { height: 320px; }
+  .apes-landing .capability-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
   .apes-landing .capability-grid article { padding-bottom: 0; border-bottom: 0; }
   .apes-landing .capability-grid article + article { border-left: 0; }
   .apes-landing .product-tour > .section-heading { max-width: 760px; margin-bottom: 72px; }
@@ -345,7 +344,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 @media (max-width: 559px) {
   .apes-landing .faq { gap: 24px; }
   .apes-landing .faq-list { padding-block: 24px; }
-  .apes-landing .capability-media { height: 280px; }
   .apes-landing .site-header { top: 8px; margin-top: 8px; border-radius: 24px; }
   .apes-landing .nav { min-height: 56px; margin-inline: 12px; }
   .apes-landing .hero { padding-top: 48px; gap: 40px; }

@@ -52,15 +52,18 @@ document.querySelectorAll("video[poster]").forEach((video) => {
 });
 
 const setupReveals = () => {
+  if (motionPreference.matches || !("IntersectionObserver" in window)) return;
   const selector = "h2, h3, p, .feature-title-icon, .workflow-progress, .workflow-frames, .workflow-media > .media-toggle, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .founder-panel > img, .founder-link";
   const targets = new Map();
-  document.querySelectorAll(".reveal").forEach(root => {
-    const candidates = root.matches(selector) ? [root] : [...root.querySelectorAll(selector)];
-    candidates.filter(item => !candidates.some(parent => parent !== item && parent.contains(item))).forEach(item => {
-      if (!targets.has(item)) targets.set(item, { order: targets.size, group: item.closest("section, aside") || root });
+  try {
+    document.querySelectorAll(".reveal").forEach(root => {
+      const candidates = root.matches(selector) ? [root] : [...root.querySelectorAll(selector)];
+      candidates.filter(item => !candidates.some(parent => parent !== item && parent.contains(item))).forEach(item => {
+        if (!targets.has(item)) targets.set(item, { order: targets.size, group: item.closest("section, aside") || root });
+      });
     });
-  });
-  if (!targets.size || motionPreference.matches || !("IntersectionObserver" in window)) return;
+  } catch { return; }
+  if (!targets.size) return;
   const pending = new Set(targets.keys());
   const active = new Map();
   let observer;
