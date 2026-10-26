@@ -199,11 +199,12 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 @media (prefers-reduced-motion: no-preference) {
   .hero [data-hero-entrance] { animation: hero-intro-in 360ms var(--ease) backwards; animation-delay: var(--hero-delay, 0ms); }
   /* Compensate for shrinkage around the side cards' existing edge origins. */
-  .hero .hero-results { --hero-media-start: 1380ms; --hero-media-stagger: 180ms; --hero-media-duration: 760ms; --hero-preview-scale: .8; --hero-preview-blur: 3px; --hero-side-distance: 100%; --hero-side-enter: calc(var(--hero-side-distance) - (1 - var(--hero-preview-scale)) * 50%); }
+  .hero .hero-results { --hero-media-start: 1380ms; --hero-media-stagger: 180ms; --hero-media-duration: 760ms; --hero-preview-scale: .8; --hero-preview-blur: 3px; --hero-side-distance: 100%; }
   .hero .hero-result[data-hero-entrance] { animation-name: hero-preview-in; animation-duration: var(--hero-preview-duration, var(--hero-media-duration)); animation-timing-function: cubic-bezier(.22, 1, .36, 1); animation-delay: calc(var(--hero-media-start) + var(--hero-media-step) * var(--hero-media-stagger)); }
   .hero .hero-result-center { --hero-media-step: 0; --hero-preview-enter-x: 0%; --hero-preview-scale: .96; --hero-preview-blur: 2px; --hero-preview-duration: 600ms; }
   .hero .hero-result-left { --hero-media-step: 1; --hero-preview-enter-x: var(--hero-side-enter); }
   .hero .hero-result-right { --hero-media-step: 2; --hero-preview-enter-x: calc(-1 * var(--hero-side-enter)); }
+  .hero .hero-result-left, .hero .hero-result-right { --hero-side-enter: calc(var(--hero-side-distance) - (1 - var(--hero-preview-scale)) * 50% - (1 - var(--hero-separation-progress, 0)) * var(--hero-side-rest-shift)); }
   .hero .download-button:focus-visible, .hero .hero-results:focus-within [data-hero-entrance] { animation: none; }
   @keyframes hero-intro-in { from { opacity: 0; filter: blur(3px); transform: translateY(8px); } to { filter: blur(0); } }
   /* Omitting the final transform uses each card's existing responsive position. */
@@ -409,19 +410,19 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 /* Results first, then a full-width view of the editor that made them. */
-.apes-landing .hero-results { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; width: min(100%, 860px); margin-inline: auto; padding: 16px 4px 28px; isolation: isolate; perspective: 1200px; }
+.apes-landing .hero-results { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; width: min(100%, 860px); margin-inline: auto; padding: 16px 4px 28px; isolation: isolate; perspective: 1200px; --hero-side-rest-inset: 28%; --hero-side-rest-scale: .88; --hero-side-rest-tilt: 12deg; --hero-side-distance-ratio: .7; }
 .apes-landing .hero-result { min-width: 0; padding: 4px; overflow: hidden; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: 0 8px 40px rgba(0, 0, 0, 0.24); }
 .apes-landing .hero-result .video-stage { overflow: hidden; border-radius: 27px; }
 .apes-landing .hero-result video { display: block; width: 100%; height: auto; aspect-ratio: 886 / 1920; object-fit: contain; }
-/* Keep the shared hero camera when the exit wrapper isolates the tilted card. */
-.apes-landing .hero-side-slot { --hero-exit-direction: -1; --hero-exit-distance: clamp(48px, 18vw, 220px); --hero-exit-blur: 6px; min-width: 0; pointer-events: none; perspective: inherit; perspective-origin: calc(50% - var(--hero-exit-direction) * var(--hero-side-distance, 100%)) calc(50% + var(--hero-perspective-y, 6px)); }
+/* Inner cards own the resting tilt; outer slots own measured spacing and scroll separation. */
+.apes-landing .hero-side-slot { --hero-exit-direction: -1; --hero-exit-distance: clamp(48px, 18vw, 220px); --hero-exit-blur: 6px; --hero-side-rest-shift: calc((1 - var(--hero-side-distance-ratio)) * (var(--hero-side-distance, 100%) - (1 - var(--hero-side-rest-scale)) * 50% - var(--hero-side-rest-inset))); transform: translateX(calc(-1 * var(--hero-exit-direction) * var(--hero-side-rest-shift))); min-width: 0; pointer-events: none; perspective: inherit; perspective-origin: calc(50% - var(--hero-exit-direction) * var(--hero-side-distance, 100%)) calc(50% + var(--hero-perspective-y, 6px)); }
 .apes-landing .hero-side-right { --hero-exit-direction: 1; }
 .apes-landing .hero-center-slot { --hero-center-scale: 1.08; position: relative; z-index: 2; min-width: 0; }
 .apes-landing .hero-preview-traveler { transform-origin: center; }
 .apes-landing .hero-result-center { z-index: 2; transform: scale(var(--hero-center-scale)); }
 .apes-landing .hero-result-center video { cursor: pointer; }
-.apes-landing .hero-result-left { transform: translateX(8%) rotateY(12deg) scale(.88); transform-origin: right center; }
-.apes-landing .hero-result-right { transform: translateX(-8%) rotateY(-12deg) scale(.88); transform-origin: left center; }
+.apes-landing .hero-result-left { transform: translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) scale(var(--hero-side-rest-scale)); transform-origin: right center; }
+.apes-landing .hero-result-right { transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) scale(var(--hero-side-rest-scale)); transform-origin: left center; }
 .apes-landing .result-section { display: block; }
 .apes-landing .result-copy { max-width: 760px; margin: 0 auto 40px; text-align: center; }
 .apes-landing .result-copy p { margin-inline: auto; margin-bottom: 0; }
@@ -435,7 +436,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .editor-preview-static { width: 100%; height: 100%; object-fit: contain; }
 @media (prefers-reduced-motion: no-preference) {
   .apes-landing .hero-preview-traveler { transform: translate(var(--preview-x, 0px), var(--preview-y, 0px)) scale(var(--preview-scale, 1)); }
-  .apes-landing .is-handoff-ready .hero-side-slot { transform: translateX(calc(var(--handoff-progress) * var(--hero-exit-direction) * var(--hero-exit-distance))); opacity: calc(1 - var(--handoff-progress)); filter: blur(calc(var(--handoff-progress) * var(--hero-exit-blur))); }
+  .apes-landing .is-handoff-ready .hero-side-slot { transform: translateX(calc(var(--hero-exit-direction) * ((var(--hero-separation-progress, 0) - 1) * var(--hero-side-rest-shift) + var(--handoff-progress) * var(--hero-exit-distance)))); opacity: calc(1 - var(--handoff-progress)); filter: blur(calc(var(--handoff-progress) * var(--hero-exit-blur))); }
   .apes-landing .is-handoff-ready .result-copy h2 { --enter-progress: var(--handoff-title); --enter-filter: var(--handoff-title-filter); }
   .apes-landing .is-handoff-ready .result-copy p { --enter-progress: var(--handoff-subtitle); --enter-filter: var(--handoff-subtitle-filter); }
   .apes-landing .is-handoff-ready .editor-backdrop { --enter-progress: var(--handoff-desktop); --enter-filter: var(--handoff-desktop-filter); }
@@ -446,16 +447,14 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .is-handoff-ready .editor-preview-static { visibility: hidden; }
 }
 @media (max-width: 899px) {
-  .apes-landing .hero-result-left { transform: translateX(6%) rotateY(6deg) scale(.9); }
-  .apes-landing .hero-result-right { transform: translateX(-6%) rotateY(-6deg) scale(.9); }
+  .apes-landing .hero-results { --hero-side-rest-scale: .9; --hero-side-rest-tilt: 6deg; }
 }
 @media (max-width: 559px) {
   /* Side-to-center distance: (.72 + 1.35) / (2 * .72). */
   .apes-landing .hero-results { --hero-side-distance: 143.75%; grid-template-columns: minmax(0, .72fr) minmax(0, 1.35fr) minmax(0, .72fr); padding-block: 12px 20px; --hero-perspective-y: 4px; }
   .apes-landing .hero-result { padding: 2px; border-radius: 16px; }
   .apes-landing .hero-result .video-stage { border-radius: 13px; }
-  .apes-landing .hero-result-left { transform: translateX(6%) rotateY(3deg) scale(.94); }
-  .apes-landing .hero-result-right { transform: translateX(-6%) rotateY(-3deg) scale(.94); }
+  .apes-landing .hero-results { --hero-side-rest-scale: .94; --hero-side-rest-tilt: 3deg; }
   .apes-landing .result-copy { margin-bottom: 28px; }
   .apes-landing .editor-composition { border-radius: 20px; }
 }

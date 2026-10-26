@@ -72,15 +72,16 @@ test("only individual previews animate, with the center followed by left and rig
 test("the smaller side previews start centered behind the center at wide and narrow widths", () => {
   const scale = parseFloat(token(mediaRule, "hero-preview-scale"));
   assert.ok(scale < 1 && scale >= .75);
-  assert.equal(token(mediaRule, "hero-side-enter"), "calc(var(--hero-side-distance) - (1 - var(--hero-preview-scale)) * 50%)");
+  assert.match(entrance, /--hero-side-enter: calc\(var\(--hero-side-distance\) - \(1 - var\(--hero-preview-scale\)\) \* 50% - \(1 - var\(--hero-separation-progress, 0\)\) \* var\(--hero-side-rest-shift\)\);/);
   const mobile = css.match(/\.apes-landing \.hero-results \{ --hero-side-distance: ([\d.]+)%; grid-template-columns: minmax\(0, ([\d.]+)fr\) minmax\(0, ([\d.]+)fr\) minmax\(0, ([\d.]+)fr\);/);
   const layouts = [[1, 1, parseFloat(token(mediaRule, "hero-side-distance"))], [Number(mobile[2]), Number(mobile[3]), Number(mobile[1])]];
   assert.equal(mobile[2], mobile[4], "Both side columns must use the same geometry");
   for (const [sideWidth, centerWidth, distance] of layouts) {
-    const shift = (distance / 100 - (1 - scale) / 2) * sideWidth;
+    const restShift = .3 * (distance / 100 - .28 - .06) * sideWidth;
+    const shift = (distance / 100 - (1 - scale) / 2) * sideWidth - restShift;
     // Existing origins are right-center for left, left-center for right.
-    const leftCenter = sideWidth * (1 - scale / 2) + shift;
-    const rightCenter = sideWidth + centerWidth + sideWidth * scale / 2 - shift;
+    const leftCenter = sideWidth * (1 - scale / 2) + shift + restShift;
+    const rightCenter = sideWidth + centerWidth + sideWidth * scale / 2 - shift - restShift;
     const target = sideWidth + centerWidth / 2;
     assert.ok(Math.abs(leftCenter - target) < .00001);
     assert.ok(Math.abs(rightCenter - target) < .00001);
@@ -94,19 +95,16 @@ test("the smaller side previews start centered behind the center at wide and nar
   }
 });
 
-test("settling removes blur and uses the unchanged responsive transforms without fill or layout shifts", () => {
+test("settling removes blur and uses shared resting spacing with the existing responsive tilt and scale", () => {
   const frames = entrance.slice(entrance.indexOf("@keyframes hero-preview-in"));
   assert.match(frames, /from \{ opacity: 0; filter: blur\(var\(--hero-preview-blur\)\); transform: translateX\(var\(--hero-preview-enter-x\)\) translateY\(8px\) scale\(var\(--hero-preview-scale\)\); \}/);
   assert.match(frames, /to \{ opacity: 1; filter: blur\(0\); \}/);
   assert.doesNotMatch(frames.match(/to \{([^}]+)\}/)[1], /transform:/);
   assert.ok(parseFloat(token(mediaRule, "hero-preview-blur")) <= 3);
   assert.doesNotMatch(entrance, /will-change|\b(?:both|forwards|infinite)\b|(?:^|[;{])\s*(?:width|height|top|left|right|margin):/m);
-  const expected = [
-    "translateX(8%) rotateY(12deg) scale(.88)", "translateX(-8%) rotateY(-12deg) scale(.88)",
-    "translateX(6%) rotateY(6deg) scale(.9)", "translateX(-6%) rotateY(-6deg) scale(.9)",
-    "translateX(6%) rotateY(3deg) scale(.94)", "translateX(-6%) rotateY(-3deg) scale(.94)",
-  ];
-  for (const transform of expected) assert.ok(css.includes(`transform: ${transform};`));
+  assert.ok(css.includes("transform: translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) scale(var(--hero-side-rest-scale));"));
+  assert.ok(css.includes("transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) scale(var(--hero-side-rest-scale));"));
+  for (const pair of ["--hero-side-rest-scale: .88; --hero-side-rest-tilt: 12deg;", "--hero-side-rest-scale: .9; --hero-side-rest-tilt: 6deg;", "--hero-side-rest-scale: .94; --hero-side-rest-tilt: 3deg;"]) assert.ok(css.includes(pair));
   assert.match(css, /\.hero-result-left \{[^}]*transform-origin: right center;/);
   assert.match(css, /\.hero-result-right \{[^}]*transform-origin: left center;/);
 });

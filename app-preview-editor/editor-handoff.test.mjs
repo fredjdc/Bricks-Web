@@ -170,7 +170,9 @@ test("one clamped scroll progress synchronizes the center, side exits, and edito
     near(parseFloat(p.properties.get("--preview-y")), 1000 * expected);
     assert.ok(progress >= 0 && progress <= 1);
   }
-  assert.match(css, /\.is-handoff-ready \.hero-side-slot \{ transform: translateX\(calc\(var\(--handoff-progress\) \* var\(--hero-exit-direction\) \* var\(--hero-exit-distance\)\)\); opacity: calc\(1 - var\(--handoff-progress\)\); filter: blur\(calc\(var\(--handoff-progress\) \* var\(--hero-exit-blur\)\)\); \}/);
+  const sideRule = css.match(/\.is-handoff-ready \.hero-side-slot \{([^}]+)\}/)[1];
+  assert.ok(sideRule.includes("transform: translateX(calc(var(--hero-exit-direction) * ((var(--hero-separation-progress, 0) - 1) * var(--hero-side-rest-shift) + var(--handoff-progress) * var(--hero-exit-distance))));"));
+  assert.ok(sideRule.includes("opacity: calc(1 - var(--handoff-progress)); filter: blur(calc(var(--handoff-progress) * var(--hero-exit-blur)));"));
   assert.match(css, /\.is-handoff-ready \.result-section :is\(\.result-copy h2, \.result-copy p, \.editor-backdrop, \.editor-app\) \{ opacity: var\(--enter-progress\); \}/);
   const limits = css.match(/--hero-exit-distance: clamp\((\d+)px, (\d+)vw, (\d+)px\); --hero-exit-blur: (\d+)px;/).slice(1).map(Number);
   for (const viewport of [240, 390, 1440]) {

@@ -433,6 +433,68 @@ const createPlacementReveal = () => {
   return { measure, reset };
 };
 
+// Project the unanimated resting card's edges through the same CSS camera.
+// Undo the outer translation before measuring; inner intro transforms never enter this baseline.
+const heroSideRestDistance = (left, width, direction, scale, tilt, inset, camera, depth, center) => {
+  if (![left, width, direction, scale, tilt, inset, camera, depth, center].every(Number.isFinite)
+    || width <= 0 || scale <= 0 || depth <= 0) return null;
+  const origin = direction < 0 ? width : 0;
+  const angle = -direction * tilt * Math.PI / 180;
+  const project = x => {
+    const dx = (x - origin) * scale;
+    const z = -Math.sin(angle) * dx;
+    if (z >= depth) return NaN;
+    const world = left + origin + Math.cos(angle) * dx - direction * inset * width;
+    return camera + (world - camera) * depth / (depth - z);
+  };
+  const distance = Math.abs(center - (project(0) + project(width)) / 2);
+  return Number.isFinite(distance) ? distance : null;
+};
+
+const heroSpacingSettings = { minimumScrollViewportFraction: .75 };
+const heroSeparationProgress = (hero, source, viewport, scroll) => {
+  if (![hero.top, source.top, source.height, viewport, scroll].every(Number.isFinite) || viewport <= 0 || source.height <= 0) return null;
+  const start = Math.max(0, hero.top + scroll - viewport);
+  const handoffStart = source.top + source.height / 2 + scroll - viewport * .6;
+  const end = start + Math.max(viewport * heroSpacingSettings.minimumScrollViewportFraction, handoffStart - start);
+  return boundedProgress(scroll, start, end);
+};
+
+const createHeroSpacing = origin => {
+  const hero = origin.closest(".hero-results");
+  const slots = hero ? [...hero.querySelectorAll(".hero-side-slot")] : [];
+  const reset = () => {
+    hero?.style.removeProperty("--hero-separation-progress");
+    slots.forEach(slot => slot.style.removeProperty("--hero-side-rest-shift"));
+  };
+  const measure = source => {
+    if (!hero || slots.length !== 2 || motionPreference.matches) return reset;
+    try {
+      const bounds = hero.getBoundingClientRect();
+      const progress = heroSeparationProgress(bounds, source, window.innerHeight, window.scrollY);
+      if (progress === null) return reset;
+      const center = source.left + source.width / 2;
+      const plans = slots.map(slot => {
+        const style = window.getComputedStyle(slot);
+        const token = name => parseFloat(style.getPropertyValue(name));
+        const matrix = new DOMMatrixReadOnly(style.transform);
+        if (!matrix.is2D || matrix.a !== 1 || matrix.b || matrix.c || matrix.d !== 1 || matrix.f) throw new Error("Unexpected hero slot transform");
+        const slotBounds = slot.getBoundingClientRect();
+        const left = slotBounds.left - matrix.m41;
+        const ratio = token("--hero-side-distance-ratio");
+        const distance = heroSideRestDistance(left, slotBounds.width, token("--hero-exit-direction"), token("--hero-side-rest-scale"), token("--hero-side-rest-tilt"), token("--hero-side-rest-inset") / 100, left + parseFloat(style.perspectiveOrigin), parseFloat(style.perspective), center);
+        if (distance === null || !(ratio > 0 && ratio <= 1)) throw new Error("Missing hero spacing geometry");
+        return { slot, shift: distance * (1 - ratio) };
+      });
+      return () => {
+        hero.style.setProperty("--hero-separation-progress", String(progress));
+        plans.forEach(({ slot, shift }) => slot.style.setProperty("--hero-side-rest-shift", `${shift}px`));
+      };
+    } catch { return reset; }
+  };
+  return { measure, reset };
+};
+
 const setupPreviewHandoff = () => {
   const origin = document.querySelector("[data-hero-preview-origin]");
   const composition = document.querySelector("[data-editor-composition]");
@@ -444,8 +506,10 @@ const setupPreviewHandoff = () => {
   const background = composition.querySelector(".editor-desktop");
   if (!traveler || !target || !background) return;
   const placements = createPlacementReveal();
+  const heroSpacing = createHeroSpacing(origin);
   let frame = 0;
   const reset = () => {
+    heroSpacing.reset();
     ["--preview-x", "--preview-y", "--preview-scale"].forEach(name => traveler.style.removeProperty(name));
     scene.style.removeProperty("--handoff-progress");
     ["title", "subtitle", "desktop", "app"].forEach(stage => {
@@ -456,10 +520,12 @@ const setupPreviewHandoff = () => {
   };
   const update = () => {
     const paintPlacements = placements.measure();
+    let paintHeroSpacing = heroSpacing.reset;
     if (motionPreference.matches) { reset(); paintPlacements(); return; }
     try {
       const sourceScale = Number(window.getComputedStyle(origin).getPropertyValue("--hero-center-scale"));
       const sourceRect = origin.getBoundingClientRect();
+      paintHeroSpacing = heroSpacing.measure(sourceRect);
       const targetRect = target.getBoundingClientRect();
       const backgroundRect = background.getBoundingClientRect();
       const state = previewHandoff(sourceRect, targetRect, window.innerHeight, sourceScale);
@@ -480,6 +546,7 @@ const setupPreviewHandoff = () => {
       reset();
     } finally {
       paintPlacements();
+      paintHeroSpacing();
     }
   };
   const schedule = () => {
