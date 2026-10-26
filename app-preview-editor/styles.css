@@ -198,9 +198,19 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 @media (prefers-reduced-motion: no-preference) {
   .hero [data-hero-entrance] { animation: hero-intro-in 360ms var(--ease) backwards; animation-delay: var(--hero-delay, 0ms); }
-  .hero .hero-results { animation-duration: 420ms; }
-  .hero :is(.download-button:focus-visible, .hero-results:focus-within) { animation: none; }
+  /* Compensate for shrinkage around the side cards' existing edge origins. */
+  .hero .hero-results { --hero-media-start: 1380ms; --hero-media-stagger: 180ms; --hero-media-duration: 760ms; --hero-preview-scale: .8; --hero-preview-blur: 3px; --hero-side-distance: 100%; --hero-side-enter: calc(var(--hero-side-distance) - (1 - var(--hero-preview-scale)) * 50%); }
+  .hero .hero-result[data-hero-entrance] { animation-name: hero-preview-in; animation-duration: var(--hero-preview-duration, var(--hero-media-duration)); animation-timing-function: cubic-bezier(.22, 1, .36, 1); animation-delay: calc(var(--hero-media-start) + var(--hero-media-step) * var(--hero-media-stagger)); }
+  .hero .hero-result-center { --hero-media-step: 0; --hero-preview-enter-x: 0%; --hero-preview-scale: .96; --hero-preview-blur: 2px; --hero-preview-duration: 600ms; }
+  .hero .hero-result-left { --hero-media-step: 1; --hero-preview-enter-x: var(--hero-side-enter); }
+  .hero .hero-result-right { --hero-media-step: 2; --hero-preview-enter-x: calc(-1 * var(--hero-side-enter)); }
+  .hero .download-button:focus-visible, .hero .hero-results:focus-within [data-hero-entrance] { animation: none; }
   @keyframes hero-intro-in { from { opacity: 0; transform: translateY(8px); } }
+  /* Omitting the final transform uses each card's existing responsive position. */
+  @keyframes hero-preview-in {
+    from { opacity: 0; filter: blur(var(--hero-preview-blur)); transform: translateX(var(--hero-preview-enter-x)) translateY(8px) scale(var(--hero-preview-scale)); }
+    to { opacity: 1; filter: blur(0); }
+  }
 }
 
 @media (min-width: 560px) {
@@ -420,7 +430,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .hero-result-right { transform: translateX(-6%) rotateY(-6deg) scale(.9); }
 }
 @media (max-width: 559px) {
-  .apes-landing .hero-results { grid-template-columns: minmax(0, .72fr) minmax(0, 1.35fr) minmax(0, .72fr); padding-block: 12px 20px; }
+  /* Side-to-center distance: (.72 + 1.35) / (2 * .72). */
+  .apes-landing .hero-results { --hero-side-distance: 143.75%; grid-template-columns: minmax(0, .72fr) minmax(0, 1.35fr) minmax(0, .72fr); padding-block: 12px 20px; }
   .apes-landing .hero-result { padding: 2px; border-radius: 16px; }
   .apes-landing .hero-result .video-stage { border-radius: 13px; }
   .apes-landing .hero-result-left { transform: translateX(6%) rotateY(3deg) scale(.94); }

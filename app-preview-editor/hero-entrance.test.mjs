@@ -12,7 +12,7 @@ const heading = hero.match(/<h1>([\s\S]*?)<\/h1>/)[1];
 const text = markup => markup.replace(/<[^>]*>/g, "");
 const atoms = [...hero.matchAll(/<(?:span|p|a|div)\b([^>]*\bdata-hero-entrance\b[^>]*)>/g)].map(([, attributes]) => ({
   classes: attributes.match(/class="([^"]+)"/)[1],
-  delay: Number(attributes.match(/--hero-delay:\s*(\d+)ms/)[1]),
+  delay: attributes.includes("--hero-delay") ? Number(attributes.match(/--hero-delay:\s*(\d+)ms/)[1]) : null,
 }));
 
 // Read the whole media block, including nested keyframes.
@@ -25,6 +25,8 @@ while (depth && end < css.length) {
   end++;
 }
 const entrance = css.slice(start, end);
+const mediaRule = entrance.match(/\.hero \.hero-results \{([^}]+)\}/)[1];
+const token = (source, name) => source.match(new RegExp(`--${name}:\\s*([^;]+);`))[1];
 
 test("the native heading retains its exact text, word spaces, and two responsive line groups", () => {
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
@@ -38,24 +40,81 @@ test("the native heading retains its exact text, word spaces, and two responsive
   assert.match(css, /\.hero-title-word \{ display: inline-block; \}/);
 });
 
-test("nine words lead into subtitle, button, caption, and media within 1.8 seconds", () => {
-  assert.equal(atoms.length, 13);
+test("the word, subtitle, button, and caption sequence is preserved before the media", () => {
+  assert.equal(atoms.length, 15);
   assert.deepEqual(atoms.slice(0, 9).map(({ classes }) => classes), Array(9).fill("hero-title-word"));
-  assert.deepEqual(atoms.map(({ delay }) => delay), [0, 60, 120, 180, 240, 300, 360, 420, 480, 860, 1060, 1220, 1380]);
-  assert.deepEqual(atoms.slice(9).map(({ classes }) => classes), ["hero-lede hero-intro-secondary", "button download-button", "download-caption", "hero-results"]);
+  assert.deepEqual(atoms.slice(0, 12).map(({ delay }) => delay), [0, 60, 120, 180, 240, 300, 360, 420, 480, 860, 1060, 1220]);
+  assert.deepEqual(atoms.slice(9, 12).map(({ classes }) => classes), ["hero-lede hero-intro-secondary", "button download-button", "download-caption"]);
   const duration = Number(entrance.match(/animation: hero-intro-in (\d+)ms/)[1]);
-  const mediaDuration = Number(entrance.match(/\.hero \.hero-results \{ animation-duration: (\d+)ms;/)[1]);
   assert.ok(atoms[8].delay + duration <= atoms[9].delay, "Finish the title before starting the subtitle");
-  assert.equal(atoms.at(-1).delay + mediaDuration, 1800);
+  assert.ok(atoms[11].delay < parseFloat(token(mediaRule, "hero-media-start")));
   assert.match(entrance, /animation-delay: var\(--hero-delay, 0ms\)/);
   assert.doesNotMatch(entrance, /\.hero-word:nth-child|\.hero-intro-detail \{/);
+});
+
+test("only individual previews animate, with the center followed by left and right", () => {
+  assert.deepEqual(atoms.slice(12).map(({ classes }) => classes), ["hero-result hero-result-left", "hero-result hero-result-center", "hero-result hero-result-right"]);
+  const mediaStart = parseFloat(token(mediaRule, "hero-media-start"));
+  const stagger = parseFloat(token(mediaRule, "hero-media-stagger"));
+  const delays = ["center", "left", "right"].map(side => {
+    const rule = entrance.match(new RegExp(`\\.hero \\.hero-result-${side} \\{([^}]+)\\}`))[1];
+    return mediaStart + Number(token(rule, "hero-media-step")) * stagger;
+  });
+  assert.deepEqual(delays, [1380, 1560, 1740]);
+  assert.equal(delays[2] + parseFloat(token(mediaRule, "hero-media-duration")), 2500);
+  assert.match(entrance, /\.hero \.hero-result\[data-hero-entrance\] \{ animation-name: hero-preview-in;/);
+  assert.match(entrance, /animation-delay: calc\(var\(--hero-media-start\) \+ var\(--hero-media-step\) \* var\(--hero-media-stagger\)\)/);
+  assert.match(entrance, /animation-timing-function: cubic-bezier\(\.22, 1, \.36, 1\)/);
+  assert.doesNotMatch(mediaRule, /(?:^|;)\s*(?:animation|transform):/);
+  assert.match(hero, /<div class="hero-results" role="group" aria-label="App Store video examples">/);
+});
+
+test("the smaller side previews start centered behind the center at wide and narrow widths", () => {
+  const scale = parseFloat(token(mediaRule, "hero-preview-scale"));
+  assert.ok(scale < 1 && scale >= .75);
+  assert.equal(token(mediaRule, "hero-side-enter"), "calc(var(--hero-side-distance) - (1 - var(--hero-preview-scale)) * 50%)");
+  const mobile = css.match(/\.apes-landing \.hero-results \{ --hero-side-distance: ([\d.]+)%; grid-template-columns: minmax\(0, ([\d.]+)fr\) minmax\(0, ([\d.]+)fr\) minmax\(0, ([\d.]+)fr\);/);
+  const layouts = [[1, 1, parseFloat(token(mediaRule, "hero-side-distance"))], [Number(mobile[2]), Number(mobile[3]), Number(mobile[1])]];
+  assert.equal(mobile[2], mobile[4], "Both side columns must use the same geometry");
+  for (const [sideWidth, centerWidth, distance] of layouts) {
+    const shift = (distance / 100 - (1 - scale) / 2) * sideWidth;
+    // Existing origins are right-center for left, left-center for right.
+    const leftCenter = sideWidth * (1 - scale / 2) + shift;
+    const rightCenter = sideWidth + centerWidth + sideWidth * scale / 2 - shift;
+    const target = sideWidth + centerWidth / 2;
+    assert.ok(Math.abs(leftCenter - target) < .00001);
+    assert.ok(Math.abs(rightCenter - target) < .00001);
+    assert.ok(sideWidth * scale < centerWidth * 1.08, "Both smaller cards fit behind the center preview");
+  }
+  assert.match(entrance, /--hero-preview-enter-x: calc\(-1 \* var\(--hero-side-enter\)\)/);
+  assert.match(css, /\.hero-result-center \{ z-index: 2; transform: scale\(1\.08\); \}/);
+  for (const [, declarations] of css.matchAll(/\.apes-landing \.hero-results \{([^}]+)\}/g)) {
+    assert.doesNotMatch(declarations, /overflow(?:-x|-y)?:\s*(?:hidden|clip)/);
+  }
+});
+
+test("settling removes blur and uses the unchanged responsive transforms without fill or layout shifts", () => {
+  const frames = entrance.slice(entrance.indexOf("@keyframes hero-preview-in"));
+  assert.match(frames, /from \{ opacity: 0; filter: blur\(var\(--hero-preview-blur\)\); transform: translateX\(var\(--hero-preview-enter-x\)\) translateY\(8px\) scale\(var\(--hero-preview-scale\)\); \}/);
+  assert.match(frames, /to \{ opacity: 1; filter: blur\(0\); \}/);
+  assert.doesNotMatch(frames.match(/to \{([^}]+)\}/)[1], /transform:/);
+  assert.ok(parseFloat(token(mediaRule, "hero-preview-blur")) <= 3);
+  assert.doesNotMatch(entrance, /will-change|\b(?:both|forwards|infinite)\b|(?:^|[;{])\s*(?:width|height|top|left|right|margin):/m);
+  const expected = [
+    "translateX(8%) rotateY(12deg) scale(.88)", "translateX(-8%) rotateY(-12deg) scale(.88)",
+    "translateX(6%) rotateY(6deg) scale(.9)", "translateX(-6%) rotateY(-6deg) scale(.9)",
+    "translateX(6%) rotateY(3deg) scale(.94)", "translateX(-6%) rotateY(-3deg) scale(.94)",
+  ];
+  for (const transform of expected) assert.ok(css.includes(`transform: ${transform};`));
+  assert.match(css, /\.hero-result-left \{[^}]*transform-origin: right center;/);
+  assert.match(css, /\.hero-result-right \{[^}]*transform-origin: left center;/);
 });
 
 test("reduced motion has no hero animation or delayed hidden state", () => {
   assert.ok(start >= 0 && depth === 0);
   assert.match(entrance, /from \{ opacity: 0; transform: translateY\(8px\); \}/);
   const outsideEntrance = css.slice(0, start) + css.slice(end);
-  assert.doesNotMatch(outsideEntrance, /hero-intro-in|\[data-hero-entrance\]|--hero-delay/);
+  assert.doesNotMatch(outsideEntrance, /hero-intro-in|hero-preview-in|\[data-hero-entrance\]|--hero-delay/);
   assert.doesNotMatch(hero, /style="[^\"]*(?:opacity|visibility|display|animation-delay):/);
 });
 
@@ -67,7 +126,7 @@ test("no JavaScript shows the hero immediately and script failure cannot leave i
 });
 
 test("keyboard focus reveals controls immediately and scrolling cannot replay the entrance", () => {
-  assert.match(entrance, /\.hero :is\(\.download-button:focus-visible, \.hero-results:focus-within\) \{ animation: none; \}/);
+  assert.match(entrance, /\.hero \.download-button:focus-visible, \.hero \.hero-results:focus-within \[data-hero-entrance\] \{ animation: none; \}/);
   assert.doesNotMatch(entrance, /is-visible|:hover|animation-play-state/);
   assert.match(hero, /href="https:\/\/apps\.apple\.com\/us\/app\/app-preview-editor-studio\/id6785711605" aria-label="Download for Mac" data-hero-entrance/);
   assert.doesNotMatch(hero, /disabled|inert|class="[^"]*reveal/);
