@@ -349,10 +349,36 @@ const previewHandoff = (source, target, viewportHeight, sourceScale) => {
   };
 };
 
+const handoffBlurSettings = {
+  maxBlurPx: 3,
+  easing: progress => progress * progress * (3 - 2 * progress),
+  ranges: { title: [0, .55], subtitle: [.06, .65], desktop: [.14, .82], app: [.22, 1] },
+};
+
+const handoffBlurProgress = (source, background, state, sourceScale) => {
+  if (![background.width, background.height].every(value => Number.isFinite(value) && value > 0)
+    || ![background.left, background.top].every(Number.isFinite)) return null;
+  const sourceHeight = source.height * sourceScale;
+  const centerX = source.left + source.width / 2 + state.x;
+  const halfWidth = source.width * sourceScale * state.scale / 2;
+  if (centerX + halfWidth < background.left || centerX - halfWidth > background.left + background.width) return null;
+  const sourceY = source.top + source.height / 2;
+  const initialBottom = sourceY + sourceHeight / 2;
+  const movingBottom = sourceY + state.y + sourceHeight * state.scale / 2;
+  // First overlap occurs when the moving portrait's bottom reaches the desktop top.
+  if (movingBottom >= background.top || initialBottom >= background.top) return 1;
+  return Math.max(0, Math.min(1, (movingBottom - initialBottom) / (background.top - initialBottom)));
+};
+
 const handoffEntrances = progress => {
   const stage = (start, end) => Math.max(0, Math.min(1, (progress - start) / (end - start)));
   return { title: stage(0, .35), subtitle: stage(.12, .5), desktop: stage(.24, .75), app: stage(.4, 1) };
 };
+
+const handoffSharpness = progress => Object.fromEntries(Object.entries(handoffBlurSettings.ranges).map(([stage, [start, end]]) => {
+  const fraction = Math.max(0, Math.min(1, (progress - start) / (end - start)));
+  return [stage, handoffBlurSettings.easing(fraction)];
+}));
 
 const setupPreviewHandoff = () => {
   const origin = document.querySelector("[data-hero-preview-origin]");
@@ -362,7 +388,8 @@ const setupPreviewHandoff = () => {
   if (!scene || !scene.contains(composition)) return;
   const traveler = origin.querySelector(".hero-preview-traveler");
   const target = composition.querySelector("[data-editor-preview-target]");
-  if (!traveler || !target) return;
+  const background = composition.querySelector(".editor-desktop");
+  if (!traveler || !target || !background) return;
   let frame = 0;
   const reset = () => {
     ["--preview-x", "--preview-y", "--preview-scale"].forEach(name => traveler.style.removeProperty(name));
@@ -377,15 +404,21 @@ const setupPreviewHandoff = () => {
     if (motionPreference.matches) { reset(); return; }
     try {
       const sourceScale = Number(window.getComputedStyle(origin).getPropertyValue("--hero-center-scale"));
-      const state = previewHandoff(origin.getBoundingClientRect(), target.getBoundingClientRect(), window.innerHeight, sourceScale);
+      const sourceRect = origin.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const backgroundRect = background.getBoundingClientRect();
+      const state = previewHandoff(sourceRect, targetRect, window.innerHeight, sourceScale);
       if (!state) { reset(); return; }
+      const blurProgress = handoffBlurProgress(sourceRect, backgroundRect, state, sourceScale);
+      if (blurProgress === null) { reset(); return; }
+      const sharpness = handoffSharpness(blurProgress);
       traveler.style.setProperty("--preview-x", `${state.x}px`);
       traveler.style.setProperty("--preview-y", `${state.y}px`);
       traveler.style.setProperty("--preview-scale", String(state.scale));
       scene.style.setProperty("--handoff-progress", String(state.progress));
       Object.entries(handoffEntrances(state.progress)).forEach(([stage, progress]) => {
         scene.style.setProperty(`--handoff-${stage}`, String(progress));
-        scene.style.setProperty(`--handoff-${stage}-filter`, progress === 1 ? "none" : `blur(${(1 - progress) * 3}px)`);
+        scene.style.setProperty(`--handoff-${stage}-filter`, sharpness[stage] === 1 ? "none" : `blur(${(1 - sharpness[stage]) * handoffBlurSettings.maxBlurPx}px)`);
       });
       scene.classList.add("is-handoff-ready");
     } catch {
