@@ -98,6 +98,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .hero { min-height: calc(100dvh - 68px); padding-block: 44px 72px; display: grid; gap: 48px; align-items: center; }
 .hero-copy { max-width: 860px; margin-inline: auto; text-align: center; }
 .hero-word { display: inline-block; }
+.hero-title-word { display: inline-block; }
 .hero-lede { max-width: 52ch; margin: 0 auto 24px; font-size: clamp(1.2rem, 2.7vw, 2rem); font-weight: 630; letter-spacing: -0.025em; line-height: 1.4; text-wrap: balance; }
 .download-button { gap: 10px; }
 .download-button picture, .download-button img { display: block; width: 20px; height: 20px; }
@@ -196,12 +197,10 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-word, .hero-intro-secondary, .hero-intro-detail { animation: hero-intro-in 420ms var(--ease) both; }
-  .hero-word:nth-child(2) { animation-delay: 90ms; }
-  .hero-word:nth-child(3) { animation-delay: 180ms; }
-  .hero-intro-secondary { animation-duration: 480ms; animation-delay: 300ms; }
-  .hero-intro-detail { animation-duration: 520ms; animation-delay: 420ms; }
-  @keyframes hero-intro-in { from { opacity: 0; transform: translateY(0.35em); } }
+  .hero [data-hero-entrance] { animation: hero-intro-in 360ms var(--ease) backwards; animation-delay: var(--hero-delay, 0ms); }
+  .hero .hero-results { animation-duration: 420ms; }
+  .hero :is(.download-button:focus-visible, .hero-results:focus-within) { animation: none; }
+  @keyframes hero-intro-in { from { opacity: 0; transform: translateY(8px); } }
 }
 
 @media (min-width: 560px) {
