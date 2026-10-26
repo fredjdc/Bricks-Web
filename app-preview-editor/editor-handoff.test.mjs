@@ -13,6 +13,7 @@ const handoffScript = script.slice(script.indexOf("const previewHandoff ="));
 const geometry = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; previewHandoff`);
 const entrances = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; handoffEntrances`);
 const sharpness = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; handoffSharpness`);
+const blurProgress = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; handoffBlurProgress`);
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < .0001, `${actual} must equal ${expected}`);
 const rect = (x, y, width, height, scroll = 0) => ({ left: x - width / 2, top: y - height / 2 - scroll, width, height });
 
@@ -102,7 +103,7 @@ function page({ reduced = false } = {}) {
   };
   const target = { getBoundingClientRect: () => rect(540, 2000, targetWidth, targetHeight, scroll) };
   const composition = {
-    querySelector: () => target,
+    querySelector: selector => selector === ".editor-desktop" ? { getBoundingClientRect: () => rect(540, 2050.5, 1000, 600, scroll) } : target,
     querySelectorAll: () => [0, 1, 2].map(() => ({ addEventListener: (name, callback) => imageListeners.push([name, callback]) })),
   };
   const scene = {
@@ -170,7 +171,7 @@ test("one clamped scroll progress synchronizes the center, side exits, and edito
     assert.ok(progress >= 0 && progress <= 1);
   }
   assert.match(css, /\.is-handoff-ready \.hero-side-slot \{ transform: translateX\(calc\(var\(--handoff-progress\) \* var\(--hero-exit-direction\) \* var\(--hero-exit-distance\)\)\); opacity: calc\(1 - var\(--handoff-progress\)\); filter: blur\(calc\(var\(--handoff-progress\) \* var\(--hero-exit-blur\)\)\); \}/);
-  assert.match(css, /\.is-handoff-ready \.result-section :is\(\.result-copy h2, \.result-copy p, \.editor-backdrop, \.editor-app\) \{ opacity: var\(--enter-progress\); filter: var\(--enter-filter\); \}/);
+  assert.match(css, /\.is-handoff-ready \.result-section :is\(\.result-copy h2, \.result-copy p, \.editor-backdrop, \.editor-app\) \{ opacity: var\(--enter-progress\); \}/);
   const limits = css.match(/--hero-exit-distance: clamp\((\d+)px, (\d+)vw, (\d+)px\); --hero-exit-blur: (\d+)px;/).slice(1).map(Number);
   for (const viewport of [240, 390, 1440]) {
     const distance = Math.max(limits[0], Math.min(limits[2], viewport * limits[1] / 100));
@@ -197,7 +198,7 @@ test("title, subtitle, desktop, and app use reversible staggered scroll ranges a
   for (const [scroll, progress] of [[0, 0], [948, .5], [2000, 1], [948, .5], [0, 0]]) {
     p.scroll(scroll); p.flush();
     const state = geometry(rect(500, 1000, 300, 650, scroll), rect(540, 2000, 140, 300, scroll), 800, 1.08);
-    const expectedSharpness = sharpness(state.blurProgress);
+    const expectedSharpness = sharpness(blurProgress(rect(500, 1000, 300, 650, scroll), rect(540, 2050.5, 1000, 600, scroll), state, 1.08));
     for (const [stage, expected] of Object.entries(entrances(progress))) {
       near(Number(p.sceneProperties.get(`--handoff-${stage}`)), expected);
       const filter = p.sceneProperties.get(`--handoff-${stage}-filter`);
@@ -210,31 +211,57 @@ test("title, subtitle, desktop, and app use reversible staggered scroll ranges a
   }
 });
 
-test("all four layers keep blur after their opacity reveals while the center still settles early", () => {
+test("all entrance blur clears at first measured background contact, before the portrait settles", () => {
   const p = page();
+  const stages = ["title", "subtitle", "desktop", "app"];
+  p.scroll(734); p.flush();
+  for (const stage of stages) assert.match(p.sceneProperties.get(`--handoff-${stage}-filter`), /^blur\(/);
+  p.scroll(947.9); p.flush();
+  assert.notEqual(p.sceneProperties.get("--handoff-app-filter"), "none");
   p.scroll(948); p.flush();
-  const opacity = entrances(.5);
-  for (const [stage, value] of Object.entries(opacity)) {
-    const blur = Number(p.sceneProperties.get(`--handoff-${stage}-filter`).match(/blur\(([\d.]+)px\)/)[1]);
-    assert.ok(blur > (1 - value) * 3, `${stage} must sharpen more slowly than its opacity reveal`);
-    assert.ok(blur <= 3);
-    near(Number(p.sceneProperties.get(`--handoff-${stage}`)), value);
+  near(Number(p.sceneProperties.get("--handoff-progress")), .5);
+  near(parseFloat(p.properties.get("--preview-y")), 500);
+  for (const stage of stages) {
+    assert.equal(p.sceneProperties.get(`--handoff-${stage}-filter`), "none");
+    near(Number(p.sceneProperties.get(`--handoff-${stage}`)), entrances(.5)[stage]);
   }
-  const centerSettlesAt = 2000 - 800 * .78;
-  p.scroll(centerSettlesAt); p.flush();
-  near(Number(p.sceneProperties.get("--handoff-progress")), 1);
+  for (const scroll of [1000, 1376, 2000]) {
+    p.scroll(scroll); p.flush();
+    for (const stage of stages) assert.equal(p.sceneProperties.get(`--handoff-${stage}-filter`), "none");
+  }
   near(parseFloat(p.properties.get("--preview-y")), 1000);
-  for (const stage of ["title", "subtitle", "desktop", "app"]) {
-    near(Number(p.sceneProperties.get(`--handoff-${stage}`)), 1);
-    assert.match(p.sceneProperties.get(`--handoff-${stage}-filter`), /^blur\(/);
-  }
-  const settledTransform = [...p.properties];
-  p.scroll(centerSettlesAt + 800 * .5); p.flush();
-  assert.deepEqual([...p.properties], settledTransform, "Extra sharpening scroll must not move the settled center video");
-  for (const stage of ["title", "subtitle", "desktop", "app"]) assert.equal(p.sceneProperties.get(`--handoff-${stage}-filter`), "none");
+  p.scroll(947.9); p.flush();
+  assert.notEqual(p.sceneProperties.get("--handoff-app-filter"), "none");
 });
 
-test("the longer sharpening ranges stay ordered, bounded and reversible without time lag", () => {
+test("background entry uses moving bounds at desktop and mobile sizes and reverses at the same point", () => {
+  for (const [viewport, sourceY, targetY, width, height, tw, th] of [[800, 1000, 2000, 300, 650, 140, 300], [400, 750, 1500, 140, 304, 55, 120]]) {
+    const contactScroll = ((sourceY - viewport * .6) + (targetY - viewport * .78)) / 2;
+    const source = scroll => rect(500, sourceY, width, height, scroll);
+    const target = scroll => rect(540, targetY, tw, th, scroll);
+    const contact = geometry(source(contactScroll), target(contactScroll), viewport, 1.08);
+    const top = sourceY + contact.y + height * 1.08 * contact.scale / 2;
+    const background = scroll => ({ left: 0, top: top - scroll, width: 1000, height: 600 });
+    for (const offset of [-.1, 0, .1, 1000, 0, -.1]) {
+      const scroll = contactScroll + offset;
+      const value = blurProgress(source(scroll), background(scroll), geometry(source(scroll), target(scroll), viewport, 1.08), 1.08);
+      if (offset >= 0) near(value, 1);
+      else assert.ok(value < 1 && value > 0);
+    }
+    assert.equal(blurProgress(source(0), { ...background(0), width: 0 }, contact, 1.08), null);
+    assert.equal(blurProgress(source(0), { ...background(0), left: 2000 }, contact, 1.08), null);
+  }
+});
+
+test("the backdrop frame stays unfiltered and image blur is clipped inside its existing rounded boundary", () => {
+  assert.match(css, /\.editor-backdrop \{ position: absolute; inset: 0; overflow: hidden;/);
+  assert.match(css, /:is\(\.result-copy h2, \.result-copy p, \.editor-desktop, \.editor-app\) \{ filter: var\(--enter-filter\); \}/);
+  assert.doesNotMatch(css, /\.editor-backdrop[^{}]*\{[^}]*(?<![-\w])filter:/);
+  assert.doesNotMatch(css, /\.editor-(?:backdrop|desktop|composition)::(?:before|after)/);
+  assert.ok(composition.includes("A focused editor with straightforward controls keeps your attention on the video you want to create."));
+});
+
+test("the staggered sharpening ranges stay ordered, bounded and reversible without time lag", () => {
   let previous = { title: 0, subtitle: 0, desktop: 0, app: 0 };
   for (let index = 0; index <= 100; index++) {
     const next = sharpness(index / 100);
@@ -247,9 +274,9 @@ test("the longer sharpening ranges stay ordered, bounded and reversible without 
   }
   const p = page();
   const filters = () => ["title", "subtitle", "desktop", "app"].map(stage => p.sceneProperties.get(`--handoff-${stage}-filter`));
-  p.scroll(948); p.flush(); const mid = filters();
+  p.scroll(734); p.flush(); const mid = filters();
   p.scroll(2000); p.flush(); assert.ok(filters().every(value => value === "none"));
-  p.scroll(948); p.flush(); assert.deepEqual(filters(), mid);
+  p.scroll(734); p.flush(); assert.deepEqual(filters(), mid);
   p.flush(); assert.deepEqual(filters(), mid, "Sharpness holds still when scrolling stops");
   assert.equal(p.frames.size, 0);
   p.scroll(-1000); p.flush(); assert.ok(filters().every(value => value === "blur(3px)"));

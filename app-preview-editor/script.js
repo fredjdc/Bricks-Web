@@ -349,6 +349,8 @@ const previewHandoff = (source, target, viewportHeight, sourceScale) => {
   };
 };
 
+const boundedProgress = (value, start, end) => Math.max(0, Math.min(1, (value - start) / (end - start)));
+
 const handoffBlurSettings = {
   maxBlurPx: 3,
   easing: progress => progress * progress * (3 - 2 * progress),
@@ -371,14 +373,65 @@ const handoffBlurProgress = (source, background, state, sourceScale) => {
 };
 
 const handoffEntrances = progress => {
-  const stage = (start, end) => Math.max(0, Math.min(1, (progress - start) / (end - start)));
+  const stage = (start, end) => boundedProgress(progress, start, end);
   return { title: stage(0, .35), subtitle: stage(.12, .5), desktop: stage(.24, .75), app: stage(.4, 1) };
 };
 
 const handoffSharpness = progress => Object.fromEntries(Object.entries(handoffBlurSettings.ranges).map(([stage, [start, end]]) => {
-  const fraction = Math.max(0, Math.min(1, (progress - start) / (end - start)));
+  const fraction = boundedProgress(progress, start, end);
   return [stage, handoffBlurSettings.easing(fraction)];
 }));
+
+// Each card follows its own stable layout position, including the stacked mobile layout.
+const placementEntrance = (top, viewportHeight, delay = 0) => {
+  const progress = boundedProgress(viewportHeight - top, viewportHeight * .04, viewportHeight * .48);
+  const stagger = boundedProgress(progress, delay, 1);
+  return handoffBlurSettings.easing(stagger);
+};
+
+const createPlacementReveal = () => {
+  const section = document.querySelector("#features");
+  if (!section) return { measure: () => () => {}, reset: () => {} };
+  const grid = section.querySelector(".capability-grid");
+  const copy = [...section.querySelectorAll(".section-heading > h2, .section-heading > p")];
+  const cards = grid ? [...grid.querySelectorAll(":scope > article")] : [];
+  const targets = [...copy, ...cards];
+  const reset = () => {
+    section.classList.remove("is-placement-ready");
+    targets.forEach(item => ["--placement-progress", "--placement-opacity", "--placement-x", "--placement-y", "--placement-scale", "--placement-filter"].forEach(name => item.style.removeProperty(name)));
+  };
+  const measure = () => {
+    if (motionPreference.matches || !grid || copy.length !== 2 || cards.length !== 3) return reset;
+    try {
+      const bounds = grid.getBoundingClientRect();
+      if (![bounds.width, window.innerHeight].every(value => Number.isFinite(value) && value > 0) || !Number.isFinite(bounds.top)) return reset;
+      const stacked = window.getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length === 1;
+      const plans = copy.map((item, index) => ({ item, progress: placementEntrance(item.getBoundingClientRect().top, window.innerHeight, index * .1), x: 0, y: 0, card: false }));
+      cards.forEach((item, index) => {
+        const { offsetLeft: left, offsetTop: top, offsetWidth: width } = item;
+        if (![left, top, width].every(Number.isFinite) || width <= 0) throw new Error("Missing placement geometry");
+        plans.push({ item, progress: placementEntrance(bounds.top + top, window.innerHeight, stacked ? 0 : [ .08, 0, .16 ][index]), x: stacked ? 0 : bounds.width / 2 - (left + width / 2), y: 12, card: true, solid: index === 1 });
+      });
+      if (plans.some(plan => !Number.isFinite(plan.progress))) return reset;
+      return () => {
+        try {
+          plans.forEach(({ item, progress, x, y, card, solid }) => {
+            if (item.matches(":focus-within")) progress = 1;
+            item.style.setProperty("--placement-progress", String(progress));
+            item.style.setProperty("--placement-opacity", String(solid ? 1 : progress));
+            item.style.setProperty("--placement-x", `${x * (1 - progress)}px`);
+            item.style.setProperty("--placement-y", `${solid ? 0 : y * (1 - progress)}px`);
+            item.style.setProperty("--placement-scale", String(card && !solid ? .9 + .1 * progress : 1));
+            item.style.setProperty("--placement-filter", solid || progress === 1 ? "none" : `blur(${(1 - progress) * handoffBlurSettings.maxBlurPx}px)`);
+          });
+          section.classList.add("is-placement-ready");
+        } catch { reset(); }
+      };
+    } catch { return reset; }
+  };
+  section.addEventListener("focusin", () => measure()());
+  return { measure, reset };
+};
 
 const setupPreviewHandoff = () => {
   const origin = document.querySelector("[data-hero-preview-origin]");
@@ -390,6 +443,7 @@ const setupPreviewHandoff = () => {
   const target = composition.querySelector("[data-editor-preview-target]");
   const background = composition.querySelector(".editor-desktop");
   if (!traveler || !target || !background) return;
+  const placements = createPlacementReveal();
   let frame = 0;
   const reset = () => {
     ["--preview-x", "--preview-y", "--preview-scale"].forEach(name => traveler.style.removeProperty(name));
@@ -401,7 +455,8 @@ const setupPreviewHandoff = () => {
     scene.classList.remove("is-handoff-ready");
   };
   const update = () => {
-    if (motionPreference.matches) { reset(); return; }
+    const paintPlacements = placements.measure();
+    if (motionPreference.matches) { reset(); paintPlacements(); return; }
     try {
       const sourceScale = Number(window.getComputedStyle(origin).getPropertyValue("--hero-center-scale"));
       const sourceRect = origin.getBoundingClientRect();
@@ -423,6 +478,8 @@ const setupPreviewHandoff = () => {
       scene.classList.add("is-handoff-ready");
     } catch {
       reset();
+    } finally {
+      paintPlacements();
     }
   };
   const schedule = () => {
@@ -431,7 +488,7 @@ const setupPreviewHandoff = () => {
   };
   window.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", schedule);
-  motionPreference.addEventListener("change", () => { reset(); schedule(); });
+  motionPreference.addEventListener("change", () => { reset(); placements.reset(); schedule(); });
   composition.querySelectorAll("img").forEach(img => img.addEventListener("load", schedule));
   update();
 };
