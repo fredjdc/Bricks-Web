@@ -87,7 +87,8 @@ test("the smaller side previews start centered behind the center at wide and nar
     assert.ok(sideWidth * scale < centerWidth * 1.08, "Both smaller cards fit behind the center preview");
   }
   assert.match(entrance, /--hero-preview-enter-x: calc\(-1 \* var\(--hero-side-enter\)\)/);
-  assert.match(css, /\.hero-result-center \{ z-index: 2; transform: scale\(1\.08\); \}/);
+  assert.match(css, /\.hero-center-slot \{ --hero-center-scale: 1\.08; position: relative; z-index: 2; min-width: 0; \}/);
+  assert.match(css, /\.hero-result-center \{ z-index: 2; transform: scale\(var\(--hero-center-scale\)\); \}/);
   for (const [, declarations] of css.matchAll(/\.apes-landing \.hero-results \{([^}]+)\}/g)) {
     assert.doesNotMatch(declarations, /overflow(?:-x|-y)?:\s*(?:hidden|clip)/);
   }

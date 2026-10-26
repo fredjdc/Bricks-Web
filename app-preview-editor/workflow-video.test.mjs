@@ -14,17 +14,17 @@ assert.doesNotMatch(html, /hero-visual|hero-parallax|proof-strip|proof-grid/);
 assert.doesNotMatch(styles, /proof-strip|proof-grid/);
 for (const [file, poster] of [["heroResultLeft", "left"], ["heroResult", "center"], ["heroResultRight", "right"]]) {
   assert.ok(hero.includes(`data-src="assets/${file}.mp4"`));
-  assert.ok(hero.includes(`poster="assets/product/hero-result-${poster}.jpg"`));
+  assert.ok(hero.includes(`poster="assets/product/hero-result-${poster}.png"`));
   assert.ok((await stat(new URL(`assets/${file}.mp4`, import.meta.url))).size > 0);
-  assert.ok((await stat(new URL(`assets/product/hero-result-${poster}.jpg`, import.meta.url))).size > 0);
+  assert.ok((await stat(new URL(`assets/product/hero-result-${poster}.png`, import.meta.url))).size > 0);
 }
 assert.doesNotMatch(hero, /hero-demo|preload="metadata"|<source src=/);
 assert.match(showcase, /<h2 id="result-title">Your app\. Your story\.<\/h2>/);
-assert.match(showcase, /class="result-media editor-demo reveal"/);
-assert.match(showcase, /width="1920" height="1080"/);
-assert.match(showcase, /data-src="assets\/hero-demo\.mp4"/);
-assert.doesNotMatch(showcase, /heroResult|finished-preview-video/);
-assert.equal((html.match(/data-src="assets\/hero-demo\.mp4"/g) ?? []).length, 1);
+assert.match(showcase, /class="result-media editor-composition"/);
+assert.match(showcase, /src="assets\/desktop-bg\.png" width="2560" height="1080"/);
+assert.match(showcase, /src="assets\/app-preview-editor-app\.png" width="1920" height="986"/);
+assert.match(showcase, /data-editor-preview-target/);
+assert.doesNotMatch(showcase, /<video|finished-preview-video|hero-demo\.mp4/);
 
 const sectionOrder = [...html.matchAll(/<section class="([^"]+)"/g)].map((match) => match[1]);
 assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "capabilities section", "product-tour section shell", "delivery section shell", "pricing section shell", "faq section shell", "final-cta section shell"]);
@@ -81,5 +81,5 @@ assert.match(html.slice(html.indexOf(founder) + founder.length), /^\s*<\/main>\s
 assert.match(styles, /\[data-video-align="left"\]\s*\{\s*object-position:\s*left center;/);
 assert.match(styles, /\[data-video-align="right"\]\s*\{\s*object-position:\s*right center;/);
 
-assert.match(showcase, /data-playback-label="editor demo" role="button" tabindex="0" aria-label="Play editor demo"/);
+assert.match(showcase, /role="img" aria-label="App Preview Editor with an app preview centered on its editing canvas"/);
 assert.match(script, /querySelectorAll\("\[data-playback-toggle\]"\)/);

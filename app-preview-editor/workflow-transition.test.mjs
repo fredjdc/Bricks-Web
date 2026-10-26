@@ -40,7 +40,7 @@ function workflow({ reduced = false, desktop = true } = {}) {
   const phases = [node({ textContent: "Import" }), node({ textContent: "Edit" })], button = node();
   const media = { querySelectorAll: selector => selector === ".workflow-frame" ? frames : phases, querySelector: () => button };
   const document = node({ hidden: false, documentElement: { classList: { add() {} } },
-    querySelector: () => media,
+    querySelector: selector => selector === ".workflow-media" ? media : null,
     querySelectorAll: selector => ({ "[data-workflow-video]": steps, "#workflow [data-workflow-media]": videos, "video": videos, "[data-autoplay-video]": videos })[selector] ?? [],
   });
   const observers = [];

@@ -90,3 +90,13 @@ test("reduced motion keeps all media unloaded until explicitly played", () => {
   assert.equal(p.center.loadCount, 1);
   assert.equal(p.left.loadCount + p.right.loadCount + p.editor.loadCount, 0);
 });
+
+test("the center preview can resume in the editor without playing offscreen hero sides", () => {
+  const p = page({ desktop: true });
+  p.intersect([p.center], true);
+  p.center.click();
+  assert.ok(p.hero.every(video => video.paused));
+  p.center.click();
+  assert.equal(p.center.paused, false);
+  assert.equal(p.left.playCount + p.right.playCount, 0);
+});

@@ -78,10 +78,14 @@
             <source data-src="assets/heroResultLeft.mp4" type="video/mp4">
           </video>
         </div>
-        <div class="hero-result hero-result-center" data-hero-entrance>
-          <video id="finished-preview-video" width="886" height="1920" poster="assets/product/hero-result-center.png" preload="none" muted loop playsinline data-autoplay-video data-start-time="6" data-playback-toggle data-playback-label="App Store video examples" role="button" tabindex="0" aria-label="Play App Store video examples">
-            <source data-src="assets/heroResult.mp4" type="video/mp4">
-          </video>
+        <div class="hero-center-slot" data-hero-preview-origin>
+          <div class="hero-preview-traveler">
+            <div class="hero-result hero-result-center" data-hero-entrance>
+              <video id="finished-preview-video" width="886" height="1920" poster="assets/product/hero-result-center.png" preload="none" muted loop playsinline data-autoplay-video data-start-time="6" data-playback-toggle data-playback-label="App Store video examples" role="button" tabindex="0" aria-label="Play App Store video examples">
+                <source data-src="assets/heroResult.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
         </div>
         <div class="hero-result hero-result-right" aria-hidden="true" data-hero-entrance>
           <video width="886" height="1920" poster="assets/product/hero-result-right.png" preload="none" muted loop playsinline data-autoplay-video data-hero-side data-start-time="14">
@@ -96,10 +100,14 @@
         <h2 id="result-title">Your app. Your story.</h2>
         <p>Turn screenshots and recordings into videos that show what your app does. Bring your clips, text, motion, and audio together in one app.</p>
       </div>
-      <div class="result-media editor-demo reveal">
-        <video width="1920" height="1080" poster="assets/product/hero-workflow.png" preload="none" muted loop playsinline data-autoplay-video data-playback-toggle data-playback-label="editor demo" role="button" tabindex="0" aria-label="Play editor demo">
-          <source data-src="assets/hero-demo.mp4" type="video/mp4">
-        </video>
+      <div class="result-media editor-composition" data-editor-composition role="img" aria-label="App Preview Editor with an app preview centered on its editing canvas">
+        <img class="editor-desktop" src="assets/desktop-bg.png" width="2560" height="1080" alt="" loading="lazy" decoding="async">
+        <img class="editor-app" src="assets/app-preview-editor-app.png" width="1920" height="986" alt="" loading="lazy" decoding="async">
+        <div class="editor-canvas" aria-hidden="true">
+          <div class="editor-preview-target" data-editor-preview-target>
+            <img class="editor-preview-static" src="assets/product/hero-result-center.png" width="456" height="986" alt="" loading="lazy" decoding="async">
+          </div>
+        </div>
       </div>
     </section>
 

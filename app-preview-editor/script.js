@@ -107,7 +107,7 @@ document.querySelectorAll("[data-playback-toggle]").forEach((video) => {
     targets.forEach((target) => {
       target.dataset.userPaused = String(pause);
       if (pause) target.pause();
-      else if (canPlayVideo(target)) playVideo(target).catch(updateLabel);
+      else if (canPlayVideo(target) && (target === video || visibleVideos.has(target))) playVideo(target).catch(updateLabel);
     });
   };
   video.addEventListener("click", togglePlayback);
@@ -277,3 +277,63 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden) observedVideos.forEach((video) => video.pause());
   else resumeVisibleVideos();
 });
+
+const previewHandoff = (source, target, viewportHeight, sourceScale) => {
+  const dimensions = [source.width, source.height, target.width, target.height, viewportHeight, sourceScale];
+  if (dimensions.some(value => !Number.isFinite(value) || value <= 0)) return null;
+  if (![source.left, source.top, target.left, target.top].every(Number.isFinite)) return null;
+  const sourceX = source.left + source.width / 2;
+  const sourceY = source.top + source.height / 2;
+  const targetX = target.left + target.width / 2;
+  const targetY = target.top + target.height / 2;
+  // Keep the preview near mid-screen while its document position moves into the canvas.
+  const start = sourceY - viewportHeight * .45;
+  const end = targetY - viewportHeight * .55;
+  if (end <= start) return null;
+  const progress = Math.max(0, Math.min(1, -start / (end - start)));
+  const fit = Math.min(target.width / (source.width * sourceScale), target.height / (source.height * sourceScale));
+  return {
+    progress,
+    x: (targetX - sourceX) * progress,
+    y: (targetY - sourceY) * progress,
+    scale: 1 + (fit - 1) * progress,
+  };
+};
+
+const setupPreviewHandoff = () => {
+  const origin = document.querySelector("[data-hero-preview-origin]");
+  const composition = document.querySelector("[data-editor-composition]");
+  if (!origin || !composition) return;
+  const traveler = origin.querySelector(".hero-preview-traveler");
+  const target = composition.querySelector("[data-editor-preview-target]");
+  if (!traveler || !target) return;
+  let frame = 0;
+  const reset = () => {
+    ["--preview-x", "--preview-y", "--preview-scale"].forEach(name => traveler.style.removeProperty(name));
+    composition.classList.remove("is-handoff-ready");
+  };
+  const update = () => {
+    if (motionPreference.matches) { reset(); return; }
+    try {
+      const sourceScale = Number(window.getComputedStyle(origin).getPropertyValue("--hero-center-scale"));
+      const state = previewHandoff(origin.getBoundingClientRect(), target.getBoundingClientRect(), window.innerHeight, sourceScale);
+      if (!state) { reset(); return; }
+      traveler.style.setProperty("--preview-x", `${state.x}px`);
+      traveler.style.setProperty("--preview-y", `${state.y}px`);
+      traveler.style.setProperty("--preview-scale", String(state.scale));
+      composition.classList.add("is-handoff-ready");
+    } catch {
+      reset();
+    }
+  };
+  const schedule = () => {
+    if (motionPreference.matches || frame) return;
+    frame = requestAnimationFrame(() => { frame = 0; update(); });
+  };
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  motionPreference.addEventListener("change", () => { reset(); schedule(); });
+  composition.querySelectorAll("img").forEach(img => img.addEventListener("load", schedule));
+  update();
+};
+setupPreviewHandoff();
