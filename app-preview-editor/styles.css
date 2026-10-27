@@ -400,6 +400,32 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 /* Results first, then a full-width view of the editor that made them. */
 .apes-landing .hero-results { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; width: min(100%, 860px); margin-inline: auto; padding: 16px 4px 28px; isolation: isolate; perspective: 1200px; --hero-side-rest-inset: 28%; --hero-side-rest-scale: .88; --hero-side-rest-tilt: 12deg; --hero-side-distance-ratio: .7; }
+/* A viewport stage outside the media's perspective context. The hero isolates
+   its negative paint layer, while copy, media and navigation stay in front. */
+.apes-landing .hero { position: relative; z-index: 3; isolation: isolate; }
+.apes-landing .hero-copy { position: relative; z-index: 4; }
+@media (prefers-reduced-motion: no-preference) {
+  .apes-landing .hero::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    opacity: var(--hero-spotlight-opacity, 0);
+    background:
+      radial-gradient(ellipse 78% 82% at 50% 42%, transparent 40%, rgba(20,56,84,.23) 100%),
+      radial-gradient(ellipse 66% 50% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(255,255,255,.95), rgba(255,225,169,.48) 30%, transparent 100%),
+      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(3,111,198,.3) 15deg, rgba(255,255,255,.9) 34deg, transparent 45deg, rgba(255,230,170,.55) 62deg, transparent 78deg, rgba(52,150,224,.35) 100deg, transparent 120deg),
+      radial-gradient(ellipse 50% 45% at 50% 28%, rgba(255,255,255,.85), transparent 100%),
+      linear-gradient(120deg, #d7e9f8 0%, #f6f9ff 38%, #fff1dc 65%, #c7dfef 100%);
+  }
+}
+@media (prefers-color-scheme: dark) and (prefers-reduced-motion: no-preference) {
+  .apes-landing .hero::before {
+    background:
+      radial-gradient(ellipse 78% 82% at 50% 42%, transparent 28%, rgba(0,0,0,.65) 100%),
+      radial-gradient(ellipse 66% 50% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(215,241,255,.55), rgba(50,145,211,.4) 30%, transparent 100%),
+      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(25,121,207,.5) 15deg, rgba(198,232,255,.36) 34deg, transparent 45deg, rgba(235,185,114,.22) 62deg, transparent 78deg, rgba(42,140,220,.5) 100deg, transparent 120deg),
+      radial-gradient(ellipse 50% 45% at 50% 28%, rgba(33,67,98,.4), transparent 100%),
+      linear-gradient(120deg, #081729 0%, #142d46 38%, #282637 65%, #081a2b 100%);
+  }
+}
 .apes-landing .hero-result { min-width: 0; padding: 4px; overflow: hidden; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: var(--shadow); }
 .apes-landing .hero-result .video-stage { overflow: hidden; border-radius: 27px; }
 .apes-landing .hero-result video { display: block; width: 100%; height: auto; border-radius: 27px; object-fit: contain; }

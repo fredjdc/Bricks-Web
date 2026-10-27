@@ -499,11 +499,22 @@ const heroSeparationProgress = (hero, source, viewport, scroll) => {
   return boundedProgress(scroll, start, end);
 };
 
+const heroSpotlightSettings = { fadeBeforeHandoffFraction: .85, sourceHeightFraction: .5 };
+const heroSpotlightOpacity = (hero, source, viewport, scroll) => {
+  if (![hero.top, source.top, source.height, viewport, scroll].every(Number.isFinite) || viewport <= 0 || source.height <= 0) return null;
+  const start = Math.max(0, hero.top + scroll - viewport);
+  const handoffStart = source.top + source.height / 2 + scroll - viewport * .6;
+  const end = start + (handoffStart - start) * heroSpotlightSettings.fadeBeforeHandoffFraction;
+  return end > start ? 1 - handoffBlurSettings.easing(boundedProgress(scroll, start, end)) : 0;
+};
+
 const createHeroSpacing = origin => {
   const hero = origin.closest(".hero-results");
+  const stage = origin.closest(".hero");
   const slots = hero ? [...hero.querySelectorAll(".hero-side-slot")] : [];
   const reset = () => {
     hero?.style.removeProperty("--hero-separation-progress");
+    ["--hero-spotlight-opacity", "--hero-spotlight-x", "--hero-spotlight-y"].forEach(name => stage?.style.removeProperty(name));
     slots.forEach(slot => slot.style.removeProperty("--hero-side-rest-shift"));
   };
   const measure = source => {
@@ -511,7 +522,8 @@ const createHeroSpacing = origin => {
     try {
       const bounds = hero.getBoundingClientRect();
       const progress = heroSeparationProgress(bounds, source, window.innerHeight, window.scrollY);
-      if (progress === null) return reset;
+      const spotlight = heroSpotlightOpacity(bounds, source, window.innerHeight, window.scrollY);
+      if (progress === null || spotlight === null) return reset;
       const center = source.left + source.width / 2;
       const plans = slots.map(slot => {
         const style = window.getComputedStyle(slot);
@@ -527,6 +539,9 @@ const createHeroSpacing = origin => {
       });
       return () => {
         hero.style.setProperty("--hero-separation-progress", String(progress));
+        stage?.style.setProperty("--hero-spotlight-opacity", String(spotlight));
+        stage?.style.setProperty("--hero-spotlight-x", `${center}px`);
+        stage?.style.setProperty("--hero-spotlight-y", `${source.top + source.height * heroSpotlightSettings.sourceHeightFraction}px`);
         plans.forEach(({ slot, shift }) => slot.style.setProperty("--hero-side-rest-shift", `${shift}px`));
       };
     } catch { return reset; }

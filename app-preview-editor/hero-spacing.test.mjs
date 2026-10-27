@@ -8,6 +8,7 @@ const source = script.slice(script.indexOf("const previewHandoff ="));
 const helpers = source.slice(0, source.indexOf("const setupPreviewHandoff ="));
 const restDistance = vm.runInNewContext(`${helpers}; heroSideRestDistance`);
 const separation = vm.runInNewContext(`${helpers}; heroSeparationProgress`);
+const spotlight = vm.runInNewContext(`${helpers}; heroSpotlightOpacity`);
 const near = (a, b) => assert.ok(Math.abs(a - b) < .00001, `${a} != ${b}`);
 
 // Resolve the actual matching resting rules, including media conditions and specificity.
@@ -87,14 +88,48 @@ test("hero separation starts before the handoff and never pauses between the two
   }
 });
 
+test("one background spotlight fades continuously to zero before handoff and reverses on the existing scroll clock", () => {
+  for (const viewport of [400, 700, 900, 1200]) {
+    const top = viewport * .9, height = viewport * .8;
+    const at = scroll => spotlight({ top: top - scroll }, { top: top - scroll, height }, viewport, scroll);
+    const handoff = top + height / 2 - viewport * .6, end = handoff * .85;
+    assert.equal(at(0), 1); assert.ok(at(1) < 1); near(at(end / 2), .5);
+    assert.equal(at(end), 0); assert.equal(at(handoff), 0);
+    let previous = 1;
+    for (let i = 0; i <= 100; i++) { const alpha = at(handoff * i / 100); assert.ok(alpha >= 0 && alpha <= previous); previous = alpha; }
+    const before = at(end / 3); at(handoff + 500); assert.equal(at(end / 3), before);
+  }
+  assert.equal(spotlight({ top: NaN }, { top: 0, height: 400 }, 700, 0), null);
+  const style = css.match(/\.apes-landing \.hero::before \{([^}]+)\}/)[1];
+  assert.match(style, /z-index: -1; pointer-events: none;/); assert.match(style, /opacity: var\(--hero-spotlight-opacity, 0\);/);
+  assert.doesNotMatch(style, /filter:|animation:|box-shadow:|transition:/);
+  assert.equal((style.match(/radial-gradient/g) || []).length, 3);
+  assert.match(style, /position: fixed; inset: 0;/);
+  assert.match(style, /conic-gradient\(from -60deg at var\(--hero-spotlight-x, 50%\) var\(--hero-spotlight-y, 80%\)/);
+  assert.match(style, /linear-gradient\(120deg,/);
+  assert.match(css, /\.apes-landing \.hero \{ position: relative; z-index: 3; isolation: isolate; \}/);
+  assert.match(css, /\.apes-landing \.hero-copy \{ position: relative; z-index: 4; \}/);
+  assert.doesNotMatch(css, /\.hero-results::before/);
+  const p = page(); assert.equal(+p.stage.style.values.get("--hero-spotlight-opacity"), 1);
+  assert.equal(p.stage.style.values.get("--hero-spotlight-x"), "500px");
+  assert.equal(p.stage.style.values.get("--hero-spotlight-y"), "727px");
+  p.scroll(221); near(+p.stage.style.values.get("--hero-spotlight-opacity"), .5);
+  assert.equal(p.stage.style.values.get("--hero-spotlight-y"), "506px");
+  p.scroll(442); assert.equal(+p.stage.style.values.get("--hero-spotlight-opacity"), 0);
+  assert.equal(+p.main.style.values.get("--handoff-progress"), 0);
+  p.scroll(221); near(+p.stage.style.values.get("--hero-spotlight-opacity"), .5);
+  p.preference(true); assert.equal(p.stage.style.values.size, 0);
+});
+
 function page({ reduced = false, broken = false } = {}) {
   let scroll = 0;
   const properties = () => ({ values: new Map(), setProperty(name, value) { this.values.set(name, value); }, removeProperty(name) { this.values.delete(name); } });
   const events = {}, frames = [], classes = new Set(), motionEvents = {};
   const slots = [-1, 1].map(direction => ({ direction, offsetLeft: direction < 0 ? 4 : 572, offsetWidth: 284, style: properties() }));
   const hero = { style: properties(), getBoundingClientRect: () => ({ top: 650 - scroll, left: 70, width: 860 }), querySelectorAll: () => slots };
+  const stage = { style: properties() };
   const traveler = { style: properties() };
-  const origin = { closest: selector => selector === "main" ? main : hero, querySelector: selector => selector === ".hero-preview-traveler" ? traveler : null,
+  const origin = { closest: selector => selector === "main" ? main : selector === ".hero" ? stage : hero, querySelector: selector => selector === ".hero-preview-traveler" ? traveler : null,
     getBoundingClientRect: () => ({ left: 350, top: 675 - scroll, width: 300, height: 650 }) };
   const target = { getBoundingClientRect: () => ({ left: 470, top: 1850 - scroll, width: 140, height: 300 }) };
   const desktop = { getBoundingClientRect: () => ({ left: 40, top: 1750.5 - scroll, width: 1000, height: 600 }) };
@@ -122,7 +157,7 @@ function page({ reduced = false, broken = false } = {}) {
       } },
     requestAnimationFrame: fn => { frames.push(fn); return frames.length; },
   });
-  return { slots, hero, main, traveler, classes, frames,
+  return { slots, hero, stage, main, traveler, classes, frames,
     scroll(value) { scroll = value; events.scroll(); while (frames.length) frames.shift()(); },
     preference(value) { preference.matches = value; motionEvents.change(); while (frames.length) frames.shift()(); } };
 }
