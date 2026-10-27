@@ -112,9 +112,9 @@ test("one background spotlight fades continuously to zero before handoff and rev
   assert.doesNotMatch(css, /\.hero-results::before/);
   const p = page(); assert.equal(+p.stage.style.values.get("--hero-spotlight-opacity"), 1);
   assert.equal(p.stage.style.values.get("--hero-spotlight-x"), "500px");
-  assert.equal(p.stage.style.values.get("--hero-spotlight-y"), "727px");
+  assert.equal(p.stage.style.values.get("--hero-spotlight-y"), "1000px", "Use the full media midpoint even below the 800px viewport");
   p.scroll(221); near(+p.stage.style.values.get("--hero-spotlight-opacity"), .5);
-  assert.equal(p.stage.style.values.get("--hero-spotlight-y"), "506px");
+  assert.equal(p.stage.style.values.get("--hero-spotlight-y"), "779px");
   p.scroll(442); assert.equal(+p.stage.style.values.get("--hero-spotlight-opacity"), 0);
   assert.equal(+p.main.style.values.get("--handoff-progress"), 0);
   p.scroll(221); near(+p.stage.style.values.get("--hero-spotlight-opacity"), .5);
