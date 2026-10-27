@@ -45,7 +45,7 @@ const approvedHeroCaption = '<p class="download-caption" data-hero-entrance styl
 assert.equal(hero.split(approvedHeroCaption).length - 1, 1, "The approved trial caption must appear once in the hero");
 assert.equal(html.split(approvedHeroCaption).length - 1, 1);
 assert.match(html, /Pro also includes ProRes 422 HQ MOV exports\./);
-assert.match(pricing, /7-day free trial for eligible new subscribers\. Subscriptions auto-renew unless canceled\. All prices in USD\./);
+assert.match(pricing, /Eligible new subscribers get a free trial, then pay the price shown\. Subscriptions auto-renew unless canceled\. All prices in USD\./);
 assert.match(pricing, /Pro includes premium Scene Clips, with new scenes added in every update\./);
 
 const comparison = pricing.match(/<table class="plan-comparison"[^>]*>([\s\S]*?)<\/table>/)?.[1];
@@ -77,6 +77,6 @@ assert.match(pricing, /<table class="plan-comparison" aria-labelledby="included-
 
 assert.deepEqual([...pricing.matchAll(/<s>(.*?)<\/s>/g)].map((match) => match[1]), []);
 
-assert.deepEqual([...pricing.matchAll(/class="plan-detail">([^<]+)<\/dd>/g)].map((match) => match[1]), ["7 days free, then $4.99/month.", "7 days free, then $39.99/year.", "One-time purchase."]);
+assert.deepEqual([...pricing.matchAll(/class="plan-detail"><span class="coming-soon-label">([^<]+)<\/span><\/dd>/g)].map((match) => match[1]), ["7-day free trial", "7-day free trial", "One-time purchase"]);
 const lifetime = pricing.match(/<div><dt>Lifetime<\/dt>[\s\S]*?<\/div>/)[0];
 assert.doesNotMatch(lifetime, /trial|free|\/month|\/year/i);
