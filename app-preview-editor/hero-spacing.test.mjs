@@ -43,8 +43,8 @@ function effective(viewport, node, reduced = false) {
 test("effective resting transforms use stable shared tokens at every breakpoint without an inline override", () => {
   for (const viewport of [320, 375, 390, 430, 482, 560, 768, 900, 1024, 1440]) {
     const group = effective(viewport, "hero-results");
-    assert.equal(group["--hero-side-rest-inset"], "28%");
-    assert.equal(group["--hero-side-distance-ratio"], ".7");
+    assert.equal(group["--hero-side-rest-inset"], viewport < 560 ? "8%" : "28%");
+    assert.equal(group["--hero-side-distance-ratio"], viewport < 560 ? ".85" : ".7");
     near(parseFloat(group["--hero-side-rest-scale"]), viewport < 560 ? .94 : viewport < 900 ? .9 : .88);
     near(parseFloat(group["--hero-side-rest-tilt"]), viewport < 560 ? 3 : viewport < 900 ? 6 : 12);
     assert.equal(effective(viewport, "hero-result-left").transform, "translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) scale(var(--hero-side-rest-scale))");
@@ -54,9 +54,9 @@ test("effective resting transforms use stable shared tokens at every breakpoint 
     const centerWidth = inner - side * 2, center = width / 2;
     const distances = [-1, 1].map(direction => {
       const left = direction < 0 ? 4 : 4 + side + centerWidth;
-      const baseline = restDistance(left, side, direction, parseFloat(group["--hero-side-rest-scale"]), parseFloat(group["--hero-side-rest-tilt"]), .28, center, 1200, center);
+      const baseline = restDistance(left, side, direction, parseFloat(group["--hero-side-rest-scale"]), parseFloat(group["--hero-side-rest-tilt"]), parseFloat(group["--hero-side-rest-inset"]) / 100, center, 1200, center);
       const shift = baseline * (1 - parseFloat(group["--hero-side-distance-ratio"]));
-      near(baseline - shift, baseline * .7);
+      near(baseline - shift, baseline * parseFloat(group["--hero-side-distance-ratio"]));
       assert.ok(baseline - shift > 0, "Side centers remain on their own sides");
       assert.ok(baseline - shift < centerWidth * 1.08 / 2 + side * parseFloat(group["--hero-side-rest-scale"]) / 2, "Keep visible peeks overlapping behind the center");
       return baseline;
@@ -94,7 +94,7 @@ function page({ reduced = false, broken = false } = {}) {
   const slots = [-1, 1].map(direction => ({ direction, offsetLeft: direction < 0 ? 4 : 572, offsetWidth: 284, style: properties() }));
   const hero = { style: properties(), getBoundingClientRect: () => ({ top: 650 - scroll, left: 70, width: 860 }), querySelectorAll: () => slots };
   const traveler = { style: properties() };
-  const origin = { closest: selector => selector === "main" ? main : hero, querySelector: () => traveler,
+  const origin = { closest: selector => selector === "main" ? main : hero, querySelector: selector => selector === ".hero-preview-traveler" ? traveler : null,
     getBoundingClientRect: () => ({ left: 350, top: 675 - scroll, width: 300, height: 650 }) };
   const target = { getBoundingClientRect: () => ({ left: 470, top: 1850 - scroll, width: 140, height: 300 }) };
   const desktop = { getBoundingClientRect: () => ({ left: 40, top: 1750.5 - scroll, width: 1000, height: 600 }) };
@@ -176,6 +176,6 @@ test("reduced motion, invalid camera and no JS retain static side peeks without 
   assert.doesNotMatch(staticStyle.transform, /--hero-separation-progress|--handoff-progress/);
   assert.equal(staticStyle["pointer-events"], "none");
   assert.match(css, /body \{[^}]*overflow-x: hidden;/);
-  assert.match(html, /styles\.css\?v=20261026-hero-spacing-1/);
-  assert.match(html, /script\.js\?v=20261026-hero-spacing-1/);
+  assert.match(html, /styles\.css\?v=[^"\s]+/);
+  assert.match(html, /script\.js\?v=[^"\s]+/);
 });

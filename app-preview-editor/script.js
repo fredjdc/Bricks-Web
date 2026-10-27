@@ -36,6 +36,21 @@ const showVideoPoster = (video) => {
   poster.hidden = false;
 };
 
+// HTML dimensions reserve the verified native ratio before metadata is available.
+// Refresh that hint on native size/source changes, without touching playback state.
+const syncVideoGeometry = video => {
+  const nativeReady = video.videoWidth > 0 && video.videoHeight > 0;
+  const width = nativeReady ? video.videoWidth : Number(video.getAttribute("width"));
+  const height = nativeReady ? video.videoHeight : Number(video.getAttribute("height"));
+  if (![width, height].every(value => Number.isFinite(value) && value > 0)) return;
+  video.setAttribute("width", String(width));
+  video.setAttribute("height", String(height));
+  if (video.id === "finished-preview-video") {
+    const target = document.querySelector("[data-editor-preview-target]");
+    if (target) target.style.aspectRatio = `${width} / ${height}`;
+  }
+};
+
 document.querySelectorAll("video[poster]").forEach((video) => {
   const stage = document.createElement("div");
   const poster = document.createElement("img");
@@ -45,6 +60,9 @@ document.querySelectorAll("video[poster]").forEach((video) => {
   poster.setAttribute("aria-hidden", "true");
   video.before(stage);
   stage.append(video, poster);
+  syncVideoGeometry(video);
+  video.addEventListener("loadedmetadata", () => syncVideoGeometry(video));
+  video.addEventListener("resize", () => syncVideoGeometry(video));
   showVideoPoster(video);
   video.addEventListener("loadstart", () => showVideoPoster(video));
   video.addEventListener("error", () => showVideoPoster(video));
@@ -556,6 +574,9 @@ const setupPreviewHandoff = () => {
   window.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", schedule);
   motionPreference.addEventListener("change", () => { reset(); placements.reset(); schedule(); });
+  const preview = origin.querySelector("video");
+  preview?.addEventListener("loadedmetadata", schedule);
+  preview?.addEventListener("resize", schedule);
   composition.querySelectorAll("img").forEach(img => img.addEventListener("load", schedule));
   update();
 };

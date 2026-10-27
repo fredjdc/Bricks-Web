@@ -44,17 +44,7 @@ function windLayout(source, target, viewport) {
   return { progress, size, motionSize, paths, viewport };
 }
 
-// Let files pass softly behind typography/controls rather than steer them into a lane.
-function windClearance(x, y, size, obstacles) {
-  const radius = size * .72;
-  return obstacles.reduce((alpha, box) => {
-    const dx = Math.max(box.left - x, x - box.left - box.width, 0);
-    const dy = Math.max(box.top - y, y - box.top - box.height, 0);
-    return Math.min(alpha, smooth((Math.hypot(dx, dy) - radius) / 22));
-  }, 1);
-}
-
-function windPose(layout, index, obstacles = []) {
+function windPose(layout, index) {
   const file = WIND_FILES[index], path = layout.paths[index];
   const p = snap(clamp((layout.progress - file.delay) / (1 - (WIND.count - 1) * WIND.stagger)));
   const envelope = Math.sin(Math.PI * p), wave = Math.PI * 2 * file.cycles * p + file.phase;
@@ -64,7 +54,7 @@ function windPose(layout, index, obstacles = []) {
   const sway = Math.sin(wave) * amplitude * envelope;
   const x = baseX + sway;
   const y = mix(path.start.y, path.end.y, p) + Math.sin(wave * .8) * layout.motionSize * .18 * envelope;
-  const opacity = p === 0 || p === 1 ? 0 : smooth(p / .12) * (1 - smooth((p - .78) / .22)) * windClearance(x, y, layout.size, obstacles);
+  const opacity = p === 0 || p === 1 ? 0 : smooth(p / .12) * (1 - smooth((p - .78) / .22));
   return { x, y, opacity, sway, rotation: file.angle * (1 - p) + Math.sin(wave) * 9 * envelope,
     tilt: Math.cos(wave) * 11 * envelope, scale: file.scale + envelope * .08 };
 }
@@ -79,16 +69,7 @@ function mountWindFiles(doc, win) {
   const frame = desktopTarget?.closest(".workflow-frame"), items = [...overlay.querySelectorAll("[data-wind-file]")];
   if (!source || items.length !== WIND.count || !win.MutationObserver || !win.requestAnimationFrame) return;
   const motion = win.matchMedia("(prefers-reduced-motion: reduce)"), desktop = win.matchMedia("(min-width: 900px)");
-  const protectedNodes = [...doc.querySelectorAll("#workflow-title, #workflow .workflow-step h3, #workflow .workflow-step > p, #workflow .workflow-progress, #workflow button")];
   let pending = 0;
-  const protectedRects = () => protectedNodes.flatMap(node => {
-    if (!node.getClientRects().length) return [];
-    if (node.matches("h2, h3, p") && doc.createRange) {
-      const range = doc.createRange(); range.selectNodeContents(node);
-      return [...range.getClientRects()];
-    }
-    return [node.getBoundingClientRect()];
-  });
   const update = () => {
     try {
       const target = desktop.matches ? desktopTarget : mobileTarget;
@@ -96,7 +77,7 @@ function mountWindFiles(doc, win) {
         || desktop.matches && (desktopTarget.dataset.workflowActive !== "true" || !frame?.classList.contains("is-active"))) { hide(); return; }
       const layout = windLayout(source.getBoundingClientRect(), target.getBoundingClientRect(), { width: win.innerWidth, height: win.innerHeight });
       if (!layout || layout.progress === 0 || layout.progress === 1) { hide(); return; }
-      const obstacles = protectedRects(), poses = items.map((_, index) => windPose(layout, index, obstacles));
+      const poses = items.map((_, index) => windPose(layout, index));
       // All reads precede writes. Nothing here changes the document's layout or media state.
       overlay.style.setProperty("--wind-size", `${layout.size}px`);
       poses.forEach((pose, index) => {
@@ -112,7 +93,10 @@ function mountWindFiles(doc, win) {
     if (pending || motion.matches) return;
     pending = win.requestAnimationFrame(() => { pending = 0; update(); });
   };
-  const invalidate = () => { hide(); schedule(); };
+  const invalidate = () => {
+    if (motion.matches || desktop.matches && (desktopTarget?.dataset.workflowActive !== "true" || !frame?.classList.contains("is-active"))) hide();
+    schedule();
+  };
   win.addEventListener("scroll", schedule, { passive: true });
   win.addEventListener("resize", schedule); win.addEventListener("pageshow", schedule);
   motion.addEventListener("change", invalidate); desktop.addEventListener("change", invalidate);

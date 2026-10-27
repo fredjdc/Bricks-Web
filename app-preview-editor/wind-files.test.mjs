@@ -2,15 +2,16 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
+import { widths } from "./responsive-checkpoints.mjs";
 
 const [html, css, module] = await Promise.all(["index.html", "wind-files.css", "wind-files.js"].map(file => readFile(new URL(file, import.meta.url), "utf8")));
-const { WIND, WIND_FILES, makeWindFiles, windLayout, windPose, windClearance, mountWindFiles } = vm.runInNewContext(
-  module.slice(module.indexOf("const WIND ="), module.indexOf('if (typeof document !==')) + "; ({ WIND, WIND_FILES, makeWindFiles, windLayout, windPose, windClearance, mountWindFiles })");
+const { WIND, WIND_FILES, makeWindFiles, windLayout, windPose, mountWindFiles } = vm.runInNewContext(
+  module.slice(module.indexOf("const WIND ="), module.indexOf('if (typeof document !==')) + "; ({ WIND, WIND_FILES, makeWindFiles, windLayout, windPose, mountWindFiles })");
 const near = (a, b) => assert.ok(Math.abs(a - b) < 1e-7, `${a} != ${b}`);
 const duration = 1 - (WIND.count - 1) * WIND.stagger;
 const rect = (left, top, width, height) => ({ left, top, width, height });
 const shift = (box, scroll) => ({ ...box, top: box.top - scroll });
-const fixtures = [320, 375, 390, 430, 482, 768, 1024, 1440].map(width => {
+const fixtures = widths.map(width => {
   const shell = Math.min(1180, width - (width < 560 ? 32 : 48));
   return { viewport: { width, height: width < 560 ? 700 : 900 },
     source: rect((width - shell) / 2, 1000, shell, shell * 9 / 16),
@@ -59,7 +60,7 @@ test("seeded phases and normalized origins/landings are stable and spread across
 });
 
 test("real trajectory math sways in both directions, with restrained, varied leaf angles", () => {
-  const fixture = fixtures.at(-1), g = windLayout(fixture.source, fixture.target, fixture.viewport);
+  const fixture = fixtures.find(({ viewport }) => viewport.width === 1440), g = windLayout(fixture.source, fixture.target, fixture.viewport);
   let reversingTrajectories = 0;
   const midAngles = [];
   WIND_FILES.forEach((_, index) => {
@@ -115,16 +116,26 @@ test("scroll is the only clock: exact opacity phases, coherent reverse, resize a
   assert.equal(windLayout(rect(0, 0, 0, 10), fixtures[0].target, fixtures[0].viewport), null);
 });
 
-test("typography and controls are protected by soft occlusion without steering or funneling paths", () => {
-  const { source, target, viewport } = fixtures.at(-1), g = windLayout(source, target, viewport);
-  const value = at(g, 0, .5), obstacle = rect(value.x - 20, value.y - 20, 40, 40);
-  assert.equal(windClearance(value.x, value.y, g.size, [obstacle]), 0);
-  const covered = windPose({ ...g, progress: WIND_FILES[0].delay + duration * .5 }, 0, [obstacle]);
-  assert.equal(covered.opacity, 0); near(covered.x, value.x); near(covered.y, value.y);
-  const radius = g.size * .72;
-  const feather = windClearance(obstacle.left - radius - 11, value.y, g.size, [obstacle]);
-  assert.ok(feather > 0 && feather < 1);
-  assert.equal(windClearance(obstacle.left - radius - 30, value.y, g.size, [obstacle]), 1);
+test("every icon has one fade-in, an uninterrupted opaque cruise and one fade-out at all responsive sizes", () => {
+  for (const { source, target, viewport } of fixtures) {
+    const g = windLayout(source, target, viewport);
+    WIND_FILES.forEach((file, index) => {
+      let previous = 0;
+      for (let step = 0; step <= 1000; step++) {
+        const q = step / 1000, value = at(g, index, q).opacity;
+        if (step === 0 || step === 1000) assert.equal(value, 0);
+        else assert.ok(value > 0, "No interior disappearance");
+        if (q >= .12 && q <= .78) assert.equal(value, 1);
+        if (q <= .12) assert.ok(value >= previous - 1e-9);
+        if (q > .78) assert.ok(value <= previous + 1e-9);
+        const reversed = at(g, index, 1 - (1000 - step) / 1000).opacity;
+        near(value, reversed);
+        previous = value;
+      }
+    });
+  }
+  assert.doesNotMatch(module, /windClearance|protectedRects|obstacles/);
+  assert.doesNotMatch(css, /mix-blend-mode:/, "File colors retain their original rendering");
 });
 
 function page({ reduced = false, desktop = true, observer = true } = {}) {
@@ -147,7 +158,7 @@ function page({ reduced = false, desktop = true, observer = true } = {}) {
     MutationObserver: !observer ? undefined : class { constructor(fn) { changes.push(fn); } observe(node, options) { observed.push([node, options]); } } };
   const controller = mountWindFiles(doc, win);
   const flush = () => { while (frames.length) frames.shift()(); };
-  return { overlay, items, source, wide, narrow, observed, events, frames, controller,
+  return { overlay, items, source, wide, narrow, observed, events, frames, controller, flush, notify: () => changes[0](),
     scroll(value) { scroll = value; events.scroll?.fn(); flush(); },
     resize(width) { win.innerWidth = width; source.box.width = width - 80; events.resize.fn(); flush(); },
     reduce(value) { motion.matches = value; motion.change(); flush(); },
@@ -163,6 +174,7 @@ test("the isolated controller reverses, remeasures and follows actual Import/Edi
   p.scroll(4000); assert.equal(p.overlay.hidden, true);
   p.scroll(1200); assert.deepEqual(snapshot(p), original);
   p.controller.update(); assert.deepEqual(snapshot(p), original);
+  p.notify(); p.notify(); assert.equal(p.overlay.hidden, false); assert.equal(p.frames.length, 1); p.flush();
   p.resize(768); assert.notDeepEqual(snapshot(p), original);
   p.edit(true); assert.equal(p.overlay.hidden, true);
   p.edit(false); assert.equal(p.overlay.hidden, false);

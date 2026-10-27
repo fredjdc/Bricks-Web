@@ -72,7 +72,8 @@ assert.match(script, /video\.addEventListener\("(?:loadstart|error)", \(\) => sh
 assert.equal((html.match(/data-workflow-frame="[01]"/g) ?? []).length, 2);
 assert.match(script, /poster\.complete && poster\.naturalWidth > 0/);
 assert.match(styles, /\.video-poster \{ position: absolute; inset: 0;[^}]+pointer-events: none;/);
-assert.match(styles, /\.product-story video \{ height: auto; aspect-ratio: 16 \/ 9; \}/);
+assert.match(styles, /\.workflow-media video, \.mobile-workflow-media, \.product-story video \{ display: block; width: 100%; height: auto;/);
+assert.doesNotMatch(styles, /scale\(1\.035\)/);
 assert.match(styles, /\.capabilities \{ padding-block: 104px; \}/);
 assert.match(styles, /@media \(min-width: 900px\)[\s\S]*?\.capabilities \{ padding-block: 148px; \}/);
 const founder = html.match(/<aside class="founder-note[\s\S]*?<\/aside>/)?.[0];
