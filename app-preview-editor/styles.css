@@ -417,11 +417,13 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   }
   /* Static monochrome grain follows the beam fan, never the foreground UI. */
   .apes-landing .hero::after {
+    /* Keep the existing dark strength separate from the light-only adjustment. */
     --hero-grain-strength: 0.8;
+    --hero-grain-light-strength: .12;
     --hero-grain-mask: conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, #000 15deg, #000 34deg, transparent 45deg, #000 62deg, transparent 78deg, #000 100deg, transparent 120deg);
     content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-    opacity: calc(var(--hero-spotlight-opacity, 0) * var(--hero-grain-strength));
-    mix-blend-mode: soft-light;
+    opacity: calc(var(--hero-spotlight-opacity, 0) * var(--hero-grain-light-strength));
+    mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22128%22%20height%3D%22128%22%3E%3Cfilter%20id%3D%22grain%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.85%22%20numOctaves%3D%223%22%20seed%3D%2223%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23grain%29%22%2F%3E%3C%2Fsvg%3E");
     background-size: 128px 128px;
     mask-image: var(--hero-grain-mask); -webkit-mask-image: var(--hero-grain-mask);
@@ -435,6 +437,10 @@ h3 { font-size: 1.8rem; font-weight: 680; }
       conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(25,121,207,.5) 15deg, rgba(198,232,255,.36) 34deg, transparent 45deg, rgba(235,185,114,.22) 62deg, transparent 78deg, rgba(42,140,220,.5) 100deg, transparent 120deg),
       radial-gradient(ellipse 50% 45% at 50% 28%, rgba(33,67,98,.4), transparent 100%),
       linear-gradient(120deg, #081729 0%, #142d46 38%, #282637 65%, #081a2b 100%);
+  }
+  .apes-landing .hero::after {
+    opacity: calc(var(--hero-spotlight-opacity, 0) * var(--hero-grain-strength));
+    mix-blend-mode: soft-light;
   }
 }
 .apes-landing .hero-result { min-width: 0; padding: 4px; overflow: hidden; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: var(--shadow); }
