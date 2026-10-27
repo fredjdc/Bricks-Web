@@ -123,7 +123,7 @@ function page({ reduced = false } = {}) {
   let nextFrame = 0;
   vm.runInNewContext(handoffScript, {
     window, motionPreference: motion,
-    document: { querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition, "#result-title": title })[selector] },
+    document: { addEventListener() {}, querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition, "#result-title": title })[selector] },
     requestAnimationFrame: callback => { frames.set(++nextFrame, callback); return nextFrame; },
   });
   return {

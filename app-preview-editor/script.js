@@ -514,7 +514,7 @@ const createHeroSpacing = origin => {
   const slots = hero ? [...hero.querySelectorAll(".hero-side-slot")] : [];
   const reset = () => {
     hero?.style.removeProperty("--hero-separation-progress");
-    ["--hero-spotlight-opacity", "--hero-spotlight-x", "--hero-spotlight-y"].forEach(name => stage?.style.removeProperty(name));
+    ["--hero-spotlight-opacity", "--hero-spotlight-x", "--hero-spotlight-y", "--hero-glow-play-state"].forEach(name => stage?.style.removeProperty(name));
     slots.forEach(slot => slot.style.removeProperty("--hero-side-rest-shift"));
   };
   const measure = source => {
@@ -542,11 +542,12 @@ const createHeroSpacing = origin => {
         stage?.style.setProperty("--hero-spotlight-opacity", String(spotlight));
         stage?.style.setProperty("--hero-spotlight-x", `${center}px`);
         stage?.style.setProperty("--hero-spotlight-y", `${source.top + source.height * heroSpotlightSettings.sourceHeightFraction}px`);
+        stage?.style.setProperty("--hero-glow-play-state", spotlight > 0 && !document.hidden ? "running" : "paused");
         plans.forEach(({ slot, shift }) => slot.style.setProperty("--hero-side-rest-shift", `${shift}px`));
       };
     } catch { return reset; }
   };
-  return { measure, reset };
+  return { measure, reset, pause: () => stage?.style.setProperty("--hero-glow-play-state", "paused") };
 };
 
 const setupPreviewHandoff = () => {
@@ -612,6 +613,7 @@ const setupPreviewHandoff = () => {
   };
   window.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", schedule);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) heroSpacing.pause(); else schedule(); });
   motionPreference.addEventListener("change", () => { reset(); placements.reset(); stories.reset(); schedule(); });
   const preview = origin.querySelector("video");
   preview?.addEventListener("loadedmetadata", schedule);

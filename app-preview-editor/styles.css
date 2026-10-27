@@ -404,6 +404,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
    its negative paint layer, while copy, media and navigation stay in front. */
 .apes-landing .hero { position: relative; z-index: 3; isolation: isolate; }
 .apes-landing .hero-copy { position: relative; z-index: 4; }
+.apes-landing .hero-ambient-glow { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   .apes-landing .hero::before {
     content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
@@ -411,9 +412,41 @@ h3 { font-size: 1.8rem; font-weight: 680; }
     background:
       radial-gradient(ellipse 78% 82% at 50% 42%, transparent 40%, rgba(20,56,84,.23) 100%),
       radial-gradient(ellipse 66% 50% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(255,255,255,.95), rgba(255,225,169,.48) 30%, transparent 100%),
-      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(3,111,198,.3) 15deg, rgba(255,255,255,.9) 34deg, transparent 45deg, rgba(255,230,170,.55) 62deg, transparent 78deg, rgba(52,150,224,.35) 100deg, transparent 120deg),
+      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(3,111,198,.18) 9deg, rgba(3,111,198,.36) 16deg, transparent 23deg, rgba(255,255,255,.78) 29deg, rgba(255,255,255,.96) 32deg, rgba(255,255,255,.12) 37deg, transparent 43deg, rgba(255,230,170,.18) 52deg, rgba(255,230,170,.6) 60deg, rgba(255,230,170,.25) 64deg, transparent 73deg, rgba(52,150,224,.1) 82deg, rgba(52,150,224,.38) 94deg, transparent 105deg, rgba(52,150,224,.16) 111deg, transparent 120deg),
       radial-gradient(ellipse 50% 45% at 50% 28%, rgba(255,255,255,.85), transparent 100%),
       linear-gradient(120deg, #d7e9f8 0%, #f6f9ff 38%, #fff1dc 65%, #c7dfef 100%);
+  }
+  /* Two soft paint planes drift independently; only their transforms animate. */
+  .apes-landing .hero-ambient-glow {
+    --hero-glow-warm: 255,221,159; --hero-glow-cool: 75,144,201; --hero-glow-shade: 20,56,84;
+    --hero-glow-drift: clamp(12px, 2vw, 24px); --hero-glow-near-duration: 22s; --hero-glow-far-duration: 34s;
+    display: block; position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+    opacity: var(--hero-spotlight-opacity, 0);
+  }
+  .apes-landing .hero-ambient-glow::before, .apes-landing .hero-ambient-glow::after {
+    content: ""; position: absolute; inset: 0;
+    animation: hero-glow-near var(--hero-glow-near-duration) ease-in-out infinite;
+    animation-play-state: var(--hero-glow-play-state, paused);
+  }
+  .apes-landing .hero-ambient-glow::before {
+    background:
+      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg 27deg, rgba(var(--hero-glow-warm),.22) 30deg, transparent 34deg 55deg, rgba(var(--hero-glow-warm),.18) 59deg, transparent 63deg 120deg),
+      radial-gradient(ellipse 56% 80% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-warm),.16), transparent 85%);
+  }
+  .apes-landing .hero-ambient-glow::after {
+    animation-name: hero-glow-far; animation-duration: var(--hero-glow-far-duration);
+    background:
+      radial-gradient(ellipse 28% 40% at calc(var(--hero-spotlight-x, 50%) - 18vw) calc(var(--hero-spotlight-y, 80%) - 10vh), rgba(var(--hero-glow-shade),.13), transparent 100%),
+      radial-gradient(ellipse 24% 45% at calc(var(--hero-spotlight-x, 50%) + 24vw) calc(var(--hero-spotlight-y, 80%) - 28vh), rgba(var(--hero-glow-shade),.1), transparent 100%),
+      radial-gradient(ellipse 68% 86% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-cool),.18), transparent 90%);
+  }
+  @keyframes hero-glow-near {
+    0%, 100% { transform: translate3d(calc(var(--hero-glow-drift) * -1), calc(var(--hero-glow-drift) * .5), 0); }
+    50% { transform: translate3d(var(--hero-glow-drift), calc(var(--hero-glow-drift) * -.5), 0); }
+  }
+  @keyframes hero-glow-far {
+    0%, 100% { transform: translate3d(calc(var(--hero-glow-drift) * .6), calc(var(--hero-glow-drift) * -.35), 0); }
+    50% { transform: translate3d(calc(var(--hero-glow-drift) * -.6), calc(var(--hero-glow-drift) * .35), 0); }
   }
   /* Static monochrome grain follows the beam fan, never the foreground UI. */
   .apes-landing .hero::after {
@@ -430,11 +463,12 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   }
 }
 @media (prefers-color-scheme: dark) and (prefers-reduced-motion: no-preference) {
+  .apes-landing .hero-ambient-glow { --hero-glow-warm: 233,187,122; --hero-glow-cool: 81,163,224; --hero-glow-shade: 0,0,0; }
   .apes-landing .hero::before {
     background:
       radial-gradient(ellipse 78% 82% at 50% 42%, transparent 28%, rgba(0,0,0,.65) 100%),
       radial-gradient(ellipse 66% 50% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(215,241,255,.55), rgba(50,145,211,.4) 30%, transparent 100%),
-      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(25,121,207,.5) 15deg, rgba(198,232,255,.36) 34deg, transparent 45deg, rgba(235,185,114,.22) 62deg, transparent 78deg, rgba(42,140,220,.5) 100deg, transparent 120deg),
+      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(25,121,207,.28) 9deg, rgba(25,121,207,.52) 16deg, transparent 23deg, rgba(198,232,255,.28) 29deg, rgba(198,232,255,.44) 32deg, rgba(198,232,255,.08) 37deg, transparent 43deg, rgba(235,185,114,.08) 52deg, rgba(235,185,114,.28) 60deg, rgba(235,185,114,.1) 64deg, transparent 73deg, rgba(42,140,220,.15) 82deg, rgba(42,140,220,.5) 94deg, transparent 105deg, rgba(42,140,220,.2) 111deg, transparent 120deg),
       radial-gradient(ellipse 50% 45% at 50% 28%, rgba(33,67,98,.4), transparent 100%),
       linear-gradient(120deg, #081729 0%, #142d46 38%, #282637 65%, #081a2b 100%);
   }

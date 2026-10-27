@@ -133,6 +133,26 @@ test("one background spotlight fades continuously to zero before handoff and rev
   p.preference(true); assert.equal(p.stage.style.values.size, 0);
 });
 
+test("ambient depth drifts slowly behind content and pauses when faded, hidden or reduced", () => {
+  assert.equal((html.match(/class="hero-ambient-glow" aria-hidden="true"/g) || []).length, 1);
+  assert.match(css, /\.apes-landing \.hero-ambient-glow \{ display: none; \}/);
+  assert.match(css, /--hero-glow-near-duration: 22s; --hero-glow-far-duration: 34s;/);
+  assert.match(css, /animation-play-state: var\(--hero-glow-play-state, paused\);/);
+  assert.match(css, /position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;/);
+  for (const name of ["near", "far"]) {
+    const frames = css.match(new RegExp(`@keyframes hero-glow-${name} \\{([\\s\\S]*?)\\n  \\}`))[1];
+    assert.match(frames, /0%, 100%/); assert.match(frames, /50%/); assert.doesNotMatch(frames, /opacity|filter|background/);
+  }
+  const p = page();
+  assert.equal(p.stage.style.values.get("--hero-glow-play-state"), "running");
+  p.visibility(true); assert.equal(p.stage.style.values.get("--hero-glow-play-state"), "paused");
+  p.scroll(221); assert.equal(p.stage.style.values.get("--hero-glow-play-state"), "paused");
+  p.visibility(false); assert.equal(p.stage.style.values.get("--hero-glow-play-state"), "running");
+  p.scroll(442); assert.equal(p.stage.style.values.get("--hero-glow-play-state"), "paused");
+  p.scroll(0); assert.equal(p.stage.style.values.get("--hero-glow-play-state"), "running");
+  p.preference(true); assert.equal(p.stage.style.values.size, 0);
+});
+
 function page({ reduced = false, broken = false } = {}) {
   let scroll = 0;
   const properties = () => ({ values: new Map(), setProperty(name, value) { this.values.set(name, value); }, removeProperty(name) { this.values.delete(name); } });
@@ -156,10 +176,11 @@ function page({ reduced = false, broken = false } = {}) {
       : -node.direction * shift;
   };
   slots.forEach(node => { node.getBoundingClientRect = () => ({ left: 70 + node.offsetLeft + slotOffset(node), width: 284 }); });
+  const document = { hidden: false, addEventListener: (name, fn) => { events[name] = fn; }, querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition, "#result-title": title })[selector] };
   vm.runInNewContext(source, {
     DOMMatrixReadOnly: class { constructor(transform) { Object.assign(this, { is2D: true, a: 1, b: 0, c: 0, d: 1, f: 0, m41: +transform.match(/matrix\(1, 0, 0, 1, ([^,]+), 0\)/)[1] }); } },
     motionPreference: preference,
-    document: { querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition, "#result-title": title })[selector] },
+    document,
     window: { innerHeight: 800, get scrollY() { return scroll; }, addEventListener: (name, fn) => { events[name] = fn; },
       getComputedStyle(node) {
         if (node === origin) return { getPropertyValue: () => "1.08" };
@@ -170,6 +191,7 @@ function page({ reduced = false, broken = false } = {}) {
     requestAnimationFrame: fn => { frames.push(fn); return frames.length; },
   });
   return { slots, hero, stage, main, traveler, classes, frames,
+    visibility(value) { document.hidden = value; events.visibilitychange(); while (frames.length) frames.shift()(); },
     scroll(value) { scroll = value; events.scroll(); while (frames.length) frames.shift()(); },
     preference(value) { preference.matches = value; motionEvents.change(); while (frames.length) frames.shift()(); } };
 }
