@@ -24,6 +24,16 @@ test("checkpoint coverage includes every declared screen boundary and all reques
   for (const width of [320,360,375,390,414,430,482,640,768,820,1024,1280,1440,1920]) assert.ok(widths.includes(width));
 });
 
+test("remaining content copy centers only within the existing 559px layout", () => {
+  const targets = ["#workflow .workflow-step", "#features .section-heading", "#features .capability-grid > article", ".product-tour > .section-heading", ".product-tour .story-copy", "#delivery .story-copy"].map(selector => `.apes-landing ${selector}`);
+  for (const width of [320, 375, 390, 430, 482, 558, 559, 560, 561, 768, 900, 1440]) {
+    for (const selector of targets) assert.equal(decl(width, [selector])["text-align"], width <= 559 ? "center" : undefined);
+    for (const child of ["p", ".feature-title-icon"]) assert.equal(decl(width, [`.apes-landing #workflow .workflow-step > ${child}`])["margin-inline"], width <= 559 ? "auto" : undefined);
+  }
+  const scope = css.slice(css.indexOf("/* Center only the remaining content copy"));
+  assert.doesNotMatch(scope, /\.hero|\.result|\.scene-clips|\.pricing|\.plan-comparison|\.faq|\.final-cta|\.founder|\.nav|\.footer|button|story-media/);
+});
+
 test("shells, floating navigation, nested cards and footer retain equal outer gutters", () => {
   assert.match(html, /<html lang="en" class="ape-page">/);
   assert.equal(decl(390, ["html.ape-page"])["overflow-x"], "clip");

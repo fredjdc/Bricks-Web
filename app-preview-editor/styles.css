@@ -692,3 +692,15 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
     --shadow-highlight: rgba(255,255,255,.7);
   }
 }
+
+/* Center only the remaining content copy in the existing smallest layout. */
+@media (max-width: 559px) {
+  .apes-landing #workflow .workflow-step,
+  .apes-landing #features .section-heading,
+  .apes-landing #features .capability-grid > article,
+  .apes-landing .product-tour > .section-heading,
+  .apes-landing .product-tour .story-copy,
+  .apes-landing #delivery .story-copy { text-align: center; }
+  .apes-landing #workflow .workflow-step > p,
+  .apes-landing #workflow .workflow-step > .feature-title-icon { margin-inline: auto; }
+}
