@@ -71,7 +71,7 @@ document.querySelectorAll("video[poster]").forEach((video) => {
 
 const setupReveals = () => {
   if (motionPreference.matches || !("IntersectionObserver" in window)) return;
-  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .workflow-media > .media-toggle, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .founder-panel > img, .founder-link";
+  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .workflow-media > .media-toggle, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .cta-preview-mask, .founder-panel > img, .founder-link";
   const targets = new Map();
   try {
     document.querySelectorAll(".reveal").forEach(root => {
@@ -106,14 +106,30 @@ const setupReveals = () => {
           const group = targets.get(item).group;
           const index = groups.get(group) || 0;
           groups.set(group, index + 1);
+          const delay = Math.min(index * 70, 210);
+          if (item.matches(".cta-preview-mask")) {
+            const order = ["center", "left", "right"];
+            const previews = [...item.querySelectorAll("[data-cta-preview]")].sort((a, b) => order.indexOf(a.dataset.ctaPreview) - order.indexOf(b.dataset.ctaPreview));
+            if (previews.length !== 3 || previews.some(preview => typeof preview.animate !== "function")) return [];
+            const bounds = previews.map(preview => preview.querySelector("img").getBoundingClientRect());
+            if (bounds.some(box => !Number.isFinite(box.left + box.width) || box.width <= 0)) return [];
+            const center = bounds[0].left + bounds[0].width / 2;
+            return previews.map((preview, step) => ({
+              item: preview, delay: delay + step * 180, duration: step ? 760 : 600, easing: "cubic-bezier(.22, 1, .36, 1)",
+              frames: [
+                { opacity: 0, filter: `blur(${step ? 3 : 2}px)`, transform: `translate(${center - bounds[step].left - bounds[step].width / 2}px, 8px) scale(${step ? .8 : .96})` },
+                { opacity: 1, filter: "none", transform: "none" },
+              ],
+            }));
+          }
           const base = window.getComputedStyle(item);
-          return [{ item, delay: Math.min(index * 70, 210), frames: [
+          return [{ item, delay, frames: [
             { opacity: 0, filter: base.filter === "none" ? "blur(3px)" : `${base.filter} blur(3px)`, transform: `${base.transform === "none" ? "" : `${base.transform} `}translateY(10px)` },
             { opacity: base.opacity, filter: base.filter, transform: base.transform },
           ] }];
         });
-        plans.forEach(({ item, frames, delay }) => {
-          const animation = item.animate(frames, { duration: 480, delay, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "backwards" });
+        plans.forEach(({ item, frames, delay, duration = 480, easing = "cubic-bezier(0.16, 1, 0.3, 1)" }) => {
+          const animation = item.animate(frames, { duration, delay, easing, fill: "backwards" });
           active.set(item, animation);
           animation.addEventListener("finish", () => active.delete(item), { once: true });
           animation.addEventListener("cancel", () => active.delete(item), { once: true });

@@ -528,3 +528,22 @@ html.ape-page, .apes-landing { overflow-x: clip; }
   .apes-landing .footer > p { flex: 1 1 260px; }
   .apes-landing .pricing-options dd:not(.planned-price) { justify-content: center; }
 }
+
+/* Still-only closing previews share hero geometry, but never join its scroll handoff. */
+.apes-landing .cta-preview-mask {
+  position: relative; width: min(100%, 860px); aspect-ratio: 2.57; margin: 48px auto 0; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+}
+.apes-landing .cta-preview-mask > .cta-preview-layout { position: absolute; inset: 0 0 auto; width: 100%; margin: 0; padding-top: clamp(12px, 4vw, 32px); }
+.apes-landing .cta-preview-slot { min-width: 0; --hero-exit-direction: -1; --hero-side-rest-shift: calc((1 - var(--hero-side-distance-ratio)) * (var(--hero-side-distance, 100%) - (1 - var(--hero-side-rest-scale)) * 50% - var(--hero-side-rest-inset))); transform: translateX(calc(-1 * var(--hero-exit-direction) * var(--hero-side-rest-shift))); perspective: inherit; perspective-origin: calc(50% - var(--hero-exit-direction) * var(--hero-side-distance, 100%)) calc(50% + var(--hero-perspective-y, 6px)); }
+.apes-landing .cta-preview-right { --hero-exit-direction: 1; }
+.apes-landing .cta-preview-center { position: relative; z-index: 2; --hero-center-scale: 1.08; transform: none; }
+.apes-landing [data-cta-preview] { transform-origin: center; }
+.apes-landing .cta-preview-layout img { display: block; width: 100%; height: auto; border-radius: 27px; }
+@media (max-width: 559px) {
+  .apes-landing .cta-preview-mask { aspect-ratio: 1.77; }
+  .apes-landing .cta-preview-layout img { border-radius: 13px; }
+}
