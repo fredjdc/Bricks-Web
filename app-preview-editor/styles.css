@@ -572,3 +572,9 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 }
 
 .apes-landing .pricing-block > .comparison-note { max-width: 760px; margin: 0 auto 24px; color: var(--text-secondary); text-align: center; font-size: .875rem; line-height: 1.6; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .apes-landing .product-story.is-story-ready .story-copy-content { filter: var(--story-filter); }
+  .apes-landing .product-story.is-story-ready .story-media { opacity: var(--story-progress); transform: translateX(var(--story-x)); }
+}
+.apes-landing .story-copy-content { display: flow-root; max-width: 100%; }

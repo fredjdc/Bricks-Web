@@ -81,7 +81,8 @@ const setupReveals = () => {
   try {
     document.querySelectorAll(".reveal").forEach(root => {
       const candidates = root.matches(selector) ? [root] : [...root.querySelectorAll(selector)];
-      candidates.filter(item => !candidates.some(parent => parent !== item && parent.contains(item))).forEach(item => {
+      candidates.filter(item => !candidates.some(parent => parent !== item && parent.contains(item))
+        && !(item.closest(".product-story") && (item.closest(".story-copy") || item.matches(".story-media")))).forEach(item => {
         if (!targets.has(item)) targets.set(item, { order: targets.size, group: item.closest("section, aside") || root });
       });
     });
@@ -422,6 +423,55 @@ const createPlacementReveal = () => {
   return { measure, reset };
 };
 
+const storyRevealSettings = { maxBlurPx: 6, maxSlidePx: 64, slideViewportFraction: .08, stackedSlidePx: 16, finishCenterViewportFraction: .5 };
+// Start at first image entry; finish only when the image center reaches viewport center.
+const storyEntrance = (top, height, viewport) => handoffBlurSettings.easing(boundedProgress(viewport - top, 0, viewport * (1 - storyRevealSettings.finishCenterViewportFraction) + height / 2));
+
+const createStoryReveal = () => {
+  const entries = [...(document.querySelectorAll?.(".product-story") || [])].map(section => ({
+    section, copy: section.querySelector(".story-copy-content"), media: section.querySelector(".story-media"),
+  })).filter(entry => entry.copy && entry.media);
+  const reset = () => entries.forEach(({ section, media }) => {
+    section.classList.remove("is-story-ready");
+    ["--story-progress", "--story-filter"].forEach(name => section.style.removeProperty(name));
+    media.style.removeProperty("--story-x");
+  });
+  const measure = () => {
+    if (motionPreference.matches) return reset;
+    try {
+      const viewport = window.innerHeight, width = document.documentElement?.clientWidth || window.innerWidth;
+      if (![viewport, width].every(value => Number.isFinite(value) && value > 0)) return reset;
+      const plans = entries.map(({ section, media }) => {
+        const bounds = media.getBoundingClientRect(), frame = section.getBoundingClientRect();
+        if (![bounds.width, bounds.height].every(value => Number.isFinite(value) && value > 0) || !Number.isFinite(bounds.top + bounds.left + frame.left + frame.width)) throw new Error("Missing story geometry");
+        // Remove the previous horizontal translation so gutter limits never feed back into themselves.
+        const left = bounds.left - (parseFloat(media.style.getPropertyValue("--story-x")) || 0);
+        const stacked = window.getComputedStyle(section).gridTemplateColumns.trim().split(/\s+/).length === 1;
+        const direction = stacked ? (section.classList.contains("product-story-reverse") ? -1 : 1) : (left + bounds.width / 2 < frame.left + frame.width / 2 ? -1 : 1);
+        const gutter = direction < 0 ? left : width - left - bounds.width;
+        const distance = Math.max(0, Math.min(storyRevealSettings.maxSlidePx, width * storyRevealSettings.slideViewportFraction, stacked ? storyRevealSettings.stackedSlidePx : Infinity, gutter));
+        const progress = section.matches(":focus-within") ? 1 : storyEntrance(bounds.top, bounds.height, viewport);
+        return { section, media, progress, x: direction * distance * (1 - progress) };
+      });
+      return () => {
+        try {
+          plans.forEach(({ section, media, progress, x }) => {
+            section.style.setProperty("--story-progress", String(progress));
+            section.style.setProperty("--story-filter", progress === 1 ? "none" : `blur(${(1 - progress) * storyRevealSettings.maxBlurPx}px)`);
+            media.style.setProperty("--story-x", `${x}px`);
+            section.classList.add("is-story-ready");
+          });
+        } catch { reset(); }
+      };
+    } catch { return reset; }
+  };
+  entries.forEach(({ section, media }) => {
+    section.addEventListener("focusin", () => measure()());
+    media.querySelector("img")?.addEventListener("load", () => measure()());
+  });
+  return { measure, reset };
+};
+
 // Project the unanimated resting card's edges through the same CSS camera.
 // Undo the outer translation before measuring; inner intro transforms never enter this baseline.
 const heroSideRestDistance = (left, width, direction, scale, tilt, inset, camera, depth, center) => {
@@ -495,6 +545,7 @@ const setupPreviewHandoff = () => {
   const title = document.querySelector("#result-title");
   if (!traveler || !target || !title) return;
   const placements = createPlacementReveal();
+  const stories = createStoryReveal();
   const heroSpacing = createHeroSpacing(origin);
   let frame = 0;
   const reset = () => {
@@ -509,8 +560,9 @@ const setupPreviewHandoff = () => {
   };
   const update = () => {
     const paintPlacements = placements.measure();
+    const paintStories = stories.measure();
     let paintHeroSpacing = heroSpacing.reset;
-    if (motionPreference.matches) { reset(); paintPlacements(); return; }
+    if (motionPreference.matches) { reset(); paintPlacements(); paintStories(); return; }
     try {
       const sourceScale = Number(window.getComputedStyle(origin).getPropertyValue("--hero-center-scale"));
       const sourceRect = origin.getBoundingClientRect();
@@ -535,6 +587,7 @@ const setupPreviewHandoff = () => {
       reset();
     } finally {
       paintPlacements();
+      paintStories();
       paintHeroSpacing();
     }
   };
@@ -544,7 +597,7 @@ const setupPreviewHandoff = () => {
   };
   window.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", schedule);
-  motionPreference.addEventListener("change", () => { reset(); placements.reset(); schedule(); });
+  motionPreference.addEventListener("change", () => { reset(); placements.reset(); stories.reset(); schedule(); });
   const preview = origin.querySelector("video");
   preview?.addEventListener("loadedmetadata", schedule);
   preview?.addEventListener("resize", schedule);

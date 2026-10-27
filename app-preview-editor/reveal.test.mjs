@@ -14,7 +14,7 @@ function item(name, group = "section") {
     name, group, parent: null, visible: true, focused: false,
     base: { opacity: "1", filter: "none", transform: "none" },
     getClientRects() { return this.visible ? [{}] : []; },
-    closest() { return this.group; },
+    closest(selector) { return selector === ".product-story" || selector === ".story-copy" ? null : this.group; },
     matches(selector) { return selector === ":focus-within" ? this.focused : false; },
     contains(node) { for (let current = node; current; current = current.parent) if (current === this) return true; return false; },
   };
@@ -86,6 +86,12 @@ test("hidden mobile units and nested content do not consume stagger slots or dou
   const many = Array.from({ length: 8 }, (_, index) => item(String(index)));
   const batch = page(many); batch.enter(many.map(target => [target]));
   assert.ok(batch.animations.every(({ options }) => options.delay <= 210 && options.duration === 480));
+  const storyTitle = item("story title"), storyMedia = item("story media"), body = item("story body"), devices = item("story devices"), outside = item("outside copy");
+  for (const target of [storyTitle, body, devices]) target.closest = selector => selector === ".product-story" || selector === ".story-copy" ? {} : target.group;
+  storyMedia.closest = selector => selector === ".product-story" ? {} : selector === ".story-copy" ? null : storyMedia.group;
+  storyMedia.matches = selector => selector === ".story-media";
+  const stories = page([storyTitle, storyMedia, body, devices, outside]);
+  assert.deepEqual([...stories.observer.targets].map(target => target.name), ["outside copy"], "The complete scroll-owned copy column and media never receive a second timed reveal");
 });
 
 test("blur and mild movement compose existing styles and leave no persistent blur or fill", () => {
