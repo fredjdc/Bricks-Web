@@ -419,7 +419,9 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   /* Two soft paint planes drift independently; only their transforms animate. */
   .apes-landing .hero-ambient-glow {
     --hero-glow-warm: 255,221,159; --hero-glow-cool: 75,144,201; --hero-glow-shade: 20,56,84;
-    --hero-glow-drift: clamp(18px, 3vw, 36px); --hero-glow-near-duration: 18s; --hero-glow-far-duration: 28s;
+    --hero-glow-drift: clamp(18px, 3vw, 36px); --hero-glow-near-duration: 12s; --hero-glow-far-duration: 28s;
+    --hero-glow-near-drift: clamp(32px, 6vw, 72px); --hero-glow-near-tilt: 1.1deg;
+    --hero-glow-sweep: conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg 37deg, rgba(54,91,120,.06) 40deg, rgba(54,91,120,.22) 44deg, rgba(71,110,140,.1) 48deg, transparent 52deg 120deg);
     display: block; position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
     opacity: var(--hero-spotlight-opacity, 0);
   }
@@ -433,6 +435,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   }
   .apes-landing .hero-ambient-glow::before {
     background:
+      var(--hero-glow-sweep, none),
       conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg 27deg, rgba(var(--hero-glow-warm),.22) 30deg, transparent 34deg 55deg, rgba(var(--hero-glow-warm),.18) 59deg, transparent 63deg 120deg),
       radial-gradient(ellipse 56% 80% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-warm),.16), transparent 85%);
   }
@@ -445,8 +448,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
       radial-gradient(ellipse 68% 86% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-cool),.18), transparent 90%);
   }
   @keyframes hero-glow-near {
-    0%, 100% { transform: translate3d(calc(var(--hero-glow-drift) * -1), calc(var(--hero-glow-drift) * .5), 0) rotate(-.45deg); }
-    50% { transform: translate3d(var(--hero-glow-drift), calc(var(--hero-glow-drift) * -.5), 0) rotate(.45deg); }
+    0%, 100% { transform: translate3d(calc(var(--hero-glow-near-drift) * -1), calc(var(--hero-glow-near-drift) * .5), 0) rotate(calc(var(--hero-glow-near-tilt) * -1)); }
+    50% { transform: translate3d(var(--hero-glow-near-drift), calc(var(--hero-glow-near-drift) * -.5), 0) rotate(var(--hero-glow-near-tilt)); }
   }
   @keyframes hero-glow-far {
     0%, 100% { transform: translate3d(calc(var(--hero-glow-drift) * .6), calc(var(--hero-glow-drift) * -.35), 0); }
@@ -467,7 +470,10 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   }
 }
 @media (prefers-color-scheme: dark) and (prefers-reduced-motion: no-preference) {
-  .apes-landing .hero-ambient-glow { --hero-glow-warm: 233,187,122; --hero-glow-cool: 81,163,224; --hero-glow-shade: 0,0,0; }
+  .apes-landing .hero-ambient-glow {
+    --hero-glow-warm: 233,187,122; --hero-glow-cool: 81,163,224; --hero-glow-shade: 0,0,0;
+    --hero-glow-near-duration: 18s; --hero-glow-near-drift: var(--hero-glow-drift); --hero-glow-near-tilt: .45deg; --hero-glow-sweep: none;
+  }
   .apes-landing .hero::before {
     background:
       radial-gradient(ellipse 78% 82% at 50% 42%, transparent 28%, rgba(0,0,0,.65) 100%),

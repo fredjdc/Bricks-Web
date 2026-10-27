@@ -136,7 +136,7 @@ test("one background spotlight fades continuously to zero before handoff and rev
 test("ambient depth drifts slowly behind content and pauses when faded, hidden or reduced", () => {
   assert.equal((html.match(/class="hero-ambient-glow" aria-hidden="true"/g) || []).length, 1);
   assert.match(css, /\.apes-landing \.hero-ambient-glow \{ display: none; \}/);
-  assert.match(css, /--hero-glow-near-duration: 18s; --hero-glow-far-duration: 28s;/);
+  assert.match(css, /--hero-glow-near-duration: 12s; --hero-glow-far-duration: 28s;/);
   assert.match(css, /animation-play-state: var\(--hero-glow-play-state, paused\);/);
   assert.match(css, /position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;/);
   for (const name of ["near", "far"]) {
@@ -145,7 +145,11 @@ test("ambient depth drifts slowly behind content and pauses when faded, hidden o
   }
   assert.match(css, /animation-delay: calc\(var\(--hero-glow-near-duration\) \* -\.25\);/);
   assert.match(css, /animation-delay: calc\(var\(--hero-glow-far-duration\) \* -\.4\);/);
-  assert.match(css, /rotate\(-\.45deg\)/); assert.match(css, /rotate\(\.45deg\)/);
+  assert.match(css, /rotate\(calc\(var\(--hero-glow-near-tilt\) \* -1\)\)/);
+  const [light, dark] = [...css.matchAll(/\.apes-landing \.hero-ambient-glow \{([^}]+)\}/g)].map(([, block]) => block).filter(block => block.includes("--hero-glow-near-duration"));
+  assert.match(light, /--hero-glow-near-drift: clamp\(32px, 6vw, 72px\); --hero-glow-near-tilt: 1\.1deg;/);
+  assert.match(light, /rgba\(54,91,120,\.22\) 44deg/);
+  assert.match(dark, /--hero-glow-near-duration: 18s; --hero-glow-near-drift: var\(--hero-glow-drift\); --hero-glow-near-tilt: \.45deg; --hero-glow-sweep: none;/);
   const p = page();
   assert.equal(p.frames.length, 0, "Initial update already starts the CSS loop without a scroll or queued frame");
   assert.equal(p.stage.style.values.get("--hero-glow-play-state"), "running");
