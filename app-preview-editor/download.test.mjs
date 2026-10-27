@@ -29,7 +29,7 @@ for (const question of faq.mainEntity) {
 
 assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({name, price, priceCurrency}) => [name, price, priceCurrency]), [["Pro monthly — introductory pricing", "4.99", "USD"], ["Pro yearly — introductory pricing", "39.99", "USD"], ["Pro lifetime", "149.99", "USD"]]);
 for (const price of ["$4.99", "$39.99", "$6.99", "$59.99", "$149.99"]) assert.ok(html.includes(price));
-assert.doesNotMatch(html, /10.second|auto.renew|billed after|Scene Clips.*Pro.only/i);
+assert.doesNotMatch(html, /10.second|auto.renew|billed after/i);
 
 assert.match(html, /Introductory pricing/i);
 assert.match(html, /<s>\$6\.99\/month<\/s>/);
@@ -56,7 +56,8 @@ assert.equal((comparison.match(/scope="col"/g) ?? []).length, 3);
 const cells = (cell) => cell.match(/aria-label="([^"]+)"/)?.[1] ?? cell.replace(/&shy;|\u00ad/g, "").replace(/<[^>]*>/g, "").trim();
 const rows = [...comparison.matchAll(/<tr><th scope="row">(.*?)<\/th><td[^>]*>(.*?)<\/td><td[^>]*>(.*?)<\/td><\/tr>/g)];
 assert.deepEqual(rows.map(([, feature, free, pro]) => [feature, cells(free), cells(pro)]), [
-  ["All editing tools, including Scene Clips", "Included", "Included"],
+  ["All editing tools", "Included", "Included"],
+  ["Scene Clips", "Not included", "Included"],
   ["Save and edit projects", "Included", "Included"],
   ["H.264 video and PNG image", "Included", "Included"],
   ["Watermark", "Exports include a watermark", "Exports have no watermark"],
