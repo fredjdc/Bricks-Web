@@ -1,7 +1,8 @@
 (() => {
 // Scroll is the only clock. These parameters control the new effect alone.
 const WIND = Object.freeze({ count: 12, seed: 27027, stagger: .016, sourceAnchor: .68,
-  targetAnchor: .5, startLine: .60, finishLine: .78, maxBaseSize: 40, sizeMultiplier: 2, epsilon: 1e-6 });
+  targetAnchor: .5, startLine: .60, finishLine: .78, maxBaseSize: 40, sizeMultiplier: 2,
+  entranceBlur: 18, blurClearProgress: .22, epsilon: 1e-6 });
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
 const smooth = value => { const p = clamp(value); return p * p * (3 - 2 * p); };
 const mix = (a, b, p) => a + (b - a) * p;
@@ -55,7 +56,8 @@ function windPose(layout, index) {
   const x = baseX + sway;
   const y = mix(path.start.y, path.end.y, p) + Math.sin(wave * .8) * layout.motionSize * .18 * envelope;
   const opacity = p === 0 || p === 1 ? 0 : smooth(p / .12) * (1 - smooth((p - .78) / .22));
-  return { x, y, opacity, sway, rotation: file.angle * (1 - p) + Math.sin(wave) * 9 * envelope,
+  const blur = WIND.entranceBlur * (1 - smooth(p / WIND.blurClearProgress));
+  return { x, y, opacity, blur, sway, rotation: file.angle * (1 - p) + Math.sin(wave) * 9 * envelope,
     tilt: Math.cos(wave) * 11 * envelope, scale: file.scale + envelope * .08 };
 }
 
@@ -85,6 +87,7 @@ function mountWindFiles(doc, win) {
         style.setProperty("--wind-x", `${pose.x}px`); style.setProperty("--wind-y", `${pose.y}px`);
         style.setProperty("--wind-angle", `${pose.rotation}deg`); style.setProperty("--wind-tilt", `${pose.tilt}deg`);
         style.setProperty("--wind-scale", String(pose.scale)); style.opacity = String(pose.opacity);
+        style.setProperty("--wind-filter", pose.blur > 0 ? `blur(${pose.blur}px)` : "none");
       });
       overlay.hidden = !poses.some(pose => pose.opacity > 0);
     } catch { hide(); }

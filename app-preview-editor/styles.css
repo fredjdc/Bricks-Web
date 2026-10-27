@@ -522,9 +522,6 @@ html.ape-page, .apes-landing { overflow-x: clip; }
 .apes-landing .brand span { min-width: 0; overflow-wrap: anywhere; }
 .apes-landing .footer { flex-wrap: wrap; justify-content: space-between; }
 .apes-landing .footer > div { max-width: 100%; }
-/* Typography stays above the decorative wind layer; text alignment remains unchanged. */
-.apes-landing #workflow :is(.workflow-heading, .workflow-step > h3, .workflow-step > p) { position: relative; z-index: 5; }
-
 .apes-landing .pricing-options dd:not(.planned-price) { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: flex-end; column-gap: 4px; }
 .apes-landing .pricing-options dd > span { margin-left: 0; }
 @media (min-width: 560px) {

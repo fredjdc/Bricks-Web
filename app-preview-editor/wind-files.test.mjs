@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
-import { widths } from "./responsive-checkpoints.mjs";
+import { widths, declarations, rules } from "./responsive-checkpoints.mjs";
 
 const [html, css, module] = await Promise.all(["index.html", "wind-files.css", "wind-files.js"].map(file => readFile(new URL(file, import.meta.url), "utf8")));
 const { WIND, WIND_FILES, makeWindFiles, windLayout, windPose, mountWindFiles } = vm.runInNewContext(
@@ -138,6 +138,48 @@ test("every icon has one fade-in, an uninterrupted opaque cruise and one fade-ou
   assert.doesNotMatch(css, /mix-blend-mode:/, "File colors retain their original rendering");
 });
 
+test("each staggered entrance scrubs strong blur monotonically to sharp before mid-flight, including reverse and resize", () => {
+  assert.ok(WIND.entranceBlur >= 16);
+  assert.ok(WIND.blurClearProgress > .12 && WIND.blurClearProgress <= .25);
+  for (const { source, target, viewport } of fixtures) {
+    const g = windLayout(source, target, viewport);
+    WIND_FILES.forEach((file, index) => {
+      near(at(g, index, 0).blur, WIND.entranceBlur);
+      let previous = WIND.entranceBlur;
+      for (let step = 0; step <= 100; step++) {
+        const q = step / 100, value = at(g, index, q).blur;
+        assert.ok(value >= 0 && value <= previous + 1e-9);
+        if (q >= WIND.blurClearProgress) assert.equal(value, 0);
+        near(at(g, index, 1 - (100 - step) / 100).blur, value);
+        previous = value;
+      }
+      assert.ok(at(g, index, .06).blur > WIND.entranceBlur * .75);
+      assert.equal(windPose({ ...g, progress: file.delay }, index).blur, WIND.entranceBlur);
+      const resized = windLayout(source, target, { ...viewport, width: viewport.width + 20 });
+      near(at(resized, index, .1).blur, at(g, index, .1).blur);
+    });
+  }
+  assert.match(css, /filter: var\(--wind-filter, none\)/);
+  const layer = rules(390, false, css).find(rule => rule.selector === ".wind-files");
+  assert.match(layer.body, /overflow: visible/);
+  assert.doesNotMatch(layer.body, /contain:[^;]*paint|overflow: (?:hidden|clip)/);
+});
+
+test("wind artwork passes in front of section text while navigation stays above it and input passes through", () => {
+  const overlay = html.match(/<div class="wind-files"[^>]*>/)[0];
+  assert.match(overlay, /aria-hidden="true"/);
+  assert.match(css, /\.wind-files, \.wind-files \* \{ pointer-events: none;/);
+  for (const width of widths) for (const reduced of [false, true]) {
+    const layer = rules(width, reduced, css).find(rule => rule.selector === ".wind-files");
+    const windZ = +layer.body.match(/z-index:\s*(\d+)/)[1];
+    const text = declarations(width, [".workflow-heading", ".workflow-step", "#workflow .workflow-step",
+      ".workflow-step > h3", ".workflow-step > p", ".apes-landing #workflow :is(.workflow-heading, .workflow-step > h3, .workflow-step > p)"], reduced);
+    assert.ok(windZ > +(text["z-index"] || 0));
+    assert.ok(+declarations(width, [".site-header", ".apes-landing .site-header"], reduced)["z-index"] > windZ);
+    assert.ok(+declarations(width, [".skip-link"], reduced)["z-index"] > windZ);
+  }
+});
+
 function page({ reduced = false, desktop = true, observer = true } = {}) {
   let scroll = 0, active = true;
   const events = {}, frames = [], changes = [], protectedNodes = [], observed = [], items = WIND_FILES.map(() => ({ style: { values: {}, opacity: "0", setProperty(name, value) { this.values[name] = value; } } }));
@@ -167,6 +209,19 @@ function page({ reduced = false, desktop = true, observer = true } = {}) {
   };
 }
 const snapshot = p => p.items.map(item => [item.style.opacity, { ...item.style.values }]);
+
+test("the controller applies entrance blur, removes its filter when sharp and restores it on reverse", () => {
+  const p = page();
+  p.scroll(1000);
+  const blurred = p.items.map(item => item.style.values["--wind-filter"]);
+  assert.ok(blurred.some(value => /^blur\([\d.]+px\)$/.test(value)));
+  p.scroll(1200);
+  assert.ok(p.items.every(item => item.style.values["--wind-filter"] === "none"));
+  p.scroll(1000);
+  assert.deepEqual(p.items.map(item => item.style.values["--wind-filter"]), blurred);
+  p.resize(768);
+  assert.deepEqual(p.items.map(item => item.style.values["--wind-filter"]), blurred);
+});
 
 test("the isolated controller reverses, remeasures and follows actual Import/Edit state", () => {
   const p = page(); assert.equal(p.overlay.hidden, true);
