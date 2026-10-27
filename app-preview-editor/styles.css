@@ -93,7 +93,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .button:disabled { cursor: wait; opacity: 0.64; }
 .button-small { min-height: 40px; padding-inline: 16px; font-size: 14px; }
 .button-secondary { border-color: var(--border); background: var(--surface); color: var(--text); }
-.nav-link:focus-visible, .button:focus-visible, .media-toggle:focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 35%, transparent); outline-offset: 3px; }
+.nav-link:focus-visible, .button:focus-visible { outline: 3px solid color-mix(in srgb, var(--focus) 35%, transparent); outline-offset: 3px; }
 
 .hero { grid-template-columns: minmax(0, 1fr); min-height: calc(100dvh - 68px); padding-block: 44px 72px; display: grid; gap: 48px; align-items: center; }
 .hero-copy { max-width: 860px; margin-inline: auto; text-align: center; }
@@ -120,13 +120,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 .workflow { background: color-mix(in srgb, var(--surface) 72%, transparent); }
 .workflow-media { display: none; position: relative; }
-.workflow .video-stage, .product-story .video-stage { border-radius: var(--radius-large); }
-:is(.workflow, .product-story) .video-stage { overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
-:is(.workflow, .product-story) .video-stage > :is(video, .video-poster) { border: 0; border-radius: 0; box-shadow: none; }
-.workflow-media video, .mobile-workflow-media, .product-story video { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); object-fit: contain; }
-[data-video-align="left"] { object-position: left center; }
-[data-video-align="right"] { object-position: right center; }
-.media-toggle { position: absolute; right: 12px; bottom: 12px; min-height: 38px; padding: 0 12px; border: 1px solid var(--border); border-radius: 999px; background: color-mix(in srgb, var(--surface) 90%, transparent); color: var(--text); font-size: 13px; font-weight: 650; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.feature-media-image { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); object-fit: contain; }
 .workflow-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 72px; }
 .feature-title-icon { width: 32px; height: 32px; margin-bottom: 18px; opacity: 0.88; }
 .workflow-step > p { max-width: 52ch; color: var(--text-secondary); font-size: 1.06rem; }
@@ -269,7 +263,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .site-header, .media-toggle { background: var(--surface); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .site-header { background: var(--surface); backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 
 /* Landing only: guides retain their existing shared styles. */
@@ -470,16 +464,12 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing #features .section-heading > p,
 .apes-landing .product-tour > .section-heading > p { margin-inline: auto; text-align: center; }
 
-/* A resident pair of workflow demos crossfades inside one bounded sticky frame. */
+/* A resident pair of workflow stills crossfades inside one rounded sticky frame. */
 #workflow .workflow-media { opacity: 1; transform: none; transition: none; }
 #workflow .workflow-frames { display: grid; position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); }
 #workflow .workflow-frame { grid-area: 1 / 1; position: absolute; left: 0; top: 0; min-width: 0; width: 100%; opacity: 0; transition: opacity 420ms var(--ease); pointer-events: none; }
 #workflow .workflow-frame.is-active { position: relative; z-index: 1; opacity: 1; pointer-events: auto; }
-#workflow .workflow-frame .video-stage { border: 0; border-radius: 0; box-shadow: none; }
-#workflow .workflow-frame video { border: 0; border-radius: 0; box-shadow: none; }
-#workflow .workflow-media .video-stage > :is(video, .video-poster) { transform: none; transition: none; }
-#workflow .workflow-frame:first-child .video-poster { object-position: left center; }
-#workflow [data-workflow-video-button] { z-index: 2; }
+#workflow .workflow-frame .feature-media-image { border: 0; border-radius: 0; box-shadow: none; }
 #workflow .workflow-step { opacity: 1; filter: none; transform: none; }
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   #workflow .workflow-step h3 { color: var(--text-secondary); transition: color 300ms var(--ease); }
@@ -547,3 +537,10 @@ html.ape-page, .apes-landing { overflow-x: clip; }
   .apes-landing .cta-preview-mask { aspect-ratio: 1.77; }
   .apes-landing .cta-preview-layout img { border-radius: 13px; }
 }
+
+/* Without JavaScript, show both workflow stills alongside their own descriptions. */
+html:not(.js) #workflow .workflow-layout { display: block; }
+html:not(.js) #workflow .workflow-media { display: none; }
+html:not(.js) #workflow .workflow-steps { gap: 72px; }
+html:not(.js) #workflow .workflow-step { display: block; min-height: 0; }
+html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }

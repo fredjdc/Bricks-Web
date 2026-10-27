@@ -21,9 +21,7 @@ const loadVideo = (video) => {
 const canPlayVideo = (video) => !document.hidden
   && video.getClientRects().length > 0
   && (!video.hasAttribute("data-hero-side") || desktopResults.matches)
-  && video.dataset.userPaused !== "true"
-  && (!video.hasAttribute("data-workflow-media") || !motionPreference.matches)
-  && (!video.hasAttribute("data-workflow-frame") || video.dataset.workflowActive === "true");
+  && video.dataset.userPaused !== "true";
 
 const playVideo = (video) => {
   loadVideo(video);
@@ -71,7 +69,7 @@ document.querySelectorAll("video[poster]").forEach((video) => {
 
 const setupReveals = () => {
   if (motionPreference.matches || !("IntersectionObserver" in window)) return;
-  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .workflow-media > .media-toggle, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .cta-preview-mask, .founder-panel > img, .founder-link";
+  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .cta-preview-mask, .founder-panel > img, .founder-link";
   const targets = new Map();
   try {
     document.querySelectorAll(".reveal").forEach(root => {
@@ -147,37 +145,6 @@ const setupReveals = () => {
 };
 setupReveals();
 
-const setVideoButtonLabel = (video, button, idleLabel = "Play") => {
-  const label = video.paused ? idleLabel : "Pause";
-  button.textContent = label;
-  button.setAttribute("aria-label", label);
-};
-
-const setWorkflowUserPaused = (video, paused) => {
-  if (!video.hasAttribute("data-workflow-media")) return;
-  document.querySelectorAll("#workflow [data-workflow-media]").forEach((item) => {
-    item.dataset.userPaused = String(paused);
-    if (paused) item.pause();
-  });
-};
-
-const connectVideoButton = (video, button, idleLabel) => {
-  if (!video || !button) return;
-  button.addEventListener("click", () => {
-    const pause = !video.paused;
-    setWorkflowUserPaused(video, pause);
-    if (pause) video.pause();
-    else video.play().catch(() => setVideoButtonLabel(video, button, idleLabel));
-  });
-  video.addEventListener("play", () => setVideoButtonLabel(video, button, idleLabel));
-  video.addEventListener("pause", () => setVideoButtonLabel(video, button, idleLabel));
-  setVideoButtonLabel(video, button, idleLabel);
-};
-
-document.querySelectorAll("[data-adjacent-video-button]").forEach((button) => {
-  connectVideoButton(button.parentElement.querySelector("video"), button, "Play");
-});
-
 document.querySelectorAll("[data-playback-toggle]").forEach((video) => {
   const name = video.dataset.playbackLabel;
   const updateLabel = () => video.setAttribute("aria-label", `${video.paused ? "Play" : "Pause"} ${name}`);
@@ -204,112 +171,58 @@ document.querySelectorAll("[data-playback-toggle]").forEach((video) => {
 
 const setupWorkflow = () => {
   const media = document.querySelector(".workflow-media");
-  const steps = [...document.querySelectorAll("[data-workflow-video]")];
+  const steps = [...document.querySelectorAll("[data-workflow-step]")];
   if (!media || steps.length !== 2) return;
   const frames = [...media.querySelectorAll(".workflow-frame")];
   if (frames.length !== steps.length) return;
-  const videos = frames.map((frame) => frame.querySelector("video"));
-  const button = media.querySelector("[data-workflow-video-button]");
+  const images = frames.map(frame => frame.querySelector("img"));
+  if (images.some(image => !image)) return;
   const phases = [...media.querySelectorAll(".workflow-progress span")];
   const desktop = window.matchMedia("(min-width: 900px)");
   let activeIndex = 0;
   let requestedIndex = 0;
-
-  const updateButton = () => {
-    const video = videos[activeIndex];
-    const label = video.paused ? "Play" : "Pause";
-    button.textContent = label;
-    button.setAttribute("aria-label", `${label} ${phases[activeIndex].textContent} demo`);
-    button.setAttribute("aria-controls", video.id);
-  };
-  const playIfVisible = (video) => {
-    const bounds = video.getBoundingClientRect();
-    if (canPlayVideo(video) && bounds.bottom > 0 && bounds.top < window.innerHeight) {
-      if (video.paused) playVideo(video).catch(updateButton);
-    } else video.pause();
-  };
-  const resumeWorkflow = () => {
-    document.querySelectorAll("#workflow [data-workflow-media]").forEach(playIfVisible);
-  };
-  const showStep = (index) => {
+  const showStep = index => {
     activeIndex = index;
     frames.forEach((frame, i) => {
       frame.classList.toggle("is-active", i === index);
       frame.setAttribute("aria-hidden", String(i !== index));
-      videos[i].dataset.workflowActive = String(i === index);
-      if (i !== index) videos[i].pause();
     });
     steps.forEach((step, i) => step.classList.toggle("is-active", i === index));
     phases.forEach((phase, i) => {
       if (i === index) phase.setAttribute("aria-current", "step");
       else phase.removeAttribute("aria-current");
     });
-    updateButton();
-    if (desktop.matches && !motionPreference.matches) playIfVisible(videos[index]);
   };
   const commitRequestedStep = () => {
     if (!desktop.matches || motionPreference.matches || requestedIndex === activeIndex) return;
-    const incoming = videos[requestedIndex];
-    const poster = incoming.parentElement.querySelector(".video-poster");
-    // Keep the outgoing frame until either the next poster or video can paint.
-    if (incoming.readyState < 2 && !(poster.complete && poster.naturalWidth > 0)) {
-      loadVideo(incoming);
-      return;
-    }
+    const incoming = images[requestedIndex];
+    // Keep the current still until the next image is ready, including reverse scroll.
+    if (!incoming.complete || incoming.naturalWidth <= 0) return;
     showStep(requestedIndex);
   };
   const updateWorkflow = () => {
-    if (!desktop.matches || motionPreference.matches) {
-      videos.forEach((video) => video.pause());
-      return;
-    }
+    if (!desktop.matches || motionPreference.matches) return;
     requestedIndex = steps[1].getBoundingClientRect().top <= window.innerHeight / 2 ? 1 : 0;
     commitRequestedStep();
   };
-
-  videos.forEach((video) => {
-    video.parentElement.querySelector(".video-poster").addEventListener("load", commitRequestedStep);
-    video.addEventListener("loadeddata", commitRequestedStep);
-    video.addEventListener("play", updateButton);
-    video.addEventListener("pause", updateButton);
-  });
-  button.addEventListener("click", () => {
-    const video = videos[activeIndex];
-    const pause = !video.paused;
-    setWorkflowUserPaused(video, pause);
-    if (!pause) playIfVisible(video);
-    updateButton();
-  });
+  images.forEach(image => image.addEventListener("load", commitRequestedStep));
   let workflowObserver;
   const observeSteps = () => {
     if (!("IntersectionObserver" in window)) return;
     workflowObserver?.disconnect();
     const inset = window.innerHeight * 0.4;
     workflowObserver = new IntersectionObserver(updateWorkflow, {
-      rootMargin: `-${inset}px 0px -${inset}px`,
-      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 1],
+      rootMargin: `-${inset}px 0px -${inset}px`, threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 1],
     });
-    steps.forEach((step) => workflowObserver.observe(step));
+    steps.forEach(step => workflowObserver.observe(step));
   };
   observeSteps();
-  desktop.addEventListener("change", () => {
-    updateWorkflow();
-    resumeWorkflow();
-  });
-  motionPreference.addEventListener("change", () => {
-    document.querySelectorAll("#workflow [data-workflow-media]").forEach((video) => video.pause());
-    updateWorkflow();
-    resumeWorkflow();
-  });
-  document.addEventListener("visibilitychange", resumeWorkflow);
+  desktop.addEventListener("change", updateWorkflow);
+  motionPreference.addEventListener("change", updateWorkflow);
   let resizeFrame = 0;
   window.addEventListener("resize", () => {
     cancelAnimationFrame(resizeFrame);
-    resizeFrame = requestAnimationFrame(() => {
-      observeSteps();
-      updateWorkflow();
-      resumeWorkflow();
-    });
+    resizeFrame = requestAnimationFrame(() => { observeSteps(); updateWorkflow(); });
   });
   showStep(0);
   updateWorkflow();

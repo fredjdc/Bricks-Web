@@ -25,7 +25,7 @@
 
   <link rel="icon" href="AppIcon.png" type="image/png">
   <link rel="apple-touch-icon" href="AppIcon.png">
-  <link rel="stylesheet" href="styles.css?v=20261027-cta-images-1">
+  <link rel="stylesheet" href="styles.css?v=20261027-feature-stills-1">
   <link rel="stylesheet" href="wind-files.css?v=20261027-5">
   <link rel="stylesheet" href="../shared-download-cta.css?v=20261024-1">
   <style>
@@ -145,39 +145,28 @@
             </div>
             <div class="workflow-frames">
               <div class="workflow-frame is-active" aria-hidden="false">
-                <video width="1920" height="1080" id="workflow-import-video" poster="assets/product/drop-import.png" preload="none" muted loop playsinline data-autoplay-video data-workflow-media data-workflow-frame="0" data-workflow-active="true" data-video-align="left" aria-label="Dragging screenshots, recordings, and audio from Finder into App Preview Editor">
-                  <source data-src="assets/drop-demo.mp4" type="video/mp4">
-                </video>
+                <img id="workflow-import-image" class="feature-media-image" src="assets/product/drop-import.png" width="1449" height="815" alt="Screenshots, recordings, and audio in App Preview Editor’s media library." loading="lazy" decoding="async">
               </div>
               <div class="workflow-frame" aria-hidden="true">
-                <video width="1920" height="1080" id="workflow-edit-video" poster="assets/product/edit-timeline.png" preload="none" muted loop playsinline data-autoplay-video data-workflow-media data-workflow-frame="1" data-workflow-active="false" aria-label="Adjusting clips and text on the App Preview Editor timeline">
-                  <source data-src="assets/edit-demo.mp4" type="video/mp4">
-                </video>
+                <img id="workflow-edit-image" class="feature-media-image" src="assets/product/edit-timeline.png" width="1200" height="675" alt="Video, text, and audio clips arranged on the App Preview Editor timeline." loading="lazy" decoding="async">
               </div>
             </div>
-            <button class="media-toggle" type="button" data-workflow-video-button aria-controls="workflow-import-video">Pause</button>
           </div>
           <div class="workflow-steps">
-            <article class="workflow-step reveal" data-workflow-video="assets/drop-demo.mp4" data-workflow-poster="assets/product/drop-import.png" data-workflow-align="left">
+            <article class="workflow-step reveal" data-workflow-step="import">
               <img class="feature-title-icon" src="assets/icons/drop.svg" width="32" height="32" alt="" aria-hidden="true">
               <h3>Bring in your screens.</h3>
               <p>Drop in screenshots, recordings, and audio. Choose the features and moments you want people to see.</p>
               <div class="mobile-workflow-media-wrap">
-                <video width="1920" height="1080" class="mobile-workflow-media" data-workflow-media poster="assets/product/drop-import.png" preload="none" muted loop playsinline data-autoplay-video data-video-align="left" aria-label="Dragging screenshots, recordings, and audio from Finder into App Preview Editor">
-                  <source src="assets/drop-demo.mp4" type="video/mp4">
-                </video>
-                <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
+                <img class="feature-media-image mobile-workflow-media" src="assets/product/drop-import.png" width="1449" height="815" alt="Screenshots, recordings, and audio in App Preview Editor’s media library." loading="lazy" decoding="async">
               </div>
             </article>
-            <article class="workflow-step reveal" data-workflow-video="assets/edit-demo.mp4" data-workflow-poster="assets/product/edit-timeline.png" data-workflow-align="center">
+            <article class="workflow-step reveal" data-workflow-step="edit">
               <img class="feature-title-icon" src="assets/icons/edit.svg" width="32" height="32" alt="" aria-hidden="true">
               <h3>Shape your app’s story.</h3>
               <p>Trim and arrange clips, then add text, motion, and audio. Use Auto Cut to trim pauses and dead time.</p>
               <div class="mobile-workflow-media-wrap">
-                <video width="1920" height="1080" class="mobile-workflow-media" data-workflow-media poster="assets/product/edit-timeline.png" preload="none" muted loop playsinline data-autoplay-video aria-label="Adjusting clips and text on the App Preview Editor timeline">
-                  <source src="assets/edit-demo.mp4" type="video/mp4">
-                </video>
-                <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
+                <img class="feature-media-image mobile-workflow-media" src="assets/product/edit-timeline.png" width="1200" height="675" alt="Video, text, and audio clips arranged on the App Preview Editor timeline." loading="lazy" decoding="async">
               </div>
             </article>
           </div>
@@ -227,10 +216,7 @@
             <p>Replace screenshots and recordings while keeping the timing, text, and styling you’ve already created.</p>
           </div>
           <div class="story-media">
-            <video width="1920" height="1080" poster="assets/product/replace-media.png" preload="none" muted loop playsinline data-autoplay-video aria-label="Replacing a screenshot while preserving the existing timeline">
-              <source src="assets/media-replace.mp4" type="video/mp4">
-            </video>
-            <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
+            <img class="feature-media-image" src="assets/product/replace-media.png" width="956" height="538" alt="Replace from Library selected for a timeline clip." loading="lazy" decoding="async">
           </div>
         </article>
 
@@ -240,10 +226,7 @@
             <p>Adapt a timeline for another device, orientation, or language. Keep each version in the same project.</p>
           </div>
           <div class="story-media">
-            <video width="1920" height="1080" poster="assets/product/project-variants.png" preload="none" muted loop playsinline data-autoplay-video aria-label="Managing device and language timelines in one project">
-              <source src="assets/app-preview-variants.mp4" type="video/mp4">
-            </video>
-            <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
+            <img class="feature-media-image" src="assets/product/project-variants.png" width="1220" height="686" alt="New Timeline dialog with device and App Store placement formats." loading="lazy" decoding="async">
           </div>
         </article>
 
@@ -281,10 +264,7 @@
           <p>Upload your finished video directly to App Store Connect.</p>
         </div>
         <div class="story-media">
-          <video width="3840" height="2160" poster="assets/product/upload-validation.png" preload="none" muted loop playsinline data-autoplay-video data-video-align="right" aria-label="Selecting an App Store Connect preview slot for upload">
-            <source src="assets/upload-demo.mp4" type="video/mp4">
-          </video>
-          <button class="media-toggle" type="button" data-adjacent-video-button>Pause</button>
+          <img class="feature-media-image" src="assets/product/upload-validation.png" width="1044" height="588" alt="Export destinations and timelines in App Preview Editor." loading="lazy" decoding="async">
         </div>
       </div>
     </section>
@@ -454,7 +434,7 @@
             </div>
             <div class="cta-preview-slot cta-preview-right">
               <div data-cta-preview="right">
-                <div class="hero-result hero-result-right"><img src="assets/product/hero-result-right.png" width="470" height="986" alt="" loading="lazy" decoding="async"></div>
+                <div class="hero-result hero-result-right"><img src="assets/product/hero-result-right.png" width="458" height="986" alt="" loading="lazy" decoding="async"></div>
               </div>
             </div>
           </div>
@@ -477,7 +457,7 @@
     <div><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:hello@bricks.pe">Contact</a><span>© 2026 Bricks Apps</span></div>
   </footer>
 
-  <script src="script.js?v=20261027-cta-images-1" defer></script>
-  <script src="wind-files.js?v=20261027-5" defer></script>
+  <script src="script.js?v=20261027-feature-stills-1" defer></script>
+  <script src="wind-files.js?v=20261027-feature-stills-1" defer></script>
 </body>
 </html>

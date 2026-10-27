@@ -7,7 +7,7 @@ const [script, css] = await Promise.all([
   readFile(new URL("script.js", import.meta.url), "utf8"),
   readFile(new URL("styles.css", import.meta.url), "utf8"),
 ]);
-const source = script.slice(script.indexOf("const setupReveals ="), script.indexOf("const setVideoButtonLabel ="));
+const source = script.slice(script.indexOf("const setupReveals ="), script.indexOf('document.querySelectorAll("[data-playback-toggle]")'));
 
 function item(name, group = "section") {
   return {

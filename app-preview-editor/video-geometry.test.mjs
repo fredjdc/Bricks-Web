@@ -7,9 +7,7 @@ const [html, css, script] = await Promise.all(["index.html", "styles.css", "scri
 const videos = [...html.matchAll(/<video\b([^>]*)>([\s\S]*?)<\/video>/g)].map(([, attributes, body]) => ({ attributes,
   source: body.match(/<source\b[^>]*(?:data-src|src)="([^"]+)"/)[1],
   width: Number(attributes.match(/width="(\d+)"/)[1]), height: Number(attributes.match(/height="(\d+)"/)[1]) }));
-const expected = { "heroResultLeft.mp4": [1776, 3840], "heroResult.mp4": [886, 1920], "heroResultRight.mp4": [1776, 3840],
-  "drop-demo.mp4": [1920, 1080], "edit-demo.mp4": [1920, 1080], "media-replace.mp4": [1920, 1080],
-  "app-preview-variants.mp4": [1920, 1080], "upload-demo.mp4": [3840, 2160] };
+const expected = { "heroResultLeft.mp4": [1776, 3840], "heroResult.mp4": [886, 1920], "heroResultRight.mp4": [1776, 3840] };
 
 function boxes(buffer, start = 0, end = buffer.length) {
   const result = [];
@@ -53,8 +51,8 @@ async function nativeDimensions(path) {
   } finally { await file.close(); }
 }
 
-test("all ten instances declare the source track's actual display dimensions before metadata loads", async () => {
-  assert.equal(videos.length, 10); assert.equal(new Set(videos.map(video => video.source)).size, 8);
+test("the three retained hero videos declare actual track dimensions before metadata loads", async () => {
+  assert.equal(videos.length, 3); assert.equal(new Set(videos.map(video => video.source)).size, 3);
   for (const [name, dimensions] of Object.entries(expected)) {
     const measured = await nativeDimensions(`assets/${name}`);
     assert.deepEqual([measured.width, measured.height], dimensions);
@@ -65,15 +63,14 @@ test("all ten instances declare the source track's actual display dimensions bef
 });
 
 test("native content determines wrapper height; no fixed video ratio or hover zoom can crop the picture", () => {
-  assert.match(css, /\.workflow-media video, \.mobile-workflow-media, \.product-story video \{ display: block; width: 100%; height: auto;[^}]*object-fit: contain;/);
+  assert.match(css, /\.feature-media-image \{ display: block; width: 100%; height: auto;[^}]*object-fit: contain;/);
   assert.match(css, /\.hero-result video \{ display: block; width: 100%; height: auto;[^}]*object-fit: contain;/);
   assert.doesNotMatch(css, /scale\(1\.035\)|aspect-ratio: 16 \/ 10/);
   for (const [, selector, body] of css.matchAll(/([^{}]+)\{([^{}]+)\}/g)) {
     if (/video\b/.test(selector) && !/poster|canvas|editor/.test(selector)) assert.doesNotMatch(body, /object-fit: cover|aspect-ratio:|height: 100%/);
   }
   assert.match(css, /\.video-poster \{[^}]*object-fit: contain; pointer-events: none;/);
-  assert.match(css, /\.workflow \.video-stage, \.product-story \.video-stage \{ border-radius: var\(--radius-large\);/);
-  assert.match(css, /:is\(\.workflow, \.product-story\) \.video-stage \{ overflow: hidden;/);
+  assert.match(css, /\.feature-media-image \{[^}]*border-radius: var\(--radius-large\);/);
   assert.match(css, /\.hero-result \.video-stage \{ overflow: hidden; border-radius: 27px;/);
   assert.match(css, /\.hero-result \.video-stage, \.apes-landing \.hero-result video \{ border-radius: 13px;/);
 });
@@ -85,8 +82,9 @@ test("only the active workflow frame determines height, with rounded opacity cro
   assert.match(css, /#workflow \.workflow-frame\.is-active \{ position: relative;/);
   assert.match(css, /#workflow \.workflow-frames \{ display: grid; position: relative; overflow: hidden;[^}]*border-radius: var\(--radius-large\);/);
   for (const [, body] of css.matchAll(/#workflow \.workflow-frame (?:video|\.video-stage) \{([^}]+)\}/g)) assert.doesNotMatch(body, /height: 100%/);
-  const workflow = videos.filter(video => /(?:drop|edit)-demo/.test(video.source));
-  assert.equal(workflow.length, 4); assert.ok(workflow.every(video => video.width / video.height === 16 / 9));
+  const workflow = html.match(/<section class="workflow section"[\s\S]*?<\/section>/)[0];
+  assert.equal((workflow.match(/class="feature-media-image/g) || []).length, 4);
+  assert.doesNotMatch(workflow, /<video|<source|<button/);
 });
 
 test("responsive portrait/landscape frames preserve scale and the moving center retains its canvas fit", () => {

@@ -206,15 +206,19 @@ function page({ reduced = false, desktop = true, observer = true } = {}) {
   const events = {}, frames = [], changes = [], protectedNodes = [], observed = [], items = WIND_FILES.map(() => ({ style: { values: {}, opacity: "0", setProperty(name, value) { this.values[name] = value; } } }));
   const overlay = { hidden: true, style: { setProperty() {} }, querySelectorAll: () => items };
   const source = { box: rect(70, 1000, 850, 480), getBoundingClientRect() { return shift(this.box, scroll); }, addEventListener() {} };
-  const video = box => ({ box, dataset: { workflowActive: "true" }, closest: () => ({ classList: { contains: () => active } }),
-    getClientRects: () => [{}], getBoundingClientRect() { return shift(this.box, scroll); }, addEventListener() {} });
-  const wide = video(rect(100, 2200, 600, 375)), narrow = video(rect(40, 2400, 310, 194));
+  const image = box => {
+    const listeners = {};
+    return { box, closest: () => ({ classList: { contains: () => active } }),
+      getClientRects: () => [{}], getBoundingClientRect() { return shift(this.box, scroll); },
+      addEventListener(name, fn) { listeners[name] = fn; }, emit(name) { listeners[name]?.(); } };
+  };
+  const wide = image(rect(100, 2200, 600, 375)), narrow = image(rect(40, 2400, 310, 194));
   const title = { getBoundingClientRect: () => shift(rect(70, 1900, 850, 80), scroll) };
   const motion = { matches: reduced, addEventListener(name, fn) { this.change = fn; } };
   const screen = { matches: desktop, addEventListener(name, fn) { this.change = fn; } };
   const doc = {
-    querySelector: selector => ({ "[data-wind-files]": overlay, ".editor-desktop": source, "#workflow-import-video": wide, "#workflow .workflow-heading": title,
-      '#workflow [data-workflow-video="assets/drop-demo.mp4"] .mobile-workflow-media': narrow })[selector],
+    querySelector: selector => ({ "[data-wind-files]": overlay, ".editor-desktop": source, "#workflow-import-image": wide, "#workflow .workflow-heading": title,
+      '#workflow [data-workflow-step="import"] .mobile-workflow-media': narrow })[selector],
     querySelectorAll: () => protectedNodes,
   };
   const win = { innerWidth: 1024, innerHeight: 800, matchMedia: query => query.includes("reduced-motion") ? motion : screen,
@@ -227,7 +231,7 @@ function page({ reduced = false, desktop = true, observer = true } = {}) {
     resize(width) { win.innerWidth = width; source.box.width = width - 80; events.resize.fn(); flush(); },
     reduce(value) { motion.matches = value; motion.change(); flush(); },
     mobile() { screen.matches = false; screen.change(); flush(); },
-    edit(value) { active = !value; wide.dataset.workflowActive = value ? "false" : "true"; changes[0](); flush(); },
+    edit(value) { active = !value; changes[0](); flush(); },
   };
 }
 const snapshot = p => p.items.map(item => [item.style.opacity, { ...item.style.values }]);
@@ -251,12 +255,13 @@ test("the isolated controller reverses, remeasures and follows actual Import/Edi
   p.scroll(4000); assert.equal(p.overlay.hidden, true);
   p.scroll(1200); assert.deepEqual(snapshot(p), original);
   p.controller.update(); assert.deepEqual(snapshot(p), original);
+  p.wide.box.height += 40; p.wide.emit("load"); p.flush(); assert.notDeepEqual(snapshot(p), original);
   p.notify(); p.notify(); assert.equal(p.overlay.hidden, false); assert.equal(p.frames.length, 1); p.flush();
   p.resize(768); assert.notDeepEqual(snapshot(p), original);
   p.edit(true); assert.equal(p.overlay.hidden, true);
   p.edit(false); assert.equal(p.overlay.hidden, false);
   const wide = snapshot(p); p.mobile(); assert.notDeepEqual(snapshot(p), wide);
-  assert.equal(p.observed.length, 2); assert.equal(p.events.scroll.options.passive, true);
+  assert.equal(p.observed.length, 1); assert.equal(p.events.scroll.options.passive, true);
 });
 
 test("reduced motion, missing capabilities and invalid geometry keep the overlay hidden", () => {

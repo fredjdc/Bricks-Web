@@ -80,8 +80,8 @@ function mountWindFiles(doc, win) {
   if (!overlay) return;
   const hide = () => { overlay.hidden = true; };
   hide();
-  const source = doc.querySelector(".editor-desktop"), desktopTarget = doc.querySelector("#workflow-import-video");
-  const mobileTarget = doc.querySelector('#workflow [data-workflow-video="assets/drop-demo.mp4"] .mobile-workflow-media');
+  const source = doc.querySelector(".editor-desktop"), desktopTarget = doc.querySelector("#workflow-import-image");
+  const mobileTarget = doc.querySelector('#workflow [data-workflow-step="import"] .mobile-workflow-media');
   // The heading wrapper is stable while its text runs its own entrance transform.
   const title = doc.querySelector("#workflow .workflow-heading");
   const frame = desktopTarget?.closest(".workflow-frame"), items = [...overlay.querySelectorAll("[data-wind-file]")];
@@ -92,7 +92,7 @@ function mountWindFiles(doc, win) {
     try {
       const target = desktop.matches ? desktopTarget : mobileTarget;
       if (motion.matches || !target?.getClientRects().length
-        || desktop.matches && (desktopTarget.dataset.workflowActive !== "true" || !frame?.classList.contains("is-active"))) { hide(); return; }
+        || desktop.matches && !frame?.classList.contains("is-active")) { hide(); return; }
       const layout = windLayout(source.getBoundingClientRect(), target.getBoundingClientRect(), { width: win.innerWidth, height: win.innerHeight }, title?.getBoundingClientRect());
       if (!layout || layout.progress === 0 || layout.progress === 1) { hide(); return; }
       const poses = items.map((_, index) => windPose(layout, index));
@@ -113,16 +113,15 @@ function mountWindFiles(doc, win) {
     pending = win.requestAnimationFrame(() => { pending = 0; update(); });
   };
   const invalidate = () => {
-    if (motion.matches || desktop.matches && (desktopTarget?.dataset.workflowActive !== "true" || !frame?.classList.contains("is-active"))) hide();
+    if (motion.matches || desktop.matches && !frame?.classList.contains("is-active")) hide();
     schedule();
   };
   win.addEventListener("scroll", schedule, { passive: true });
   win.addEventListener("resize", schedule); win.addEventListener("pageshow", schedule);
   motion.addEventListener("change", invalidate); desktop.addEventListener("change", invalidate);
   source.addEventListener("load", schedule);
-  [desktopTarget, mobileTarget].forEach(video => video?.addEventListener("loadedmetadata", schedule));
+  [desktopTarget, mobileTarget].forEach(image => image?.addEventListener("load", schedule));
   const observer = new win.MutationObserver(invalidate);
-  if (desktopTarget) observer.observe(desktopTarget, { attributes: true, attributeFilter: ["data-workflow-active"] });
   if (frame) observer.observe(frame, { attributes: true, attributeFilter: ["class"] });
   update();
   return { update };

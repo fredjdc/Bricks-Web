@@ -6,7 +6,7 @@ import { widths, declarations as decl, fluidWidth } from "./responsive-checkpoin
 
 const [html, css, script, shared] = await Promise.all(["index.html", "styles.css", "script.js", "../shared-download-cta.css"].map(file => readFile(new URL(file, import.meta.url), "utf8")));
 const closing = html.match(/<section class="final-cta section shell"[^>]*>[\s\S]*?<\/section>/)[0];
-const reveal = script.slice(script.indexOf("const setupReveals ="), script.indexOf("const setVideoButtonLabel ="));
+const reveal = script.slice(script.indexOf("const setupReveals ="), script.indexOf('document.querySelectorAll("[data-playback-toggle]")'));
 
 test("the closing CTA adds only three decorative native-size hero stills after the existing download action", async () => {
   const composition = closing.slice(closing.indexOf('<div class="cta-preview-mask"'));
@@ -21,7 +21,7 @@ test("the closing CTA adds only three decorative native-size hero stills after t
   assert.ok(closing.indexOf('class="bricks-cta-actions"') < closing.indexOf('class="cta-preview-mask"'));
   assert.match(closing, /<h2 id="final-title">Give people a closer look\.<\/h2>/);
   assert.equal((closing.match(/<p>/g) || []).length, 1);
-  assert.equal((html.match(/<video\b/g) || []).length, 10);
+  assert.equal((html.match(/<video\b/g) || []).length, 3);
 });
 
 test("the alpha mask shows approximately the upper half at every breakpoint with clear, centered, unclipped tops", () => {
