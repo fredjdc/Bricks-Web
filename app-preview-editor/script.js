@@ -176,63 +176,95 @@ document.querySelectorAll("[data-playback-toggle]").forEach((video) => {
   updateLabel();
 });
 
+const workflowPinLayout = (cardHeight, viewportHeight, navBottom, bottomSpace) => {
+  if (![cardHeight, viewportHeight].every(value => Number.isFinite(value) && value > 0)
+    || ![navBottom, bottomSpace].every(value => Number.isFinite(value) && value >= 0)) return null;
+  const top = Math.ceil(navBottom + 16);
+  if (top + cardHeight + 24 > viewportHeight) return null;
+  return { top, cardHeight, distance: viewportHeight * .9, bottomSpace };
+};
+
 const setupWorkflow = () => {
-  const media = document.querySelector(".workflow-media");
+  const section = document.querySelector("#workflow");
+  const card = section?.querySelector(":scope > .shell");
+  const media = section?.querySelector(".workflow-media");
   const steps = [...document.querySelectorAll("[data-workflow-step]")];
-  if (!media || steps.length !== 2) return;
+  if (!card || !media || steps.length !== 2 || typeof window.requestAnimationFrame !== "function") return;
   const frames = [...media.querySelectorAll(".workflow-frame")];
   if (frames.length !== steps.length) return;
   const images = frames.map(frame => frame.querySelector("img"));
   if (images.some(image => !image)) return;
-  const phases = [...media.querySelectorAll(".workflow-progress span")];
+  const phases = [...media.querySelectorAll("[data-workflow-nav]")];
   const desktop = window.matchMedia("(min-width: 900px)");
-  let activeIndex = 0;
-  let requestedIndex = 0;
+  const header = document.querySelector(".site-header");
+  let activeIndex = 0, requestedIndex = 0, pin = null, frame = 0, needsMeasure = false;
   const showStep = index => {
     activeIndex = index;
-    frames.forEach((frame, i) => {
-      frame.classList.toggle("is-active", i === index);
-      frame.setAttribute("aria-hidden", String(i !== index));
+    frames.forEach((item, i) => {
+      item.classList.toggle("is-active", i === index);
+      item.setAttribute("aria-hidden", String(i !== index));
     });
-    steps.forEach((step, i) => step.classList.toggle("is-active", i === index));
+    steps.forEach((step, i) => {
+      step.classList.toggle("is-active", i === index);
+      if (pin) step.setAttribute("aria-hidden", String(i !== index));
+      else step.removeAttribute("aria-hidden");
+    });
     phases.forEach((phase, i) => {
       if (i === index) phase.setAttribute("aria-current", "step");
       else phase.removeAttribute("aria-current");
     });
   };
-  const commitRequestedStep = () => {
-    if (!desktop.matches || motionPreference.matches || requestedIndex === activeIndex) return;
-    const incoming = images[requestedIndex];
-    // Keep the current still until the next image is ready, including reverse scroll.
-    if (!incoming.complete || incoming.naturalWidth <= 0) return;
-    showStep(requestedIndex);
+  const resetPin = () => {
+    pin = null;
+    section.classList.remove("is-workflow-pinned");
+    ["top", "card-height", "distance", "bottom-space"].forEach(name => section.style.removeProperty(`--workflow-pin-${name}`));
+    requestedIndex = 0;
+    showStep(0);
+  };
+  const measurePin = () => {
+    if (!desktop.matches || motionPreference.matches) { resetPin(); return; }
+    try {
+      // Measure the compact candidate once on layout changes, never during scroll.
+      section.classList.add("is-workflow-pinned");
+      const navBottom = header ? header.getBoundingClientRect().height + (parseFloat(window.getComputedStyle(header).top) || 0) : 0;
+      const bottomSpace = parseFloat(window.getComputedStyle(section).paddingBottom) || 0;
+      pin = workflowPinLayout(card.getBoundingClientRect().height, window.innerHeight, navBottom, bottomSpace);
+      if (!pin) { resetPin(); return; }
+      Object.entries({ top: pin.top, "card-height": pin.cardHeight, distance: pin.distance, "bottom-space": pin.bottomSpace })
+        .forEach(([name, value]) => section.style.setProperty(`--workflow-pin-${name}`, `${value}px`));
+      showStep(activeIndex);
+    } catch { resetPin(); }
   };
   const updateWorkflow = () => {
-    if (!desktop.matches || motionPreference.matches) return;
-    requestedIndex = steps[1].getBoundingClientRect().top <= window.innerHeight / 2 ? 1 : 0;
-    commitRequestedStep();
+    if (!pin) return;
+    const progress = Math.max(0, Math.min(1, (pin.top - section.getBoundingClientRect().top) / pin.distance));
+    requestedIndex = progress < .5 ? 0 : 1;
+    const incoming = images[requestedIndex];
+    if (requestedIndex !== activeIndex && incoming.complete && incoming.naturalWidth > 0) showStep(requestedIndex);
   };
-  images.forEach(image => image.addEventListener("load", commitRequestedStep));
-  let workflowObserver;
-  const observeSteps = () => {
-    if (!("IntersectionObserver" in window)) return;
-    workflowObserver?.disconnect();
-    const inset = window.innerHeight * 0.4;
-    workflowObserver = new IntersectionObserver(updateWorkflow, {
-      rootMargin: `-${inset}px 0px -${inset}px`, threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 1],
+  const schedule = (measure = false) => {
+    needsMeasure ||= measure;
+    if (frame) return;
+    frame = window.requestAnimationFrame(() => {
+      frame = 0;
+      if (needsMeasure) { needsMeasure = false; measurePin(); }
+      updateWorkflow();
     });
-    steps.forEach(step => workflowObserver.observe(step));
   };
-  observeSteps();
-  desktop.addEventListener("change", updateWorkflow);
-  motionPreference.addEventListener("change", updateWorkflow);
-  let resizeFrame = 0;
-  window.addEventListener("resize", () => {
-    cancelAnimationFrame(resizeFrame);
-    resizeFrame = requestAnimationFrame(() => { observeSteps(); updateWorkflow(); });
-  });
+  phases.forEach((phase, index) => phase.addEventListener("click", () => {
+    if (!pin) return;
+    const start = section.getBoundingClientRect().top + window.scrollY - pin.top;
+    window.scrollTo({ top: start + pin.distance * (index ? .75 : .25), behavior: "smooth" });
+  }));
+  images.forEach(image => image.addEventListener("load", () => schedule(true)));
+  window.addEventListener("scroll", () => schedule(), { passive: true });
+  window.addEventListener("resize", () => schedule(true));
+  const modeChanged = () => { measurePin(); updateWorkflow(); };
+  desktop.addEventListener("change", modeChanged);
+  motionPreference.addEventListener("change", modeChanged);
+  document.fonts?.ready.then(() => schedule(true));
   showStep(0);
-  updateWorkflow();
+  modeChanged();
 };
 setupWorkflow();
 

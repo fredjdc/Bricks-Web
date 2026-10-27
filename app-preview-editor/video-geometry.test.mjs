@@ -84,7 +84,7 @@ test("only the active workflow frame determines height, with rounded opacity cro
   for (const [, body] of css.matchAll(/#workflow \.workflow-frame (?:video|\.video-stage) \{([^}]+)\}/g)) assert.doesNotMatch(body, /height: 100%/);
   const workflow = html.match(/<section class="workflow section"[\s\S]*?<\/section>/)[0];
   assert.equal((workflow.match(/class="feature-media-image/g) || []).length, 4);
-  assert.doesNotMatch(workflow, /<video|<source|<button/);
+  assert.doesNotMatch(workflow, /<video|<source|media-toggle|data-playback/);
 });
 
 test("responsive portrait/landscape frames preserve scale and the moving center retains its canvas fit", () => {

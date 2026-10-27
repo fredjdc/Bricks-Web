@@ -208,8 +208,8 @@ function page({ reduced = false, desktop = true, observer = true } = {}) {
   const source = { box: rect(70, 1000, 850, 480), getBoundingClientRect() { return shift(this.box, scroll); }, addEventListener() {} };
   const image = box => {
     const listeners = {};
-    return { box, closest: () => ({ classList: { contains: () => active } }),
-      getClientRects: () => [{}], getBoundingClientRect() { return shift(this.box, scroll); },
+    return { box, visible: true, closest: () => ({ classList: { contains: () => active } }),
+      getClientRects() { return this.visible ? [{}] : []; }, getBoundingClientRect() { return shift(this.box, scroll); },
       addEventListener(name, fn) { listeners[name] = fn; }, emit(name) { listeners[name]?.(); } };
   };
   const wide = image(rect(100, 2200, 600, 375)), narrow = image(rect(40, 2400, 310, 194));
@@ -260,8 +260,12 @@ test("the isolated controller reverses, remeasures and follows actual Import/Edi
   p.resize(768); assert.notDeepEqual(snapshot(p), original);
   p.edit(true); assert.equal(p.overlay.hidden, true);
   p.edit(false); assert.equal(p.overlay.hidden, false);
+  const pinned = snapshot(p); p.wide.visible = false; p.edit(true);
+  assert.equal(p.overlay.hidden, false, "Short desktop layouts still land on their inline Import image");
+  assert.notDeepEqual(snapshot(p), pinned);
+  p.wide.visible = true; p.edit(false);
   const wide = snapshot(p); p.mobile(); assert.notDeepEqual(snapshot(p), wide);
-  assert.equal(p.observed.length, 1); assert.equal(p.events.scroll.options.passive, true);
+  assert.equal(p.observed.length, 2); assert.equal(p.events.scroll.options.passive, true);
 });
 
 test("reduced motion, missing capabilities and invalid geometry keep the overlay hidden", () => {

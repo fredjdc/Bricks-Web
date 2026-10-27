@@ -31,7 +31,7 @@ test("the five converted sections stay image-only alongside the three hero video
   assert.doesNotMatch(html, /(?:drop-demo|edit-demo|media-replace|app-preview-variants|upload-demo)\.mp4/);
   for (const section of ["workflow section", "product-tour section shell", "delivery section shell"]) {
     const block = html.match(new RegExp(`<section class="${section}"[\\s\\S]*?</section>`))[0];
-    assert.doesNotMatch(block, /<video|<source|<button|media-toggle|poster=|preload=/);
+    assert.doesNotMatch(block, /<video|<source|media-toggle|data-playback|poster=|preload=/);
   }
   assert.match(hero, /data-playback-toggle[^>]*role="button" tabindex="0"/);
   assert.doesNotMatch(script, /data-workflow-video|data-workflow-media|data-workflow-frame|data-adjacent-video-button/);
@@ -62,7 +62,8 @@ test("responsive stills preserve their full frame and rounded edges; no-JS and r
 test("wind lands on the active Import image and remeasures on image loading without playback dependencies", () => {
   assert.match(wind, /querySelector\("#workflow-import-image"\)/);
   assert.match(wind, /\[data-workflow-step="import"\] \.mobile-workflow-media/);
-  assert.match(wind, /desktop\.matches && !frame\?\.classList\.contains\("is-active"\)/);
+  assert.match(wind, /useDesktop && !frame\?\.classList\.contains\("is-active"\)/);
+  assert.match(wind, /const target = useDesktop \? desktopTarget : mobileTarget/);
   assert.match(wind, /\[desktopTarget, mobileTarget\]\.forEach\(image => image\?\.addEventListener\("load", schedule\)\)/);
   assert.doesNotMatch(wind, /workflow-import-video|data-workflow-video|loadedmetadata|workflowActive/);
   assert.match(html, /id="workflow-import-image" class="feature-media-image"/);

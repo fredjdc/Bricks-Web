@@ -85,14 +85,17 @@ function mountWindFiles(doc, win) {
   // The heading wrapper is stable while its text runs its own entrance transform.
   const title = doc.querySelector("#workflow .workflow-heading");
   const frame = desktopTarget?.closest(".workflow-frame"), items = [...overlay.querySelectorAll("[data-wind-file]")];
+  const workflow = desktopTarget?.closest("#workflow");
   if (!source || items.length !== WIND.count || !win.MutationObserver || !win.requestAnimationFrame) return;
   const motion = win.matchMedia("(prefers-reduced-motion: reduce)"), desktop = win.matchMedia("(min-width: 900px)");
+  const usesDesktop = () => desktop.matches && !!desktopTarget?.getClientRects().length;
   let pending = 0;
   const update = () => {
     try {
-      const target = desktop.matches ? desktopTarget : mobileTarget;
+      const useDesktop = usesDesktop();
+      const target = useDesktop ? desktopTarget : mobileTarget;
       if (motion.matches || !target?.getClientRects().length
-        || desktop.matches && !frame?.classList.contains("is-active")) { hide(); return; }
+        || useDesktop && !frame?.classList.contains("is-active")) { hide(); return; }
       const layout = windLayout(source.getBoundingClientRect(), target.getBoundingClientRect(), { width: win.innerWidth, height: win.innerHeight }, title?.getBoundingClientRect());
       if (!layout || layout.progress === 0 || layout.progress === 1) { hide(); return; }
       const poses = items.map((_, index) => windPose(layout, index));
@@ -113,7 +116,7 @@ function mountWindFiles(doc, win) {
     pending = win.requestAnimationFrame(() => { pending = 0; update(); });
   };
   const invalidate = () => {
-    if (motion.matches || desktop.matches && !frame?.classList.contains("is-active")) hide();
+    if (motion.matches || usesDesktop() && !frame?.classList.contains("is-active")) hide();
     schedule();
   };
   win.addEventListener("scroll", schedule, { passive: true });
@@ -123,6 +126,7 @@ function mountWindFiles(doc, win) {
   [desktopTarget, mobileTarget].forEach(image => image?.addEventListener("load", schedule));
   const observer = new win.MutationObserver(invalidate);
   if (frame) observer.observe(frame, { attributes: true, attributeFilter: ["class"] });
+  if (workflow) observer.observe(workflow, { attributes: true, attributeFilter: ["class"] });
   update();
   return { update };
 }
