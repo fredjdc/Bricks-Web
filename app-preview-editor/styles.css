@@ -544,3 +544,9 @@ html:not(.js) #workflow .workflow-media { display: none; }
 html:not(.js) #workflow .workflow-steps { gap: 72px; }
 html:not(.js) #workflow .workflow-step { display: block; min-height: 0; }
 html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
+
+.apes-landing .scene-clips > .section-heading { max-width: 760px; margin: 0 auto 40px; text-align: center; }
+.apes-landing .scene-clips > .section-heading p { margin-inline: auto; }
+.apes-landing .scene-clips .scene-clips-eyebrow { margin-bottom: 12px; color: var(--detail); font-size: .875rem; font-weight: 650; line-height: 1.5; }
+.apes-landing .scene-clips-media { min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); }
+.apes-landing .scene-clips-media video { display: block; width: 100%; height: auto; object-fit: contain; }

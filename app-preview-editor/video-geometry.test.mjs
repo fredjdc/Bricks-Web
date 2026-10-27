@@ -7,7 +7,7 @@ const [html, css, script] = await Promise.all(["index.html", "styles.css", "scri
 const videos = [...html.matchAll(/<video\b([^>]*)>([\s\S]*?)<\/video>/g)].map(([, attributes, body]) => ({ attributes,
   source: body.match(/<source\b[^>]*(?:data-src|src)="([^"]+)"/)[1],
   width: Number(attributes.match(/width="(\d+)"/)[1]), height: Number(attributes.match(/height="(\d+)"/)[1]) }));
-const expected = { "heroResultLeft.mp4": [1776, 3840], "heroResult.mp4": [886, 1920], "heroResultRight.mp4": [1776, 3840] };
+const expected = { "heroResultLeft.mp4": [1776, 3840], "heroResult.mp4": [886, 1920], "heroResultRight.mp4": [1776, 3840], "scene-clip.mp4": [1920, 1080] };
 
 function boxes(buffer, start = 0, end = buffer.length) {
   const result = [];
@@ -51,8 +51,8 @@ async function nativeDimensions(path) {
   } finally { await file.close(); }
 }
 
-test("the three retained hero videos declare actual track dimensions before metadata loads", async () => {
-  assert.equal(videos.length, 3); assert.equal(new Set(videos.map(video => video.source)).size, 3);
+test("the three hero videos and Scene Clips demo declare actual track dimensions before metadata loads", async () => {
+  assert.equal(videos.length, 4); assert.equal(new Set(videos.map(video => video.source)).size, 4);
   for (const [name, dimensions] of Object.entries(expected)) {
     const measured = await nativeDimensions(`assets/${name}`);
     assert.deepEqual([measured.width, measured.height], dimensions);
@@ -107,7 +107,7 @@ function stagePage() {
   const target = { style: {} };
   const poster = { setAttribute() {} };
   const stage = { children: [], append(...children) { this.children.push(...children); children[0].parentElement = this; }, querySelector: () => poster };
-  const video = { id: "finished-preview-video", videoWidth: 0, videoHeight: 0, poster: "existing-poster.png", paused: true, currentTime: 6,
+  const video = { id: "finished-preview-video", videoWidth: 0, videoHeight: 0, poster: "existing-poster.png", paused: true, currentTime: 6, hasAttribute: () => false,
     getAttribute: name => attrs.get(name), setAttribute: (name, value) => attrs.set(name, value), before() {},
     addEventListener: (name, callback) => { (listeners[name] ??= []).push(callback); } };
   const doc = { documentElement: { classList: { add() {} } }, querySelector: () => target,

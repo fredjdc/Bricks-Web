@@ -23,11 +23,11 @@ test("exactly five requested illustrations use their current PNGs at verified in
   }
 });
 
-test("only the three original hero MP4s and their accessible group playback remain", () => {
+test("the five converted sections stay image-only alongside the three hero videos and dedicated Scene Clips demo", () => {
   const hero = html.match(/<section class="hero shell"[\s\S]*?<\/section>/)[0];
-  assert.equal((html.match(/<video\b/g) || []).length, 3);
+  assert.equal((html.match(/<video\b/g) || []).length, 4);
   assert.equal((hero.match(/<video\b/g) || []).length, 3);
-  assert.equal((html.match(/<source[^>]+type="video\/mp4"/g) || []).length, 3);
+  assert.equal((html.match(/<source[^>]+type="video\/mp4"/g) || []).length, 4);
   assert.doesNotMatch(html, /(?:drop-demo|edit-demo|media-replace|app-preview-variants|upload-demo)\.mp4/);
   for (const section of ["workflow section", "product-tour section shell", "delivery section shell"]) {
     const block = html.match(new RegExp(`<section class="${section}"[\\s\\S]*?</section>`))[0];

@@ -21,7 +21,7 @@ test("the closing CTA adds only three decorative native-size hero stills after t
   assert.ok(closing.indexOf('class="bricks-cta-actions"') < closing.indexOf('class="cta-preview-mask"'));
   assert.match(closing, /<h2 id="final-title">Give people a closer look\.<\/h2>/);
   assert.equal((closing.match(/<p>/g) || []).length, 1);
-  assert.equal((html.match(/<video\b/g) || []).length, 3);
+  assert.equal((html.match(/<video\b/g) || []).length, 4);
 });
 
 test("the alpha mask shows approximately the upper half at every breakpoint with clear, centered, unclipped tops", () => {

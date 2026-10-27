@@ -27,7 +27,7 @@ assert.match(showcase, /data-editor-preview-target/);
 assert.doesNotMatch(showcase, /<video|finished-preview-video|hero-demo\.mp4/);
 
 const sectionOrder = [...html.matchAll(/<section class="([^"]+)"/g)].map((match) => match[1]);
-assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "capabilities section", "product-tour section shell", "delivery section shell", "pricing section shell", "faq section shell", "final-cta section shell"]);
+assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "scene-clips section shell", "capabilities section", "product-tour section shell", "delivery section shell", "pricing section shell", "faq section shell", "final-cta section shell"]);
 assert.doesNotMatch(html, /data-philosophy|data-count-from|problem-section/);
 const productTourStart = html.indexOf('<section class="product-tour');
 const storyOrder = ["Update the screen. Keep the work.", "Keep your timelines together."];
@@ -48,7 +48,7 @@ assert.match(header, /App Preview Editor/);
 assert.match(header, /Download/);
 assert.doesNotMatch(hero, /<button|media-toggle|data-adjacent-video-button/);
 assert.doesNotMatch(html, /data-adjacent-video-button|data-workflow-video-button|data-workflow-video|data-workflow-frame/);
-assert.equal((html.match(/<video\b/g) || []).length, 3);
+assert.equal((html.match(/<video\b/g) || []).length, 4);
 assert.match(hero, /<video id="finished-preview-video"[^>]*data-playback-toggle[^>]*role="button" tabindex="0"/);
 assert.doesNotMatch(html, /data-video-button/);
 assert.doesNotMatch(html, /<video[^>]*\scontrols(?:\s|>)/);
@@ -57,7 +57,7 @@ assert.doesNotMatch(html, /mac-native\.mp4|product\/mac-native\.png|class="nativ
 assert.match(script, /frame\.classList\.toggle\("is-active", i === index\)/);
 assert.match(script, /video\.addEventListener\("click", togglePlayback\)/);
 assert.match(script, /video\.addEventListener\("keydown"/);
-assert.match(script, /video\.addEventListener\("playing", \(\) => \{ poster\.hidden = true; \}\)/);
+assert.match(script, /video\.addEventListener\("playing",/);
 assert.match(script, /video\.addEventListener\("(?:loadstart|error)", \(\) => showVideoPoster\(video\)\)/);
 assert.match(script, /!incoming\.complete \|\| incoming\.naturalWidth <= 0/);
 assert.match(styles, /\.video-poster \{ position: absolute; inset: 0;[^}]+pointer-events: none;/);

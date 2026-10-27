@@ -1,7 +1,6 @@
 document.documentElement.classList.add("js");
 
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-const reduceMotion = motionPreference.matches;
 const desktopResults = window.matchMedia("(min-width: 900px)");
 const visibleVideos = new Set();
 
@@ -21,7 +20,8 @@ const loadVideo = (video) => {
 const canPlayVideo = (video) => !document.hidden
   && video.getClientRects().length > 0
   && (!video.hasAttribute("data-hero-side") || desktopResults.matches)
-  && video.dataset.userPaused !== "true";
+  && video.dataset.userPaused !== "true"
+  && (!video.hasAttribute("data-scene-clips") || !motionPreference.matches);
 
 const playVideo = (video) => {
   loadVideo(video);
@@ -64,12 +64,19 @@ document.querySelectorAll("video[poster]").forEach((video) => {
   showVideoPoster(video);
   video.addEventListener("loadstart", () => showVideoPoster(video));
   video.addEventListener("error", () => showVideoPoster(video));
-  video.addEventListener("playing", () => { poster.hidden = true; });
+  video.addEventListener("playing", () => {
+    if (!video.hasAttribute("data-scene-clips")) { poster.hidden = true; return; }
+    const showFrame = () => {
+      if (!video.paused && !video.error && video.readyState >= 2 && !motionPreference.matches) poster.hidden = true;
+    };
+    if (typeof video.requestVideoFrameCallback === "function") video.requestVideoFrameCallback(showFrame);
+    else showFrame();
+  });
 });
 
 const setupReveals = () => {
   if (motionPreference.matches || !("IntersectionObserver" in window)) return;
-  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .mobile-workflow-media-wrap, .story-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .cta-preview-mask, .founder-panel > img, .founder-link";
+  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .mobile-workflow-media-wrap, .story-media, .scene-clips-media, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .cta-preview-mask, .founder-panel > img, .founder-link";
   const targets = new Map();
   try {
     document.querySelectorAll(".reveal").forEach(root => {
@@ -230,31 +237,26 @@ const setupWorkflow = () => {
 setupWorkflow();
 
 const observedVideos = document.querySelectorAll("video");
-const autoplayVideos = document.querySelectorAll("[data-autoplay-video]");
 
 const resumeVisibleVideos = () => {
-  if (reduceMotion) return;
+  if (motionPreference.matches) return;
   visibleVideos.forEach((video) => {
     if (canPlayVideo(video)) playVideo(video).catch(() => {});
     else video.pause();
   });
 };
 
-if (!reduceMotion && observedVideos.length) {
-  if ("IntersectionObserver" in window) {
-    const videoObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) visibleVideos.add(entry.target);
-        else visibleVideos.delete(entry.target);
-        if (entry.isIntersecting && entry.target.hasAttribute("data-autoplay-video") && canPlayVideo(entry.target)) {
-          playVideo(entry.target).catch(() => {});
-        } else entry.target.pause();
-      });
-    }, { threshold: 0.05 });
-    observedVideos.forEach((video) => videoObserver.observe(video));
-  }
-} else {
-  autoplayVideos.forEach((video) => video.pause());
+if (observedVideos.length && "IntersectionObserver" in window) {
+  const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) visibleVideos.add(entry.target);
+      else visibleVideos.delete(entry.target);
+      if (entry.isIntersecting && !motionPreference.matches && entry.target.hasAttribute("data-autoplay-video") && canPlayVideo(entry.target)) {
+        playVideo(entry.target).catch(() => {});
+      } else if (!entry.isIntersecting || !canPlayVideo(entry.target)) entry.target.pause();
+    });
+  }, { threshold: 0.05 });
+  observedVideos.forEach((video) => videoObserver.observe(video));
 }
 
 desktopResults.addEventListener("change", () => {
@@ -270,6 +272,13 @@ desktopResults.addEventListener("change", () => {
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) observedVideos.forEach((video) => video.pause());
   else resumeVisibleVideos();
+});
+
+motionPreference.addEventListener("change", () => {
+  if (motionPreference.matches) {
+    observedVideos.forEach(video => video.pause());
+    document.querySelectorAll("[data-scene-clips]").forEach(showVideoPoster);
+  } else resumeVisibleVideos();
 });
 
 const previewHandoff = (source, target, viewportHeight, sourceScale) => {
