@@ -25,7 +25,7 @@
 
   <link rel="icon" href="AppIcon.png" type="image/png">
   <link rel="apple-touch-icon" href="AppIcon.png">
-  <link rel="stylesheet" href="styles.css?v=20261027-workflow-align-1">
+  <link rel="stylesheet" href="styles.css?v=20261027-standard-pricing-1">
   <link rel="stylesheet" href="wind-files.css?v=20261027-5">
   <link rel="stylesheet" href="../shared-download-cta.css?v=20261024-1">
   <style>
@@ -69,7 +69,7 @@
             <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
             <span>Download</span>
           </a>
-          <p class="download-caption" data-hero-entrance style="--hero-delay: 1220ms">7-day free trial. No account required.</p>
+          <p class="download-caption" data-hero-entrance style="--hero-delay: 1220ms">7-day free trial for eligible new subscribers. No app account required.</p>
         </div>
       </div>
 
@@ -287,23 +287,24 @@
       <div class="pricing-block reveal">
         <h2 id="pricing-title">Pricing</h2>
         <dl class="pricing-options" aria-label="Pro plans and prices in US dollars">
-          <div><dt>Monthly <span class="price-saving">Save 29%</span></dt><dd>$4.99<span>/month</span></dd><dd class="planned-price"><s>$6.99/month</s></dd></div>
-          <div><dt>Yearly <span class="price-saving">Save 33%</span></dt><dd>$39.99<span>/year</span></dd><dd class="planned-price"><s>$59.99/year</s></dd></div>
-          <div><dt>Lifetime</dt><dd>$149.99</dd></div>
+          <div><dt>Monthly</dt><dd>$4.99<span>/month</span></dd><dd class="plan-detail">7-days free trial</dd></div>
+          <div><dt>Yearly</dt><dd>$39.99<span>/year</span></dd><dd class="plan-detail">7-days free trial</dd></div>
+          <div><dt>Lifetime</dt><dd>$149.99</dd><dd class="plan-detail">One-time purchase</dd></div>
         </dl>
-        <p class="pricing-note">Introductory subscription pricing for a limited time. All prices in USD.</p>
+        <p class="pricing-note">Subscriptions auto-renew unless canceled. All prices in USD.</p>
         <h2 id="included-title">What’s included</h2>
+        <p class="comparison-note">Pro includes premium Scene Clips, with new scenes added in every update.</p>
         <table class="plan-comparison" aria-labelledby="included-title">
           <colgroup><col><col><col></colgroup>
           <thead><tr><th scope="col">Feature</th><th scope="col">Free</th><th scope="col">Pro</th></tr></thead>
           <tbody>
-            <tr><th scope="row">All editing tools</th><td><span class="plan-included" role="img" aria-label="Included">✓</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
-            <tr><th scope="row">Scene Clips</th><td><span role="img" aria-label="Not included">✕</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
-            <tr><th scope="row">Save and edit projects</th><td><span class="plan-included" role="img" aria-label="Included">✓</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
-            <tr><th scope="row">H.264 video and PNG image</th><td><span class="plan-included" role="img" aria-label="Included">✓</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
-            <tr><th scope="row">Watermark</th><td><span role="img" aria-label="Exports include a watermark">✓</span></td><td><span role="img" aria-label="Exports have no watermark">✕</span></td></tr>
-            <tr><th scope="row">ProRes exports</th><td><span role="img" aria-label="Not included">✕</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
-            <tr><th scope="row">Direct App Store Connect upload</th><td><span role="img" aria-label="Not included">✕</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
+            <tr><th scope="row">H.264 Video Export</th><td><span class="plan-included" role="img" aria-label="Included">✓</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
+            <tr><th scope="row">Image Frame Export</th><td><span class="plan-included" role="img" aria-label="Included">✓</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
+            <tr><th scope="row">Free Scene Clips</th><td><span class="plan-included" role="img" aria-label="Included">✓</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
+            <tr><th scope="row">Pro Scene Clips</th><td><span role="img" aria-label="Not included">✕</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
+            <tr><th scope="row">ProRes Video Export</th><td><span role="img" aria-label="Not included">✕</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
+            <tr><th scope="row">Direct App Store Connect Upload</th><td><span role="img" aria-label="Not included">✕</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
+            <tr><th scope="row">Watermark-free Exports</th><td><span role="img" aria-label="Not included">✕</span></td><td><span class="plan-included" role="img" aria-label="Included">✓</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -323,23 +324,24 @@
       "offers": [
         {
           "@type": "Offer",
-          "name": "Pro monthly — introductory pricing",
+          "name": "Pro monthly",
           "price": "4.99",
           "priceCurrency": "USD",
-          "description": "Regular: $6.99/month."
+          "description": "7-day free trial for eligible new subscribers, then $4.99/month. Auto-renews unless canceled."
         },
         {
           "@type": "Offer",
-          "name": "Pro yearly — introductory pricing",
+          "name": "Pro yearly",
           "price": "39.99",
           "priceCurrency": "USD",
-          "description": "Regular: $59.99/year."
+          "description": "7-day free trial for eligible new subscribers, then $39.99/year. Auto-renews unless canceled."
         },
         {
           "@type": "Offer",
           "name": "Pro lifetime",
           "price": "149.99",
-          "priceCurrency": "USD"
+          "priceCurrency": "USD",
+          "description": "One-time purchase."
         }
       ]
     },
@@ -351,7 +353,7 @@
           "name": "Do I need an account?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No account is required to create and edit projects."
+            "text": "No app account is required to create and edit projects."
           }
         },
         {
@@ -375,7 +377,7 @@
           "name": "Can I export files to my Mac?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Export H.264 MP4 videos or individual frames as PNG images. Pro also includes ProRes 422 HQ MOV exports."
+            "text": "Yes. Export videos as MP4 (H.264) or individual frames as PNG images. Pro also includes ProRes 422 HQ MOV exports."
           }
         },
         {
@@ -412,10 +414,10 @@
     <section class="faq section shell" id="faq" aria-labelledby="faq-title">
       <h2 id="faq-title" class="section-heading reveal">Before you get started.</h2>
       <div class="faq-list reveal">
-        <details name="faq"><summary>Do I need an account?</summary><div class="faq-answer"><div><p>No account is required to create and edit projects.</p></div></div></details>
+        <details name="faq"><summary>Do I need an account?</summary><div class="faq-answer"><div><p>No app account is required to create and edit projects.</p></div></div></details>
         <details name="faq"><summary>Which devices can I create app previews for?</summary><div class="faq-answer"><div><p>App Preview Editor runs on Mac. Create app previews for iPhone, iPhone Duo, iPad, Mac, and Apple Vision Pro, and keep separate device and language timelines in one project.</p></div></div></details>
         <details name="faq"><summary>What does the app check before export?</summary><div class="faq-answer"><div><p>It checks video duration and format. Review the results and make any needed changes before exporting.</p></div></div></details>
-        <details name="faq"><summary>Can I export files to my Mac?</summary><div class="faq-answer"><div><p>Yes. Export H.264 MP4 videos or individual frames as PNG images. Pro also includes ProRes 422 HQ MOV exports.</p></div></div></details>
+        <details name="faq"><summary>Can I export files to my Mac?</summary><div class="faq-answer"><div><p>Yes. Export videos as MP4 (H.264) or individual frames as PNG images. Pro also includes ProRes 422 HQ MOV exports.</p></div></div></details>
         <details name="faq"><summary>What do I need to upload directly?</summary><div class="faq-answer"><div><p>Connect your App Store Connect account using your API credentials to upload supported videos from the editor.</p></div></div></details>
         <details name="faq"><summary>Where are my projects and credentials stored?</summary><div class="faq-answer"><div><p>Projects are saved as files on your Mac. Your App Store Connect API credentials are stored in macOS Keychain.</p></div></div></details>
         <details name="faq"><summary>How do I make my first video?</summary><div class="faq-answer"><div><p>Start with the in-app onboarding, or follow the <a href="guides/getting-started/index.html">getting-started guide</a> for an import-to-export walkthrough.</p></div></div></details>

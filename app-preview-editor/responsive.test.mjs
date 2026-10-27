@@ -65,7 +65,7 @@ test("intrinsic 4K/portrait media cannot force implicit mobile grid tracks wider
   for (const selector of [".hero > *", ".workflow-layout > *", ".workflow-steps > *", ".product-story > *", ".capability-grid > *", ".footer > *", ".nav > *"]) assert.ok(css.includes(selector));
   assert.match(css, /\.apes-landing :is\(main,[^}]+\{ min-width: 0; \}/);
   assert.match(css, /\.apes-landing :is\(\.video-stage, \.workflow-frames, \.mobile-workflow-media-wrap\) \{ min-width: 0; max-width: 100%;/);
-  assert.match(css, /\.pricing-options dd:not\(\.planned-price\) \{ display: flex; flex-wrap: wrap;/);
+  assert.match(css, /\.pricing-options dd:not\(\.plan-detail\) \{ display: flex; flex-wrap: wrap;/);
   assert.match(css, /\.plan-comparison \{[^}]*table-layout: fixed;/);
   assert.doesNotMatch(css, /height: 100%;[^}]*object-fit: cover;[^}]*video/);
 });
