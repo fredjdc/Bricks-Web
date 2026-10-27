@@ -110,6 +110,15 @@ test("one background spotlight fades continuously to zero before handoff and rev
   assert.match(css, /\.apes-landing \.hero \{ position: relative; z-index: 3; isolation: isolate; \}/);
   assert.match(css, /\.apes-landing \.hero-copy \{ position: relative; z-index: 4; \}/);
   assert.doesNotMatch(css, /\.hero-results::before/);
+  const grain = css.match(/\.apes-landing \.hero::after \{([^}]+)\}/)[1];
+  assert.match(grain, /--hero-grain-strength: \.08;/);
+  assert.match(grain, /opacity: calc\(var\(--hero-spotlight-opacity, 0\) \* var\(--hero-grain-strength\)\);/);
+  assert.match(grain, /mask-image: var\(--hero-grain-mask\); -webkit-mask-image: var\(--hero-grain-mask\);/);
+  assert.match(grain, /position: fixed; inset: 0; z-index: -1; pointer-events: none;/);
+  assert.match(grain, /mix-blend-mode: soft-light;/);
+  const texture = decodeURIComponent(grain.match(/data:image\/svg\+xml,([^"\s]+)/)[1]);
+  assert.match(texture, /seed="23" stitchTiles="stitch"/); assert.match(texture, /type="saturate" values="0"/);
+  assert.doesNotMatch(texture + grain, /<animate|animation:|transition:|https?:\/\/(?!www.w3.org)/);
   const p = page(); assert.equal(+p.stage.style.values.get("--hero-spotlight-opacity"), 1);
   assert.equal(p.stage.style.values.get("--hero-spotlight-x"), "500px");
   assert.equal(p.stage.style.values.get("--hero-spotlight-y"), "1000px", "Use the full media midpoint even below the 800px viewport");
