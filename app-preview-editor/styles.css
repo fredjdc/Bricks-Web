@@ -267,8 +267,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 /* Landing only: guides retain their existing shared styles. */
-.apes-landing { --border: rgba(11,15,20,.1); --detail: #087ea4; --soft-shadow: 4px 6px 16px rgba(37,56,70,.16), -2px -2px 6px #fff; --shadow: 12px 16px 40px rgba(37,56,70,.1), -4px -4px 16px rgba(255,255,255,.7); --radius-large: 32px; }
-.apes-landing .site-header { top: 16px; width: min(calc(100% - 32px), var(--shell)); margin: 16px auto 0; border: 1px solid var(--border); border-radius: 32px; box-shadow: var(--soft-shadow); }
+.apes-landing { --border: rgba(11,15,20,.1); --detail: #087ea4; --shadow-color: rgba(37,56,70,.1); --shadow-highlight: rgba(255,255,255,.7); --radius-large: 32px; }
+.apes-landing .site-header { top: 16px; width: min(calc(100% - 32px), var(--shell)); margin: 16px auto 0; border: 1px solid var(--border); border-radius: 32px; box-shadow: var(--shadow); }
 .apes-landing .nav { width: auto; min-height: 64px; margin-inline: 20px; }
 .apes-landing .section { padding-block: 72px; }
 .apes-landing .hero { padding-top: 64px; gap: 56px; }
@@ -279,14 +279,14 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .section-heading p, .apes-landing .result-copy p { font-size: 1.125rem; line-height: 1.65; }
 .apes-landing .result-copy { max-width: 540px; }
 .apes-landing .founder-note { padding-block: 24px 88px; }
-.apes-landing .founder-panel { padding: 48px 24px; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: var(--soft-shadow); }
-.apes-landing .founder-panel > img { width: 112px; height: 112px; margin: 0 auto 28px; border: 2px solid var(--border); border-radius: 50%; object-fit: cover; box-shadow: 0 12px 28px rgba(10,16,24,.12); }
+.apes-landing .founder-panel { padding: 48px 24px; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: var(--shadow); }
+.apes-landing .founder-panel > img { width: 112px; height: 112px; margin: 0 auto 28px; border: 2px solid var(--border); border-radius: 50%; object-fit: cover; box-shadow: var(--shadow); }
 .apes-landing .founder-panel h2 { color: var(--text); max-width: 680px; margin: 0 auto 24px; font-size: clamp(2rem,4.2vw,3rem); }
 .apes-landing .founder-panel p { max-width: 720px; margin: 0 auto 24px; font-size: 1.05rem; line-height: 1.75; }
 .apes-landing .founder-link { display: inline; font-size: .95rem; font-weight: 600; text-decoration: underline; }
 .apes-landing .workflow, .apes-landing .capabilities { background: transparent; }
 .apes-landing .workflow { padding-top: 0; }
-.apes-landing .workflow > .shell { padding: 40px 24px; border: 1px solid var(--border); border-radius: 32px; background: color-mix(in srgb,var(--surface) 92%,transparent); box-shadow: var(--soft-shadow); }
+.apes-landing .workflow > .shell { padding: 40px 24px; border: 1px solid var(--border); border-radius: 32px; background: color-mix(in srgb,var(--surface) 92%,transparent); box-shadow: var(--shadow); }
 .apes-landing .workflow-progress { display: flex; gap: 8px; margin: 0 0 16px; }
 .apes-landing .workflow-progress [data-workflow-nav] { flex: 1; padding: 10px 0 0; border: 0; border-top: 2px solid var(--border); background: transparent; text-align: left; font-family: inherit; color: var(--text-secondary); font-size: .8rem; transition: border-color 350ms ease,color 350ms ease; }
 .apes-landing .workflow-progress [aria-current] { border-color: var(--detail); color: var(--detail); font-weight: 650; }
@@ -303,7 +303,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .product-story .story-copy h3, .apes-landing .delivery .story-copy h2 { font-size: clamp(1.9rem,3.4vw,2.75rem); }
 .apes-landing .faq { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; justify-items: center; }
 .apes-landing .faq > .section-heading { position: static; top: auto; width: 100%; max-width: 880px; margin: 0; text-align: center; }
-.apes-landing .faq-list { width: 100%; max-width: none; margin-inline: auto; padding: 40px 24px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); box-shadow: var(--soft-shadow); text-align: left; }
+.apes-landing .faq-list { width: 100%; max-width: none; margin-inline: auto; padding: 40px 24px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); box-shadow: var(--shadow); text-align: left; }
 /* Preserve the readable content width of the former 880px card. */
 .apes-landing .faq details { max-width: 814px; margin-inline: auto; }
 .apes-landing .faq details:last-child { border-bottom: 0; }
@@ -342,7 +342,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .workflow-heading { margin-bottom: 40px; }
 }
 @media (prefers-color-scheme: dark) {
-  .apes-landing { --bg: #0b0f14; --surface: #12181f; --surface-muted: #1c252e; --border: rgba(242,245,247,.12); --detail: #65cff3; --soft-shadow: 4px 6px 16px #05080b,-2px -2px 6px #161d25; --shadow: 12px 16px 40px rgba(0,0,0,.35),-4px -4px 16px rgba(22,29,37,.6); }
+  .apes-landing { --bg: #0b0f14; --surface: #12181f; --surface-muted: #1c252e; --border: rgba(242,245,247,.12); --detail: #65cff3; --shadow-color: rgba(0,0,0,.35); --shadow-highlight: rgba(22,29,37,.6); }
 }
 @media (prefers-reduced-motion: reduce) {
   .apes-landing .workflow-media, .apes-landing .faq > h2 { position: static; }
@@ -376,7 +376,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 /* Pricing and comparison share one surface, separate from the closing invitation. */
 .apes-landing .pricing { padding-bottom: 32px; }
-.apes-landing .pricing-block { max-width: none; margin-inline: auto; padding: 64px 32px; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--soft-shadow); }
+.apes-landing .pricing-block { max-width: none; margin-inline: auto; padding: 64px 32px; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); }
 .apes-landing .pricing-block > .coming-soon-label { display: block; width: fit-content; margin-inline: auto; }
 .apes-landing .pricing-block > #included-title { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
 .apes-landing .pricing-block > h2 { max-width: 760px; margin: 0 auto 24px; font-size: clamp(2rem, 4.2vw, 3rem); }
@@ -400,7 +400,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 /* Results first, then a full-width view of the editor that made them. */
 .apes-landing .hero-results { position: relative; z-index: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; width: min(100%, 860px); margin-inline: auto; padding: 16px 4px 28px; isolation: isolate; perspective: 1200px; --hero-side-rest-inset: 28%; --hero-side-rest-scale: .88; --hero-side-rest-tilt: 12deg; --hero-side-distance-ratio: .7; }
-.apes-landing .hero-result { min-width: 0; padding: 4px; overflow: hidden; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: 0 8px 40px rgba(0, 0, 0, 0.24); }
+.apes-landing .hero-result { min-width: 0; padding: 4px; overflow: hidden; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: var(--shadow); }
 .apes-landing .hero-result .video-stage { overflow: hidden; border-radius: 27px; }
 .apes-landing .hero-result video { display: block; width: 100%; height: auto; border-radius: 27px; object-fit: contain; }
 /* Inner cards own the resting tilt; outer slots own measured spacing and scroll separation. */
@@ -416,7 +416,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .result-copy { max-width: 760px; margin: 0 auto 40px; text-align: center; }
 .apes-landing .result-copy p { margin-inline: auto; margin-bottom: 0; }
 .apes-landing .editor-composition { position: relative; aspect-ratio: 16 / 9; border: 1px solid transparent; border-radius: 32px; }
-.apes-landing .editor-backdrop { position: absolute; inset: 0; overflow: hidden; border: 1px solid var(--border); border-radius: inherit; background: var(--surface); box-shadow: var(--soft-shadow); }
+.apes-landing .editor-backdrop { position: absolute; inset: 0; overflow: hidden; border: 1px solid var(--border); border-radius: inherit; background: var(--surface); box-shadow: var(--shadow); }
 .apes-landing .editor-desktop { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .apes-landing .editor-app { position: absolute; left: 5%; top: 50%; width: 90%; height: auto; transform: translateY(-50%); }
 /* Canvas bounds in the 1920 × 986 window: x 342–1578, y 52–774. */
@@ -578,3 +578,30 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
   .apes-landing .product-story.is-story-ready .story-media { opacity: var(--story-progress); transform: translateX(var(--story-x)); }
 }
 .apes-landing .story-copy-content { display: flow-root; max-width: 100%; }
+
+/* Override shared components only on this landing page; flat controls and focus rings stay unchanged. */
+.apes-landing .brand img,
+.apes-landing .bricks-download-cta,
+.apes-landing .bricks-download-cta .bricks-cta-button { box-shadow: var(--shadow); }
+
+/* Recompute the shared recipe at each local palette boundary: inherited custom
+   properties otherwise retain the colors resolved on the surrounding page. */
+.apes-landing,
+.apes-landing .bricks-download-cta > .bricks-cta-actions,
+.apes-landing .bricks-download-cta > .cta-preview-mask {
+  --shadow: 12px 16px 40px var(--shadow-color), -4px -4px 16px var(--shadow-highlight);
+}
+/* The CTA surface inverts the page. Its own outer shadow stays on the page
+   palette; only content casting shadows onto the CTA uses the inverse palette. */
+.apes-landing .bricks-download-cta > .bricks-cta-actions,
+.apes-landing .bricks-download-cta > .cta-preview-mask {
+  --shadow-color: rgba(0,0,0,.35);
+  --shadow-highlight: rgba(22,29,37,.6);
+}
+@media (prefers-color-scheme: dark) {
+  .apes-landing .bricks-download-cta > .bricks-cta-actions,
+  .apes-landing .bricks-download-cta > .cta-preview-mask {
+    --shadow-color: rgba(37,56,70,.1);
+    --shadow-highlight: rgba(255,255,255,.7);
+  }
+}

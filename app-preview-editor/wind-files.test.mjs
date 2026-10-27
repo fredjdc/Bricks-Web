@@ -177,7 +177,7 @@ test("each file retains strong blur until approaching the measured title, then c
       near(shifted.paths[index].blurRange.start, range.start); near(shifted.paths[index].blurRange.end, range.end);
     });
   }
-  assert.match(css, /filter: blur\(var\(--wind-blur, 0px\)\) drop-shadow\(0 5px 8px rgba\(0, 0, 0, \.22\)\)/);
+  assert.match(css, /filter: blur\(var\(--wind-blur, 0px\)\) drop-shadow\(12px 16px 20px var\(--shadow-color\)\)/);
   assert.doesNotMatch(css, /box-shadow:/);
   const layer = rules(390, false, css).find(rule => rule.selector === ".wind-files");
   assert.match(layer.body, /overflow: visible/);

@@ -8,6 +8,17 @@ const [html, css, script, shared] = await Promise.all(["index.html", "styles.css
 const closing = html.match(/<section class="final-cta section shell"[^>]*>[\s\S]*?<\/section>/)[0];
 const reveal = script.slice(script.indexOf("const setupReveals ="), script.indexOf('document.querySelectorAll("[data-playback-toggle]")'));
 
+test("CTA descendants recompute the shared shadow for their inverted surface without recoloring the outer card", () => {
+  const blocks = [...css.matchAll(/([^{}]+)\{([^{}]+)\}/g)].filter(([, selector, body]) => selector.includes(".apes-landing .bricks-download-cta > .cta-preview-mask") && body.includes("--shadow"));
+  assert.equal(blocks.length, 3);
+  for (const [, selector] of blocks) assert.match(selector, /\.bricks-download-cta > \.bricks-cta-actions/);
+  assert.match(blocks[0][2], /--shadow: 12px 16px 40px var\(--shadow-color\), -4px -4px 16px var\(--shadow-highlight\);/);
+  assert.match(blocks[1][2], /--shadow-color: rgba\(0,0,0,\.35\);\s*--shadow-highlight: rgba\(22,29,37,\.6\);/);
+  assert.match(blocks[2][2], /--shadow-color: rgba\(37,56,70,\.1\);\s*--shadow-highlight: rgba\(255,255,255,\.7\);/);
+  assert.match(css, /@media \(prefers-color-scheme: dark\) \{\s*\.apes-landing \.bricks-download-cta > \.bricks-cta-actions,/);
+  for (const [, selector] of blocks.slice(1)) assert.doesNotMatch(selector, /\.bricks-download-cta\s*(?:,|$)/);
+});
+
 test("the closing CTA adds only three decorative native-size hero stills after the existing download action", async () => {
   const composition = closing.slice(closing.indexOf('<div class="cta-preview-mask"'));
   assert.match(composition, /aria-hidden="true"/);
@@ -69,7 +80,7 @@ function page({ reduced = false, supported = true, broken = false, invalid = fal
   const mask = {
     matches: selector => selector !== ":focus-within" && selector.includes(".cta-preview-mask"),
     querySelectorAll: () => previews, contains: node => previews.includes(node),
-    getClientRects: () => [{}], closest: () => "closing-section", animate() { throw new Error("Do not animate the mask"); },
+    getClientRects: () => [{}], closest: selector => selector === ".product-story" || selector === ".story-copy" ? null : "closing-section", animate() { throw new Error("Do not animate the mask"); },
   };
   class IntersectionObserver {
     constructor(callback) { this.callback = callback; this.targets = new Set(); observer = this; }
