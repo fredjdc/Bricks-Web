@@ -1,0 +1,12 @@
+/* A separate decorative viewport layer; the existing page choreography owns its own styles. */
+.wind-files[hidden] { display: none !important; }
+.wind-files { position: fixed; inset: 0; z-index: 4; overflow: hidden; contain: layout paint; }
+.wind-files, .wind-files * { pointer-events: none; user-select: none; }
+.wind-files > img {
+  display: block; position: absolute; left: 0; top: 0;
+  width: var(--wind-size, 64px); height: var(--wind-size, 64px); object-fit: contain;
+  opacity: 0; border-radius: 10px;
+  transform: translate3d(var(--wind-x, 0px), var(--wind-y, 0px), 0) translate(-50%, -50%)
+    perspective(500px) rotateY(var(--wind-tilt, 0deg)) rotate(var(--wind-angle, 0deg)) scale(var(--wind-scale, 1));
+}
+@media (prefers-reduced-motion: reduce) { .wind-files { display: none !important; } }
