@@ -98,6 +98,7 @@ function page({ reduced = false, broken = false } = {}) {
     getBoundingClientRect: () => ({ left: 350, top: 675 - scroll, width: 300, height: 650 }) };
   const target = { getBoundingClientRect: () => ({ left: 470, top: 1850 - scroll, width: 140, height: 300 }) };
   const desktop = { getBoundingClientRect: () => ({ left: 40, top: 1750.5 - scroll, width: 1000, height: 600 }) };
+  const title = { getBoundingClientRect: () => ({ left: 200, top: 1515 - scroll, width: 600, height: 70 }) };
   const composition = { querySelector: selector => selector === ".editor-desktop" ? desktop : target, querySelectorAll: () => [] };
   const main = { style: properties(), contains: () => true, classList: { add: name => classes.add(name), remove: name => classes.delete(name) } };
   const preference = { matches: reduced, addEventListener: (name, fn) => { motionEvents[name] = fn; } };
@@ -111,7 +112,7 @@ function page({ reduced = false, broken = false } = {}) {
   vm.runInNewContext(source, {
     DOMMatrixReadOnly: class { constructor(transform) { Object.assign(this, { is2D: true, a: 1, b: 0, c: 0, d: 1, f: 0, m41: +transform.match(/matrix\(1, 0, 0, 1, ([^,]+), 0\)/)[1] }); } },
     motionPreference: preference,
-    document: { querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition })[selector] },
+    document: { querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition, "#result-title": title })[selector] },
     window: { innerHeight: 800, get scrollY() { return scroll; }, addEventListener: (name, fn) => { events[name] = fn; },
       getComputedStyle(node) {
         if (node === origin) return { getPropertyValue: () => "1.08" };

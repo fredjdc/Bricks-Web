@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
+import { widths } from "./responsive-checkpoints.mjs";
 
 const [html, css, script] = await Promise.all([
   readFile(new URL("index.html", import.meta.url), "utf8"),
@@ -102,6 +103,7 @@ function page({ reduced = false } = {}) {
     getBoundingClientRect() { reads++; if (broken) throw new Error("Missing geometry"); return rect(500, 1000, 300, 650, scroll); },
   };
   const target = { getBoundingClientRect: () => rect(540, 2000, targetWidth, targetHeight, scroll) };
+  const title = { getBoundingClientRect: () => rect(500, 1550, 600, 70, scroll) };
   const composition = {
     querySelector: selector => selector === ".editor-desktop" ? { getBoundingClientRect: () => rect(540, 2050.5, 1000, 600, scroll) } : target,
     querySelectorAll: () => [0, 1, 2].map(() => ({ addEventListener: (name, callback) => imageListeners.push([name, callback]) })),
@@ -121,7 +123,7 @@ function page({ reduced = false } = {}) {
   let nextFrame = 0;
   vm.runInNewContext(handoffScript, {
     window, motionPreference: motion,
-    document: { querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition })[selector] },
+    document: { querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition, "#result-title": title })[selector] },
     requestAnimationFrame: callback => { frames.set(++nextFrame, callback); return nextFrame; },
   });
   return {
@@ -200,7 +202,7 @@ test("title, subtitle, desktop, and app use reversible staggered scroll ranges a
   for (const [scroll, progress] of [[0, 0], [948, .5], [2000, 1], [948, .5], [0, 0]]) {
     p.scroll(scroll); p.flush();
     const state = geometry(rect(500, 1000, 300, 650, scroll), rect(540, 2000, 140, 300, scroll), 800, 1.08);
-    const expectedSharpness = sharpness(blurProgress(rect(500, 1000, 300, 650, scroll), rect(540, 2050.5, 1000, 600, scroll), state, 1.08));
+    const expectedSharpness = sharpness(blurProgress(rect(500, 1000, 300, 650, scroll), rect(500, 1550, 600, 70, scroll), state, 1.08));
     for (const [stage, expected] of Object.entries(entrances(progress))) {
       near(Number(p.sceneProperties.get(`--handoff-${stage}`)), expected);
       const filter = p.sceneProperties.get(`--handoff-${stage}-filter`);
@@ -213,45 +215,53 @@ test("title, subtitle, desktop, and app use reversible staggered scroll ranges a
   }
 });
 
-test("all entrance blur clears at first measured background contact, before the portrait settles", () => {
-  const p = page();
-  const stages = ["title", "subtitle", "desktop", "app"];
-  p.scroll(734); p.flush();
-  for (const stage of stages) assert.match(p.sceneProperties.get(`--handoff-${stage}-filter`), /^blur\(/);
-  p.scroll(947.9); p.flush();
-  assert.notEqual(p.sceneProperties.get("--handoff-app-filter"), "none");
-  p.scroll(948); p.flush();
-  near(Number(p.sceneProperties.get("--handoff-progress")), .5);
-  near(parseFloat(p.properties.get("--preview-y")), 500);
-  for (const stage of stages) {
-    assert.equal(p.sceneProperties.get(`--handoff-${stage}-filter`), "none");
-    near(Number(p.sceneProperties.get(`--handoff-${stage}`)), entrances(.5)[stage]);
-  }
-  for (const scroll of [1000, 1376, 2000]) {
+test("entrance blur remains visible through the title crossing and clears as the trailing portrait edge passes it", () => {
+  const p = page(), stages = ["title", "subtitle", "desktop", "app"];
+  const clearProgress = (1585 - 649) / (1850 - 649);
+  const clearScroll = 520 + clearProgress * 856;
+  p.scroll(715); p.flush();
+  assert.ok(parseFloat(p.sceneProperties.get("--handoff-title-filter").slice(5)) > 2, "Title is visibly blurred when it first enters the viewport");
+  for (const scroll of [948, clearScroll - .1]) {
     p.scroll(scroll); p.flush();
-    for (const stage of stages) assert.equal(p.sceneProperties.get(`--handoff-${stage}-filter`), "none");
+    for (const stage of stages) assert.notEqual(p.sceneProperties.get(`--handoff-${stage}-filter`), "none");
   }
-  near(parseFloat(p.properties.get("--preview-y")), 1000);
-  p.scroll(947.9); p.flush();
-  assert.notEqual(p.sceneProperties.get("--handoff-app-filter"), "none");
+  p.scroll(clearScroll + .0001); p.flush();
+  assert.ok(Number(p.sceneProperties.get("--handoff-progress")) < 1, "Blur clears before the canvas handoff finishes");
+  for (const stage of stages) assert.equal(p.sceneProperties.get(`--handoff-${stage}-filter`), "none");
+  for (const scroll of [clearScroll + 50, 2000, clearScroll - .1]) {
+    p.scroll(scroll); p.flush();
+    for (const stage of stages) assert.equal(p.sceneProperties.get(`--handoff-${stage}-filter`) === "none", scroll > clearScroll);
+  }
 });
 
-test("background entry uses moving bounds at desktop and mobile sizes and reverses at the same point", () => {
-  for (const [viewport, sourceY, targetY, width, height, tw, th] of [[800, 1000, 2000, 300, 650, 140, 300], [400, 750, 1500, 140, 304, 55, 120]]) {
-    const contactScroll = ((sourceY - viewport * .6) + (targetY - viewport * .78)) / 2;
-    const source = scroll => rect(500, sourceY, width, height, scroll);
-    const target = scroll => rect(540, targetY, tw, th, scroll);
-    const contact = geometry(source(contactScroll), target(contactScroll), viewport, 1.08);
-    const top = sourceY + contact.y + height * 1.08 * contact.scale / 2;
-    const background = scroll => ({ left: 0, top: top - scroll, width: 1000, height: 600 });
-    for (const offset of [-.1, 0, .1, 1000, 0, -.1]) {
-      const scroll = contactScroll + offset;
-      const value = blurProgress(source(scroll), background(scroll), geometry(source(scroll), target(scroll), viewport, 1.08), 1.08);
-      if (offset >= 0) near(value, 1);
-      else assert.ok(value < 1 && value > 0);
+test("title clearance follows scaled moving bounds at every responsive checkpoint and reverses at the same point", () => {
+  for (const viewportWidth of widths) {
+    const mobile = viewportWidth < 560, viewport = mobile ? 700 : 900;
+    const sourceY = mobile ? 750 : 1000, targetY = mobile ? 1500 : 2000;
+    const width = mobile ? 140 : 300, height = mobile ? 304 : 650, tw = mobile ? 55 : 140, th = mobile ? 120 : 300;
+    const center = viewportWidth / 2, titleHeight = mobile ? 80 : 60;
+    const titleY = sourceY + (targetY - sourceY) * .55;
+    const source = scroll => rect(center, sourceY, width, height, scroll);
+    const target = scroll => rect(center, targetY, tw, th, scroll);
+    const title = scroll => rect(center, titleY, Math.min(viewportWidth - 32, 760), titleHeight, scroll);
+    const fit = Math.min(tw / (width * 1.08), th / (height * 1.08));
+    const initialTop = sourceY - height * 1.08 / 2, finalTop = targetY - height * 1.08 * fit / 2;
+    const start = sourceY - viewport * .6, end = targetY - viewport * .78;
+    const clearScroll = start + (titleY + titleHeight / 2 - initialTop) / (finalTop - initialTop) * (end - start);
+    const at = scroll => blurProgress(source(scroll), title(scroll), geometry(source(scroll), target(scroll), viewport, 1.08), 1.08);
+    const state = geometry(source(clearScroll), target(clearScroll), viewport, 1.08);
+    near(sourceY - clearScroll + state.y - height * 1.08 * state.scale / 2, title(clearScroll).top + titleHeight);
+    for (const offset of [-.1, .0001, 1000, .0001, -.1]) {
+      const value = at(clearScroll + offset);
+      if (offset > 0) near(value, 1);
+      else {
+        assert.ok(value < 1 && value > 0);
+        assert.ok(Object.values(sharpness(value)).every(progress => progress < 1), "No layer becomes completely sharp before the title is cleared");
+      }
     }
-    assert.equal(blurProgress(source(0), { ...background(0), width: 0 }, contact, 1.08), null);
-    assert.equal(blurProgress(source(0), { ...background(0), left: 2000 }, contact, 1.08), null);
+    assert.ok(Math.abs(at(clearScroll + .001) - at(clearScroll - .001)) < .00001, "No filter discontinuity at clearance");
+    assert.equal(blurProgress(source(0), { ...title(0), width: 0 }, state, 1.08), null);
+    assert.equal(blurProgress(source(0), { ...title(0), left: viewportWidth + 2000 }, state, 1.08), null);
   }
 });
 

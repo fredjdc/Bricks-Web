@@ -310,22 +310,23 @@ const boundedProgress = (value, start, end) => Math.max(0, Math.min(1, (value - 
 const handoffBlurSettings = {
   maxBlurPx: 3,
   easing: progress => progress * progress * (3 - 2 * progress),
-  ranges: { title: [0, .55], subtitle: [.06, .65], desktop: [.14, .82], app: [.22, 1] },
+  ranges: { title: [0, 1], subtitle: [.06, 1], desktop: [.14, 1], app: [.22, 1] },
 };
 
-const handoffBlurProgress = (source, background, state, sourceScale) => {
-  if (![background.width, background.height].every(value => Number.isFinite(value) && value > 0)
-    || ![background.left, background.top].every(Number.isFinite)) return null;
+const handoffBlurProgress = (source, title, state, sourceScale) => {
+  if (![title.width, title.height].every(value => Number.isFinite(value) && value > 0)
+    || ![title.left, title.top].every(Number.isFinite)) return null;
   const sourceHeight = source.height * sourceScale;
   const centerX = source.left + source.width / 2 + state.x;
   const halfWidth = source.width * sourceScale * state.scale / 2;
-  if (centerX + halfWidth < background.left || centerX - halfWidth > background.left + background.width) return null;
+  if (centerX + halfWidth < title.left || centerX - halfWidth > title.left + title.width) return null;
   const sourceY = source.top + source.height / 2;
-  const initialBottom = sourceY + sourceHeight / 2;
-  const movingBottom = sourceY + state.y + sourceHeight * state.scale / 2;
-  // First overlap occurs when the moving portrait's bottom reaches the desktop top.
-  if (movingBottom >= background.top || initialBottom >= background.top) return 1;
-  return Math.max(0, Math.min(1, (movingBottom - initialBottom) / (background.top - initialBottom)));
+  const initialTop = sourceY - sourceHeight / 2;
+  const movingTop = sourceY + state.y - sourceHeight * state.scale / 2;
+  const titleBottom = title.top + title.height;
+  // The portrait has passed the letters only when its trailing top clears the title.
+  if (movingTop >= titleBottom || initialTop >= titleBottom) return 1;
+  return boundedProgress(movingTop, initialTop, titleBottom);
 };
 
 const handoffEntrances = progress => {
@@ -459,8 +460,8 @@ const setupPreviewHandoff = () => {
   if (!scene || !scene.contains(composition)) return;
   const traveler = origin.querySelector(".hero-preview-traveler");
   const target = composition.querySelector("[data-editor-preview-target]");
-  const background = composition.querySelector(".editor-desktop");
-  if (!traveler || !target || !background) return;
+  const title = document.querySelector("#result-title");
+  if (!traveler || !target || !title) return;
   const placements = createPlacementReveal();
   const heroSpacing = createHeroSpacing(origin);
   let frame = 0;
@@ -483,10 +484,10 @@ const setupPreviewHandoff = () => {
       const sourceRect = origin.getBoundingClientRect();
       paintHeroSpacing = heroSpacing.measure(sourceRect);
       const targetRect = target.getBoundingClientRect();
-      const backgroundRect = background.getBoundingClientRect();
+      const titleRect = title.getBoundingClientRect();
       const state = previewHandoff(sourceRect, targetRect, window.innerHeight, sourceScale);
       if (!state) { reset(); return; }
-      const blurProgress = handoffBlurProgress(sourceRect, backgroundRect, state, sourceScale);
+      const blurProgress = handoffBlurProgress(sourceRect, titleRect, state, sourceScale);
       if (blurProgress === null) { reset(); return; }
       const sharpness = handoffSharpness(blurProgress);
       traveler.style.setProperty("--preview-x", `${state.x}px`);
