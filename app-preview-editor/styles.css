@@ -419,13 +419,16 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   /* Two soft paint planes drift independently; only their transforms animate. */
   .apes-landing .hero-ambient-glow {
     --hero-glow-warm: 255,221,159; --hero-glow-cool: 75,144,201; --hero-glow-shade: 20,56,84;
-    --hero-glow-drift: clamp(12px, 2vw, 24px); --hero-glow-near-duration: 22s; --hero-glow-far-duration: 34s;
+    --hero-glow-drift: clamp(18px, 3vw, 36px); --hero-glow-near-duration: 18s; --hero-glow-far-duration: 28s;
     display: block; position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
     opacity: var(--hero-spotlight-opacity, 0);
   }
   .apes-landing .hero-ambient-glow::before, .apes-landing .hero-ambient-glow::after {
     content: ""; position: absolute; inset: 0;
     animation: hero-glow-near var(--hero-glow-near-duration) ease-in-out infinite;
+    /* Begin mid-cycle so the opening view is already gently moving. */
+    animation-delay: calc(var(--hero-glow-near-duration) * -.25);
+    transform-origin: var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%);
     animation-play-state: var(--hero-glow-play-state, paused);
   }
   .apes-landing .hero-ambient-glow::before {
@@ -435,14 +438,15 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   }
   .apes-landing .hero-ambient-glow::after {
     animation-name: hero-glow-far; animation-duration: var(--hero-glow-far-duration);
+    animation-delay: calc(var(--hero-glow-far-duration) * -.4);
     background:
       radial-gradient(ellipse 28% 40% at calc(var(--hero-spotlight-x, 50%) - 18vw) calc(var(--hero-spotlight-y, 80%) - 10vh), rgba(var(--hero-glow-shade),.13), transparent 100%),
       radial-gradient(ellipse 24% 45% at calc(var(--hero-spotlight-x, 50%) + 24vw) calc(var(--hero-spotlight-y, 80%) - 28vh), rgba(var(--hero-glow-shade),.1), transparent 100%),
       radial-gradient(ellipse 68% 86% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-cool),.18), transparent 90%);
   }
   @keyframes hero-glow-near {
-    0%, 100% { transform: translate3d(calc(var(--hero-glow-drift) * -1), calc(var(--hero-glow-drift) * .5), 0); }
-    50% { transform: translate3d(var(--hero-glow-drift), calc(var(--hero-glow-drift) * -.5), 0); }
+    0%, 100% { transform: translate3d(calc(var(--hero-glow-drift) * -1), calc(var(--hero-glow-drift) * .5), 0) rotate(-.45deg); }
+    50% { transform: translate3d(var(--hero-glow-drift), calc(var(--hero-glow-drift) * -.5), 0) rotate(.45deg); }
   }
   @keyframes hero-glow-far {
     0%, 100% { transform: translate3d(calc(var(--hero-glow-drift) * .6), calc(var(--hero-glow-drift) * -.35), 0); }
