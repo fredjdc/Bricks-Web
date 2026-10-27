@@ -2,7 +2,8 @@
 // Scroll is the only clock. These parameters control the new effect alone.
 const WIND = Object.freeze({ count: 12, seed: 27027, stagger: .016, sourceAnchor: .68,
   targetAnchor: .5, startLine: .60, finishLine: .78, maxBaseSize: 40, sizeMultiplier: 2,
-  entranceBlur: 18, blurClearProgress: .22, epsilon: 1e-6 });
+  entranceBlur: 18, blurApproachViewport: .18, blurApproachMinPx: 96, blurApproachMaxPx: 144,
+  blurClearTitleFraction: .5, epsilon: 1e-6 });
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
 const smooth = value => { const p = clamp(value); return p * p * (3 - 2 * p); };
 const mix = (a, b, p) => a + (b - a) * p;
@@ -27,7 +28,17 @@ function makeWindFiles(seed = WIND.seed) {
 }
 const WIND_FILES = makeWindFiles();
 
-function windLayout(source, target, viewport) {
+function windBlurRange(path, title, viewport) {
+  if (!title || !Number.isFinite(title.top + title.height) || title.height <= 0) return null;
+  const travel = path.end.y - path.start.y;
+  if (travel <= 0) return null;
+  const approach = clamp(viewport.height * WIND.blurApproachViewport, WIND.blurApproachMinPx, WIND.blurApproachMaxPx);
+  const start = clamp((title.top - approach - path.start.y) / travel);
+  const end = clamp((title.top + title.height * WIND.blurClearTitleFraction - path.start.y) / travel);
+  return end > start ? { start, end } : null;
+}
+
+function windLayout(source, target, viewport, title) {
   const valid = box => box && [box.left, box.top, box.width, box.height].every(Number.isFinite) && box.width > 0 && box.height > 0;
   if (!valid(source) || !valid(target) || ![viewport.width, viewport.height].every(value => Number.isFinite(value) && value > 0)) return null;
   const motionSize = clamp(viewport.width * .045, 28, WIND.maxBaseSize);
@@ -39,8 +50,11 @@ function windLayout(source, target, viewport) {
   const progress = snap(clamp((viewport.height * WIND.startLine - source.top - source.height * WIND.sourceAnchor) / distance));
   const point = (box, normalized) => ({ x: box.left + padding + (box.width - padding * 2) * normalized.x,
     y: box.top + padding + (box.height - padding * 2) * normalized.y });
-  const paths = WIND_FILES.map(file => ({ start: point(source, file.origin), end: point(target, file.target),
-    amplitude: Math.min(56, motionSize * file.amplitude, source.width * .08, target.width * .08) }));
+  const paths = WIND_FILES.map(file => {
+    const path = { start: point(source, file.origin), end: point(target, file.target),
+      amplitude: Math.min(56, motionSize * file.amplitude, source.width * .08, target.width * .08) };
+    return { ...path, blurRange: windBlurRange(path, title, viewport) };
+  });
   if (paths.some(path => path.end.y <= path.start.y)) return null;
   return { progress, size, motionSize, paths, viewport };
 }
@@ -56,7 +70,7 @@ function windPose(layout, index) {
   const x = baseX + sway;
   const y = mix(path.start.y, path.end.y, p) + Math.sin(wave * .8) * layout.motionSize * .18 * envelope;
   const opacity = p === 0 || p === 1 ? 0 : smooth(p / .12) * (1 - smooth((p - .78) / .22));
-  const blur = WIND.entranceBlur * (1 - smooth(p / WIND.blurClearProgress));
+  const blur = path.blurRange ? WIND.entranceBlur * (1 - smooth((p - path.blurRange.start) / (path.blurRange.end - path.blurRange.start))) : 0;
   return { x, y, opacity, blur, sway, rotation: file.angle * (1 - p) + Math.sin(wave) * 9 * envelope,
     tilt: Math.cos(wave) * 11 * envelope, scale: file.scale + envelope * .08 };
 }
@@ -68,6 +82,8 @@ function mountWindFiles(doc, win) {
   hide();
   const source = doc.querySelector(".editor-desktop"), desktopTarget = doc.querySelector("#workflow-import-video");
   const mobileTarget = doc.querySelector('#workflow [data-workflow-video="assets/drop-demo.mp4"] .mobile-workflow-media');
+  // The heading wrapper is stable while its text runs its own entrance transform.
+  const title = doc.querySelector("#workflow .workflow-heading");
   const frame = desktopTarget?.closest(".workflow-frame"), items = [...overlay.querySelectorAll("[data-wind-file]")];
   if (!source || items.length !== WIND.count || !win.MutationObserver || !win.requestAnimationFrame) return;
   const motion = win.matchMedia("(prefers-reduced-motion: reduce)"), desktop = win.matchMedia("(min-width: 900px)");
@@ -77,7 +93,7 @@ function mountWindFiles(doc, win) {
       const target = desktop.matches ? desktopTarget : mobileTarget;
       if (motion.matches || !target?.getClientRects().length
         || desktop.matches && (desktopTarget.dataset.workflowActive !== "true" || !frame?.classList.contains("is-active"))) { hide(); return; }
-      const layout = windLayout(source.getBoundingClientRect(), target.getBoundingClientRect(), { width: win.innerWidth, height: win.innerHeight });
+      const layout = windLayout(source.getBoundingClientRect(), target.getBoundingClientRect(), { width: win.innerWidth, height: win.innerHeight }, title?.getBoundingClientRect());
       if (!layout || layout.progress === 0 || layout.progress === 1) { hide(); return; }
       const poses = items.map((_, index) => windPose(layout, index));
       // All reads precede writes. Nothing here changes the document's layout or media state.
@@ -87,7 +103,7 @@ function mountWindFiles(doc, win) {
         style.setProperty("--wind-x", `${pose.x}px`); style.setProperty("--wind-y", `${pose.y}px`);
         style.setProperty("--wind-angle", `${pose.rotation}deg`); style.setProperty("--wind-tilt", `${pose.tilt}deg`);
         style.setProperty("--wind-scale", String(pose.scale)); style.opacity = String(pose.opacity);
-        style.setProperty("--wind-filter", pose.blur > 0 ? `blur(${pose.blur}px)` : "none");
+        style.setProperty("--wind-blur", `${pose.blur}px`);
       });
       overlay.hidden = !poses.some(pose => pose.opacity > 0);
     } catch { hide(); }
