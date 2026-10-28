@@ -29,8 +29,13 @@
   <link rel="stylesheet" href="wind-files.css?v=20261027-shared-shadow-1">
   <link rel="stylesheet" href="../shared-download-cta.css?v=20261024-1">
   <style>
-    .hero h1 { max-width: 14ch; white-space: normal; font-size: clamp(2.5rem, 9vw, 7.25rem); }
+    .hero h1 { width: 100%; max-width: none; white-space: normal; font-size: clamp(2.5rem, 9vw, 7.25rem); text-wrap: balance; }
     .hero h1 .hero-word { display: block; }
+    .hero h1 .hero-phrase { display: inline-block; max-width: 100%; }
+    @media (max-width: 899px) {
+      .hero .hero-copy { width: 100%; }
+      .hero h1 .hero-word { display: inline; }
+    }
     .capability-grid .capability-label { margin: 0 0 12px; color: var(--text-secondary); font-size: 0.875rem; font-weight: 650; }
     @media (min-width: 900px) {
       .capability-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 40px; }
@@ -63,7 +68,7 @@
     <section class="hero shell" id="top">
       <div class="hero-ambient-glow" aria-hidden="true"></div>
       <div class="hero-copy">
-        <h1><span class="hero-word"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 0ms">Bring</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 60ms">your</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 120ms">app</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 180ms">to</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 240ms">life</span></span> <span class="hero-word"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 300ms">on</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 360ms">the</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 420ms">App</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 480ms">Store.</span></span></h1>
+        <h1><span class="hero-word"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 0ms">Bring</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 60ms">your</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 120ms">app</span> <span class="hero-phrase"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 180ms">to</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 240ms">life</span></span></span> <span class="hero-word"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 300ms">on</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 360ms">the</span> <span class="hero-phrase"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 420ms">App</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 480ms">Store.</span></span></span></h1>
         <p class="hero-lede hero-intro-secondary" data-hero-entrance style="--hero-delay: 860ms">Create videos for your product page, search results, and in-app events.</p>
         <div class="hero-intro-detail">
           <a class="button download-button" href="https://apps.apple.com/us/app/app-preview-editor-studio/id6785711605" aria-label="Download for Mac" data-hero-entrance style="--hero-delay: 1060ms">

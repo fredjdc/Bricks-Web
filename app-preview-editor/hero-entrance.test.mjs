@@ -31,13 +31,16 @@ const token = (source, name) => source.match(new RegExp(`--${name}:\\s*([^;]+);`
 test("the native heading retains its exact text, word spaces, and two responsive line groups", () => {
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1);
   assert.equal(text(heading), "Bring your app to life on the App Store.");
-  const lines = [...heading.matchAll(/<span class="hero-word">((?:<span class="hero-title-word"[^>]*>[^<]+<\/span>\s*)+)<\/span>/g)];
+  const ungrouped = heading.replace(/<span class="hero-phrase">((?:<span class="hero-title-word"[^>]*>[^<]+<\/span>\s*)+)<\/span>/g, "$1");
+  const lines = [...ungrouped.matchAll(/<span class="hero-word">((?:<span class="hero-title-word"[^>]*>[^<]+<\/span>\s*)+)<\/span>/g)];
   assert.deepEqual(lines.map(([, line]) => text(line)), ["Bring your app to life", "on the App Store."]);
   const words = [...heading.matchAll(/<span class="hero-title-word"[^>]*>([^<]+)<\/span>/g)];
   assert.deepEqual(words.map(([, word]) => word), text(heading).split(" "));
   assert.doesNotMatch(heading, /aria-hidden|aria-label|role=|tabindex|<br|&nbsp;/);
   assert.match(html, /\.hero h1 \.hero-word \{ display: block; \}/);
   assert.match(css, /\.hero-title-word \{ display: inline-block; \}/);
+  const phrases = [...heading.matchAll(/<span class="hero-phrase">((?:<span class="hero-title-word"[^>]*>[^<]+<\/span>\s*)+)<\/span>/g)].map(([, phrase]) => text(phrase));
+  assert.deepEqual(phrases, ["to life", "App Store."]);
 });
 
 test("the word, subtitle, button, and caption sequence is preserved before the media", () => {

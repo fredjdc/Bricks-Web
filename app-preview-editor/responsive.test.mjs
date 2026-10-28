@@ -24,6 +24,19 @@ test("checkpoint coverage includes every declared screen boundary and all reques
   for (const width of [320,360,375,390,414,430,482,640,768,820,1024,1280,1440,1920]) assert.ok(widths.includes(width));
 });
 
+test("hero wrapping balances narrow layouts with phrase fallbacks and keeps desktop line groups", () => {
+  for (const width of [...widths, 347]) {
+    assert.equal(decl(width, [".hero h1 .hero-word"]).display, width < 900 ? "inline" : "block");
+    const heading = decl(width, ["h1", ".hero h1"]);
+    assert.equal(heading["max-width"], "none"); assert.equal(heading["white-space"], "normal");
+    assert.equal(heading["text-wrap"], "balance");
+    assert.equal(heading["font-size"], "clamp(2.5rem, 9vw, 7.25rem)");
+    const phrase = decl(width, [".hero h1 .hero-phrase"]);
+    assert.equal(phrase.display, "inline-block"); assert.equal(phrase["max-width"], "100%");
+    assert.equal(phrase["white-space"], undefined, "Phrase chunks can still reflow under extreme text enlargement");
+  }
+});
+
 test("remaining content copy centers only within the existing 559px layout", () => {
   const targets = ["#workflow .workflow-step", "#features .section-heading", "#features .capability-grid > article", ".product-tour > .section-heading", ".product-tour .story-copy", "#delivery .story-copy"].map(selector => `.apes-landing ${selector}`);
   for (const width of [320, 375, 390, 430, 482, 558, 559, 560, 561, 768, 900, 1440]) {
