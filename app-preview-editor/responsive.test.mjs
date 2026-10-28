@@ -30,8 +30,36 @@ test("remaining content copy centers only within the existing 559px layout", () 
     for (const selector of targets) assert.equal(decl(width, [selector])["text-align"], width <= 559 ? "center" : undefined);
     for (const child of ["p", ".feature-title-icon"]) assert.equal(decl(width, [`.apes-landing #workflow .workflow-step > ${child}`])["margin-inline"], width <= 559 ? "auto" : undefined);
   }
-  const scope = css.slice(css.indexOf("/* Center only the remaining content copy"));
+  const scope = css.slice(css.indexOf("/* Center only the remaining content copy")).split("\n}")[0];
   assert.doesNotMatch(scope, /\.hero|\.result|\.scene-clips|\.pricing|\.plan-comparison|\.faq|\.final-cta|\.founder|\.nav|\.footer|button|story-media/);
+});
+
+test("template previews follow the developer, link from Scene Clips and keep honest accessible responsive stills", async () => {
+  const section = html.match(/<section class="templates section shell"[\s\S]*?<\/section>/)[0];
+  const founderEnd = html.indexOf("</aside>", html.indexOf('<aside class="founder-note'));
+  assert.ok(founderEnd < html.indexOf(section) && html.indexOf(section) < html.indexOf('<footer class="footer'));
+  assert.match(section, /id="templates" aria-labelledby="templates-title" tabindex="-1"/);
+  assert.match(section, /<h2 id="templates-title">Start with a template\.<\/h2>/);
+  assert.match(section, /Choose a starting point, add your screens, and make it your own\./);
+  assert.match(section, /Template files aren’t available yet\./);
+  assert.equal((section.match(/>Preview concept<\/span>/g) || []).length, 3);
+  assert.doesNotMatch(section, /<video|<button|<form|\sdownload[=>\s]|Pro.only|creator:/i);
+  assert.match(html.match(/<section class="scene-clips[\s\S]*?<\/section>/)[0], /href="#templates">Explore templates<\/a>/);
+  assert.match(section, /href="mailto:hello@bricks.pe\?subject=App%20Preview%20Editor%20template">Share your template/);
+  const previews = [...section.matchAll(/<img class="template-preview" src="([^"]+)" width="(\d+)" height="(\d+)" alt="([^"]+)" loading="lazy" decoding="async">/g)];
+  assert.equal(previews.length, 3);
+  for (const [, path, width, height, alt] of previews) {
+    const png = await readFile(new URL(path, import.meta.url));
+    assert.equal(+width, png.readUInt32BE(16)); assert.equal(+height, png.readUInt32BE(20)); assert.ok(alt.length > 20);
+  }
+  for (const width of widths) {
+    const columns = width < 560 ? 1 : width < 900 ? 2 : 3;
+    assert.equal(decl(width, [".apes-landing .template-gallery"])["grid-template-columns"], columns === 1 ? "minmax(0, 1fr)" : `repeat(${columns}, minmax(0, 1fr))`);
+    assert.ok((fluidWidth(width, decl(width, [".shell"]).width) - (columns - 1) * 24) / columns >= 200);
+    assert.equal(decl(width, [".apes-landing .template-preview"])["object-fit"], "contain");
+    assert.equal(decl(width, [".apes-landing .templates"])["scroll-margin-top"], "112px");
+  }
+  assert.equal(decl(390, ["html"], true)["scroll-behavior"], "auto");
 });
 
 test("shells, floating navigation, nested cards and footer retain equal outer gutters", () => {

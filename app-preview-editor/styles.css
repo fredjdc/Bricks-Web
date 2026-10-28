@@ -704,3 +704,25 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
   .apes-landing #workflow .workflow-step > p,
   .apes-landing #workflow .workflow-step > .feature-title-icon { margin-inline: auto; }
 }
+
+/* Templates remain an inline gallery until real project files are supplied. */
+.apes-landing .scene-clips .templates-link { display: inline-block; margin-top: 8px; color: var(--detail); font-weight: 650; }
+.apes-landing .templates { padding-top: 0; scroll-margin-top: 112px; }
+.apes-landing .templates > .section-heading { max-width: 760px; margin: 0 auto 40px; text-align: center; }
+.apes-landing .templates > .section-heading > p { margin-inline: auto; }
+.apes-landing .templates .template-notice { font-size: .875rem; }
+.apes-landing .template-gallery { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px 24px; margin: 0; padding: 0; list-style: none; }
+.apes-landing .template-card { display: grid; align-content: start; gap: 14px; min-width: 0; }
+.apes-landing .template-media { overflow: hidden; aspect-ratio: 1; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); }
+.apes-landing .template-preview { display: block; width: 100%; height: auto; object-fit: contain; }
+.apes-landing .template-card h3 { margin: 0; font-size: 1.25rem; line-height: 1.2; }
+.apes-landing .template-card > .coming-soon-label { justify-self: start; }
+.apes-landing .template-share { margin: 36px auto 0; text-align: center; color: var(--text-secondary); }
+.apes-landing .template-share a { color: var(--detail); font-weight: 650; }
+.apes-landing .template-share > span { display: block; margin-top: 8px; font-size: .875rem; }
+@media (min-width: 560px) { .apes-landing .template-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .apes-landing .template-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 559px) {
+  .apes-landing .template-card { text-align: center; }
+  .apes-landing .template-card > .coming-soon-label { justify-self: center; }
+}

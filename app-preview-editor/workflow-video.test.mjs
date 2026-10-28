@@ -27,7 +27,7 @@ assert.match(showcase, /data-editor-preview-target/);
 assert.doesNotMatch(showcase, /<video|finished-preview-video|hero-demo\.mp4/);
 
 const sectionOrder = [...html.matchAll(/<section class="([^"]+)"/g)].map((match) => match[1]);
-assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "scene-clips section shell", "capabilities section", "product-tour section shell", "delivery section shell", "pricing section shell", "faq section shell", "final-cta section shell"]);
+assert.deepEqual(sectionOrder, ["hero shell", "result-section section shell", "workflow section", "scene-clips section shell", "capabilities section", "product-tour section shell", "delivery section shell", "pricing section shell", "faq section shell", "final-cta section shell", "templates section shell"]);
 assert.doesNotMatch(html, /data-philosophy|data-count-from|problem-section/);
 const productTourStart = html.indexOf('<section class="product-tour');
 const storyOrder = ["Update the screen. Keep the work.", "Keep your timelines together."];
@@ -67,7 +67,9 @@ assert.match(styles, /\.capabilities \{ padding-block: 104px; \}/);
 assert.match(styles, /@media \(min-width: 900px\)[\s\S]*?\.capabilities \{ padding-block: 148px; \}/);
 const founder = html.match(/<aside class="founder-note[\s\S]*?<\/aside>/)?.[0];
 assert.ok(founder, "The developer section must be present");
-assert.match(html.slice(html.indexOf(founder) + founder.length), /^\s*<\/main>\s*<footer\b/, "The developer section must be the final content before the footer");
+assert.match(html.slice(html.indexOf(founder) + founder.length), /^\s*<section class="templates section shell"/, "Templates follow the developer section");
+const templates = html.match(/<section class="templates section shell"[\s\S]*?<\/section>/)[0];
+assert.match(html.slice(html.indexOf(templates) + templates.length), /^\s*<\/main>\s*<footer\b/, "Templates are the final content before the footer");
 assert.doesNotMatch(script, /setWorkflowUserPaused|connectVideoButton|data-workflow-media|data-workflow-frame/);
 
 assert.match(showcase, /role="img" aria-label="App Preview Editor with an app preview centered on its editing canvas"/);
