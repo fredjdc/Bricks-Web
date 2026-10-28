@@ -41,7 +41,8 @@ test("responsive stills preserve their full frame and rounded edges; no-JS and r
   for (const width of widths) {
     const media = decl(width, [".feature-media-image"]);
     assert.equal(media.width, "100%"); assert.equal(media.height, "auto"); assert.equal(media["object-fit"], "contain");
-    assert.equal(media["border-radius"], "var(--radius-large)"); assert.equal(media["aspect-ratio"], undefined);
+    assert.equal(media["aspect-ratio"], undefined);
+    for (const owner of [".story-media", ".mobile-workflow-media-wrap", ".workflow-frames"]) assert.equal(decl(width, [`.apes-landing ${owner}`])["border-radius"], "var(--media-radius)");
     const shell = fluidWidth(width, decl(width, [".shell"]).width);
     const workflow = shell - 2 - (width >= 900 ? 96 : width < 560 ? 40 : 48);
     const available = width < 900 ? workflow : workflow - 48 - Math.max(280, (workflow - 48) * .8 / 2.05);
@@ -56,7 +57,7 @@ test("responsive stills preserve their full frame and rounded edges; no-JS and r
     assert.equal(decl(width, ["#workflow .workflow-media"], true).display, "none");
     assert.equal(decl(width, ["#workflow .mobile-workflow-media-wrap"], true).display, "block");
   }
-  assert.match(css, /#workflow \.workflow-frames \{[^}]*overflow: hidden;[^}]*border-radius: var\(--radius-large\);/);
+  assert.match(css, /#workflow \.workflow-frames \{[^}]*overflow: hidden;/);
 });
 
 test("wind lands on the active Import image and remeasures on image loading without playback dependencies", () => {

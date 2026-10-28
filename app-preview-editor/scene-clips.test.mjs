@@ -32,11 +32,11 @@ test("native dimensions reserve the full uncropped frame and rounded container a
     assert.equal(video.width, "100%"); assert.equal(video.height, "auto"); assert.equal(video["object-fit"], "contain");
     assert.equal(video["aspect-ratio"], undefined);
     const frame = decl(width, [".apes-landing .scene-clips-media"]);
-    assert.equal(frame.overflow, "hidden"); assert.equal(frame["border-radius"], "var(--radius-large)");
+    assert.equal(frame.overflow, "hidden"); assert.equal(frame["border-radius"], "var(--media-radius)");
     assert.equal(decl(width, [".apes-landing .scene-clips > .section-heading"])["text-align"], "center");
   }
   assert.match(css, /\.video-poster \{[^}]*object-fit: contain;/);
-  assert.match(script, /\.story-media, \.scene-clips-media, \.capability-media/);
+  assert.match(script, /\.story-media, \.scene-clips-media,/);
   assert.match(scene, /class="section-heading reveal"/); assert.match(scene, /class="scene-clips-media reveal"/);
   assert.doesNotMatch(css, /\.scene-clips[^}]*opacity: 0|\.scene-clips[^}]*visibility: hidden/);
   // With no JS, the native poster remains available while the MP4 has no assigned source.

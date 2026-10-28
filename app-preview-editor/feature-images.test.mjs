@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { widths, declarations as decl } from "./responsive-checkpoints.mjs";
 
 const html = await readFile(new URL("index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("styles.css", import.meta.url), "utf8");
@@ -34,12 +35,12 @@ test("all three placement images fill equal square media areas with rounded clip
   const frame = css.match(/\.apes-landing \.capability-media \{([^}]+)\}/)[1];
   assert.match(frame, /aspect-ratio: 1;/);
   assert.match(frame, /overflow: hidden;/);
-  assert.match(frame, /border-radius: 24px;/);
+  for (const width of widths) assert.equal(decl(width, [".apes-landing .capability-media"])["border-radius"], "var(--media-radius)");
   assert.doesNotMatch(frame, /(?:^|;)\s*(?:height|padding):/);
   const image = css.match(/\.apes-landing \.capability-media img \{([^}]+)\}/)[1];
   assert.match(image, /width: 100%; height: 100%;/);
-  assert.match(image, /object-fit: cover;/);
-  assert.match(image, /border-radius: inherit;/);
+  assert.match(image, /object-fit: contain;/);
+  assert.doesNotMatch(image, /border-radius:/);
   for (const [, rule] of css.matchAll(/\.apes-landing \.capability-media \{([^}]+)\}/g)) {
     assert.doesNotMatch(rule, /(?:^|;)\s*height:/);
   }

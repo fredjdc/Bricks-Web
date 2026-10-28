@@ -171,7 +171,7 @@ test("placement blur excludes every card boundary and frame, while image pixels 
     assert.doesNotMatch(selector, /article\s*[,)]|article\s*$|\.capability-media\s*[,)]|\.capability-media\s*$/);
   }
   assert.match(css, /\.capability-media > img\) \{ filter: var\(--placement-filter\);/);
-  assert.match(css, /\.apes-landing \.capability-media \{[^}]*aspect-ratio: 1; overflow: hidden;[^}]*border: 1px solid var\(--border\); border-radius: 24px; background: var\(--surface-muted\);/);
+  assert.match(css, /\.apes-landing \.capability-media \{[^}]*aspect-ratio: 1; overflow: hidden;[^}]*border: 1px solid var\(--border\); background: var\(--surface-muted\);/);
   assert.doesNotMatch(css, /(?:#features|\.capability-(?:grid|media))::(?:before|after)\s*\{/);
   const headingAndGrid = sectionHTML.match(/<div class="shell">([\s\S]*)/)[1];
   assert.doesNotMatch(headingAndGrid, /class="[^"]*reveal[^"]*"|style="[^"]*opacity/);
