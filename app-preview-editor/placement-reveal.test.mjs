@@ -178,7 +178,7 @@ test("placement blur excludes every card boundary and frame, while image pixels 
 });
 
 // The alternating stories reuse the existing scroll controller, with one progress for title and image.
-test("complete story copy and side images finish at center-to-center alignment, reverse stably and stay bounded at every width", () => {
+test("stacked copy sharpens independently while desktop copy and images stay synchronized across responsive geometry", () => {
   assert.equal((html.match(/<div class="story-copy-content">/g) || []).length, 3);
   const copyBlocks = [...html.matchAll(/<div class="story-copy-content">([\s\S]*?)<\/div>/g)].map(([, content]) => content);
   for (const content of copyBlocks) { assert.match(content, /<h[23]\b/); assert.match(content, /<p>/); }
@@ -189,9 +189,9 @@ test("complete story copy and side images finish at center-to-center alignment, 
   const textPaint = css.match(/\.apes-landing \.story-copy-content \{([^}]+)\}/)[1];
   assert.doesNotMatch(textPaint, /border:|background:|box-shadow:|overflow:|mask|outline:/, "No decorative edge or clipping overlay is introduced around text");
   const motion = { matches: false };
-  for (const width of widths) {
-    let scroll = 0, broken = false;
-    const viewport = width < 560 ? 700 : 900, stacked = width < 900;
+  for (const width of widths) for (const initialViewport of [360, 568, 700, 900, 1080]) {
+    let scroll = 0, broken = false, brokenCopy = false, viewport = initialViewport;
+    const stacked = width < 900;
     const gutter = width < 560 ? 16 : Math.max(24, (width - 1180) / 2);
     const mediaWidth = stacked ? width - gutter * 2 : (width - gutter * 2) * .6;
     const node = () => {
@@ -200,33 +200,50 @@ test("complete story copy and side images finish at center-to-center alignment, 
         classList: { add: name => classes.add(name), remove: name => classes.delete(name), contains: name => classes.has(name) }, addEventListener() {} };
     };
     const stories = [1, -1, 1].map((direction, index) => {
-      const root = node(), media = node(), title = {}, top = 1000 + index * 1000;
+      const root = node(), media = node(), top = 1000 + index * 1000;
+      const copyHeight = index === 2 ? 300 : 180, copyTop = stacked ? top - copyHeight - 32 : top + (mediaWidth * 9 / 16 - copyHeight) / 2;
+      const copy = { getBoundingClientRect: () => { if (brokenCopy) throw new Error("Missing copy geometry"); return { top: copyTop - scroll, height: copyHeight }; } };
       const left = stacked || direction < 0 ? gutter : width - gutter - mediaWidth;
       if (direction < 0) root.classes.add("product-story-reverse");
       root.focused = false; root.matches = () => root.focused;
       root.getBoundingClientRect = () => ({ left: gutter, width: width - gutter * 2 });
       media.getBoundingClientRect = () => { if (broken) throw new Error("Missing image geometry"); return { top: top - scroll, left: left + (parseFloat(media.values.get("--story-x")) || 0), width: mediaWidth, height: mediaWidth * 9 / 16 }; };
       media.querySelector = () => ({ addEventListener() {} });
-      root.querySelector = selector => selector.includes("story-copy") ? title : media;
-      return { root, media, top, left, direction };
+      root.querySelector = selector => selector.includes("story-copy") ? copy : media;
+      return { root, media, top, left, direction, copyTop, copyHeight };
     });
     const controller = vm.runInNewContext(`${helpers}; createStoryReveal()`, {
       document: { documentElement: { clientWidth: width }, querySelectorAll: () => stories.map(story => story.root) },
-      window: { innerWidth: width, innerHeight: viewport, getComputedStyle: () => ({ gridTemplateColumns: stacked ? `${width}px` : "500px 300px" }) }, motionPreference: motion,
+      window: { innerWidth: width, get innerHeight() { return viewport; }, getComputedStyle: () => ({ gridTemplateColumns: stacked ? `${width}px` : "500px 300px" }) }, motionPreference: motion,
     });
     const update = value => { scroll = value; controller.measure()(); };
+    const first = stories[0];
+    const restored = stacked ? first.copyTop - viewport * .65 + Math.min(first.copyHeight, viewport * .5) / 2 : first.top - viewport * .5 + mediaWidth * 9 / 16 / 2;
+    update(restored + 1e-7); assert.equal(first.root.values.get("--story-filter"), "none", "Restored initial scroll is measured without an earlier entrance");
     update(0);
-    for (const { root, media, direction, top, left } of stories) {
+    for (const { root, media, direction, top, left, copyTop, copyHeight } of stories) {
       assert.equal(Math.sign(parseFloat(media.values.get("--story-x"))), direction);
       const distance = viewport * .5 + mediaWidth * 9 / 16 / 2;
       const atProgress = progress => top - viewport + distance * progress;
       update(atProgress(.5));
       assert.ok(Math.abs(Number(root.values.get("--story-progress")) - .5) < 1e-10);
-      assert.ok(Math.abs(parseFloat(root.values.get("--story-filter").slice(5)) - 3) < 1e-10);
+      if (stacked) assert.equal(root.values.get("--story-filter"), "none", "Copy has already sharpened while its later image is halfway in");
+      else assert.ok(Math.abs(parseFloat(root.values.get("--story-filter").slice(5)) - 3) < 1e-10);
       const middle = [...media.values];
       update(top - viewport * .5);
       assert.ok(Number(root.values.get("--story-progress")) < 1, "The old top-at-midpoint position no longer completes the entrance");
-      assert.notEqual(root.values.get("--story-filter"), "none");
+      if (!stacked) assert.notEqual(root.values.get("--story-filter"), "none");
+      if (stacked) {
+        const copyDistance = viewport * .35 + Math.min(copyHeight, viewport * .5) / 2;
+        const atCopy = progress => copyTop - viewport + copyDistance * progress;
+        update(atCopy(0)); assert.equal(root.values.get("--story-filter"), "blur(6px)");
+        update(atCopy(.5)); const midFilter = root.values.get("--story-filter");
+        assert.ok(Math.abs(parseFloat(midFilter.slice(5)) - 3) < 1e-10);
+        update(atCopy(1) + 1e-7); assert.equal(root.values.get("--story-filter"), "none");
+        assert.ok(Number(root.values.get("--story-progress")) < 1, "Copy never waits for the later image to settle");
+        if (copyHeight > viewport * .5 && viewport <= 400) assert.equal(root.values.get("--story-progress"), "0", "Long copy sharpens before its image enters a short viewport");
+        update(atCopy(.5)); assert.equal(root.values.get("--story-filter"), midFilter, "Copy sharpening reverses at the same geometry");
+      }
       for (const progress of [0, .25, .5, .75, 1, 1.2]) {
         update(atProgress(progress));
         const x = parseFloat(media.values.get("--story-x"));
@@ -235,11 +252,17 @@ test("complete story copy and side images finish at center-to-center alignment, 
         if (progress >= 1) { assert.equal(x, 0); assert.equal(root.values.get("--story-filter"), "none"); }
       }
       update(atProgress(.5)); assert.deepEqual([...media.values], middle, "Translation never feeds back into the next gutter measurement");
+      const oldViewport = viewport; viewport = Math.max(280, viewport * .75);
+      update(top - viewport + (viewport * .5 + mediaWidth * 9 / 16 / 2) * .5);
+      assert.ok(Math.abs(Number(root.values.get("--story-progress")) - .5) < 1e-10, "Height resize remeasures the image endpoint");
+      viewport = oldViewport; update(atProgress(.5)); assert.deepEqual([...media.values], middle);
       root.focused = true; update(top - viewport); assert.equal(root.values.get("--story-filter"), "none"); root.focused = false;
     }
     motion.matches = true; controller.measure()();
     for (const { root, media } of stories) { assert.equal(root.classes.has("is-story-ready"), false); assert.equal(root.values.size, 0); assert.equal(media.values.size, 0); }
-    motion.matches = false; update(0); broken = true; update(0);
+    motion.matches = false; update(0);
+    if (stacked) { brokenCopy = true; update(0); assert.ok(stories.every(({ root }) => !root.classes.has("is-story-ready")), "Unavailable copy geometry restores visible static content"); brokenCopy = false; }
+    broken = true; update(0);
     assert.ok(stories.every(({ root }) => !root.classes.has("is-story-ready")), "Invalid geometry restores the underlying static layout");
   }
 });

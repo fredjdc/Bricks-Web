@@ -423,9 +423,12 @@ const createPlacementReveal = () => {
   return { measure, reset };
 };
 
-const storyRevealSettings = { maxBlurPx: 6, maxSlidePx: 64, slideViewportFraction: .08, stackedSlidePx: 16, finishCenterViewportFraction: .5 };
+const storyRevealSettings = { maxBlurPx: 6, maxSlidePx: 64, slideViewportFraction: .08, stackedSlidePx: 16, finishCenterViewportFraction: .5, stackedCopyFinishViewportFraction: .65, stackedCopyHeightCapViewportFraction: .5 };
 // Start at first image entry; finish only when the image center reaches viewport center.
 const storyEntrance = (top, height, viewport) => handoffBlurSettings.easing(boundedProgress(viewport - top, 0, viewport * (1 - storyRevealSettings.finishCenterViewportFraction) + height / 2));
+// On stacked layouts, sharpen the copy's own reading area before the later image arrives.
+// Cap that area for long columns on short screens so the opening lines never wait offscreen.
+const storyCopyEntrance = (top, height, viewport) => handoffBlurSettings.easing(boundedProgress(viewport - top, 0, viewport * (1 - storyRevealSettings.stackedCopyFinishViewportFraction) + Math.min(height, viewport * storyRevealSettings.stackedCopyHeightCapViewportFraction) / 2));
 
 const createStoryReveal = () => {
   const entries = [...(document.querySelectorAll?.(".product-story") || [])].map(section => ({
@@ -441,7 +444,7 @@ const createStoryReveal = () => {
     try {
       const viewport = window.innerHeight, width = document.documentElement?.clientWidth || window.innerWidth;
       if (![viewport, width].every(value => Number.isFinite(value) && value > 0)) return reset;
-      const plans = entries.map(({ section, media }) => {
+      const plans = entries.map(({ section, copy, media }) => {
         const bounds = media.getBoundingClientRect(), frame = section.getBoundingClientRect();
         if (![bounds.width, bounds.height].every(value => Number.isFinite(value) && value > 0) || !Number.isFinite(bounds.top + bounds.left + frame.left + frame.width)) throw new Error("Missing story geometry");
         // Remove the previous horizontal translation so gutter limits never feed back into themselves.
@@ -451,13 +454,19 @@ const createStoryReveal = () => {
         const gutter = direction < 0 ? left : width - left - bounds.width;
         const distance = Math.max(0, Math.min(storyRevealSettings.maxSlidePx, width * storyRevealSettings.slideViewportFraction, stacked ? storyRevealSettings.stackedSlidePx : Infinity, gutter));
         const progress = section.matches(":focus-within") ? 1 : storyEntrance(bounds.top, bounds.height, viewport);
-        return { section, media, progress, x: direction * distance * (1 - progress) };
+        let copyProgress = progress;
+        if (stacked && !section.matches(":focus-within")) {
+          const text = copy.getBoundingClientRect();
+          if (!Number.isFinite(text.top) || !Number.isFinite(text.height) || text.height <= 0) throw new Error("Missing story copy geometry");
+          copyProgress = storyCopyEntrance(text.top, text.height, viewport);
+        }
+        return { section, media, progress, copyProgress, x: direction * distance * (1 - progress) };
       });
       return () => {
         try {
-          plans.forEach(({ section, media, progress, x }) => {
+          plans.forEach(({ section, media, progress, copyProgress, x }) => {
             section.style.setProperty("--story-progress", String(progress));
-            section.style.setProperty("--story-filter", progress === 1 ? "none" : `blur(${(1 - progress) * storyRevealSettings.maxBlurPx}px)`);
+            section.style.setProperty("--story-filter", copyProgress === 1 ? "none" : `blur(${(1 - copyProgress) * storyRevealSettings.maxBlurPx}px)`);
             media.style.setProperty("--story-x", `${x}px`);
             section.classList.add("is-story-ready");
           });
