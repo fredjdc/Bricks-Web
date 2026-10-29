@@ -25,9 +25,10 @@ test("the current baseline gains twelve supplied icons, with no restored lane-ba
   for (const kind of ["video", "image", "audio"]) {
     assert.equal((overlay.match(new RegExp(`data-wind-file="${kind}"`, "g")) || []).length, 4);
     const png = await readFile(new URL(`assets/icons/${kind}file.png`, import.meta.url));
-    assert.equal(png.readUInt32BE(16), 1254); assert.equal(png.readUInt32BE(20), 1254);
+    assert.ok(png.readUInt32BE(16) > 0 && png.readUInt32BE(20) > 0);
   }
   assert.equal((overlay.match(/<img\b/g) || []).length, 12);
+  assert.equal((overlay.match(/width="1254" height="1254"/g) || []).length, 12);
   assert.doesNotMatch(overlay, /tabindex|<button|<a\b|<svg|\breveal\b/);
   assert.match(html, /src="wind-files\.js\?v=[^"]+" defer/);
   assert.doesNotMatch(html, /file-transfer|data-transfer-file/);
@@ -47,10 +48,10 @@ test("seeded phases and normalized origins/landings are stable and spread across
   for (const { source, target, viewport, title } of fixtures) {
     const g = windLayout(source, target, viewport, title); assert.ok(g);
     WIND_FILES.forEach((file, index) => {
-      const start = at(g, index, 0), end = at(g, index, 1), padding = g.size * .8 + 8;
+      const start = at(g, index, 0), end = at(g, index, 1), { size, padding } = g.paths[index];
       for (const [point, box] of [[start, source], [end, target]]) {
-        assert.ok(point.x - g.size * .72 >= box.left && point.x + g.size * .72 <= box.left + box.width);
-        assert.ok(point.y - g.size * .72 >= box.top && point.y + g.size * .72 <= box.top + box.height);
+        assert.ok(point.x - size * .72 >= box.left && point.x + size * .72 <= box.left + box.width);
+        assert.ok(point.y - size * .72 >= box.top && point.y + size * .72 <= box.top + box.height);
       }
       near((start.x - source.left - padding) / (source.width - 2 * padding), file.origin.x);
       near((end.y - target.top - padding) / (target.height - 2 * padding), file.target.y);
@@ -92,7 +93,7 @@ test("early, mid and late frames remain distributed without any common routing c
       const values = WIND_FILES.map((_, index) => windPose({ ...g, progress }, index));
       assert.ok(Math.max(...values.map(v => v.x)) - Math.min(...values.map(v => v.x)) > Math.min(source.width, target.width) * .2);
       assert.equal(new Set(values.map(value => value.x)).size, 12);
-      for (const value of values) assert.ok(value.x - g.size * .72 >= 0 && value.x + g.size * .72 <= viewport.width);
+      values.forEach((value, index) => assert.ok(value.x - g.paths[index].size * .72 >= 0 && value.x + g.paths[index].size * .72 <= viewport.width));
     }
   }
 });
@@ -109,7 +110,7 @@ test("scroll is the only clock: exact opacity phases, coherent reverse, resize a
       assert.equal(at(g, index, 0).opacity, 0); assert.equal(at(g, index, 1).opacity, 0);
       assert.equal(at(g, index, .5).opacity, 1);
       const original = at(g, index, .43); at(g, index, .9); assert.deepEqual(at(g, index, .43), original);
-      const normalized = (g.paths[index].end.x - target.left - (g.size * .8 + 8)) / (target.width - (g.size * .8 + 8) * 2);
+      const normalized = (g.paths[index].end.x - target.left - g.paths[index].padding) / (target.width - g.paths[index].padding * 2);
       near(normalized, file.target.x);
     });
   }
@@ -283,16 +284,21 @@ test("reduced motion, missing capabilities and invalid geometry keep the overlay
 });
 
 
-test("only the rendered wind footprint doubles at every width; sway, flutter and per-file scales keep their original units", () => {
+test("authored per-icon sizes and rounded native proportions fit every width without changing flutter or timing", () => {
+  assert.equal(new Set(WIND_FILES.map(file => file.sizeRatio)).size, 12);
+  assert.deepEqual(makeWindFiles(123).map(file => file.sizeRatio), WIND_FILES.map(file => file.sizeRatio));
+  for (const kind of ["video", "image", "audio"]) assert.equal(new Set(WIND_FILES.filter(file => file.kind === kind).map(file => file.sizeRatio)).size, 4);
   for (const { source, target, viewport, title } of fixtures) {
     const g = windLayout(source, target, viewport, title);
     const previousSize = Math.max(28, Math.min(40, viewport.width * .045));
     near(g.size, previousSize * 2); near(g.motionSize, previousSize);
     for (let step = 0; step <= 100; step++) WIND_FILES.forEach((_, index) => {
       const value = windPose({ ...g, progress: step / 100 }, index);
-      assert.ok(value.x - g.size * .72 >= 0 && value.x + g.size * .72 <= viewport.width);
+      assert.ok(value.x - g.paths[index].size * .72 >= 0 && value.x + g.paths[index].size * .72 <= viewport.width);
     });
     WIND_FILES.forEach((file, index) => {
+      near(g.paths[index].size, g.size * file.sizeRatio);
+      near(g.paths[index].padding, Math.max(g.size, g.paths[index].size) * .8 + 8);
       near(g.paths[index].amplitude, Math.min(56, previousSize * file.amplitude, source.width * .08, target.width * .08));
       for (const p of [.2, .5, .8]) {
         const pose = at(g, index, p), wave = Math.PI * 2 * file.cycles * p + file.phase;
@@ -302,5 +308,15 @@ test("only the rendered wind footprint doubles at every width; sway, flutter and
       }
     });
   }
-  assert.match(css, /width: var\(--wind-size, 64px\); height: var\(--wind-size, 64px\);/);
+  assert.match(css, /width: auto; height: auto; max-width: var\(--wind-size, 64px\); max-height: var\(--wind-size, 64px\);/);
+  assert.match(css, /--wind-corner-ratio: \.1;/);
+  assert.match(css, /border-radius: calc\(var\(--wind-size, 64px\) \* var\(--wind-corner-ratio\)\)/);
+  const fixture = fixtures[0];
+  const small = windLayout(fixture.source, { ...fixture.target, height: 110 }, fixture.viewport, fixture.title);
+  assert.ok(small, "Short media bounds shrink the larger artwork instead of hiding all twelve");
+  small.paths.forEach(path => assert.ok(path.padding * 2 < 110 && path.size > 0));
+  const p = page(); p.scroll(900);
+  assert.equal(new Set(p.items.map(item => item.style.values["--wind-size"])).size, 12);
+  const sizes = p.items.map(item => item.style.values["--wind-size"]);
+  p.scroll(1100); p.scroll(900); assert.deepEqual(p.items.map(item => item.style.values["--wind-size"]), sizes);
 });

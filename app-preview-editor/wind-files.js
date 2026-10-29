@@ -1,9 +1,11 @@
 (() => {
 // Scroll is the only clock. These parameters control the new effect alone.
 const WIND = Object.freeze({ count: 12, seed: 27027, stagger: .016, sourceAnchor: .68,
-  targetAnchor: .5, startLine: .60, finishLine: .78, maxBaseSize: 40, sizeMultiplier: 2,
+  targetAnchor: .5, startLine: .60, finishLine: .78, maxBaseSize: 40, sizeMultiplier: 2, footprintPadding: .8, edgePadding: 8,
   entranceBlur: 18, blurApproachViewport: .18, blurApproachMinPx: 96, blurApproachMaxPx: 144,
   blurClearTitleFraction: .5, epsilon: 1e-6 });
+// Authored per item without consuming or reshuffling the motion seed.
+const WIND_SIZE_RATIOS = Object.freeze([.72, .86, 1.12, .98, .78, 1.04, .90, 1.16, .82, 1.08, .74, 1]);
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
 const smooth = value => { const p = clamp(value); return p * p * (3 - 2 * p); };
 const mix = (a, b, p) => a + (b - a) * p;
@@ -20,6 +22,7 @@ function makeWindFiles(seed = WIND.seed) {
   const columns = shuffle(), rows = shuffle();
   return Array.from({ length: WIND.count }, (_, index) => ({
     kind: ["video", "image", "audio"][index % 3],
+    sizeRatio: WIND_SIZE_RATIOS[index],
     origin: { x: (index % 4 + .2 + random() * .6) / 4, y: (Math.floor(index / 4) + .2 + random() * .6) / 3 },
     target: { x: (columns[index] + .15 + random() * .7) / WIND.count, y: (rows[index] + .15 + random() * .7) / WIND.count },
     delay: index * WIND.stagger, phase: random() * Math.PI * 2, cycles: 1.15 + random() * .55,
@@ -42,16 +45,20 @@ function windLayout(source, target, viewport, title) {
   const valid = box => box && [box.left, box.top, box.width, box.height].every(Number.isFinite) && box.width > 0 && box.height > 0;
   if (!valid(source) || !valid(target) || ![viewport.width, viewport.height].every(value => Number.isFinite(value) && value > 0)) return null;
   const motionSize = clamp(viewport.width * .045, 28, WIND.maxBaseSize);
-  const size = motionSize * WIND.sizeMultiplier, padding = size * .8 + 8;
-  if ([source, target].some(box => box.width <= padding * 2 || box.height <= padding * 2)) return null;
+  const size = motionSize * WIND.sizeMultiplier;
+  const sizeLimit = (Math.min(source.width, source.height, target.width, target.height) - WIND.edgePadding * 2 - 1) / (WIND.footprintPadding * 2);
+  if (sizeLimit <= 0) return null;
   const distance = target.top + target.height * WIND.targetAnchor - source.top - source.height * WIND.sourceAnchor
     + viewport.height * (WIND.startLine - WIND.finishLine);
   if (distance <= 0) return null;
   const progress = snap(clamp((viewport.height * WIND.startLine - source.top - source.height * WIND.sourceAnchor) / distance));
-  const point = (box, normalized) => ({ x: box.left + padding + (box.width - padding * 2) * normalized.x,
+  const point = (box, normalized, padding) => ({ x: box.left + padding + (box.width - padding * 2) * normalized.x,
     y: box.top + padding + (box.height - padding * 2) * normalized.y });
   const paths = WIND_FILES.map(file => {
-    const path = { start: point(source, file.origin), end: point(target, file.target),
+    const fileSize = Math.min(size * file.sizeRatio, sizeLimit);
+    // Preserve established paths for smaller artwork; enlarge clearance only when needed.
+    const footprint = Math.min(Math.max(size, fileSize), sizeLimit), padding = footprint * WIND.footprintPadding + WIND.edgePadding;
+    const path = { size: fileSize, padding, start: point(source, file.origin, padding), end: point(target, file.target, padding),
       amplitude: Math.min(56, motionSize * file.amplitude, source.width * .08, target.width * .08) };
     return { ...path, blurRange: windBlurRange(path, title, viewport) };
   });
@@ -64,7 +71,7 @@ function windPose(layout, index) {
   const p = snap(clamp((layout.progress - file.delay) / (1 - (WIND.count - 1) * WIND.stagger)));
   const envelope = Math.sin(Math.PI * p), wave = Math.PI * 2 * file.cycles * p + file.phase;
   const baseX = mix(path.start.x, path.end.x, smooth(p));
-  const radius = layout.size * .72 + 4;
+  const radius = Math.max(layout.size, path.size) * .72 + 4;
   const amplitude = Math.max(0, Math.min(path.amplitude, baseX - radius, layout.viewport.width - radius - baseX));
   const sway = Math.sin(wave) * amplitude * envelope;
   const x = baseX + sway;
@@ -100,9 +107,9 @@ function mountWindFiles(doc, win) {
       if (!layout || layout.progress === 0 || layout.progress === 1) { hide(); return; }
       const poses = items.map((_, index) => windPose(layout, index));
       // All reads precede writes. Nothing here changes the document's layout or media state.
-      overlay.style.setProperty("--wind-size", `${layout.size}px`);
       poses.forEach((pose, index) => {
         const style = items[index].style;
+        style.setProperty("--wind-size", `${layout.paths[index].size}px`);
         style.setProperty("--wind-x", `${pose.x}px`); style.setProperty("--wind-y", `${pose.y}px`);
         style.setProperty("--wind-angle", `${pose.rotation}deg`); style.setProperty("--wind-tilt", `${pose.tilt}deg`);
         style.setProperty("--wind-scale", String(pose.scale)); style.opacity = String(pose.opacity);
