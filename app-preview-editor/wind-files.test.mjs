@@ -284,7 +284,27 @@ test("reduced motion, missing capabilities and invalid geometry keep the overlay
 });
 
 
-test("authored per-icon sizes and rounded native proportions fit every width without changing flutter or timing", () => {
+test("doubled authored icon dimensions keep native proportions, rounded corners and unchanged motion at every width", async () => {
+  assert.equal(WIND.renderMultiplier, 2);
+  const nativeSizes = Object.fromEntries(await Promise.all(["video", "image", "audio"].map(async kind => {
+    const png = await readFile(new URL(`assets/icons/${kind}file.png`, import.meta.url));
+    return [kind, [png.readUInt32BE(16), png.readUInt32BE(20)]];
+  })));
+  const projectedCorners = (g, index, pose) => {
+    const [nativeWidth, nativeHeight] = nativeSizes[WIND_FILES[index].kind];
+    const longEdge = g.paths[index].size * WIND.renderMultiplier;
+    const width = longEdge * nativeWidth / Math.max(nativeWidth, nativeHeight);
+    const height = longEdge * nativeHeight / Math.max(nativeWidth, nativeHeight);
+    near(width / (g.paths[index].size * nativeWidth / Math.max(nativeWidth, nativeHeight)), 2);
+    near(height / (g.paths[index].size * nativeHeight / Math.max(nativeWidth, nativeHeight)), 2);
+    const roll = pose.rotation * Math.PI / 180, yaw = pose.tilt * Math.PI / 180;
+    return [-width / 2, width / 2].flatMap(x => [-height / 2, height / 2].map(y => {
+      const rx = (Math.cos(roll) * x - Math.sin(roll) * y) * pose.scale;
+      const ry = (Math.sin(roll) * x + Math.cos(roll) * y) * pose.scale;
+      const factor = 500 / (500 + Math.sin(yaw) * rx);
+      return { x: pose.x + Math.cos(yaw) * rx * factor, y: pose.y + ry * factor };
+    }));
+  };
   assert.equal(new Set(WIND_FILES.map(file => file.sizeRatio)).size, 12);
   assert.deepEqual(makeWindFiles(123).map(file => file.sizeRatio), WIND_FILES.map(file => file.sizeRatio));
   for (const kind of ["video", "image", "audio"]) assert.equal(new Set(WIND_FILES.filter(file => file.kind === kind).map(file => file.sizeRatio)).size, 4);
@@ -295,9 +315,16 @@ test("authored per-icon sizes and rounded native proportions fit every width wit
     for (let step = 0; step <= 100; step++) WIND_FILES.forEach((_, index) => {
       const value = windPose({ ...g, progress: step / 100 }, index);
       assert.ok(value.x - g.paths[index].size * .72 >= 0 && value.x + g.paths[index].size * .72 <= viewport.width);
+      projectedCorners(g, index, value).forEach(point => assert.ok(point.x >= 0 && point.x <= viewport.width, `${viewport.width}px doubled artwork stays within viewport`));
     });
     WIND_FILES.forEach((file, index) => {
       near(g.paths[index].size, g.size * file.sizeRatio);
+      for (const [progress, box] of [[0, source], [1, target]]) {
+        projectedCorners(g, index, at(g, index, progress)).forEach(point => {
+          assert.ok(point.x >= box.left && point.x <= box.left + box.width);
+          assert.ok(point.y >= box.top && point.y <= box.top + box.height);
+        });
+      }
       near(g.paths[index].padding, Math.max(g.size, g.paths[index].size) * .8 + 8);
       near(g.paths[index].amplitude, Math.min(56, previousSize * file.amplitude, source.width * .08, target.width * .08));
       for (const p of [.2, .5, .8]) {
@@ -317,6 +344,8 @@ test("authored per-icon sizes and rounded native proportions fit every width wit
   small.paths.forEach(path => assert.ok(path.padding * 2 < 110 && path.size > 0));
   const p = page(); p.scroll(900);
   assert.equal(new Set(p.items.map(item => item.style.values["--wind-size"])).size, 12);
+  const expectedLayout = windLayout(p.source.getBoundingClientRect(), p.wide.getBoundingClientRect(), { width: 1024, height: 800 });
+  p.items.forEach((item, index) => near(parseFloat(item.style.values["--wind-size"]), expectedLayout.paths[index].size * 2));
   const sizes = p.items.map(item => item.style.values["--wind-size"]);
   p.scroll(1100); p.scroll(900); assert.deepEqual(p.items.map(item => item.style.values["--wind-size"]), sizes);
 });

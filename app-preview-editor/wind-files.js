@@ -1,7 +1,7 @@
 (() => {
 // Scroll is the only clock. These parameters control the new effect alone.
 const WIND = Object.freeze({ count: 12, seed: 27027, stagger: .016, sourceAnchor: .68,
-  targetAnchor: .5, startLine: .60, finishLine: .78, maxBaseSize: 40, sizeMultiplier: 2, footprintPadding: .8, edgePadding: 8,
+  targetAnchor: .5, startLine: .60, finishLine: .78, maxBaseSize: 40, sizeMultiplier: 2, renderMultiplier: 2, footprintPadding: .8, edgePadding: 8,
   entranceBlur: 18, blurApproachViewport: .18, blurApproachMinPx: 96, blurApproachMaxPx: 144,
   blurClearTitleFraction: .5, epsilon: 1e-6 });
 // Authored per item without consuming or reshuffling the motion seed.
@@ -109,7 +109,7 @@ function mountWindFiles(doc, win) {
       // All reads precede writes. Nothing here changes the document's layout or media state.
       poses.forEach((pose, index) => {
         const style = items[index].style;
-        style.setProperty("--wind-size", `${layout.paths[index].size}px`);
+        style.setProperty("--wind-size", `${layout.paths[index].size * WIND.renderMultiplier}px`);
         style.setProperty("--wind-x", `${pose.x}px`); style.setProperty("--wind-y", `${pose.y}px`);
         style.setProperty("--wind-angle", `${pose.rotation}deg`); style.setProperty("--wind-tilt", `${pose.tilt}deg`);
         style.setProperty("--wind-scale", String(pose.scale)); style.opacity = String(pose.opacity);
