@@ -372,6 +372,12 @@ const handoffSharpness = progress => Object.fromEntries(Object.entries(handoffBl
   return [stage, handoffBlurSettings.easing(fraction)];
 }));
 
+const editorAppMotionSettings = { maxTiltDegrees: 4, maxBlurPx: 8 };
+const editorAppPose = progress => {
+  const remaining = Number.isFinite(progress) ? 1 - Math.max(0, Math.min(1, progress)) : 0;
+  return { rotation: remaining * editorAppMotionSettings.maxTiltDegrees, blur: remaining * editorAppMotionSettings.maxBlurPx };
+};
+
 // Each card follows its own stable layout position, including the stacked mobile layout.
 const placementEntrance = (top, viewportHeight, delay = 0) => {
   const progress = boundedProgress(viewportHeight - top, viewportHeight * .04, viewportHeight * .48);
@@ -567,6 +573,7 @@ const createHeroSpacing = origin => {
 };
 
 const setupPreviewHandoff = () => {
+  if (typeof requestAnimationFrame !== "function") return;
   const origin = document.querySelector("[data-hero-preview-origin]");
   const composition = document.querySelector("[data-editor-composition]");
   if (!origin || !composition) return;
@@ -584,6 +591,8 @@ const setupPreviewHandoff = () => {
     heroSpacing.reset();
     ["--preview-x", "--preview-y", "--preview-scale"].forEach(name => traveler.style.removeProperty(name));
     scene.style.removeProperty("--handoff-progress");
+    scene.style.removeProperty("--editor-app-rotation");
+    scene.style.removeProperty("--editor-app-filter");
     ["title", "subtitle", "desktop", "app"].forEach(stage => {
       scene.style.removeProperty(`--handoff-${stage}`);
       scene.style.removeProperty(`--handoff-${stage}-filter`);
@@ -610,6 +619,9 @@ const setupPreviewHandoff = () => {
       traveler.style.setProperty("--preview-y", `${state.y}px`);
       traveler.style.setProperty("--preview-scale", String(state.scale));
       scene.style.setProperty("--handoff-progress", String(state.progress));
+      const appPose = editorAppPose(state.progress);
+      scene.style.setProperty("--editor-app-rotation", `${appPose.rotation}deg`);
+      scene.style.setProperty("--editor-app-filter", appPose.blur === 0 ? "none" : `blur(${appPose.blur}px)`);
       Object.entries(handoffEntrances(state.progress)).forEach(([stage, progress]) => {
         scene.style.setProperty(`--handoff-${stage}`, String(progress));
         scene.style.setProperty(`--handoff-${stage}-filter`, sharpness[stage] === 1 ? "none" : `blur(${(1 - sharpness[stage]) * handoffBlurSettings.maxBlurPx}px)`);
@@ -629,6 +641,7 @@ const setupPreviewHandoff = () => {
   };
   window.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", schedule);
+  window.addEventListener("pageshow", schedule);
   document.addEventListener("visibilitychange", () => { if (document.hidden) heroSpacing.pause(); else schedule(); });
   motionPreference.addEventListener("change", () => { reset(); placements.reset(); stories.reset(); schedule(); });
   const preview = origin.querySelector("video");

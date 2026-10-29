@@ -517,10 +517,10 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .is-handoff-ready .result-copy h2 { --enter-progress: var(--handoff-title); --enter-filter: var(--handoff-title-filter); }
   .apes-landing .is-handoff-ready .result-copy p { --enter-progress: var(--handoff-subtitle); --enter-filter: var(--handoff-subtitle-filter); }
   .apes-landing .is-handoff-ready .editor-backdrop { --enter-progress: var(--handoff-desktop); --enter-filter: var(--handoff-desktop-filter); }
-  .apes-landing .is-handoff-ready .editor-app { --enter-progress: var(--handoff-app); --enter-filter: var(--handoff-app-filter); }
+  .apes-landing .is-handoff-ready .editor-app { --enter-progress: var(--handoff-app); transform: translateY(-50%) perspective(1200px) rotateX(var(--editor-app-rotation, 0deg)); filter: var(--editor-app-filter, none); }
   .apes-landing .is-handoff-ready .result-section :is(.result-copy h2, .result-copy p, .editor-backdrop, .editor-app) { opacity: var(--enter-progress); }
   /* Blur image pixels inside the clip, never the backdrop's border and shadow. */
-  .apes-landing .is-handoff-ready .result-section :is(.result-copy h2, .result-copy p, .editor-desktop, .editor-app) { filter: var(--enter-filter); }
+  .apes-landing .is-handoff-ready .result-section :is(.result-copy h2, .result-copy p, .editor-desktop) { filter: var(--enter-filter); }
   .apes-landing .is-handoff-ready .editor-preview-static { visibility: hidden; }
 }
 @media (max-width: 899px) {

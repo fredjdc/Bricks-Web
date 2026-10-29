@@ -15,6 +15,7 @@ const geometry = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.inde
 const entrances = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; handoffEntrances`);
 const sharpness = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; handoffSharpness`);
 const blurProgress = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; handoffBlurProgress`);
+const appPose = vm.runInNewContext(`${handoffScript.slice(0, handoffScript.indexOf("const setupPreviewHandoff ="))}; editorAppPose`);
 const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < .0001, `${actual} must equal ${expected}`);
 const rect = (x, y, width, height, scroll = 0) => ({ left: x - width / 2, top: y - height / 2 - scroll, width, height });
 
@@ -94,8 +95,8 @@ test("the portrait settles earlier while the measured canvas is substantially vi
   }
 });
 
-function page({ reduced = false } = {}) {
-  let scroll = 0, targetWidth = 140, targetHeight = 300, broken = false, reads = 0;
+function page({ reduced = false, initialScroll = 0, supported = true } = {}) {
+  let scroll = initialScroll, targetWidth = 140, targetHeight = 300, broken = false, reads = 0;
   const listeners = {}, motionListeners = {}, frames = new Map(), properties = new Map(), sceneProperties = new Map(), classes = new Set(), imageListeners = [];
   const traveler = { style: { setProperty: (name, value) => properties.set(name, value), removeProperty: name => properties.delete(name) } };
   const origin = {
@@ -124,7 +125,7 @@ function page({ reduced = false } = {}) {
   vm.runInNewContext(handoffScript, {
     window, motionPreference: motion,
     document: { addEventListener() {}, querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition, "#result-title": title })[selector] },
-    requestAnimationFrame: callback => { frames.set(++nextFrame, callback); return nextFrame; },
+    requestAnimationFrame: supported ? callback => { frames.set(++nextFrame, callback); return nextFrame; } : undefined,
   });
   return {
     properties, sceneProperties, classes, frames, listeners, imageListeners, origin,
@@ -210,7 +211,7 @@ test("title, subtitle, desktop, and app use reversible staggered scroll ranges a
       else near(Number(filter.match(/blur\(([\d.]+)px\)/)[1]), (1 - expectedSharpness[stage]) * 3);
     }
   }
-  for (const [selector, stage] of [["result-copy h2", "title"], ["result-copy p", "subtitle"], ["editor-backdrop", "desktop"], ["editor-app", "app"]]) {
+  for (const [selector, stage] of [["result-copy h2", "title"], ["result-copy p", "subtitle"], ["editor-backdrop", "desktop"]]) {
     assert.ok(css.includes(`.${selector} { --enter-progress: var(--handoff-${stage}); --enter-filter: var(--handoff-${stage}-filter); }`));
   }
 });
@@ -267,10 +268,10 @@ test("title clearance follows scaled moving bounds at every responsive checkpoin
 
 test("the backdrop frame stays unfiltered and image blur is clipped inside its existing rounded boundary", () => {
   assert.match(css, /\.editor-backdrop \{ position: absolute; inset: 0; overflow: hidden;/);
-  assert.match(css, /:is\(\.result-copy h2, \.result-copy p, \.editor-desktop, \.editor-app\) \{ filter: var\(--enter-filter\); \}/);
+  assert.match(css, /:is\(\.result-copy h2, \.result-copy p, \.editor-desktop\) \{ filter: var\(--enter-filter\); \}/);
+  assert.match(css, /\.is-handoff-ready \.editor-app \{[^}]*perspective\(1200px\) rotateX\(var\(--editor-app-rotation, 0deg\)\); filter: var\(--editor-app-filter, none\);/);
   assert.doesNotMatch(css, /\.editor-backdrop[^{}]*\{[^}]*(?<![-\w])filter:/);
   assert.doesNotMatch(css, /\.editor-(?:backdrop|desktop|composition)::(?:before|after)/);
-  assert.ok(composition.includes("A focused editor with straightforward controls keeps your attention on the video you want to create."));
 });
 
 test("the staggered sharpening ranges stay ordered, bounded and reversible without time lag", () => {
@@ -341,4 +342,41 @@ test("reduced motion, invalid geometry, and no JavaScript retain a useful static
   assert.match(css, /\.editor-preview-static \{ width: 100%; height: 100%; object-fit: contain; \}/);
   const stage = composition.match(/<div class="result-media[^>]+>/)[0];
   assert.doesNotMatch(stage, /reveal|hidden|style="[^"]*(?:visibility|opacity)/);
+});
+
+
+test("only the editor image tilts in 3D around X and blurs until hero landing, with restored scroll and fallbacks", () => {
+  assert.equal(appPose(0).rotation, 4); assert.equal(appPose(0).blur, 8);
+  assert.equal(appPose(1).rotation, 0); assert.equal(appPose(1).blur, 0);
+  assert.equal(appPose(NaN).blur, 0);
+  for (const width of widths) for (const viewport of [400, 700, 900]) {
+    const sourceWidth = Math.min(width - 32, 420), sourceHeight = sourceWidth * 1920 / 886;
+    const sourceY = viewport + sourceHeight / 2, targetY = sourceY + viewport + sourceHeight;
+    const source = scroll => rect(width / 2, sourceY, sourceWidth, sourceHeight, scroll);
+    const target = scroll => rect(width / 2, targetY, sourceWidth * .4, sourceHeight * .4, scroll);
+    const start = sourceY - viewport * .6, end = targetY - viewport * .78;
+    for (const progress of [0, .25, .5, .9, 1]) {
+      const scroll = start + (end - start) * progress;
+      const state = geometry(source(scroll), target(scroll), viewport, 1), pose = appPose(state.progress);
+      near(pose.rotation, 4 * (1 - progress)); near(pose.blur, 8 * (1 - progress));
+      const reverse = appPose(geometry(source(scroll), target(scroll), viewport, 1).progress);
+      near(reverse.rotation, pose.rotation); near(reverse.blur, pose.blur);
+    }
+    assert.ok(appPose(geometry(source(end - 1), target(end - 1), viewport, 1).progress).blur > 0);
+    assert.equal(appPose(geometry(source(end + 1), target(end + 1), viewport, 1).progress).blur, 0);
+  }
+  const p = page({ initialScroll: 1200 });
+  assert.equal(p.sceneProperties.get("--handoff-title-filter"), "none", "Earlier title cutoff stays intact");
+  assert.notEqual(p.sceneProperties.get("--editor-app-filter"), "none", "App blur continues after the title clears");
+  const restored = p.sceneProperties.get("--editor-app-rotation");
+  p.listeners.pageshow.callback(); p.flush(); assert.equal(p.sceneProperties.get("--editor-app-rotation"), restored);
+  p.resize(90, 180); p.flush(); assert.equal(p.sceneProperties.get("--editor-app-rotation"), restored);
+  p.scroll(2000); p.flush(); assert.equal(p.sceneProperties.get("--editor-app-rotation"), "0deg");
+  assert.equal(p.sceneProperties.get("--editor-app-filter"), "none");
+  p.scroll(1200); p.flush(); assert.equal(p.sceneProperties.get("--editor-app-rotation"), restored);
+  p.fail(); p.flush(); assert.equal(p.sceneProperties.size, 0);
+  assert.equal(page({ supported: false }).sceneProperties.size, 0);
+  assert.equal(page({ reduced: true }).sceneProperties.size, 0);
+  assert.match(css, /\.editor-app \{[^}]*transform: translateY\(-50%\); \}/);
+  assert.doesNotMatch(css, /\.editor-(?:canvas|composition|backdrop)[^{}]*\{[^}]*rotate[XYZ]/);
 });
