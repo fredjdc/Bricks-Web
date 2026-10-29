@@ -25,7 +25,7 @@ test("the closing CTA adds only three decorative native-size hero stills after t
   assert.equal((composition.match(/<img /g) || []).length, 3);
   assert.doesNotMatch(composition, /<video|<source|<button|<a\b|tabindex|data-hero-preview-origin|hero-side-slot|hero-center-slot|data-hero-entrance/);
   for (const side of ["left", "center", "right"]) {
-    const image = composition.match(new RegExp(`<img src="(assets/product/hero-result-${side}\\.png)" width="(\\d+)" height="(\\d+)" alt="" loading="lazy" decoding="async">`));
+    const image = composition.match(new RegExp(`<img src="(assets/product/hero-${side}\\.png)" width="(\\d+)" height="(\\d+)" alt="" loading="lazy" decoding="async">`));
     assert.ok(image); const png = await readFile(new URL(image[1], import.meta.url));
     assert.equal(+image[2], png.readUInt32BE(16)); assert.equal(+image[3], png.readUInt32BE(20));
   }
@@ -40,7 +40,7 @@ test("the alpha mask shows approximately the upper half at every breakpoint with
   for (const width of widths) {
     const shell = fluidWidth(width, decl(width, [".shell"]).width);
     const groupWidth = Math.min(860, shell - (width <= 768 ? 48 : 128));
-    const group = decl(width, [".hero-results", ".hero .hero-results", ".apes-landing .hero-results"]);
+    const group = decl(width, [".hero-results", ".hero .hero-results", ".apes-landing .hero-results", ".apes-landing .cta-preview-layout"]);
     const mask = decl(width, [".apes-landing .cta-preview-mask"]);
     assert.equal(mask["mask-image"], "linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%)");
     assert.equal(mask["-webkit-mask-image"], mask["mask-image"]);
@@ -48,15 +48,47 @@ test("the alpha mask shows approximately the upper half at every breakpoint with
     assert.equal(mask["pointer-events"], "none"); assert.equal(mask.opacity, undefined);
     const mobile = width < 560, side = (groupWidth - 8) / (mobile ? 2.79 : 3) * (mobile ? .72 : 1);
     const center = groupWidth - 8 - 2 * side, borderAndPadding = mobile ? 6 : 10;
-    const fullHeight = ((center - borderAndPadding) * 986 / 456 + borderAndPadding) * 1.08;
+    const fullHeight = ((center - borderAndPadding) * 986 / 458 + borderAndPadding) * 1.08;
     const topPadding = Math.max(12, Math.min(32, width * .04));
     const top = topPadding - fullHeight / 1.08 * .04;
     const visible = (groupWidth / +mask["aspect-ratio"] - top) / fullHeight;
     assert.ok(top > 0, `${width}px keeps rounded tops inside the mask`);
     assert.ok(visible >= .45 && visible <= .56, `${width}px reveals ${visible} of the full portrait`);
     assert.ok(center * 1.08 <= groupWidth);
-    assert.equal(+group["--hero-side-distance-ratio"], mobile ? .85 : .7);
-    assert.equal(parseFloat(group["--hero-side-rest-inset"]), mobile ? 8 : 28);
+    assert.equal(+group["--hero-side-distance-ratio"], .92);
+    assert.equal(parseFloat(group["--hero-side-rest-inset"]), 0);
+    assert.equal(group["--hero-side-rest-tilt"], "-28deg");
+    assert.equal(group["--hero-side-rest-roll"], "0deg");
+    assert.equal(group["--hero-fan-perspective"], "1600px");
+    const scale = +group["--hero-side-rest-scale"], angle = -28 * Math.PI / 180, depth = 1600;
+    const sideHeight = (side - borderAndPadding) * 986 / 458 + borderAndPadding;
+    const sideTop = topPadding + (fullHeight / 1.08 - sideHeight) / 2;
+    const distance = mobile ? 1.4375 : 1;
+    const shift = (1 - .92) * (distance - (1 - scale) / 2) * side;
+    const camera = groupWidth / 2;
+    const project = (x, y, direction) => {
+      const origin = direction < 0 ? side : 0, left = direction < 0 ? 4 : 4 + side + center;
+      const dx = (x - origin) * scale, dy = (y - sideHeight / 2) * scale;
+      const yaw = -direction * angle, z = -Math.sin(yaw) * dx;
+      const cameraY = sideHeight / 2 + (mobile ? 4 : 6);
+      return { x: camera + (left + origin + Math.cos(yaw) * dx - camera) * depth / (depth - z) - direction * shift,
+        y: sideTop + cameraY + (sideHeight / 2 + dy - cameraY) * depth / (depth - z) };
+    };
+    const bounds = direction => {
+      const points = [project(0, 0, direction), project(side, 0, direction), project(0, sideHeight, direction), project(side, sideHeight, direction)];
+      return { left: Math.min(...points.map(p => p.x)), right: Math.max(...points.map(p => p.x)), top: Math.min(...points.map(p => p.y)) };
+    };
+    const left = bounds(-1), right = bounds(1), centerLeft = camera - center * 1.08 / 2, centerRight = camera + center * 1.08 / 2;
+    assert.ok(Math.abs((centerLeft - left.right) - (right.left - centerRight)) < .000001, `${width}px projected edge gaps match`);
+    assert.ok(left.left >= 0 && right.right <= groupWidth, `${width}px both side images fit`);
+    assert.ok(centerLeft - left.left > 8 && right.right - centerRight > 8, `${width}px neither side is covered by the center`);
+    assert.ok(left.top >= 0 && right.top >= 0 && left.top < groupWidth / +mask["aspect-ratio"] * .75 && right.top < groupWidth / +mask["aspect-ratio"] * .75, `${width}px both side tops remain visible through the mask`);
+    for (const side of ["left", "right"]) {
+      const rule = decl(width, [`.apes-landing .hero-result-${side}`, `.apes-landing .cta-preview-layout .hero-result-${side}`]);
+      assert.ok(rule.transform.includes("rotateY("));
+      assert.ok(!rule.transform.includes("-10"), "Legacy reversed right face cannot override the CTA");
+      assert.equal(rule.opacity, undefined); assert.equal(rule.visibility, undefined);
+    }
     assert.match(css, /\.cta-preview-center \{[^}]*z-index: 2;[^}]*transform: none;/);
   }
   assert.doesNotMatch(css, /\.cta-preview-mask[^}]*background:|\.cta-preview-mask::(?:before|after)/);

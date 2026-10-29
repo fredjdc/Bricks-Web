@@ -537,11 +537,15 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 /* Top hero fan: mirrored transforms and one shared inset keep projected gaps equal.
    Keep the closing CTA on its existing independent layout. */
 .apes-landing .hero { row-gap: 16px; align-content: start; }
-.apes-landing .hero .hero-results { --hero-fan-side-track: .68fr; --hero-fan-drop: 27.205882%; --hero-fan-perspective: 1600px; --hero-side-distance: 123.5294118%; --hero-side-rest-inset: 0%; --hero-side-rest-scale: 1; --hero-side-rest-tilt: -28deg; --hero-side-rest-roll: 0deg; --hero-side-distance-ratio: .92; grid-template-columns: minmax(0, var(--hero-fan-side-track)) minmax(0, 1fr) minmax(0, var(--hero-fan-side-track)); align-items: start; width: min(100%, 1080px); padding: 0 4.5% 28px; perspective: var(--hero-fan-perspective); }
+.apes-landing .hero .hero-results { --hero-fan-side-track: .68fr; --hero-fan-drop: 27.205882%; --hero-side-distance: 123.5294118%; --hero-side-rest-scale: 1; grid-template-columns: minmax(0, var(--hero-fan-side-track)) minmax(0, 1fr) minmax(0, var(--hero-fan-side-track)); align-items: start; width: min(100%, 1080px); padding: 0 4.5% 28px; }
+.apes-landing .hero .hero-results,
+.apes-landing .cta-preview-layout { --hero-fan-perspective: 1600px; --hero-side-rest-inset: 0%; --hero-side-rest-tilt: -28deg; --hero-side-rest-roll: 0deg; --hero-side-distance-ratio: .92; perspective: var(--hero-fan-perspective); }
 .apes-landing .hero .hero-center-slot { --hero-center-scale: 1; }
 .apes-landing .hero .hero-side-slot { margin-top: var(--hero-fan-drop); }
-.apes-landing .hero .hero-result-left { transform: translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) rotateZ(var(--hero-side-rest-roll)) scale(var(--hero-side-rest-scale)); }
-.apes-landing .hero .hero-result-right { transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) rotateZ(calc(-1 * var(--hero-side-rest-roll))) scale(var(--hero-side-rest-scale)); }
+.apes-landing .hero .hero-result-left,
+.apes-landing .cta-preview-layout .hero-result-left { transform: translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) rotateZ(var(--hero-side-rest-roll)) scale(var(--hero-side-rest-scale)); }
+.apes-landing .hero .hero-result-right,
+.apes-landing .cta-preview-layout .hero-result-right { transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) rotateZ(calc(-1 * var(--hero-side-rest-roll))) scale(var(--hero-side-rest-scale)); }
 
 
 .apes-landing [data-playback-toggle]:focus-visible { outline: 3px solid var(--focus); outline-offset: -4px; }
