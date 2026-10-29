@@ -499,7 +499,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .hero-result-center { z-index: 2; transform: scale(var(--hero-center-scale)); }
 .apes-landing .hero-result-center video { cursor: pointer; }
 .apes-landing .hero-result-left { transform: translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) scale(var(--hero-side-rest-scale)); transform-origin: right center; }
-.apes-landing .hero-result-right { transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) scale(var(--hero-side-rest-scale)); transform-origin: left center; }
+.apes-landing .hero-result-right { transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-10 * var(--hero-side-rest-tilt))) scale(var(--hero-side-rest-scale)); transform-origin: left center; }
 .apes-landing .result-section { display: block; }
 .apes-landing .result-copy { max-width: 760px; margin: 0 auto 40px; text-align: center; }
 .apes-landing .result-copy p { margin-inline: auto; margin-bottom: 0; }
@@ -533,6 +533,16 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .apes-landing .hero-results { --hero-side-rest-scale: .94; --hero-side-rest-tilt: 3deg; --hero-side-rest-inset: 8%; --hero-side-distance-ratio: .85; }
   .apes-landing .result-copy { margin-bottom: 28px; }
 }
+
+/* Top hero fan: mirrored transforms and one shared inset keep projected gaps equal.
+   Keep the closing CTA on its existing independent layout. */
+.apes-landing .hero { row-gap: 16px; align-content: start; }
+.apes-landing .hero .hero-results { --hero-fan-side-track: .68fr; --hero-fan-drop: 27.205882%; --hero-fan-perspective: 1600px; --hero-side-distance: 123.5294118%; --hero-side-rest-inset: 0%; --hero-side-rest-scale: 1; --hero-side-rest-tilt: -28deg; --hero-side-rest-roll: 0deg; --hero-side-distance-ratio: .92; grid-template-columns: minmax(0, var(--hero-fan-side-track)) minmax(0, 1fr) minmax(0, var(--hero-fan-side-track)); align-items: start; width: min(100%, 1080px); padding: 0 4.5% 28px; perspective: var(--hero-fan-perspective); }
+.apes-landing .hero .hero-center-slot { --hero-center-scale: 1; }
+.apes-landing .hero .hero-side-slot { margin-top: var(--hero-fan-drop); }
+.apes-landing .hero .hero-result-left { transform: translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) rotateZ(var(--hero-side-rest-roll)) scale(var(--hero-side-rest-scale)); }
+.apes-landing .hero .hero-result-right { transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) rotateZ(calc(-1 * var(--hero-side-rest-roll))) scale(var(--hero-side-rest-scale)); }
+
 
 .apes-landing [data-playback-toggle]:focus-visible { outline: 3px solid var(--focus); outline-offset: -4px; }
 
@@ -581,11 +591,11 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 }
 
 /* Custom device drawings: one responsive row with room for wrapping labels. */
-.apes-landing .device-support { --device-icon-size: clamp(28px, 7vw, 36px); --device-icon-fill: color-mix(in srgb, var(--text) 12%, var(--surface)); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(4px, 1vw, 8px); margin: 24px 0; padding: 0; list-style: none; }
+.apes-landing .device-support { --device-icon-height: 26px; --device-icon-fill: color-mix(in srgb, var(--text) 12%, var(--surface)); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(4px, 1vw, 8px); margin: 24px 0; padding: 0; list-style: none; }
 .apes-landing .device-support li { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 6px; margin: 0; padding: 0; color: var(--text-secondary); font-size: .8125rem; line-height: 1.35; text-align: center; }
 .apes-landing .device-support li::before { display: none; }
 .apes-landing .device-support li > span { max-width: 100%; overflow-wrap: anywhere; text-wrap: balance; }
-.apes-landing .device-support svg { display: block; flex: none; width: var(--device-icon-size); height: var(--device-icon-size); color: var(--text); }
+.apes-landing .device-support img { display: block; flex: none; width: auto; height: var(--device-icon-height); object-fit: contain; }
 .apes-landing .device-support .device-new { padding: 1px 5px; font-size: .625rem; }
 
 /* Intrinsic media must not widen grid tracks or the mobile layout viewport. */

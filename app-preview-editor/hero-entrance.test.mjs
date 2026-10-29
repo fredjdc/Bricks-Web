@@ -106,7 +106,7 @@ test("settling removes blur and uses shared resting spacing with the existing re
   assert.ok(parseFloat(token(mediaRule, "hero-preview-blur")) <= 3);
   assert.doesNotMatch(entrance, /will-change|\b(?:both|forwards|infinite)\b|(?:^|[;{])\s*(?:width|height|top|left|right|margin):/m);
   assert.ok(css.includes("transform: translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) scale(var(--hero-side-rest-scale));"));
-  assert.ok(css.includes("transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) scale(var(--hero-side-rest-scale));"));
+  assert.ok(css.includes("transform: translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) rotateZ(calc(-1 * var(--hero-side-rest-roll))) scale(var(--hero-side-rest-scale));"));
   for (const pair of ["--hero-side-rest-scale: .88; --hero-side-rest-tilt: 12deg;", "--hero-side-rest-scale: .9; --hero-side-rest-tilt: 6deg;", "--hero-side-rest-scale: .94; --hero-side-rest-tilt: 3deg;"]) assert.ok(css.includes(pair));
   assert.match(css, /\.hero-result-left \{[^}]*transform-origin: right center;/);
   assert.match(css, /\.hero-result-right \{[^}]*transform-origin: left center;/);

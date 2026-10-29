@@ -159,7 +159,7 @@ test("shells, floating navigation, nested cards and footer retain equal outer gu
     const placement = (shell - (columns - 1) * 48) / columns;
     assert.ok(placement > 0 && placement <= shell);
     const gap = Math.max(4, Math.min(8, width * .01)), device = (Math.min(590, story) - 4 * gap) / 5;
-    assert.ok(device >= Math.max(28, Math.min(36, width * .07)) && device >= 42, `${width}px five-device row`);
+    assert.ok(device >= 26 * 1802.98 / 1002.75 && device >= 42, `${width}px five-device row`);
     const founderInner = shell - 2 - (width >= 900 ? 112 : 48);
     assert.ok(founderInner >= (width >= 900 ? 144 : 112));
     const faqInner = shell - 50; assert.ok(faqInner > 0);
@@ -182,33 +182,70 @@ test("intrinsic 4K/portrait media cannot force implicit mobile grid tracks wider
   assert.doesNotMatch(css, /height: 100%;[^}]*object-fit: cover;[^}]*video/);
 });
 
-test("hero peeks remain substantial, equal and inside the viewport at rest, including every mobile boundary", () => {
+test("top hero projected inner gaps are equal at rest, separation, handoff and static fallback across breakpoints", () => {
   for (const { width, shell } of matrix) {
-    const group = decl(width, [".hero-results", ".hero .hero-results", ".apes-landing .hero-results"]);
-    const hero = Math.min(shell, 860), side = (hero - 8) / (width < 560 ? 2.79 : 3) * (width < 560 ? .72 : 1);
-    const center = hero / 2, centerWidth = hero - 8 - side * 2;
-    const ratio = +group["--hero-side-distance-ratio"], inset = parseFloat(group["--hero-side-rest-inset"]) / 100;
-    assert.equal(ratio, width < 560 ? .85 : .7);
-    const scale = +group["--hero-side-rest-scale"], angle = parseFloat(group["--hero-side-rest-tilt"]) * Math.PI / 180;
-    const project = x => { const dx = (x - side) * scale, z = -Math.sin(angle) * dx;
-      return center + (4 + side + Math.cos(angle) * dx + inset * side - center) * 1200 / (1200 - z); };
-    const baseline = restDistance(4, side, -1, scale, angle * 180 / Math.PI, inset, center, 1200, center);
-    const shift = baseline * (1 - ratio), left = project(0) + shift, right = project(side) + shift;
-    const projectRight = x => { const dx = x * scale, z = Math.sin(angle) * dx;
-      return center + (hero - 4 - side + Math.cos(angle) * dx - inset * side - center) * 1200 / (1200 - z); };
-    const rightInner = projectRight(0) - shift, rightOuter = projectRight(side) - shift;
-    const peek = center - centerWidth * 1.08 / 2 - left;
-    assert.ok(peek >= (right - left) * (width < 560 ? .45 : .3), `${width}px visible side preview`);
-    assert.ok(left >= 0 && right < center && right > center - centerWidth * 1.08 / 2);
-    near((left + rightOuter) / 2, center);
-    near((right + rightInner) / 2, center);
-    near(peek, rightOuter - (center + centerWidth * 1.08 / 2));
+    const group = decl(width, [".hero-results", ".hero .hero-results", ".apes-landing .hero-results", ".apes-landing .hero .hero-results"]);
+    const hero = Math.min(shell, 1080), pad = shell * .045;
+    const centerWidth = (hero - pad * 2) / 2.36, side = centerWidth * .68, center = hero / 2;
+    const ratio = +group["--hero-side-distance-ratio"], angle = parseFloat(group["--hero-side-rest-tilt"]) * Math.PI / 180;
+    const depth = parseFloat(group["--hero-fan-perspective"]);
+    const frame = width < 560 ? 6 : 10;
+    const height = frame + (side - frame) * 3840 / 1776;
+    const roll = parseFloat(group["--hero-side-rest-roll"]) * Math.PI / 180;
+    const project = (x, y, direction = -1) => {
+      const origin = direction < 0 ? side : 0, left = direction < 0 ? pad : pad + side + centerWidth;
+      const inset = parseFloat(group["--hero-side-rest-inset"]) / 100, yaw = -direction * angle, rotation = -direction * roll;
+      const dx = x - origin, dy = y - height / 2;
+      const rotatedX = Math.cos(rotation) * dx - Math.sin(rotation) * dy;
+      const rotatedY = Math.sin(rotation) * dx + Math.cos(rotation) * dy;
+      const z = -Math.sin(yaw) * rotatedX, cameraY = height / 2 + (width < 560 ? 4 : 6);
+      return {
+        x: center + (left + origin + Math.cos(yaw) * rotatedX - direction * inset * side - center) * depth / (depth - z),
+        y: cameraY + (height / 2 + rotatedY - cameraY) * depth / (depth - z),
+      };
+    };
+    const corners = [project(0, 0), project(side, 0), project(0, height), project(side, height)];
+    const outer = Math.min(...corners.map(point => point.x)), inner = Math.max(...corners.map(point => point.x));
+    const halfBounds = (inner - outer) / 2;
+    const rightCorners = [project(0, 0, 1), project(side, 0, 1), project(0, height, 1), project(side, height, 1)];
+    const rightOuter = Math.max(...rightCorners.map(point => point.x));
+    const rightInner = Math.min(...rightCorners.map(point => point.x));
+    const rightBaseline = restDistance(pad + side + centerWidth, side, 1, 1, angle * 180 / Math.PI, 0, center, depth, center, height, roll * 180 / Math.PI);
+    assert.ok(side * Math.sin(angle) < 0 && depth > side, "Outward panels have receding outer edges without camera intersection");
+    const drop = side * parseFloat(group["--hero-fan-drop"]) / 100;
+    const topOffset = drop + Math.min(...corners.map(point => point.y));
+    near(topOffset, drop);
+    assert.ok(topOffset / centerWidth > .18 && topOffset / centerWidth < .19, `${width}px existing vertical offset is preserved`);
+    assert.ok(side < centerWidth && height + drop < frame + (centerWidth - frame) * 1920 / 886);
+    const baseline = restDistance(pad, side, -1, 1, angle * 180 / Math.PI, 0, center, depth, center, height, roll * 180 / Math.PI), shift = baseline * (1 - ratio);
+    near(baseline, center - (outer + inner) / 2);
     let previous = -Infinity;
     for (const p of [0, .1, .3, .6, 1]) {
-      const separation = baseline - shift * (1 - p); assert.ok(separation > previous); previous = separation;
+      const distance = baseline - shift * (1 - p);
+      assert.ok(distance > previous); previous = distance;
+      const left = center - distance - halfBounds, right = rightOuter - rightBaseline * (1 - ratio) * (1 - p);
+      assert.ok((width - hero) / 2 + left >= 0 && (width - hero) / 2 + right <= width, `${width}px fan stays in the viewport before its fading exit`);
+      near(center - centerWidth / 2 - (inner + shift * (1 - p)), rightInner - rightBaseline * (1 - ratio) * (1 - p) - (center + centerWidth / 2));
+      assert.ok(distance + halfBounds - centerWidth / 2 >= (inner - outer) * .8, `${width}px projected side panels remain distinguishable`);
+      for (const handoff of [0, .1, .5, 1]) {
+        const exit = Math.max(48, Math.min(220, width * .18)) * handoff;
+        const movingHalfWidth = centerWidth / 2 * (1 - .6 * handoff);
+        const leftGap = center - movingHalfWidth - (inner + shift * (1 - p) - exit);
+        const rightGap = rightInner - rightBaseline * (1 - ratio) * (1 - p) + exit - (center + movingHalfWidth);
+        near(leftGap, rightGap);
+        near(Math.max(0, leftGap), Math.max(0, rightGap));
+      }
     }
-    const fallbackShift = (1 - ratio) * ((width < 560 ? 1.4375 : 1) - (1 - scale) / 2 - inset) * side;
-    const staticPeek = center - centerWidth * 1.08 / 2 - (project(0) + fallbackShift);
-    assert.ok(staticPeek >= (right - left) * (width < 560 ? .45 : .3));
+    near(baseline, rightBaseline);
+    const fallbackShift = (1 - ratio) * parseFloat(group["--hero-side-distance"]) / 100 * side;
+    near(center - centerWidth / 2 - inner - fallbackShift, rightInner - fallbackShift - center - centerWidth / 2);
+    assert.equal(group["--hero-side-rest-inset"], "0%");
+    assert.equal(group["--hero-side-inset-factor"], undefined);
+    assert.equal(angle * 180 / Math.PI, -28); assert.equal(roll, 0);
+    assert.ok(decl(width, [".apes-landing .hero .hero-result-left"]).transform.includes("rotateY(var(--hero-side-rest-tilt))"));
+    assert.equal(decl(width, [".apes-landing .hero"])["row-gap"], "16px");
+    const closing = decl(width, [".apes-landing .hero-results"]);
+    assert.equal(closing["--hero-fan-perspective"], undefined, "Closing CTA retains the previous layout");
+    assert.equal(closing.width, "min(100%, 860px)");
   }
 });

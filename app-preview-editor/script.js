@@ -483,19 +483,23 @@ const createStoryReveal = () => {
 
 // Project the unanimated resting card's edges through the same CSS camera.
 // Undo the outer translation before measuring; inner intro transforms never enter this baseline.
-const heroSideRestDistance = (left, width, direction, scale, tilt, inset, camera, depth, center) => {
-  if (![left, width, direction, scale, tilt, inset, camera, depth, center].every(Number.isFinite)
-    || width <= 0 || scale <= 0 || depth <= 0) return null;
+const heroSideRestDistance = (left, width, direction, scale, tilt, inset, camera, depth, center, height = 0, roll = 0) => {
+  if (![left, width, direction, scale, tilt, inset, camera, depth, center, height, roll].every(Number.isFinite)
+    || width <= 0 || height < 0 || scale <= 0 || depth <= 0) return null;
   const origin = direction < 0 ? width : 0;
   const angle = -direction * tilt * Math.PI / 180;
-  const project = x => {
+  const rollAngle = -direction * roll * Math.PI / 180;
+  const project = (x, y) => {
     const dx = (x - origin) * scale;
-    const z = -Math.sin(angle) * dx;
+    const dy = (y - height / 2) * scale;
+    const rotatedX = Math.cos(rollAngle) * dx - Math.sin(rollAngle) * dy;
+    const z = -Math.sin(angle) * rotatedX;
     if (z >= depth) return NaN;
-    const world = left + origin + Math.cos(angle) * dx - direction * inset * width;
+    const world = left + origin + Math.cos(angle) * rotatedX - direction * inset * width;
     return camera + (world - camera) * depth / (depth - z);
   };
-  const distance = Math.abs(center - (project(0) + project(width)) / 2);
+  const corners = [project(0, 0), project(width, 0), project(0, height), project(width, height)];
+  const distance = Math.abs(center - (Math.min(...corners) + Math.max(...corners)) / 2);
   return Number.isFinite(distance) ? distance : null;
 };
 
@@ -542,7 +546,10 @@ const createHeroSpacing = origin => {
         const slotBounds = slot.getBoundingClientRect();
         const left = slotBounds.left - matrix.m41;
         const ratio = token("--hero-side-distance-ratio");
-        const distance = heroSideRestDistance(left, slotBounds.width, token("--hero-exit-direction"), token("--hero-side-rest-scale"), token("--hero-side-rest-tilt"), token("--hero-side-rest-inset") / 100, left + parseFloat(style.perspectiveOrigin), parseFloat(style.perspective), center);
+        const tilt = token("--hero-side-rest-tilt");
+        const roll = token("--hero-side-rest-roll");
+        const inset = token("--hero-side-rest-inset") / 100;
+        const distance = heroSideRestDistance(left, slotBounds.width, token("--hero-exit-direction"), token("--hero-side-rest-scale"), tilt, inset, left + parseFloat(style.perspectiveOrigin), parseFloat(style.perspective), center, slotBounds.height, roll);
         if (distance === null || !(ratio > 0 && ratio <= 1)) throw new Error("Missing hero spacing geometry");
         return { slot, shift: distance * (1 - ratio) };
       });

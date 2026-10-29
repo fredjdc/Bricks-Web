@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
+import { widths } from "./responsive-checkpoints.mjs";
 
 const [css, script, html] = await Promise.all(["styles.css", "script.js", "index.html"].map(file => readFile(new URL(file, import.meta.url), "utf8")));
 const source = script.slice(script.indexOf("const previewHandoff ="));
@@ -42,27 +43,32 @@ function effective(viewport, node, reduced = false) {
 }
 
 test("effective resting transforms use stable shared tokens at every breakpoint without an inline override", () => {
-  for (const viewport of [320, 375, 390, 430, 482, 560, 768, 900, 1024, 1440]) {
+  for (const viewport of [...widths, 2006]) {
     const group = effective(viewport, "hero-results");
-    assert.equal(group["--hero-side-rest-inset"], viewport < 560 ? "8%" : "28%");
-    assert.equal(group["--hero-side-distance-ratio"], viewport < 560 ? ".85" : ".7");
-    near(parseFloat(group["--hero-side-rest-scale"]), viewport < 560 ? .94 : viewport < 900 ? .9 : .88);
-    near(parseFloat(group["--hero-side-rest-tilt"]), viewport < 560 ? 3 : viewport < 900 ? 6 : 12);
-    assert.equal(effective(viewport, "hero-result-left").transform, "translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) scale(var(--hero-side-rest-scale))");
-    assert.equal(effective(viewport, "hero-result-right").transform, "translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) scale(var(--hero-side-rest-scale))");
-    const width = Math.min(viewport - (viewport < 560 ? 32 : 48), 860), inner = width - 8;
-    const side = inner / (viewport < 560 ? 2.79 : 3) * (viewport < 560 ? .72 : 1);
-    const centerWidth = inner - side * 2, center = width / 2;
+    assert.equal(group["--hero-side-rest-inset"], "0%");
+    assert.equal(group["--hero-side-distance-ratio"], ".92");
+    assert.equal(group["--hero-fan-side-track"], ".68fr");
+    assert.equal(group["--hero-fan-perspective"], "1600px");
+    assert.equal(group["--hero-side-rest-scale"], "1");
+    assert.equal(group["--hero-side-rest-tilt"], "-28deg");
+    assert.equal(group["--hero-side-rest-roll"], "0deg");
+    assert.equal(effective(viewport, "hero-center-slot")["--hero-center-scale"], "1");
+    assert.equal(effective(viewport, "hero-result-left").transform, "translateX(var(--hero-side-rest-inset)) rotateY(var(--hero-side-rest-tilt)) rotateZ(var(--hero-side-rest-roll)) scale(var(--hero-side-rest-scale))");
+    assert.equal(effective(viewport, "hero-result-right").transform, "translateX(calc(-1 * var(--hero-side-rest-inset))) rotateY(calc(-1 * var(--hero-side-rest-tilt))) rotateZ(calc(-1 * var(--hero-side-rest-roll))) scale(var(--hero-side-rest-scale))");
+    const shell = Math.min(viewport - (viewport < 560 ? 32 : 48), 1180);
+    const width = Math.min(shell, 1080), pad = shell * .045;
+    const centerWidth = (width - pad * 2) / 2.36, side = centerWidth * .68, center = width / 2;
     const distances = [-1, 1].map(direction => {
-      const left = direction < 0 ? 4 : 4 + side + centerWidth;
-      const baseline = restDistance(left, side, direction, parseFloat(group["--hero-side-rest-scale"]), parseFloat(group["--hero-side-rest-tilt"]), parseFloat(group["--hero-side-rest-inset"]) / 100, center, 1200, center);
-      const shift = baseline * (1 - parseFloat(group["--hero-side-distance-ratio"]));
-      near(baseline - shift, baseline * parseFloat(group["--hero-side-distance-ratio"]));
-      assert.ok(baseline - shift > 0, "Side centers remain on their own sides");
-      assert.ok(baseline - shift < centerWidth * 1.08 / 2 + side * parseFloat(group["--hero-side-rest-scale"]) / 2, "Keep visible peeks overlapping behind the center");
+      const left = direction < 0 ? pad : pad + side + centerWidth;
+      const frame = viewport < 560 ? 6 : 10;
+      const baseline = restDistance(left, side, direction, 1, -28, 0, center, 1600, center, frame + (side - frame) * 3840 / 1776, 0);
+      const shift = baseline * .08;
+      assert.ok(baseline - shift > centerWidth / 2 && baseline - shift < centerWidth);
+      assert.ok(baseline - shift > 0);
       return baseline;
     });
     near(distances[0], distances[1]);
+    near(restDistance(pad, side, -1, 1, -28, 0, center, 1600, center), restDistance(pad + side + centerWidth, side, 1, 1, -28, 0, center, 1600, center));
   }
   const media = html.match(/<div class="hero-results"[\s\S]*?<section class="result-section/)[0];
   assert.doesNotMatch(media, /style=/);
@@ -183,7 +189,7 @@ function page({ reduced = false, broken = false } = {}) {
       ? node.direction * (((+hero.style.values.get("--hero-separation-progress") || 0) - 1) * shift + (+main.style.values.get("--handoff-progress") || 0) * 220)
       : -node.direction * shift;
   };
-  slots.forEach(node => { node.getBoundingClientRect = () => ({ left: 70 + node.offsetLeft + slotOffset(node), width: 284 }); });
+  slots.forEach(node => { node.getBoundingClientRect = () => ({ left: 70 + node.offsetLeft + slotOffset(node), width: 284, height: 602.4324324324324 }); });
   const document = { hidden: false, addEventListener: (name, fn) => { events[name] = fn; }, querySelector: selector => ({ "[data-hero-preview-origin]": origin, "[data-editor-composition]": composition, "#result-title": title })[selector] };
   vm.runInNewContext(source, {
     DOMMatrixReadOnly: class { constructor(transform) { Object.assign(this, { is2D: true, a: 1, b: 0, c: 0, d: 1, f: 0, m41: +transform.match(/matrix\(1, 0, 0, 1, ([^,]+), 0\)/)[1] }); } },
@@ -191,9 +197,9 @@ function page({ reduced = false, broken = false } = {}) {
     document,
     window: { innerHeight: 800, get scrollY() { return scroll; }, addEventListener: (name, fn) => { events[name] = fn; },
       getComputedStyle(node) {
-        if (node === origin) return { getPropertyValue: () => "1.08" };
+        if (node === origin) return { getPropertyValue: () => "1" };
         const group = effective(1440, "hero-results");
-        return { transform: `matrix(1, 0, 0, 1, ${slotOffset(node)}, 0)`, perspective: broken ? "none" : "1200px", perspectiveOrigin: `${node.direction < 0 ? 426 : -142}px 325px`,
+        return { transform: `matrix(1, 0, 0, 1, ${slotOffset(node)}, 0)`, perspective: broken ? "none" : "1600px", perspectiveOrigin: `${node.direction < 0 ? 426 : -142}px 325px`,
           getPropertyValue: name => name === "--hero-exit-direction" ? String(node.direction) : group[name] };
       } },
     requestAnimationFrame: fn => { frames.push(fn); return frames.length; },
@@ -208,8 +214,8 @@ test("the real scroll controller writes early separation, preserves the later ha
   const p = page();
   const left = p.slots[0], shift = parseFloat(left.style.values.get("--hero-side-rest-shift"));
   assert.ok(shift > 0);
-  const baseline = restDistance(74, 284, -1, .88, 12, .28, 500, 1200, 500);
-  near(shift, baseline * .3);
+  const baseline = restDistance(74, 284, -1, 1, -28, 0, 500, 1600, 500, 602.4324324324324, 0);
+  near(shift, baseline * .08);
   const positions = [];
   for (const scroll of [0, 1, 250, 519.999, 520, 520.001, 600, 948, 1376]) {
     p.scroll(scroll);
@@ -219,10 +225,10 @@ test("the real scroll controller writes early separation, preserves the later ha
     if (scroll > 0 && scroll < 600) assert.ok(separation > 0 && separation < 1);
     const offset = (separation - 1) * shift + handoff * 220;
     positions.push(offset);
-    if (scroll === 0) near(baseline + offset, baseline * .7);
+    if (scroll === 0) near(baseline + offset, baseline * .92);
     if (scroll === 948) near(parseFloat(p.traveler.style.values.get("--preview-y")), 500);
     if (scroll === 1376) near(parseFloat(p.traveler.style.values.get("--preview-y")), 1000);
-    near(parseFloat(p.slots[1].style.values.get("--hero-side-rest-shift")), shift);
+    near(parseFloat(p.slots[1].style.values.get("--hero-side-rest-shift")), restDistance(642, 284, 1, 1, -28, 0, 500, 1600, 500, 602.4324324324324, 0) * .08);
   }
   assert.ok(positions.every((value, index) => index === 0 || value > positions[index - 1]));
   p.scroll(250); const halfway = [...p.hero.style.values];
@@ -232,6 +238,16 @@ test("the real scroll controller writes early separation, preserves the later ha
 });
 
 test("the intro compensates outer tightening and settling has no second transform owner or step", () => {
+  assert.equal(effective(390, "hero-result-left")["transform-origin"], "right center");
+  assert.equal(effective(390, "hero-result-right")["transform-origin"], "left center");
+  assert.doesNotMatch(css, /\.apes-landing \.hero \.hero-result-(?:left|right) \{[^}]*rotate\(/);
+  for (const progress of [0, .4, 1]) {
+    const side = .68, center = 1, scale = .8, target = side + center / 2;
+    const restShift = .08 * (1 - progress);
+    const enter = (side + center) / 2 - (1 - scale) * side / 2 - restShift;
+    near(side * (1 - scale / 2) + restShift + enter, target);
+    near(side + center + side * scale / 2 - restShift - enter, target);
+  }
   assert.match(css, /--hero-side-enter: calc\(var\(--hero-side-distance\) - \(1 - var\(--hero-preview-scale\)\) \* 50% - \(1 - var\(--hero-separation-progress, 0\)\) \* var\(--hero-side-rest-shift\)\);/);
   const rule = css.match(/\.is-handoff-ready \.hero-side-slot \{([^}]+)\}/)[1];
   assert.ok(rule.includes("transform: translateX(calc(var(--hero-exit-direction) * ((var(--hero-separation-progress, 0) - 1) * var(--hero-side-rest-shift) + var(--handoff-progress) * var(--hero-exit-distance))));"));
