@@ -123,6 +123,7 @@
             src="https://www.facebook.com/tr?id=1088148306858128&ev=PageView&noscript=1" />
     </noscript>
     <!-- End Meta Pixel Code -->
+    <link rel="stylesheet" href="tally-embed.css?v=20261029-1" />
 </head>
 
 <body>
@@ -141,6 +142,7 @@
         <p>See <a href="help.html">Help Center</a>, <a href="survey.html">Feedback</a>, and <a href="about.html">About</a>.</p>
     </div>
 
+    <script src="tally-embed.js?v=20261029-1" defer></script>
     <div id="root"></div>
 
     <script type="text/babel">
@@ -650,22 +652,11 @@
                     body: "Fill out the form below to report an issue or share feedback for new features.",
                 },
                 form: {
-                    name: 'Full Name',
-                    email: 'Email Address',
-                    description: 'Description',
-                    descriptionHint: 'Please provide as much detail as possible',
-                    attachments: 'Attachments (optional)',
-                    dropText: 'Click to upload or drag and drop',
-                    dropHint: 'Images PNG or JPEG (max 4 MB)',
-                    submit: 'Submit Report',
-                    submitting: 'Sending\u2026',
-                    sizeError: 'Some files exceed the 4 MB limit and were not included.',
-                },
-                success: {
-                    title: 'Report Submitted',
-                    body: 'Your report has been submitted. Reference number:',
-                    saveNote: 'Save this number for future reference.',
-                    close: 'Close',
+                    title: 'Bricks Apps support form',
+                    loading: 'Loading support form…',
+                    slow: 'The form is taking longer to load. You can retry here.',
+                    retry: 'Retry loading form',
+                    fallback: 'If the embedded form cannot load, open the support form on Tally (optional).',
                 },
             },
             es: {
@@ -675,347 +666,27 @@
                     body: 'Completa el formulario a continuaci\u00f3n para reportar un problema o compartir comentarios sobre nuevas funciones.',
                 },
                 form: {
-                    name: 'Nombre Completo',
-                    email: 'Correo Electr\u00f3nico',
-                    description: 'Descripci\u00f3n',
-                    descriptionHint: 'Por favor proporciona tantos detalles como sea posible',
-                    attachments: 'Archivos Adjuntos (opcional)',
-                    dropText: 'Haz clic para subir o arrastra y suelta',
-                    dropHint: 'Im\u00e1genes PNG o JPEG (m\u00e1x. 4 MB)',
-                    submit: 'Enviar Reporte',
-                    submitting: 'Enviando\u2026',
-                    sizeError: 'Algunos archivos superan el l\u00edmite de 4 MB y no se incluyeron.',
-                },
-                success: {
-                    title: 'Reporte Enviado',
-                    body: 'Tu reporte ha sido enviado. N\u00famero de referencia:',
-                    saveNote: 'Guarda este n\u00famero para futuras referencias.',
-                    close: 'Cerrar',
+                    title: 'Formulario de soporte de Bricks Apps',
+                    loading: 'Cargando formulario de soporte…',
+                    slow: 'El formulario está tardando en cargar. Puedes reintentarlo aquí.',
+                    retry: 'Volver a cargar el formulario',
+                    fallback: 'Si el formulario integrado no carga, abre el formulario de soporte en Tally (opcional).',
                 },
             },
         };
 
-        // ==========================================================================
-        // Helpers
-        // ==========================================================================
-
-        function generateReferenceNumber() {
-            var ts = new Date().getTime().toString().slice(-6);
-            var rnd = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
-            return 'BRKS-' + ts + rnd;
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            var k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'], i = 0, tmp = bytes;
-            while (tmp >= k && i < sizes.length - 1) { tmp /= k; i++; }
-            return parseFloat(tmp.toFixed(2)) + ' ' + sizes[i];
-        }
-
-        // ==========================================================================
-        // SuccessOverlay
-        // ==========================================================================
-
-        function SuccessOverlay({ visible, refNumber, t, onClose }) {
-            if (!visible) return null;
-            return (
-                <div style={{
-                    position: 'fixed', inset: 0, zIndex: 200,
-                    background: 'rgba(11,15,20,0.6)',
-                    backdropFilter: 'blur(8px)',
-                    WebkitBackdropFilter: 'blur(8px)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    padding: 24,
-                }}>
-                    <div style={{
-                        background: 'var(--b-bg-elevated)',
-                        borderRadius: 32,
-                        padding: '48px 40px',
-                        maxWidth: 420, width: '100%',
-                        textAlign: 'center',
-                        boxShadow: '0 32px 80px rgba(11,15,20,0.28)',
-                        border: '1px solid var(--b-border)',
-                    }}>
-                        <div style={{
-                            width: 56, height: 56, borderRadius: '50%',
-                            background: 'rgba(0,166,161,0.12)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            margin: '0 auto 20px',
-                        }}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M5 13l4 4L19 7" stroke="#00A6A1" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </div>
-                        <div style={{
-                            fontSize: 22, fontWeight: 700, color: 'var(--b-text)',
-                            letterSpacing: '-0.02em', marginBottom: 8,
-                        }}>{t.title}</div>
-                        <p style={{ fontSize: 15, color: 'var(--b-text-2)', lineHeight: 1.5, margin: '0 0 20px' }}>
-                            {t.body}
-                        </p>
-                        <div style={{
-                            display: 'inline-block',
-                            background: 'var(--b-bg)',
-                            borderRadius: 12,
-                            padding: '10px 20px',
-                            fontSize: 15, fontWeight: 700, letterSpacing: '0.06em',
-                            color: 'var(--b-text)',
-                            boxShadow: 'var(--emboss-recessed)',
-                            marginBottom: 12,
-                            fontVariantNumeric: 'tabular-nums',
-                        }}>{refNumber}</div>
-                        <p style={{ fontSize: 13, color: 'var(--b-text-3)', margin: '0 0 28px' }}>{t.saveNote}</p>
-                        <button
-                            onClick={onClose}
-                            style={{
-                                padding: '12px 28px', borderRadius: 100,
-                                background: 'var(--b-text)', color: 'var(--b-bg)',
-                                border: 'none', fontSize: 14, fontWeight: 600,
-                                fontFamily: 'inherit', letterSpacing: '-0.01em',
-                                cursor: 'pointer',
-                                boxShadow: '0 8px 20px rgba(11,15,20,0.18)',
-                                transition: 'transform 0.15s ease',
-                            }}
-                            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
-                        >{t.close}</button>
-                    </div>
-                </div>
-            );
-        }
-
-        // ==========================================================================
-        // SupportForm
-        // ==========================================================================
-
         function SupportForm({ t }) {
-            const isMobile = window.useIsMobile();
-            const [focus, setFocus] = React.useState(null);
-            const [selectedFiles, setSelectedFiles] = React.useState([]);
-            const [isDragOver, setIsDragOver] = React.useState(false);
-            const [submitting, setSubmitting] = React.useState(false);
-            const [showSuccess, setShowSuccess] = React.useState(false);
-            const fileInputRef = React.useRef(null);
-            const iframeRef = React.useRef(null);
-            const isSubmittingRef = React.useRef(false);
-
-            const refNumber = React.useMemo(() => generateReferenceNumber(), []);
-
             React.useEffect(() => {
-                const iframe = iframeRef.current;
-                if (!iframe) return;
-                const handler = () => {
-                    if (isSubmittingRef.current) {
-                        setShowSuccess(true);
-                        setSubmitting(false);
-                        setSelectedFiles([]);
-                        isSubmittingRef.current = false;
-                        const form = document.getElementById('support-form');
-                        if (form) form.reset();
-                    }
-                };
-                iframe.addEventListener('load', handler);
-                return () => iframe.removeEventListener('load', handler);
+                window.dispatchEvent(new Event('tally:mount'));
             }, []);
-
-            function handleFiles(files) {
-                var valid = Array.from(files).filter(f => f.size <= 4 * 1024 * 1024);
-                if (valid.length !== files.length) alert(t.sizeError);
-                if (valid.length > 0) setSelectedFiles(prev => prev.concat(valid));
-            }
-
-            function handleSubmit() {
-                if (selectedFiles.length > 0 && typeof DataTransfer !== 'undefined') {
-                    try {
-                        var dt = new DataTransfer();
-                        dt.items.add(selectedFiles[0]);
-                        fileInputRef.current.files = dt.files;
-                    } catch (e) { }
-                }
-                setSubmitting(true);
-                isSubmittingRef.current = true;
-            }
-
-            const fieldStyle = (id) => ({
-                width: '100%', padding: '13px 16px',
-                borderRadius: 14, border: '1px solid var(--b-border)',
-                background: 'var(--b-bg)',
-                color: 'var(--b-text)',
-                fontSize: 15, fontFamily: 'inherit',
-                boxShadow: focus === id ? 'var(--emboss-recessed), 0 0 0 3px rgba(0,166,161,0.15)' : 'var(--emboss-recessed)',
-                outline: 'none',
-                transition: 'box-shadow 0.2s ease',
-                boxSizing: 'border-box',
-            });
-
-            const labelStyle = {
-                display: 'block',
-                fontSize: 13, fontWeight: 600, color: 'var(--b-text-2)',
-                letterSpacing: '-0.01em', marginBottom: 8,
-            };
-
             return (
-                <React.Fragment>
-                    <iframe ref={iframeRef} name="support_iframe" style={{ display: 'none' }} />
-                    <form
-                        id="support-form"
-                        target="support_iframe"
-                        action="https://formsubmit.co/707e6e012fa931048784ff0f766aa0df"
-                        method="POST"
-                        encType="multipart/form-data"
-                        onSubmit={handleSubmit}
-                    >
-                        <input type="hidden" name="_subject" value="Bricks Apps Support Request" />
-                        <input type="hidden" name="_template" value="table" />
-                        <input type="hidden" name="_captcha" value="false" />
-                        <input type="hidden" name="reference_number" value={refNumber} />
-                        <input type="text" name="_honey" style={{ display: 'none' }} tabIndex="-1" autoComplete="off" />
-
-                        {/* Name + Email */}
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-                            gap: 16, marginBottom: 20,
-                        }}>
-                            <div>
-                                <label style={labelStyle}>{t.name}</label>
-                                <input
-                                    type="text" name="name" required
-                                    onFocus={() => setFocus('name')}
-                                    onBlur={() => setFocus(null)}
-                                    style={fieldStyle('name')}
-                                />
-                            </div>
-                            <div>
-                                <label style={labelStyle}>{t.email}</label>
-                                <input
-                                    type="email" name="email" required
-                                    onFocus={() => setFocus('email')}
-                                    onBlur={() => setFocus(null)}
-                                    style={fieldStyle('email')}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Description */}
-                        <div style={{ marginBottom: 20 }}>
-                            <label style={labelStyle}>{t.description}</label>
-                            <textarea
-                                name="message" required rows={7}
-                                onFocus={() => setFocus('message')}
-                                onBlur={() => setFocus(null)}
-                                style={{ ...fieldStyle('message'), resize: 'vertical', minHeight: 140 }}
-                            />
-                            <div style={{ fontSize: 12, color: 'var(--b-text-3)', marginTop: 6 }}>{t.descriptionHint}</div>
-                        </div>
-
-                        {/* File upload */}
-                        <div style={{ marginBottom: selectedFiles.length > 0 ? 16 : 28 }}>
-                            <label style={labelStyle}>{t.attachments}</label>
-                            <div
-                                onClick={() => fileInputRef.current && fileInputRef.current.click()}
-                                onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
-                                onDragLeave={() => setIsDragOver(false)}
-                                onDrop={(e) => { e.preventDefault(); setIsDragOver(false); handleFiles(e.dataTransfer.files); }}
-                                style={{
-                                    border: `1.5px dashed ${isDragOver ? 'var(--b-text-2)' : 'var(--b-border)'}`,
-                                    borderRadius: 14,
-                                    padding: '24px 20px',
-                                    textAlign: 'center',
-                                    cursor: 'pointer',
-                                    background: isDragOver ? 'var(--b-bg-elevated)' : 'var(--b-bg)',
-                                    transition: 'border-color 0.2s, background 0.2s',
-                                }}
-                            >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    style={{ display: 'block', margin: '0 auto 10px', color: 'var(--b-text-3)' }}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6"
-                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                </svg>
-                                <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--b-text-2)', marginBottom: 4 }}>{t.dropText}</div>
-                                <div style={{ fontSize: 12, color: 'var(--b-text-3)' }}>{t.dropHint}</div>
-                            </div>
-                            <input
-                                ref={fileInputRef}
-                                type="file" name="attachment"
-                                accept="image/png, image/jpeg"
-                                style={{ display: 'none' }}
-                                onChange={(e) => {
-                                    handleFiles(e.target.files);
-                                    e.target.value = '';
-                                }}
-                            />
-                        </div>
-
-                        {/* File list */}
-                        {selectedFiles.length > 0 && (
-                            <div style={{ marginBottom: 28, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                                {selectedFiles.map((file, i) => (
-                                    <div key={i} style={{
-                                        display: 'flex', alignItems: 'center', gap: 12,
-                                        padding: '10px 14px',
-                                        background: 'var(--b-bg-elevated)',
-                                        borderRadius: 12,
-                                        border: '1px solid var(--b-border)',
-                                    }}>
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            style={{ flexShrink: 0, color: 'var(--b-text-3)' }}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6"
-                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                        <div style={{ flex: 1, minWidth: 0 }}>
-                                            <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--b-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{file.name}</div>
-                                            <div style={{ fontSize: 12, color: 'var(--b-text-3)' }}>{formatFileSize(file.size)}</div>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => setSelectedFiles(prev => prev.filter((_, j) => j !== i))}
-                                            style={{
-                                                background: 'none', border: 'none', cursor: 'pointer',
-                                                color: 'var(--b-text-3)', padding: 4, borderRadius: 6,
-                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                transition: 'color 0.15s',
-                                            }}
-                                            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--b-text)'}
-                                            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--b-text-3)'}
-                                        >
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {/* Submit */}
-                        <button
-                            type="submit"
-                            disabled={submitting}
-                            style={{
-                                padding: '13px 28px', borderRadius: 100,
-                                background: submitting ? 'var(--b-text-3)' : 'var(--b-text)',
-                                color: 'var(--b-bg)',
-                                border: 'none', fontSize: 14, fontWeight: 600,
-                                fontFamily: 'inherit', letterSpacing: '-0.01em',
-                                cursor: submitting ? 'wait' : 'pointer',
-                                boxShadow: '0 8px 20px rgba(11,15,20,0.18)',
-                                transition: 'transform 0.15s ease, background 0.2s ease',
-                            }}
-                            onMouseEnter={(e) => { if (!submitting) e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
-                        >
-                            {submitting ? t.submitting : t.submit}
-                        </button>
-                    </form>
-
-                    <SuccessOverlay
-                        visible={showSuccess}
-                        refNumber={refNumber}
-                        t={SUPPORT_COPY[document.documentElement.getAttribute('lang') || 'en'].success}
-                        onClose={() => setShowSuccess(false)}
-                    />
-                </React.Fragment>
+                <div className="tally-embed" data-tally-form="6DDgZ5" data-loading={t.loading} data-slow={t.slow}>
+                    <p className="tally-status" role="status">{t.loading}</p>
+                    <iframe data-embed-url="https://tally.so/embed/6DDgZ5?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+                        loading="lazy" width="100%" height="639" frameBorder="0" marginHeight="0" marginWidth="0" title={t.title}></iframe>
+                    <button className="tally-retry" type="button" hidden>{t.retry}</button>
+                    <p className="tally-fallback"><a href="https://tally.so/r/6DDgZ5">{t.fallback}</a></p>
+                </div>
             );
         }
 

@@ -25,7 +25,8 @@
 
   <link rel="icon" href="AppIcon.png" type="image/png">
   <link rel="apple-touch-icon" href="AppIcon.png">
-  <link rel="stylesheet" href="styles.css?v=20261028-media-corners-12">
+  <link rel="stylesheet" href="styles.css?v=20261029-tally-1">
+  <link rel="stylesheet" href="../tally-embed.css?v=20261029-1">
   <link rel="stylesheet" href="wind-files.css?v=20261027-shared-shadow-1">
   <link rel="stylesheet" href="../shared-download-cta.css?v=20261024-1">
   <style>
@@ -501,7 +502,20 @@
           <span class="coming-soon-label">Free to use</span>
         </li>
       </ul>
-      <p class="template-share"><a href="mailto:hello@bricks.pe?subject=App%20Preview%20Editor%20template">Share your template</a><span>Every submission is reviewed before publishing.</span></p>
+      <details class="template-share">
+        <summary>Share your template</summary>
+        <div class="template-share-content">
+          <p>Help another developer tell their app’s story. Submit a template for review and possible inclusion in the collection.</p>
+          <p>Upload one ZIP, up to 10 MB, containing your native .apes template package. Include empty media slots, without personal images, recordings, or other private information.</p>
+          <p>Every submission is reviewed before publishing.</p>
+          <div class="tally-embed" data-tally-form="RWWAPv" data-loading="Loading template submission form…" data-slow="The form is taking longer to load. You can retry here.">
+            <p class="tally-status" role="status">Loading template submission form…</p>
+            <iframe data-embed-url="https://tally.so/embed/RWWAPv?alignLeft=1&amp;hideTitle=1&amp;transparentBackground=1&amp;dynamicHeight=1" loading="lazy" width="100%" height="802" frameborder="0" marginheight="0" marginwidth="0" title="Share an App Preview Editor template"></iframe>
+            <button class="tally-retry" type="button" hidden>Retry loading form</button>
+            <p class="tally-fallback"><a href="https://tally.so/r/RWWAPv">If the embedded form cannot load, open the template form on Tally (optional).</a></p>
+          </div>
+        </div>
+      </details>
     </section>
   </main>
 
@@ -512,5 +526,6 @@
 
   <script src="script.js?v=20261028-templates-1" defer></script>
   <script src="wind-files.js?v=20261027-workflow-pin-1" defer></script>
+  <script src="../tally-embed.js?v=20261029-1" defer></script>
 </body>
 </html>

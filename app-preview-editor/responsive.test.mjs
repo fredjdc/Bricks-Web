@@ -54,11 +54,14 @@ test("template previews follow the developer, link from Scene Clips and keep hon
   assert.match(section, /id="templates" aria-labelledby="templates-title" tabindex="-1"/);
   assert.match(section, /<h2 id="templates-title">Start with a template\.<\/h2>/);
   assert.match(section, /Choose a starting point, add your screens, and make it your own\./);
-  assert.match(section, /Template files aren’t available yet\./);
-  assert.equal((section.match(/>Preview concept<\/span>/g) || []).length, 3);
-  assert.doesNotMatch(section, /<video|<button|<form|\sdownload[=>\s]|Pro.only|creator:/i);
+  assert.equal((section.match(/>Free to use<\/span>/g) || []).length, 3);
+  assert.doesNotMatch(section, /<video|<form|\sdownload[=>\s]|Pro.only|creator:/i);
   assert.match(html.match(/<section class="scene-clips[\s\S]*?<\/section>/)[0], /href="#templates">Explore templates<\/a>/);
-  assert.match(section, /href="mailto:hello@bricks.pe\?subject=App%20Preview%20Editor%20template">Share your template/);
+  assert.match(section, /<details class="template-share">\s*<summary>Share your template<\/summary>/);
+  assert.match(section, /data-tally-form="RWWAPv"/);
+  assert.match(section, /height="802"[^>]*title="Share an App Preview Editor template"/);
+  assert.match(section, /Upload one ZIP, up to 10 MB/);
+  assert.doesNotMatch(section, /mailto:|target="_blank"/);
   const previews = [...section.matchAll(/<img class="template-preview" src="([^"]+)" width="(\d+)" height="(\d+)" alt="([^"]+)" loading="lazy" decoding="async">/g)];
   assert.equal(previews.length, 3);
   for (const [, path, width, height, alt] of previews) {
@@ -73,6 +76,64 @@ test("template previews follow the developer, link from Scene Clips and keep hon
     assert.equal(decl(width, [".apes-landing .templates"])["scroll-margin-top"], "112px");
   }
   assert.equal(decl(390, ["html"], true)["scroll-behavior"], "auto");
+});
+
+test("both inline Tally forms load, retry and accept only their own readiness event without navigation or fake success", async () => {
+  const [support, source, embedCSS] = await Promise.all(["../support.html", "../tally-embed.js", "../tally-embed.css"].map(file => readFile(new URL(file, import.meta.url), "utf8")));
+  assert.match(support, /data-tally-form="6DDgZ5"/);
+  assert.match(support, /height="639"[^>]*title=\{t.title\}/);
+  assert.match(support, /window.dispatchEvent\(new Event\('tally:mount'\)\)/);
+  assert.doesNotMatch(support, /formsubmit|support_iframe|SuccessOverlay|generateReferenceNumber|DataTransfer|_captcha|reference_number/);
+  assert.doesNotMatch(source, /window\.open|location\s*=|FormSubmitted|submit\(|fetch\(/);
+  for (const page of [support, html]) {
+    assert.match(page, /tally-embed\.js\?v=/);
+    assert.match(page, /tally-embed\.css\?v=/);
+    assert.match(page, /https:\/\/tally\.so\/embed\/(?:6DDgZ5|RWWAPv)\?alignLeft=1(?:&amp;|&)hideTitle=1(?:&amp;|&)transparentBackground=1(?:&amp;|&)dynamicHeight=1/);
+  }
+  assert.match(embedCSS, /\.tally-embed \{[^}]*width: 100%;[^}]*background: #fff;[^}]*color-scheme: light/);
+  assert.match(embedCSS, /\.tally-embed iframe \{[^}]*width: 100%; max-width: 100%/);
+  const listeners = {}, timers = new Map(); let clock = 0, loads = 0;
+  const make = (id, closed = false) => {
+    const handlers = {}, details = closed ? { open: false, addEventListener: (event, fn) => { handlers[event] = fn; } } : null;
+    const frame = { dataset: { embedUrl: `https://tally.so/embed/${id}?dynamicHeight=1` }, contentWindow: {}, getAttribute: key => frame[key] || null };
+    const status = {}, retry = { addEventListener: (event, fn) => { handlers[event] = fn; } };
+    return { dataset: { tallyForm: id, loading: "Loading", slow: "Retry here" }, frame, status, retry, details, handlers, isConnected: true,
+      closest: () => details, querySelector: selector => selector === "iframe" ? frame : selector === ".tally-status" ? status : retry };
+  };
+  const supportForm = make("6DDgZ5"), templateForm = make("RWWAPv", true);
+  const forms = [supportForm, templateForm];
+  const context = { document: { querySelectorAll: () => forms }, window: { Tally: { loadEmbeds: () => loads++ }, addEventListener: (name, fn) => { listeners[name] = fn; } },
+    setTimeout: fn => { timers.set(++clock, fn); return clock; }, clearTimeout: id => timers.delete(id) };
+  vm.runInNewContext(source, context);
+  await Promise.resolve();
+  assert.equal(loads, 1);
+  assert.equal(templateForm.frame.dataset.tallySrc, undefined, "Closed template embed stays unloaded");
+  templateForm.details.open = true; templateForm.handlers.toggle(); await Promise.resolve();
+  assert.equal(loads, 2);
+  assert.equal(templateForm.frame.dataset.tallySrc, templateForm.frame.dataset.embedUrl);
+  templateForm.handlers.toggle(); assert.equal(loads, 2, "Reopening preserves the same form and answers");
+  const event = { origin: "https://tally.so", source: supportForm.frame.contentWindow, data: JSON.stringify({ event: "Tally.FormLoaded", payload: { formId: "6DDgZ5" } }) };
+  listeners.message({ ...event, origin: "https://other.example" }); assert.equal(supportForm.status.hidden, false);
+  listeners.message({ ...event, source: {} }); assert.equal(supportForm.status.hidden, false);
+  listeners.message({ ...event, data: "not JSON" });
+  listeners.message(event); assert.equal(supportForm.status.hidden, true);
+  assert.equal(templateForm.status.hidden, false);
+  [...timers.values()].forEach(fn => fn()); assert.equal(templateForm.retry.hidden, false);
+  templateForm.handlers.click(); await Promise.resolve();
+  assert.equal(templateForm.frame.src, templateForm.frame.dataset.embedUrl, "Retry reloads the iframe, not the host page");
+  assert.equal(templateForm.retry.hidden, true);
+  assert.equal(loads, 3);
+  const blocked = make("6DDgZ5"); let scriptRemoved = false;
+  const offlineContext = { ...context, document: { querySelectorAll: () => [blocked], createElement: () => ({ remove: () => { scriptRemoved = true; } }), head: { append: script => { Promise.resolve().then(() => script.onerror()); } } }, window: { addEventListener: () => {} } };
+  vm.runInNewContext(source, offlineContext);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(scriptRemoved, true);
+  assert.equal(blocked.frame.src, blocked.frame.dataset.embedUrl, "Blocked height helper falls back to an inline iframe");
+  assert.equal(blocked.retry.hidden, false);
+  for (const width of widths) {
+    assert.equal(decl(width, [".apes-landing .template-share"])["max-width"], "760px");
+    assert.equal(decl(width, [".apes-landing .template-share-content"])["text-align"], "left");
+  }
 });
 
 test("shells, floating navigation, nested cards and footer retain equal outer gutters", () => {
