@@ -682,6 +682,7 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 .apes-landing .brand img,
 .apes-landing .bricks-download-cta,
 .apes-landing .bricks-download-cta .bricks-cta-button { box-shadow: var(--shadow); }
+.apes-landing .bricks-download-cta > img { width: 144px; height: 144px; }
 
 /* Recompute the shared recipe at each local palette boundary: inherited custom
    properties otherwise retain the colors resolved on the surrounding page. */
