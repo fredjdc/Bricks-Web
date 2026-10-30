@@ -52,6 +52,9 @@ test("template previews follow the developer, link from Scene Clips and keep hon
   const founderEnd = html.indexOf("</aside>", html.indexOf('<aside class="founder-note'));
   assert.ok(founderEnd < html.indexOf(section) && html.indexOf(section) < html.indexOf('<footer class="footer'));
   assert.match(section, /id="templates" aria-labelledby="templates-title" tabindex="-1"/);
+  assert.match(css, /\.apes-landing #templates:focus \{ outline: none; \}/);
+  assert.doesNotMatch(css, /#templates(?::focus-within|\s+(?:\*|a|button|summary))[^{}]*\{[^}]*outline:\s*(?:none|0)/);
+  assert.match(css, /\.template-share > summary:focus-visible \{ outline: 3px solid var\(--focus\);/);
   assert.match(section, /<h2 id="templates-title">Start with a template\.<\/h2>/);
   assert.match(section, /Choose a starting point, add your screens, and make it your own\./);
   assert.equal((section.match(/>Free to use<\/span>/g) || []).length, 3);

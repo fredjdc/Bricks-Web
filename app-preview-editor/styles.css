@@ -720,6 +720,8 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 /* Templates remain an inline gallery until real project files are supplied. */
 .apes-landing .scene-clips .templates-link { display: inline-block; margin-top: 8px; color: var(--detail); font-weight: 650; }
 .apes-landing .templates { padding-top: 0; scroll-margin-top: 112px; }
+/* Keep fragment landing focus without outlining the entire section. */
+.apes-landing #templates:focus { outline: none; }
 .apes-landing .templates > .section-heading { max-width: 760px; margin: 0 auto 40px; text-align: center; }
 .apes-landing .templates > .section-heading > p { margin-inline: auto; }
 .apes-landing .templates .template-notice { font-size: .875rem; }
