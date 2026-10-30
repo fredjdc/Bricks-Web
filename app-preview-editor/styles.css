@@ -646,7 +646,8 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 .apes-landing .scene-clips > .section-heading { max-width: 760px; margin: 0 auto 40px; text-align: center; }
 .apes-landing .scene-clips > .section-heading p { margin-inline: auto; }
 .apes-landing .scene-clips .scene-clips-eyebrow { margin-bottom: 12px; color: var(--detail); font-size: .875rem; font-weight: 650; line-height: 1.5; }
-.apes-landing .scene-clips-media { min-width: 0; overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
+.apes-landing .scene-clips-media { min-width: 0; overflow: hidden; }
+.apes-landing .scene-clips-window { position: absolute; left: 5%; top: 50%; width: 90%; transform: translateY(-50%); overflow: hidden; border-radius: var(--media-radius); }
 .apes-landing .scene-clips-media video { display: block; width: 100%; height: auto; object-fit: contain; }
 
 /* The whole workflow card pins; compact or unavailable presentations stay in normal flow. */

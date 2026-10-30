@@ -6,7 +6,7 @@ import { widths, declarations as decl, fluidWidth } from "./responsive-checkpoin
 
 const [html, css, script, png] = await Promise.all([
   ...["index.html", "styles.css", "script.js"].map(file => readFile(new URL(file, import.meta.url), "utf8")),
-  readFile(new URL("assets/product/scene-clip.png", import.meta.url)),
+  readFile(new URL("assets/app-preview-scene-app.png", import.meta.url)),
 ]);
 const scene = html.match(/<section class="scene-clips section shell"[\s\S]*?<\/section>/)[0];
 
@@ -14,34 +14,42 @@ test("Scene Clips follows the workflow with only the approved copy, supplied vid
   assert.ok(html.indexOf('id="workflow"') < html.indexOf(scene));
   assert.ok(html.indexOf(scene) < html.indexOf('id="features"'));
   assert.match(scene, /<p class="scene-clips-eyebrow">Scene Clips<\/p>/);
-  assert.match(scene, /<h2 id="scene-clips-title">Ready-made motion\. Your app\.<\/h2>/);
-  assert.match(scene, /<p>Combine your screenshots and recordings with ready-made animations and transitions\.<\/p>/);
+  assert.match(scene, /<h2 id="scene-clips-title">Set the scene in a few steps\.<\/h2>/);
+  assert.match(scene, /<p>Start with a ready-made scene, then make it your own\. The motion is already there, so you can focus on your app’s story\.<\/p>/);
   assert.equal((scene.match(/<p\b/g) || []).length, 2);
-  assert.match(scene, /<video width="1920" height="1080" poster="assets\/product\/scene-clip\.png" preload="none" muted loop playsinline data-autoplay-video data-scene-clips/);
-  assert.match(scene, /<source data-src="assets\/scene-clip\.mp4" type="video\/mp4">/);
+  assert.match(scene, /<video width="1920" height="1080" poster="assets\/app-preview-scene-app\.png" preload="none" muted loop playsinline data-autoplay-video data-scene-clips/);
+  assert.match(scene, /<source data-src="assets\/product\/scene-clip\.mp4" type="video\/mp4">/);
+  assert.match(scene, /class="editor-backdrop">\s*<img class="editor-desktop" src="assets\/desktop-bg\.png"/);
+  assert.match(scene, /class="scene-clips-window">\s*<video/);
   assert.doesNotMatch(scene, /<button|\bcontrols(?:\s|=|>)|data-playback-toggle|tabindex|<source src=/);
-  assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [1754, 986]);
+  assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [2032, 1098]);
 });
 
 test("native dimensions reserve the full uncropped frame and rounded container at every checkpoint", () => {
   for (const width of widths) {
     const frameWidth = fluidWidth(width, decl(width, [".shell"]).width) - 2;
-    const frameHeight = frameWidth * 1080 / 1920;
+    const frameHeight = frameWidth * 9 / 16;
     assert.ok(frameWidth > 0 && frameWidth < width && frameHeight > 0);
     const video = decl(width, [".apes-landing .scene-clips-media video"]);
     assert.equal(video.width, "100%"); assert.equal(video.height, "auto"); assert.equal(video["object-fit"], "contain");
     assert.equal(video["aspect-ratio"], undefined);
-    const frame = decl(width, [".apes-landing .scene-clips-media"]);
+    const frame = decl(width, [".apes-landing .editor-composition", ".apes-landing .scene-clips-media"]);
     assert.equal(frame.overflow, "hidden"); assert.equal(frame["border-radius"], "var(--media-radius)");
+    assert.equal(frame["aspect-ratio"], "16 / 9");
+    const window = decl(width, [".apes-landing .scene-clips-window"]);
+    assert.equal(window.left, "5%"); assert.equal(window.width, "90%");
+    assert.equal(window.top, "50%"); assert.equal(window.transform, "translateY(-50%)");
+    assert.ok(frameWidth * .9 * 1080 / 1920 < frameHeight);
+    assert.equal(window["border-radius"], "var(--media-radius)");
     assert.equal(decl(width, [".apes-landing .scene-clips > .section-heading"])["text-align"], "center");
   }
   assert.match(css, /\.video-poster \{[^}]*object-fit: contain;/);
   assert.match(script, /\.story-media, \.scene-clips-media,/);
-  assert.match(scene, /class="section-heading reveal"/); assert.match(scene, /class="scene-clips-media reveal"/);
+  assert.match(scene, /class="section-heading reveal"/); assert.match(scene, /class="scene-clips-media editor-composition reveal"/);
   assert.doesNotMatch(css, /\.scene-clips[^}]*opacity: 0|\.scene-clips[^}]*visibility: hidden/);
   // With no JS, the native poster remains available while the MP4 has no assigned source.
-  assert.match(scene, /poster="assets\/product\/scene-clip\.png"/);
-  assert.doesNotMatch(scene, /\ssrc="assets\/scene-clip\.mp4"/);
+  assert.match(scene, /poster="assets\/app-preview-scene-app\.png"/);
+  assert.doesNotMatch(scene, /\ssrc="assets\/product\/scene-clip\.mp4"/);
 });
 
 function posterPage({ frameCallback = true } = {}) {
@@ -49,7 +57,7 @@ function posterPage({ frameCallback = true } = {}) {
   const motion = { matches: false }, poster = { setAttribute() {} };
   const stage = { append(video) { video.parentElement = this; }, querySelector: () => poster };
   const video = { id: "scene-clips-demo", paused: false, readyState: 3, error: null, videoWidth: 0, videoHeight: 0,
-    poster: "assets/product/scene-clip.png", hasAttribute: name => name === "data-scene-clips",
+    poster: "assets/app-preview-scene-app.png", hasAttribute: name => name === "data-scene-clips",
     getAttribute: name => attrs.get(name), setAttribute: (name, value) => attrs.set(name, value), before() {},
     addEventListener(name, callback) { listeners[name] = callback; } };
   if (frameCallback) video.requestVideoFrameCallback = callback => callbacks.push(callback);

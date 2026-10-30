@@ -25,7 +25,7 @@
 
   <link rel="icon" href="AppIcon.png" type="image/png">
   <link rel="apple-touch-icon" href="AppIcon.png">
-  <link rel="stylesheet" href="styles.css?v=20261030-app-icon-144-1">
+  <link rel="stylesheet" href="styles.css?v=20261030-scene-desktop-1">
   <link rel="stylesheet" href="../tally-embed.css?v=20261029-1">
   <link rel="stylesheet" href="wind-files.css?v=20261029-varied-sizes-1">
   <link rel="stylesheet" href="../shared-download-cta.css?v=20261024-1">
@@ -187,10 +187,15 @@
         <h2 id="scene-clips-title">Set the scene in a few steps.</h2>
         <p>Start with a ready-made scene, then make it your own. The motion is already there, so you can focus on your app’s story.</p>
       </div>
-      <div class="scene-clips-media reveal">
-        <video width="1920" height="1080" poster="assets/product/scene-clip.png" preload="none" muted loop playsinline data-autoplay-video data-scene-clips aria-label="Ready-made animations and transitions in App Preview Editor">
-          <source data-src="assets/scene-clip.mp4" type="video/mp4">
-        </video>
+      <div class="scene-clips-media editor-composition reveal">
+        <div class="editor-backdrop">
+          <img class="editor-desktop" src="assets/desktop-bg.png" width="2560" height="1080" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="scene-clips-window">
+          <video width="1920" height="1080" poster="assets/app-preview-scene-app.png" preload="none" muted loop playsinline data-autoplay-video data-scene-clips aria-label="Ready-made animations and transitions in App Preview Editor">
+            <source data-src="assets/product/scene-clip.mp4" type="video/mp4">
+          </video>
+        </div>
       </div>
     </section>
 
