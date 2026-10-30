@@ -24,6 +24,38 @@ test("checkpoint coverage includes every declared screen boundary and all reques
   for (const width of [320,360,375,390,414,430,482,640,768,820,1024,1280,1440,1920]) assert.ok(widths.includes(width));
 });
 
+test("the 24px page tile uses isolated plus marks and orthogonal segments in the unchanged dot palette", async () => {
+  const svg = await readFile(new URL("assets/segmented-grid.svg", import.meta.url), "utf8");
+  assert.match(svg, /width="24" height="24" viewBox="0 0 24 24"/);
+  assert.match(svg, /stroke-width="0\.5" stroke-linecap="butt"/);
+  const paths = [...svg.matchAll(/<path d="([^"]+)"/g)].map(match => match[1]);
+  assert.equal(paths.length, 2);
+  assert.match(svg, /<g opacity="0\.5">\s*<path d="M0 12H9 M15 12H24 M12 0V9 M12 15V24"\/>\s*<\/g>\s*<path d="M10\.5 12H13\.5 M12 10\.5V13\.5" class="plus"\/>/);
+  const path = paths.join(" ");
+  const segments = [...path.matchAll(/M([\d.]+) ([\d.]+)([HV])([\d.]+)/g)].map(([, x, y, axis, end]) => ({ x: +x, y: +y, axis, end: +end }));
+  assert.equal(segments.length, 6);
+  assert.doesNotMatch(path, /[ACLQSTZ]/i);
+  assert.deepEqual(segments, [{ x: 0, y: 12, axis: "H", end: 9 }, { x: 15, y: 12, axis: "H", end: 24 }, { x: 12, y: 0, axis: "V", end: 9 }, { x: 12, y: 15, axis: "V", end: 24 }, { x: 10.5, y: 12, axis: "H", end: 13.5 }, { x: 12, y: 10.5, axis: "V", end: 13.5 }]);
+  assert.equal(segments[4].x - segments[0].end, 1.5);
+  assert.equal(segments[1].x - segments[4].end, 1.5);
+  assert.equal(segments[5].y - segments[2].end, 1.5);
+  assert.equal(segments[3].y - segments[5].end, 1.5);
+  const palette = [...css.matchAll(/--dot:\s*rgba\((\d+), (\d+), (\d+), ([\d.]+)\)/g)];
+  for (const [, r, g, b, alpha] of palette) assert.ok(svg.includes(`stroke: rgb(${r}, ${g}, ${b}); opacity: ${alpha};`));
+  const plusAlphas = [...svg.matchAll(/\.plus \{ opacity: ([\d.]+); \}/g)].map(match => Number(match[1]));
+  assert.deepEqual(plusAlphas, palette.map(([, , , , alpha]) => Math.min(1, Number(alpha) * 2)));
+  assert.equal(palette.length, 2);
+  assert.match(svg, /@media \(prefers-color-scheme: dark\)/);
+  assert.doesNotMatch(svg, /<circle|<image|<script|<animate|<filter|<mask/);
+  for (const width of widths) {
+    const body = decl(width, ["body"]);
+    assert.equal(body["background-image"], 'url("assets/segmented-grid.svg?v=20261030-plus-double-1")');
+    assert.equal(body["background-size"], "24px 24px");
+    assert.equal(body["background-color"], "var(--bg)");
+    assert.equal(body["background-position"], undefined);
+  }
+});
+
 test("hero wrapping balances narrow layouts with phrase fallbacks and keeps desktop line groups", () => {
   for (const width of [...widths, 347]) {
     assert.equal(decl(width, [".hero h1 .hero-word"]).display, width < 900 ? "inline" : "block");

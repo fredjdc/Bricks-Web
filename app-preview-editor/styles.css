@@ -47,7 +47,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   background-color: var(--bg);
-  background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
+  background-image: url("assets/segmented-grid.svg?v=20261030-plus-double-1");
   background-size: 24px 24px;
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
