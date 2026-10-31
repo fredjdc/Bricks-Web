@@ -29,15 +29,20 @@ test("the seven-feature bento reuses Calc-style cards with complete responsive r
   assert.ok(html.indexOf('id="scene-clips"') < html.indexOf(section));
   assert.ok(html.indexOf(section) < html.indexOf('id="features"'));
   assert.match(section, /aria-labelledby="feature-bento-title"/);
-  assert.match(section, /<h2 id="feature-bento-title">Make every detail yours\.<\/h2>/);
+  assert.match(section, /<h2 id="feature-bento-title">Video editing\. Built for App Store Connect\.<\/h2>/);
   assert.match(section, /class="feature-bento-heading section-heading reveal"/);
   assert.match(section, /<p class="feature-bento-eyebrow">From edit to upload<\/p>/);
-  assert.match(section, /<p class="feature-bento-subtitle">Arrange your clips, add motion, and upload directly to App Store Connect\.<\/p>/);
+  assert.match(section, /<p class="feature-bento-subtitle">Edit screenshots and recordings, add text and motion, and upload to App Store Connect\.<\/p>/);
   const cards = [...section.matchAll(/<article class="([^"]+)">([\s\S]*?)<\/article>/g)];
   assert.equal(cards.length, 7);
-  assert.deepEqual(cards.map(([, , body]) => body.match(/<h3>([^<]+)<\/h3>/)[1]), [
-    "Your screens. A bigger story.", "Every moment. Just right.", "Make the important parts move.",
-    "A little setup. A lot of scene.", "One project. More possibilities.", "See the bigger picture.", "Ready for what’s next."
+  assert.deepEqual(cards.map(([, , body]) => [body.match(/<h3>([^<]+)<\/h3>/)[1], body.match(/<p>([^<]+)<\/p>/)[1]]), [
+    ["Video editor", "Combine screenshots, recordings, text, and audio in one editor."],
+    ["Timeline editing", "Arrange and trim clips. Use Auto Cut to find pauses, then choose which to remove."],
+    ["Motion", "Add animated text, entrances, and focused zooms."],
+    ["Templates", "Add your media to ready-made templates, then customize them."],
+    ["Device and language timelines", "Keep separate timelines for different devices and languages in one project."],
+    ["App Store preview", "Preview your video in an App Store-style layout before delivery."],
+    ["Asset Library uploads", "Upload videos to the App Store Connect Asset Library for later assignment."]
   ]);
   for (const [index, [, classes, body]] of cards.entries()) {
     assert.match(classes, /\breveal\b/);
@@ -48,7 +53,7 @@ test("the seven-feature bento reuses Calc-style cards with complete responsive r
     assert.equal((body.match(/<p>/g) || []).length, 1);
   }
   assert.doesNotMatch(section, /<video|<button|<a\b|tabindex|\bPro\b|\bFree\b/);
-  assert.match(section, /Upload videos to your App Store Connect Asset Library\. Assign them when you’re ready\./);
+  assert.match(section, /Upload videos to the App Store Connect Asset Library for later assignment\./);
   assert.match(script, /\.scene-clips-media, \.feature-bento-card,/);
   assert.doesNotMatch(section, /<span|--bento-icon/);
   assert.doesNotMatch(css, /\.feature-bento-icon::before/);

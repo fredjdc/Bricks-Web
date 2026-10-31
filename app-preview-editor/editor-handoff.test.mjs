@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import vm from "node:vm";
-import { widths } from "./responsive-checkpoints.mjs";
+import { widths, declarations as decl, fluidWidth } from "./responsive-checkpoints.mjs";
 
 const [html, css, script] = await Promise.all([
   readFile(new URL("index.html", import.meta.url), "utf8"),
@@ -41,15 +41,22 @@ test("the supplied PNG layers replace the editor video with one noninteractive p
 });
 
 test("the target matches the screenshot's blank canvas without covering controls or timeline", () => {
-  assert.match(css, /\.editor-app \{[^}]*left: 5%; top: 50%; width: 90%; height: auto;/);
-  const bounds = css.match(/\.editor-canvas \{ position: absolute; left: ([\d.]+)%; top: ([\d.]+)%; width: ([\d.]+)%; height: ([\d.]+)%;/).slice(1).map(Number);
-  const stageWidth = 1000, stageHeight = stageWidth * 9 / 16;
-  const windowScale = stageWidth * .9 / 1920;
-  const windowTop = (stageHeight - 986 * windowScale) / 2;
-  near(bounds[0] / 100 * stageWidth, stageWidth * .05 + 342 * windowScale);
-  near(bounds[1] / 100 * stageHeight, windowTop + 52 * windowScale);
-  near(bounds[2] / 100 * stageWidth, (1578 - 342) * windowScale);
-  near(bounds[3] / 100 * stageHeight, (774 - 52) * windowScale);
+  assert.match(css, /\.editor-app \{[^}]*position: relative; left: var\(--editor-inset\); width: calc\(100% - var\(--editor-inset\) \* 2\); height: auto;/);
+  const canvas = decl(1000, [".apes-landing .editor-canvas"]);
+  assert.equal(canvas.top,"50%"); assert.equal(canvas["margin-top"],"-3.75%");
+  assert.equal(canvas["aspect-ratio"],"618 / 361"); assert.equal(canvas.transform,"translateY(-50%)");
+  for (const viewport of widths) {
+    const width=fluidWidth(viewport,decl(viewport,[".shell"]).width)-2;
+    const inset=width*.05, imageHeight=width*.9*1098/2032;
+    const newHeight=imageHeight+2*inset, oldHeight=width*9/16;
+    near((newHeight-imageHeight)/2,inset);
+    assert.ok(newHeight>oldHeight);
+    const newCanvasHeight=width*.579375/(618/361), oldCanvasHeight=oldHeight*.6016666666666667;
+    near(newCanvasHeight,oldCanvasHeight);
+    near(newHeight/2-width*.0375-inset,imageHeight/2-width*.0375);
+    near(width*.2103125-inset,342/1920*width*.9);
+    near(width*.579375,1236/1920*width*.9);
+  }
   assert.match(css, /\.editor-preview-target \{[^}]*left: 50%; top: 50%; height: 82%; aspect-ratio: 886 \/ 1920;/);
   const previewHeight = (774 - 52) * .82;
   assert.ok(413 + previewHeight / 2 < 774);
@@ -377,6 +384,6 @@ test("only the editor image tilts in 3D around X and blurs until hero landing, w
   p.fail(); p.flush(); assert.equal(p.sceneProperties.size, 0);
   assert.equal(page({ supported: false }).sceneProperties.size, 0);
   assert.equal(page({ reduced: true }).sceneProperties.size, 0);
-  assert.match(css, /\.editor-app \{[^}]*transform: translateY\(-50%\); \}/);
+  assert.match(css, /\.editor-app \{[^}]*transform: none; \}/);
   assert.doesNotMatch(css, /\.editor-(?:canvas|composition|backdrop)[^{}]*\{[^}]*rotate[XYZ]/);
 });

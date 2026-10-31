@@ -37,18 +37,25 @@ test("Templates follows the workflow with consistent feature terminology, suppli
 test("native dimensions reserve the full uncropped frame and rounded container at every checkpoint", () => {
   for (const width of widths) {
     const frameWidth = fluidWidth(width, decl(width, [".shell"]).width) - 2;
-    const frameHeight = frameWidth * 9 / 16;
+    const inset = frameWidth * .05;
+    const mediaWidth = frameWidth - inset * 2;
+    const frameHeight = mediaWidth * 1080 / 1920 + inset * 2;
     assert.ok(frameWidth > 0 && frameWidth < width && frameHeight > 0);
     const video = decl(width, [".apes-landing .scene-clips-media video"]);
     assert.equal(video.width, "100%"); assert.equal(video.height, "auto"); assert.equal(video["object-fit"], "contain");
     assert.equal(video["aspect-ratio"], undefined);
     const frame = decl(width, [".apes-landing .editor-composition", ".apes-landing .scene-clips-media"]);
     assert.equal(frame.overflow, "hidden"); assert.equal(frame["border-radius"], "var(--media-radius)");
-    assert.equal(frame["aspect-ratio"], "16 / 9");
+    assert.equal(frame["aspect-ratio"], undefined);
+    assert.equal(frame["--editor-inset"], "5%");
+    assert.equal(frame["padding-block"], "var(--editor-inset)");
+    assert.equal(frame.display, "block");
     const window = decl(width, [".apes-landing .scene-clips-window"]);
-    assert.equal(window.left, "5%"); assert.equal(window.width, "90%");
-    assert.equal(window.top, "50%"); assert.equal(window.transform, "translateY(-50%)");
-    assert.ok(frameWidth * .9 * 1080 / 1920 < frameHeight);
+    assert.equal(window.position, "relative");
+    assert.equal(window.left, "var(--editor-inset)"); assert.equal(window.width, "calc(100% - var(--editor-inset) * 2)");
+    assert.equal(window.top, undefined); assert.equal(window.transform, undefined);
+    assert.ok(Math.abs((frameHeight - mediaWidth * 1080 / 1920) / 2 - inset) < 1e-6);
+    assert.ok(frameHeight > frameWidth * 9 / 16, "Backdrop grows without shrinking or cropping its video");
     assert.equal(window["border-radius"], "var(--media-radius)");
     assert.equal(decl(width, [".apes-landing .scene-clips > .section-heading"])["text-align"], "center");
   }
