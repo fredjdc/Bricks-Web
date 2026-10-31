@@ -650,6 +650,29 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 .apes-landing .scene-clips-window { position: absolute; left: 5%; top: 50%; width: 90%; transform: translateY(-50%); overflow: hidden; border-radius: var(--media-radius); }
 .apes-landing .scene-clips-media video { display: block; width: 100%; height: auto; object-fit: contain; }
 
+/* CalcPillars presentation, using APE's existing surface, accent and elevation. */
+.apes-landing .feature-bento { width: 100%; max-width: 1200px; margin-inline: auto; padding: 56px 20px; }
+.apes-landing .feature-bento-heading { max-width: 760px; margin: 0 auto 40px; text-align: left; }
+.apes-landing .feature-bento-heading h2 { margin: 0; font-size: 36px; font-weight: 900; letter-spacing: -.035em; line-height: 1.02; }
+.apes-landing .feature-bento-grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: 1fr; gap: 16px; }
+.apes-landing .feature-bento-card { min-width: 0; padding: 28px; border: 1px solid var(--border); border-radius: 32px; background: var(--surface); box-shadow: var(--shadow); }
+/* A light tinted tile keeps the supplied black artwork legible in either theme. */
+.apes-landing .feature-bento-icon { display: block; width: 44px; height: 44px; padding: 10px; object-fit: contain; margin-bottom: 20px; border: 1px solid var(--border); border-radius: 14px; background: color-mix(in srgb, var(--detail) 10%, #fff); box-shadow: var(--shadow); }
+.apes-landing .feature-bento-card h3 { margin: 0 0 8px; color: var(--text); font-size: 20px; font-weight: 700; letter-spacing: -.01em; line-height: 1.5; }
+.apes-landing .feature-bento-card p { margin: 0; color: var(--text-secondary); font-size: 15px; line-height: 1.55; }
+@media (min-width: 769px) {
+  .apes-landing .feature-bento { padding: 120px 48px; }
+  .apes-landing .feature-bento-heading { margin-bottom: 64px; text-align: center; }
+  .apes-landing .feature-bento-heading h2 { font-size: 56px; }
+  .apes-landing .feature-bento-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .apes-landing .feature-bento-library { grid-column: 1 / -1; }
+}
+@media (min-width: 901px) {
+  .apes-landing .feature-bento-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .apes-landing .feature-bento-card { padding: 30px; }
+  .apes-landing .feature-bento-wide { grid-column: span 2; }
+}
+
 /* The whole workflow card pins; compact or unavailable presentations stay in normal flow. */
 .apes-landing #workflow .workflow-layout { display: block; }
 .apes-landing #workflow .workflow-media { display: none; position: static; }

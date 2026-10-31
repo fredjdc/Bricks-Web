@@ -76,7 +76,7 @@ document.querySelectorAll("video[poster]").forEach((video) => {
 
 const setupReveals = () => {
   if (motionPreference.matches || !("IntersectionObserver" in window)) return;
-  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .mobile-workflow-media-wrap, .story-media, .scene-clips-media, .templates-link, .template-preview, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .cta-preview-mask, .founder-panel > img, .founder-link";
+  const selector = "h2, h3, p, .device-support, .feature-title-icon, .workflow-progress, .workflow-frames, .mobile-workflow-media-wrap, .story-media, .scene-clips-media, .feature-bento-card, .templates-link, .template-preview, .capability-media, .pricing-block > .coming-soon-label, .pricing-options > div, .plan-comparison, .faq-list > details, .bricks-download-cta > img, .bricks-cta-actions, .cta-preview-mask, .founder-panel > img, .founder-link";
   const targets = new Map();
   try {
     document.querySelectorAll(".reveal").forEach(root => {

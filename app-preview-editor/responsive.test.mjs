@@ -19,9 +19,60 @@ export const matrix = widths.map(width => {
 });
 
 test("checkpoint coverage includes every declared screen boundary and all requested widths", () => {
-  assert.deepEqual(breakpoints, [559, 560, 768, 899, 900, 1200]);
+  assert.deepEqual(breakpoints, [559, 560, 768, 769, 899, 900, 901, 1200]);
   for (const breakpoint of breakpoints) for (const delta of [-1, 0, 1]) assert.ok(widths.includes(breakpoint + delta));
   for (const width of [320,360,375,390,414,430,482,640,768,820,1024,1280,1440,1920]) assert.ok(widths.includes(width));
+});
+
+test("the seven-feature bento reuses Calc-style cards with complete responsive rows and local decorative icons", async () => {
+  const section = html.match(/<section class="feature-bento"[\s\S]*?<\/section>/)[0];
+  assert.ok(html.indexOf('id="scene-clips"') < html.indexOf(section));
+  assert.ok(html.indexOf(section) < html.indexOf('id="features"'));
+  assert.match(section, /aria-labelledby="feature-bento-title"/);
+  assert.match(section, /<h2 id="feature-bento-title">Make every detail yours\.<\/h2>/);
+  const cards = [...section.matchAll(/<article class="([^"]+)">([\s\S]*?)<\/article>/g)];
+  assert.equal(cards.length, 7);
+  assert.deepEqual(cards.map(([, , body]) => body.match(/<h3>([^<]+)<\/h3>/)[1]), [
+    "Your screens. A bigger story.", "Every moment. Just right.", "Make the important parts move.",
+    "A little setup. A lot of scene.", "One project. More possibilities.", "See the bigger picture.", "Ready for what’s next."
+  ]);
+  for (const [index, [, classes, body]] of cards.entries()) {
+    assert.match(classes, /\breveal\b/);
+    assert.match(body, /<img class="feature-bento-icon"[^>]*width="44" height="44" alt="" aria-hidden="true"/);
+    const icon = body.match(/<img class="feature-bento-icon" src="([^"]+)"/)[1];
+    assert.equal(icon, `assets/icons/bento-${String(index + 1).padStart(2, "0")}.svg`);
+    assert.match(await readFile(new URL(icon, import.meta.url), "utf8"), /<svg\b/);
+    assert.equal((body.match(/<p>/g) || []).length, 1);
+  }
+  assert.doesNotMatch(section, /<video|<button|<a\b|tabindex|\bPro\b|\bFree\b/);
+  assert.match(section, /Upload videos to your App Store Connect Asset Library\. Assign them when you’re ready\./);
+  assert.match(script, /\.scene-clips-media, \.feature-bento-card,/);
+  assert.doesNotMatch(section, /<span|--bento-icon/);
+  assert.doesNotMatch(css, /\.feature-bento-icon::before/);
+  for (const width of widths) for (const reduced of [false, true]) {
+    const columns = width <= 768 ? 1 : width <= 900 ? 2 : 4;
+    const grid = decl(width, [".apes-landing .feature-bento-grid"], reduced);
+    assert.equal(grid["grid-template-columns"], columns === 1 ? "minmax(0, 1fr)" : `repeat(${columns}, minmax(0, 1fr))`);
+    assert.equal(grid.gap, columns === 1 ? "16px" : "24px");
+    assert.equal(grid["grid-auto-rows"], "1fr");
+    const card = decl(width, [".apes-landing .feature-bento-card"], reduced);
+    assert.equal(card.padding, columns === 4 ? "30px" : "28px");
+    assert.equal(card["border-radius"], "32px"); assert.equal(card["box-shadow"], "var(--shadow)");
+    assert.equal(card.background, "var(--surface)"); assert.equal(card.border, "1px solid var(--border)");
+    assert.equal(card.opacity, undefined); assert.equal(card.visibility, undefined);
+    const icon = decl(width, [".apes-landing .feature-bento-icon"], reduced);
+    assert.equal(icon.display, "block"); assert.equal(icon.width, "44px"); assert.equal(icon.height, "44px");
+    assert.equal(icon.padding, "10px"); assert.equal(icon["object-fit"], "contain");
+    assert.equal(icon.background, "color-mix(in srgb, var(--detail) 10%, #fff)");
+    assert.equal(icon.filter, undefined, "Preserve supplied artwork colors");
+    const spans = cards.map(([, classes]) => classes.includes("feature-bento-library") ? columns : classes.includes("feature-bento-wide") && columns === 4 ? 2 : 1);
+    let row = 0;
+    for (const span of spans) { row += span; assert.ok(row <= columns); if (row === columns) row = 0; }
+    assert.equal(row, 0, `${width}px has no incomplete row`);
+    const inner = Math.min(width, 1200) - (columns === 1 ? 40 : 96);
+    const track = (inner - (columns - 1) * parseFloat(grid.gap)) / columns;
+    assert.ok(track - 2 * parseFloat(card.padding) - 2 >= 44, `${width}px leaves room for the icon and wrapping text`);
+  }
 });
 
 test("the 24px page tile uses isolated plus marks and orthogonal segments in the unchanged dot palette", async () => {
