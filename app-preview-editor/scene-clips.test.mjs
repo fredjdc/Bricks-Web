@@ -10,12 +10,21 @@ const [html, css, script, png] = await Promise.all([
 ]);
 const scene = html.match(/<section class="scene-clips section shell"[\s\S]*?<\/section>/)[0];
 
-test("Scene Clips follows the workflow with only the approved copy, supplied video and loading poster", () => {
+test("Templates follows the workflow with consistent feature terminology, supplied video and loading poster", () => {
   assert.ok(html.indexOf('id="workflow"') < html.indexOf(scene));
   assert.ok(html.indexOf(scene) < html.indexOf('id="features"'));
-  assert.match(scene, /<p class="scene-clips-eyebrow">Scene Clips<\/p>/);
+  assert.match(scene, /<p class="scene-clips-eyebrow">Templates<\/p>/);
   assert.match(scene, /<h2 id="scene-clips-title">Set the scene in a few steps\.<\/h2>/);
-  assert.match(scene, /<p>Start with a ready-made scene, then make it your own\. The motion is already there, so you can focus on your app’s story\.<\/p>/);
+  assert.match(scene, /<p>Start with a template, then make it your own\. The motion is already there, so you can focus on your app’s story\.<\/p>/);
+  assert.match(scene, /aria-label="Ready-made templates in App Preview Editor"/);
+  const visible = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "").replace(/<style\b[^>]*>[\s\S]*?<\/style>/g, "").replace(/<[^>]+>/g, " ");
+  assert.doesNotMatch(visible, /Scene Clips?|visual[ -]pauses?/i);
+  assert.match(visible, /Find pauses with Auto Cut, then review and remove the ones you don’t need\./);
+  assert.match(visible, /Paid includes Pro Templates, with new templates added monthly\./);
+  for (const [name, labels] of [["Free Templates", ["Included", "Included"]], ["Pro Templates", ["Not included", "Included"]]]) {
+    const row = html.match(new RegExp(`<tr><th scope="row">${name}<\\/th>(.*?)<\\/tr>`))[1];
+    assert.deepEqual([...row.matchAll(/aria-label="([^"]+)"/g)].map(match => match[1]), labels);
+  }
   assert.equal((scene.match(/<p\b/g) || []).length, 2);
   assert.match(scene, /<video width="1920" height="1080" poster="assets\/app-preview-scene-app\.png" preload="none" muted loop playsinline data-autoplay-video data-scene-clips/);
   assert.match(scene, /<source data-src="assets\/product\/scene-clip\.mp4" type="video\/mp4">/);
