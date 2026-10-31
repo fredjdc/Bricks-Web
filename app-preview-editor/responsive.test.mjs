@@ -30,6 +30,9 @@ test("the seven-feature bento reuses Calc-style cards with complete responsive r
   assert.ok(html.indexOf(section) < html.indexOf('id="features"'));
   assert.match(section, /aria-labelledby="feature-bento-title"/);
   assert.match(section, /<h2 id="feature-bento-title">Make every detail yours\.<\/h2>/);
+  assert.match(section, /class="feature-bento-heading section-heading reveal"/);
+  assert.match(section, /<p class="feature-bento-eyebrow">From edit to upload<\/p>/);
+  assert.match(section, /<p class="feature-bento-subtitle">Arrange your clips, add motion, and upload directly to App Store Connect\.<\/p>/);
   const cards = [...section.matchAll(/<article class="([^"]+)">([\s\S]*?)<\/article>/g)];
   assert.equal(cards.length, 7);
   assert.deepEqual(cards.map(([, , body]) => body.match(/<h3>([^<]+)<\/h3>/)[1]), [
@@ -50,6 +53,25 @@ test("the seven-feature bento reuses Calc-style cards with complete responsive r
   assert.doesNotMatch(section, /<span|--bento-icon/);
   assert.doesNotMatch(css, /\.feature-bento-icon::before/);
   for (const width of widths) for (const reduced of [false, true]) {
+    const heading = decl(width, [".apes-landing .feature-bento-heading"], reduced);
+    assert.equal(heading["text-align"], "center"); assert.equal(heading["max-width"], "760px");
+    assert.equal(heading.margin, "0 auto 40px");
+    assert.equal(heading["margin-bottom"] ?? heading.margin.split(" ")[2], width > 768 ? "64px" : "40px");
+    const title = decl(width, ["h2", ".section-heading h2", ".apes-landing .feature-bento-heading h2"], reduced);
+    assert.equal(title["font-size"], "clamp(2.25rem, 8vw, 4.5rem)"); assert.equal(title["margin-bottom"], "16px");
+    const eyebrow = decl(width, [".section-heading p", ".apes-landing .section-heading p", ".apes-landing .feature-bento-heading > .feature-bento-eyebrow"], reduced);
+    assert.equal(eyebrow["font-size"], ".875rem"); assert.equal(eyebrow["margin-bottom"], "12px");
+    assert.equal(eyebrow["max-width"], "52ch");
+    assert.equal(eyebrow["margin-inline"], "auto", "Center the capped paragraph box itself, including when it is narrower than the header");
+    assert.equal(eyebrow.color, "var(--detail)", "The scoped eyebrow must outrank the general paragraph rule");
+    const headerWidth = Math.min(760, width - (width <= 768 ? 40 : 96));
+    for (const cappedWidth of [headerWidth, Math.min(headerWidth, 260)]) {
+      const autoMargin = (headerWidth - cappedWidth) / 2;
+      assert.equal(autoMargin + cappedWidth / 2, headerWidth / 2);
+    }
+    const subtitle = decl(width, [".section-heading p", ".apes-landing .feature-bento-subtitle"], reduced);
+    assert.equal(subtitle["max-width"], "52ch"); assert.equal(subtitle.margin, "0 auto");
+    assert.equal(subtitle.color, "var(--text-secondary)");
     const columns = width <= 768 ? 1 : width <= 900 ? 2 : 4;
     const grid = decl(width, [".apes-landing .feature-bento-grid"], reduced);
     assert.equal(grid["grid-template-columns"], columns === 1 ? "minmax(0, 1fr)" : `repeat(${columns}, minmax(0, 1fr))`);
