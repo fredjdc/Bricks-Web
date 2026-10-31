@@ -407,6 +407,11 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .hero-copy { position: relative; z-index: 4; }
 .apes-landing .hero-ambient-glow { display: none; }
 @media (prefers-reduced-motion: no-preference) {
+  /* Keep the light around the media and fade it out before the headline. */
+  .apes-landing .hero::before, .apes-landing .hero-ambient-glow {
+    mask-image: radial-gradient(ellipse 72% 90vh at calc(var(--hero-spotlight-x, 50%) - 6vw) calc(var(--hero-spotlight-y, 80%) - 12vh), #000 12%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 72% 90vh at calc(var(--hero-spotlight-x, 50%) - 6vw) calc(var(--hero-spotlight-y, 80%) - 12vh), #000 12%, transparent 100%);
+  }
   .apes-landing .hero::before {
     content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
     opacity: var(--hero-spotlight-opacity, 0);
@@ -414,9 +419,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
     background:
       radial-gradient(ellipse 78% 82% at 50% 42%, transparent 40%, rgba(20,56,84,.23) 100%),
       radial-gradient(ellipse 42% 12% at calc(var(--hero-spotlight-x, 50%) + 3vw) calc(var(--hero-spotlight-y, 80%) + 2vh), rgba(255,235,200,.3), transparent 85%),
-      radial-gradient(ellipse 58% 44% at calc(var(--hero-spotlight-x, 50%) - 3vw) calc(var(--hero-spotlight-y, 80%) - 4vh), rgba(255,255,255,.9), rgba(255,225,169,.4) 24%, transparent 92%),
-      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(3,111,198,.18) 9deg, rgba(3,111,198,.36) 16deg, transparent 23deg, rgba(255,255,255,.78) 29deg, rgba(255,255,255,.96) 32deg, rgba(255,255,255,.12) 37deg, transparent 43deg, rgba(255,230,170,.18) 52deg, rgba(255,230,170,.6) 60deg, rgba(255,230,170,.25) 64deg, transparent 73deg, rgba(52,150,224,.1) 82deg, rgba(52,150,224,.38) 94deg, transparent 105deg, rgba(52,150,224,.16) 111deg, transparent 120deg),
-      radial-gradient(ellipse 50% 45% at 50% 28%, rgba(255,255,255,.85), transparent 100%),
+      radial-gradient(ellipse 48% 34% at calc(var(--hero-spotlight-x, 50%) - 7vw) calc(var(--hero-spotlight-y, 80%) - 4vh), rgba(255,255,255,.9), rgba(255,225,169,.4) 24%, transparent 92%),
+      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg 9deg, rgba(75,144,201,.08) 18deg, transparent 24deg 31deg, rgba(255,245,220,.36) 37deg, transparent 41deg 43deg, rgba(255,230,180,.26) 52deg, rgba(255,230,180,.26) 58deg, transparent 72deg 87deg, rgba(75,144,201,.09) 101deg, transparent 120deg),
       linear-gradient(120deg, #d7e9f8 0%, #f6f9ff 38%, #fff1dc 65%, #c7dfef 100%);
   }
   /* Two soft paint planes drift independently; only their transforms animate. */
@@ -437,11 +441,13 @@ h3 { font-size: 1.8rem; font-weight: 680; }
     animation-play-state: var(--hero-glow-play-state, paused);
   }
   .apes-landing .hero-ambient-glow::before {
+    /* Feather the drifting rays without filtering foreground media or copy. */
+    filter: blur(10px);
     background:
-      radial-gradient(ellipse 23% 34% at calc(var(--hero-spotlight-x, 50%) - 11vw) calc(var(--hero-spotlight-y, 80%) - 19vh), rgba(var(--hero-glow-warm),.2), transparent 88%),
+      radial-gradient(ellipse 23% 34% at calc(var(--hero-spotlight-x, 50%) - 11vw) calc(var(--hero-spotlight-y, 80%) - 8vh), rgba(var(--hero-glow-warm),.2), transparent 88%),
       var(--hero-glow-sweep, none),
-      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg 27deg, rgba(var(--hero-glow-warm),.22) 30deg, transparent 34deg 55deg, rgba(var(--hero-glow-warm),.18) 59deg, transparent 63deg 120deg),
-      radial-gradient(ellipse 56% 80% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-warm),.16), transparent 85%);
+      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg 31deg, rgba(var(--hero-glow-warm),.12) 37deg, transparent 41deg 43deg, rgba(var(--hero-glow-warm),.16) 52deg, rgba(var(--hero-glow-warm),.1) 61deg, transparent 74deg 90deg, rgba(var(--hero-glow-cool),.06) 101deg, transparent 120deg),
+      radial-gradient(ellipse 56% 48% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-warm),.16), transparent 85%);
   }
   .apes-landing .hero-ambient-glow::after {
     animation-name: hero-glow-far; animation-duration: var(--hero-glow-far-duration);
@@ -449,7 +455,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
     background:
       radial-gradient(ellipse 28% 40% at calc(var(--hero-spotlight-x, 50%) - 18vw) calc(var(--hero-spotlight-y, 80%) - 10vh), rgba(var(--hero-glow-shade),.13), transparent 100%),
       radial-gradient(ellipse 24% 45% at calc(var(--hero-spotlight-x, 50%) + 24vw) calc(var(--hero-spotlight-y, 80%) - 28vh), rgba(var(--hero-glow-shade),.1), transparent 100%),
-      radial-gradient(ellipse 68% 86% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-cool),.18), transparent 90%);
+      radial-gradient(ellipse 68% 56% at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), rgba(var(--hero-glow-cool),.18), transparent 90%);
   }
   @keyframes hero-glow-near {
     0%, 100% { transform: translate3d(calc(var(--hero-glow-near-drift) * -1), calc(var(--hero-glow-near-drift) * .5), 0) rotate(calc(var(--hero-glow-near-tilt) * -1)); }
@@ -481,9 +487,8 @@ h3 { font-size: 1.8rem; font-weight: 680; }
     background:
       radial-gradient(ellipse 78% 82% at 50% 42%, transparent 28%, rgba(0,0,0,.65) 100%),
       radial-gradient(ellipse 42% 12% at calc(var(--hero-spotlight-x, 50%) + 3vw) calc(var(--hero-spotlight-y, 80%) + 2vh), rgba(122,181,213,.18), transparent 85%),
-      radial-gradient(ellipse 58% 44% at calc(var(--hero-spotlight-x, 50%) - 3vw) calc(var(--hero-spotlight-y, 80%) - 4vh), rgba(215,241,255,.5), rgba(50,145,211,.34) 24%, transparent 92%),
-      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg, rgba(25,121,207,.28) 9deg, rgba(25,121,207,.52) 16deg, transparent 23deg, rgba(198,232,255,.28) 29deg, rgba(198,232,255,.44) 32deg, rgba(198,232,255,.08) 37deg, transparent 43deg, rgba(235,185,114,.08) 52deg, rgba(235,185,114,.28) 60deg, rgba(235,185,114,.1) 64deg, transparent 73deg, rgba(42,140,220,.15) 82deg, rgba(42,140,220,.5) 94deg, transparent 105deg, rgba(42,140,220,.2) 111deg, transparent 120deg),
-      radial-gradient(ellipse 50% 45% at 50% 28%, rgba(33,67,98,.4), transparent 100%),
+      radial-gradient(ellipse 48% 34% at calc(var(--hero-spotlight-x, 50%) - 7vw) calc(var(--hero-spotlight-y, 80%) - 4vh), rgba(215,241,255,.5), rgba(50,145,211,.34) 24%, transparent 92%),
+      conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg 9deg, rgba(81,163,224,.10) 18deg, transparent 24deg 31deg, rgba(215,241,255,.28) 37deg, transparent 41deg 43deg, rgba(233,187,122,.20) 52deg, rgba(233,187,122,.20) 58deg, transparent 72deg 87deg, rgba(81,163,224,.11) 101deg, transparent 120deg),
       linear-gradient(120deg, #081729 0%, #142d46 38%, #282637 65%, #081a2b 100%);
   }
   .apes-landing .hero::after {
