@@ -215,7 +215,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .nav-link { display: inline; }
   .nav-menu { display: none; }
   .hero-copy { width: 100%; max-width: none; }
-  .hero h1 { width: 100%; max-width: none; white-space: nowrap; font-size: clamp(4.5rem, 8.25vw, 7.25rem); }
+  .hero h1 { width: 100%; max-width: none; white-space: nowrap; font-size: clamp(3.6rem, 6.6vw, 5.8rem); }
   .hero-lede { width: 100%; max-width: 52ch; }
   .workflow-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.7fr); gap: 80px; align-items: start; }
   .workflow-heading { max-width: 900px; margin-bottom: 96px; }
@@ -272,7 +272,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .apes-landing .nav { width: auto; min-height: 64px; margin-inline: 20px; }
 .apes-landing .section { padding-block: 72px; }
 .apes-landing .hero { padding-top: 64px; gap: 56px; }
-.apes-landing .hero-lede { max-width: 32ch; font-weight: 500; }
+.apes-landing .hero-lede { max-width: 32ch; margin-bottom: var(--hero-cta-space); font-weight: 500; }
 /* Widen the measured 148.28px hero button by 50%, retaining narrow-screen fit. */
 .apes-landing .hero .download-button { width: calc(148.28125px * 1.5); max-width: 100%; }
 .apes-landing h2 { font-size: clamp(2.15rem,4.6vw,3.5rem); letter-spacing: -.035em; line-height: 1.08; text-wrap: balance; }
@@ -544,7 +544,7 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 
 /* Top hero fan: mirrored transforms and one shared inset keep projected gaps equal.
    Keep the closing CTA on its existing independent layout. */
-.apes-landing .hero { row-gap: 16px; align-content: start; }
+.apes-landing .hero { --hero-cta-space: clamp(40px, 5vw, 64px); row-gap: var(--hero-cta-space); align-content: start; }
 .apes-landing .hero .hero-results { --hero-fan-side-track: .68fr; --hero-fan-drop: 27.205882%; --hero-side-distance: 123.5294118%; --hero-side-rest-scale: 1; grid-template-columns: minmax(0, var(--hero-fan-side-track)) minmax(0, 1fr) minmax(0, var(--hero-fan-side-track)); align-items: start; width: min(100%, 1080px); padding: 0 4.5% 28px; }
 .apes-landing .hero .hero-results,
 .apes-landing .cta-preview-layout { --hero-fan-perspective: 1600px; --hero-side-rest-inset: 0%; --hero-side-rest-tilt: -28deg; --hero-side-rest-roll: 0deg; --hero-side-distance-ratio: .92; perspective: var(--hero-fan-perspective); }
