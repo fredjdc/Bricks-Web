@@ -497,10 +497,12 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   }
 }
 .apes-landing .hero-result { --media-frame-inset: 4px; min-width: 0; padding: var(--media-frame-inset); overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
-/* Top hero media is edge-to-edge; shared closing CTA frames keep their existing inset. */
-.apes-landing .hero .hero-result { --media-frame-inset: 0px; padding: 0; border: 0; background: transparent; }
+/* Hero and closing CTA media meet their rounded clip without a decorative frame. */
+.apes-landing .hero .hero-result,
+.apes-landing .cta-preview-layout .hero-result { --media-frame-inset: 0px; padding: 0; border: 0; background: transparent; }
 .apes-landing .hero .hero-result .video-stage,
-.apes-landing .hero .hero-result > video { border-radius: inherit; }
+.apes-landing .hero .hero-result > video,
+.apes-landing .cta-preview-layout .hero-result > img { border-radius: inherit; }
 .apes-landing .hero-result .video-stage { overflow: hidden; }
 .apes-landing .hero-result video { display: block; width: 100%; height: auto; object-fit: contain; }
 /* Inner cards own the resting tilt; outer slots own measured spacing and scroll separation. */
