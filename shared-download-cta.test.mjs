@@ -25,10 +25,10 @@ test("APE closing CTA preserves its copy, link, shell and accessible Apple icon 
   const closing = ape.match(/<section class="final-cta section shell"[^>]*>[\s\S]*?<\/section>/)?.[0];
   assert.ok(closing);
   assert.match(closing, /class="bricks-download-cta reveal"/);
-  assert.match(closing, /<h2 id="final-title">Give people a closer look\.<\/h2>/);
-  assert.match(closing, /<p>Turn the screens and features you’ve built into videos for your app’s next appearance on the App Store\.<\/p>/);
+  assert.match(closing, /<h2 id="final-title">Make a video for the app you built\.<\/h2>/);
+  assert.match(closing, /<p>Start with your recordings\. Shape your first video\. Keep the project ready for your next release\.<\/p>/);
   assert.equal((closing.match(/<p\b/g) ?? []).length, 1);
-  assert.match(closing, /<img src="AppIcon\.png" width="64" height="64" alt="">/);
+  assert.match(closing, /<img src="AppIcon\.png" width="144" height="144" alt="">/);
   assert.doesNotMatch(closing, /trial|availability|bricks-cta-note/i);
   assert.match(closing, /href="https:\/\/apps\.apple\.com\/us\/app\/app-preview-editor-studio\/id6785711605" aria-label="Download for Mac"/);
   assert.match(closing, /srcset="\.\.\/images\/apple-icon-white\.svg" media="\(prefers-color-scheme: dark\)"/);
