@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 import { guideRegistry } from "./guide-registry.mjs";
 
-const HUB_URL = "https://bricks.pe/app-preview-editor/guides/";
+const HUB_URL = "https://bricks.pe/appcut/guides/";
 const TOPICS = new Set(["plan", "capture", "edit", "deliver"]);
 const GUIDE_ICONS = new Set(["camera", "film-slate", "monitor-play", "sliders-horizontal"]);
 const hubPath = new URL("./index.html", import.meta.url);
@@ -65,7 +65,7 @@ function renderStructuredData() {
         "@type": "CollectionPage",
         "@id": `${HUB_URL}#collection`,
         url: HUB_URL,
-        name: "App Preview Editor Guides",
+        name: "AppCut Guides",
         description: "Practical guidance for planning, capturing, editing, and delivering App Preview videos.",
         isPartOf: {
           "@type": "WebSite",
@@ -89,8 +89,8 @@ function renderStructuredData() {
           {
             "@type": "ListItem",
             position: 1,
-            name: "App Preview Editor",
-            item: "https://bricks.pe/app-preview-editor/"
+            name: "AppCut",
+            item: "https://bricks.pe/appcut/"
           },
           {
             "@type": "ListItem",
@@ -183,7 +183,7 @@ if (checkOnly === writeFiles) {
 
 if (checkOnly) {
   if (hubSource !== readFileSync(hubPath, "utf8") || sitemapSource !== readFileSync(sitemapPath, "utf8")) {
-    throw new Error("Generated guide files are out of date. Run: node app-preview-editor/guides/build-guides.mjs --write");
+    throw new Error("Generated guide files are out of date. Run: node appcut/guides/build-guides.mjs --write");
   }
 } else if (writeFiles) {
   writeFileSync(hubPath, hubSource);

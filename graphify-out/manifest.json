@@ -154,17 +154,17 @@
     "ast_hash": "26403c181b7f34fea8fb48c886e6323e",
     "semantic_hash": ""
   },
-  "app-preview-editor/script.js": {
+  "appcut/script.js": {
     "mtime": 1784051264.4770617,
     "ast_hash": "d1e81eee1734d472c3a81996dc511c9c",
     "semantic_hash": ""
   },
-  "app-preview-editor/workflow-video.test.mjs": {
+  "appcut/workflow-video.test.mjs": {
     "mtime": 1784051264.5661933,
     "ast_hash": "06a456a407eaf1b5ed4c1438da46daa8",
     "semantic_hash": ""
   },
-  "app-preview-editor/index.html": {
+  "appcut/index.html": {
     "mtime": 1784052358.3623552,
     "ast_hash": "f66f81651f3e98607e49aca29d544a3d",
     "semantic_hash": ""

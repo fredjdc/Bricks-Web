@@ -4,8 +4,8 @@ import test from "node:test";
 
 const read = path => readFile(new URL(path, import.meta.url), "utf8");
 const [calc, ape, css, apeCss] = await Promise.all([
-  read("index.html"), read("app-preview-editor/index.html"),
-  read("shared-download-cta.css"), read("app-preview-editor/styles.css"),
+  read("index.html"), read("appcut/index.html"),
+  read("shared-download-cta.css"), read("appcut/styles.css"),
 ]);
 
 test("both pages use one shared CTA presentation without importing the root stylesheet into APE", () => {
@@ -30,7 +30,7 @@ test("APE closing CTA preserves its copy, link, shell and accessible Apple icon 
   assert.equal((closing.match(/<p\b/g) ?? []).length, 1);
   assert.match(closing, /<img src="AppIcon\.png" width="144" height="144" alt="">/);
   assert.doesNotMatch(closing, /trial|availability|bricks-cta-note/i);
-  assert.match(closing, /href="https:\/\/apps\.apple\.com\/us\/app\/app-preview-editor-studio\/id6785711605" aria-label="Download for Mac"/);
+  assert.match(closing, /href="https:\/\/apps\.apple\.com\/us\/app\/appcut-studio\/id6785711605" aria-label="Download for Mac"/);
   assert.match(closing, /srcset="\.\.\/images\/apple-icon-white\.svg" media="\(prefers-color-scheme: dark\)"/);
   assert.match(closing, /src="\.\.\/images\/apple-icon-black\.svg" width="18" height="18" alt=""/);
   assert.match(css, /:focus-visible \{ outline: 3px solid var\(--cta-text\)/);

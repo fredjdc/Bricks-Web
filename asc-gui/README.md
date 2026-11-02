@@ -1,6 +1,6 @@
 # ASC GUI landing page
 
-Static page at `/asc-gui/`. Matches `../app-preview-editor/index.html` and reuses its stylesheet for the Bricks palette, typography, controls, and responsive foundation. Page-specific layout lives in `styles.css`. No JavaScript or build step is needed; FAQ and mobile navigation use native `details` elements.
+Static page at `/asc-gui/`. Matches `../appcut/index.html` and reuses its stylesheet for the Bricks palette, typography, controls, and responsive foundation. Page-specific layout lives in `styles.css`. No JavaScript or build step is needed; FAQ and mobile navigation use native `details` elements.
 
 ## Replace the images
 

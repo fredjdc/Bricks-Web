@@ -44,7 +44,7 @@ test("the static catalog and SEO describe the same guide collection", () => {
   assert.match(hubHTML, /<section class="guide-controls"[^>]* hidden>/);
   assert.match(hubHTML, /<input[^>]*type="search"/);
   assert.match(hubHTML, /aria-live="polite"/);
-  assert.match(sitemap, /<loc>https:\/\/bricks\.pe\/app-preview-editor\/guides\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/bricks\.pe\/appcut\/guides\/<\/loc>/);
   assert.doesNotMatch(hubHTML, /[—–]/);
 
   cardMatches.forEach((match) => {
@@ -154,7 +154,7 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
   const resetButton = new FakeElement();
   const filterButtons = ["all", "plan", "capture", "edit", "deliver"].map((topic) => new FakeElement({ dataset: { topic } }));
   const cards = [
-    new FakeElement({ dataset: { topics: "plan capture edit deliver", search: "quick start tutorial walkthrough" }, textContent: "Getting started with App Preview Editor" }),
+    new FakeElement({ dataset: { topics: "plan capture edit deliver", search: "quick start tutorial walkthrough" }, textContent: "Getting started with AppCut" }),
     new FakeElement({ dataset: { topics: "plan capture edit deliver", search: "story muted complete workflow" }, textContent: "App Preview essentials" }),
     new FakeElement({ dataset: { topics: "plan capture", search: "screen recordings audio" }, textContent: "Prepare App Preview footage and audio" }),
     new FakeElement({ dataset: { topics: "edit deliver", search: "captions muted export" }, textContent: "Edit an App Preview for clarity" })
@@ -176,7 +176,7 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
     querySelectorAll: (selector) => selector === "[data-topic]" ? filterButtons : cards
   };
   globalThis.window = {
-    location: new URL("https://bricks.pe/app-preview-editor/guides/?q=audio&topic=capture"),
+    location: new URL("https://bricks.pe/appcut/guides/?q=audio&topic=capture"),
     history: {
       replaceState: (_state, _title, url) => {
         globalThis.window.location = new URL(url);
@@ -201,7 +201,7 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
   assert.deepEqual(cards.map((card) => card.hidden), [false, false, false, false]);
   assert.equal(globalThis.window.location.search, "");
 
-  globalThis.window.location = new URL("https://bricks.pe/app-preview-editor/guides/?q=muted&topic=deliver");
+  globalThis.window.location = new URL("https://bricks.pe/appcut/guides/?q=muted&topic=deliver");
   windowListeners.get("popstate")();
   assert.deepEqual(cards.map((card) => card.hidden), [true, false, true, false]);
   assert.equal(resultCount.textContent, "2 guides");
