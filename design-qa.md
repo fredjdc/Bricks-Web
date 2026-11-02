@@ -1,4 +1,4 @@
-# Design QA — App Preview Editor problem section
+# Design QA — AppCut problem section
 
 - Source visual truth: `/Users/freddyjdc/.codex/visualizations/2026/07/14/019f5df7-75ba-73d2-8bba-9c437f3b33aa/02-figma-recommended-section.png`
 - Implementation screenshot: `/Users/freddyjdc/.codex/visualizations/2026/07/14/019f5df7-75ba-73d2-8bba-9c437f3b33aa/03-implemented-section-desktop.png`
