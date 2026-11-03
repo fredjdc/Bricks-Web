@@ -2,7 +2,7 @@ export const guideRegistry = [
   {
     slug: "getting-started",
     icon: "monitor-play",
-    title: "Getting started with App Preview Editor",
+    title: "Getting started with AppCut",
     summary: "Watch the quick walkthrough, then take your first project from imported media to an App Store Connect upload.",
     kind: "product-guide",
     primaryTopic: "plan",

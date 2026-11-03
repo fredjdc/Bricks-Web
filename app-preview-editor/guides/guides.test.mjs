@@ -154,7 +154,7 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
   const resetButton = new FakeElement();
   const filterButtons = ["all", "plan", "capture", "edit", "deliver"].map((topic) => new FakeElement({ dataset: { topic } }));
   const cards = [
-    new FakeElement({ dataset: { topics: "plan capture edit deliver", search: "quick start tutorial walkthrough" }, textContent: "Getting started with App Preview Editor" }),
+    new FakeElement({ dataset: { topics: "plan capture edit deliver", search: "quick start tutorial walkthrough" }, textContent: "Getting started with AppCut" }),
     new FakeElement({ dataset: { topics: "plan capture edit deliver", search: "story muted complete workflow" }, textContent: "App Preview essentials" }),
     new FakeElement({ dataset: { topics: "plan capture", search: "screen recordings audio" }, textContent: "Prepare App Preview footage and audio" }),
     new FakeElement({ dataset: { topics: "edit deliver", search: "captions muted export" }, textContent: "Edit an App Preview for clarity" })
@@ -208,4 +208,18 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
 
   delete globalThis.document;
   delete globalThis.window;
+});
+
+test("AppCut branding is consistent across landing, backup, and guide pages", () => {
+  const pages = ["../index.html", "../index-backup.html", "./index.html",
+    ...guideRegistry.filter((guide) => guide.status === "published").map((guide) => `./${guide.slug}/index.html`)];
+  for (const path of pages) {
+    const html = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.doesNotMatch(html, /App Preview Editor/i, path);
+    assert.match(html, /<title>[^<]*AppCut[^<]*<\/title>/, path);
+    assert.match(html, /aria-label="AppCut home"/, path);
+    const data = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    assert.ok(JSON.stringify(data).includes('"name":"AppCut'), path);
+    assert.match(html, /rel="canonical" href="https:\/\/bricks\.pe\/app-preview-editor\//, path);
+  }
 });

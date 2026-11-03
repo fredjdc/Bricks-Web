@@ -1,4 +1,4 @@
-# App Preview Editor guides
+# AppCut guides
 
 `guide-registry.mjs` is the source of truth for the Guides hub. Each published record generates its crawlable catalog row, search metadata, structured data, and sitemap entry.
 

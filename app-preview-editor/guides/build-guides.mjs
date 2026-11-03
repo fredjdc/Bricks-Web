@@ -65,7 +65,7 @@ function renderStructuredData() {
         "@type": "CollectionPage",
         "@id": `${HUB_URL}#collection`,
         url: HUB_URL,
-        name: "App Preview Editor Guides",
+        name: "AppCut Guides",
         description: "Practical guidance for planning, capturing, editing, and delivering App Preview videos.",
         isPartOf: {
           "@type": "WebSite",
@@ -89,7 +89,7 @@ function renderStructuredData() {
           {
             "@type": "ListItem",
             position: 1,
-            name: "App Preview Editor",
+            name: "AppCut",
             item: "https://bricks.pe/app-preview-editor/"
           },
           {
