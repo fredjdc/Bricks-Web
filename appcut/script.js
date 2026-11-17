@@ -177,6 +177,56 @@ document.querySelectorAll("[data-playback-toggle]").forEach((video) => {
   updateLabel();
 });
 
+// Use explicit, keyboard-accessible buttons so previews start only by request.
+const previewVideos = [...document.querySelectorAll("[data-preview-control]")].flatMap(button => {
+  const video = document.getElementById(button.dataset.previewControl);
+  if (!(video instanceof HTMLVideoElement)) return [];
+  const label = button.textContent.trim().replace(/^Play /, "");
+  const status = document.createElement("span");
+  status.className = "preview-status";
+  status.setAttribute("role", "status");
+  button.after(status);
+
+  const updateLabel = () => {
+    button.textContent = `${video.paused ? "Play" : "Pause"} ${label}`;
+  };
+  button.addEventListener("click", () => {
+    status.textContent = "";
+    if (!video.paused) {
+      video.pause();
+      return;
+    }
+    playVideo(video).catch(error => {
+      // A user pause or an offscreen pause can interrupt a pending play().
+      if (error.name !== "AbortError") status.textContent = "Video unavailable. The still preview is shown.";
+      updateLabel();
+    });
+  });
+  video.addEventListener("play", updateLabel);
+  video.addEventListener("pause", updateLabel);
+  video.addEventListener("error", () => {
+    status.textContent = "Video unavailable. The still preview is shown.";
+    updateLabel();
+  });
+  button.hidden = false;
+  return [video];
+});
+
+if (previewVideos.length && "IntersectionObserver" in window) {
+  // Watch the section, not the video: the latter moves during the editor transition.
+  previewVideos.forEach(video => {
+    const section = video.closest("section");
+    if (!section) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) video.pause();
+    });
+    observer.observe(section);
+  });
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) previewVideos.forEach(video => video.pause());
+});
+
 const workflowPinLayout = (cardHeight, viewportHeight, navBottom, bottomSpace) => {
   if (![cardHeight, viewportHeight].every(value => Number.isFinite(value) && value > 0)
     || ![navBottom, bottomSpace].every(value => Number.isFinite(value) && value >= 0)) return null;
@@ -269,7 +319,7 @@ const setupWorkflow = () => {
 };
 setupWorkflow();
 
-const observedVideos = document.querySelectorAll("video");
+const observedVideos = document.querySelectorAll("video[data-autoplay-video]");
 
 const resumeVisibleVideos = () => {
   if (motionPreference.matches) return;

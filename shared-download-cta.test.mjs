@@ -25,12 +25,13 @@ test("APE closing CTA preserves its copy, link, shell and accessible Apple icon 
   const closing = ape.match(/<section class="final-cta section shell"[^>]*>[\s\S]*?<\/section>/)?.[0];
   assert.ok(closing);
   assert.match(closing, /class="bricks-download-cta reveal"/);
-  assert.match(closing, /<h2 id="final-title">Make a video for the app you built\.<\/h2>/);
+  assert.match(closing, /<h2 id="final-title">Show your app at its best\.<\/h2>/);
   assert.match(closing, /<p>Start with your recordings\. Shape your first video\. Keep the project ready for your next release\.<\/p>/);
   assert.equal((closing.match(/<p\b/g) ?? []).length, 1);
   assert.match(closing, /<img src="AppIcon\.png" width="144" height="144" alt="">/);
   assert.doesNotMatch(closing, /trial|availability|bricks-cta-note/i);
-  assert.match(closing, /href="https:\/\/apps\.apple\.com\/us\/app\/appcut-studio\/id6785711605" aria-label="Download for Mac"/);
+  assert.match(closing, /href="https:\/\/testflight\.apple\.com\/join\/UgyQd6ES" aria-label="Download for Mac"/);
+  assert.match(closing, /href="#download">Compare Free and Pro<\/a>/);
   assert.match(closing, /srcset="\.\.\/images\/apple-icon-white\.svg" media="\(prefers-color-scheme: dark\)"/);
   assert.match(closing, /src="\.\.\/images\/apple-icon-black\.svg" width="18" height="18" alt=""/);
   assert.match(css, /:focus-visible \{ outline: 3px solid var\(--cta-text\)/);

@@ -209,3 +209,19 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
   delete globalThis.document;
   delete globalThis.window;
 });
+
+test("guide beta actions reach the current beta landing and Quick Start has a poster", () => {
+  const landing = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  assert.match(landing, /id="top"/);
+  assert.match(landing, /https:\/\/testflight\.apple\.com\/join\/UgyQd6ES/);
+  for (const path of ["index.html", ...guideRegistry.filter(guide => guide.status === "published").map(guide => `${guide.slug}/index.html`)]) {
+    const page = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.doesNotMatch(page, /#hero-email/);
+    assert.match(page, /href="(?:\.\.\/)+index\.html#top">Get Beta Access/);
+  }
+  const quickStart = new URL("getting-started/index.html", import.meta.url);
+  const page = readFileSync(quickStart, "utf8");
+  const poster = page.match(/class="guide-video"[^>]*>\s*<img src="([^"]+)"/)?.[1];
+  assert.ok(poster);
+  assert.ok(readFileSync(new URL(poster, quickStart)).length > 0);
+});

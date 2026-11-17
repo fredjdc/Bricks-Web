@@ -25,7 +25,7 @@
 
   <link rel="icon" href="AppIcon.png" type="image/png">
   <link rel="apple-touch-icon" href="AppIcon.png">
-  <link rel="stylesheet" href="styles.css?v=20261102-cta-borderless-1">
+  <link rel="stylesheet" href="styles.css?v=20261117-launch-polish-1">
   <link rel="stylesheet" href="../tally-embed.css?v=20261029-1">
   <link rel="stylesheet" href="wind-files.css?v=20261029-varied-sizes-1">
   <link rel="stylesheet" href="../shared-download-cta.css?v=20261024-1">
@@ -47,7 +47,7 @@
 
 
 </head>
-<body class="apes-landing">
+<body class="apes-landing launch-polish">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -59,40 +59,40 @@
       <div class="nav-actions">
         <a class="button button-small download-button" href="https://testflight.apple.com/join/UgyQd6ES" aria-label="Download for Mac">
           <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
-          <span>Download for Mac</span>
+          <span>Download</span>
         </a>
       </div>
     </nav>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <section class="hero shell" id="top">
       <div class="hero-ambient-glow" aria-hidden="true"></div>
       <div class="hero-copy">
-        <span class="coming-soon-label">Launching soon! Try free beta.</span>
+        <span class="coming-soon-label">Launching soon!</span>
         <h1><span class="hero-word"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 0ms">App</span> <span class="hero-phrase"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 60ms">Store</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 120ms">videos.</span></span></span> <span class="hero-word"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 300ms">Built</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 360ms">for</span> <span class="hero-phrase"><span class="hero-title-word" data-hero-entrance style="--hero-delay: 420ms">indie</span> <span class="hero-title-word" data-hero-entrance style="--hero-delay: 480ms">developers.</span></span></span></h1>
         <p class="hero-lede hero-intro-secondary" data-hero-entrance style="--hero-delay: 860ms">Turn your screen recordings into videos for your App Store page.</p>
         <div class="hero-intro-detail">
-          <a class="button download-button" href="https://testflight.apple.com/join/UgyQd6ES" aria-label="Download for Mac" data-hero-entrance style="--hero-delay: 1060ms">
-            <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
-            <span>Download free beta</span>
-          </a>
-          <p class="download-caption" data-hero-entrance style="--hero-delay: 1220ms">No account required. Local and privacy. macOS Tahoe 15.0 or later.</p>
+          <div class="hero-actions">
+            <a class="button download-button" href="https://testflight.apple.com/join/UgyQd6ES" aria-label="Download for Mac" data-hero-entrance style="--hero-delay: 1060ms">
+              <picture aria-hidden="true"><source srcset="../images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-white.svg" width="20" height="20" alt=""></picture>
+              <span>Download</span>
+            </a>
+          </div>
+          <p class="download-caption" data-hero-entrance style="--hero-delay: 1220ms">No accounts · Works offline · macOS Tahoe 15.0+</p>
         </div>
       </div>
 
       <div class="hero-results" role="group" aria-label="App Store video examples">
         <div class="hero-side-slot hero-side-left">
           <div class="hero-result hero-result-left" aria-hidden="true" data-hero-entrance>
-            <video width="1776" height="3840" poster="assets/product/hero-left.png" preload="none" muted loop playsinline data-autoplay-video data-hero-side data-start-time="8">
-              <source data-src="assets/product/hero-left.mp4" type="video/mp4">
-            </video>
+            <img class="hero-side-still" src="assets/product/hero-left.png" width="458" height="986" alt="" decoding="async">
           </div>
         </div>
         <div class="hero-center-slot" data-hero-preview-origin>
           <div class="hero-preview-traveler">
             <div class="hero-result hero-result-center" data-hero-entrance>
-              <video id="finished-preview-video" width="886" height="1920" poster="assets/product/hero-center.png" preload="none" muted loop playsinline data-autoplay-video data-start-time="6" data-playback-toggle data-playback-label="App Store video examples" role="button" tabindex="0" aria-label="Play App Store video examples">
+              <video id="finished-preview-video" width="1776" height="3840" poster="assets/product/hero-center.png" preload="none" muted loop playsinline data-start-time="6" aria-label="Sample App Store preview video">
                 <source data-src="assets/product/hero-center.mp4" type="video/mp4">
               </video>
             </div>
@@ -100,12 +100,11 @@
         </div>
         <div class="hero-side-slot hero-side-right">
           <div class="hero-result hero-result-right" aria-hidden="true" data-hero-entrance>
-            <video width="1776" height="3840" poster="assets/product/hero-right.png" preload="none" muted loop playsinline data-autoplay-video data-hero-side data-start-time="14">
-              <source data-src="assets/product/hero-right.mp4" type="video/mp4">
-            </video>
+            <img class="hero-side-still" src="assets/product/hero-right.png" width="458" height="986" alt="" decoding="async">
           </div>
         </div>
       </div>
+      <button class="preview-control" type="button" data-preview-control="finished-preview-video" aria-controls="finished-preview-video" hidden>Play sample preview</button>
     </section>
 
     <section class="result-section section shell" aria-labelledby="result-title">
@@ -193,11 +192,12 @@
           <img class="editor-desktop" src="assets/desktop-bg.png" width="2560" height="1080" alt="" loading="lazy" decoding="async">
         </div>
         <div class="scene-clips-window">
-          <video width="1920" height="1080" poster="assets/appcut-template.png" preload="none" muted loop playsinline data-autoplay-video data-scene-clips aria-label="Ready-made templates in AppCut">
+          <video id="template-preview-video" width="1920" height="1080" poster="assets/appcut-template.png" preload="none" muted loop playsinline aria-label="Ready-made templates in AppCut">
             <source data-src="assets/product/scene-clip.mp4" type="video/mp4">
           </video>
         </div>
       </div>
+      <button class="preview-control" type="button" data-preview-control="template-preview-video" aria-controls="template-preview-video" hidden>Play template demo</button>
     </section>
 
     <section class="feature-bento" aria-labelledby="feature-bento-title">
@@ -274,7 +274,7 @@
       </div>
     </section>
 
-    <section class="product-tour section shell" aria-labelledby="tour-title">
+    <section class="product-tour section shell" id="update-preview" tabindex="-1" aria-labelledby="tour-title">
       <div class="section-heading reveal">
         <h2 id="tour-title">Keep your video updated.</h2>
         <p>Return to your project when your app changes. Update the footage and keep the editing work you’ve already done.</p>
@@ -284,6 +284,7 @@
         <article class="product-story reveal">
           <div class="story-copy">
             <div class="story-copy-content">
+              <p class="release-step">01 · Replace</p>
               <h3>Update the screen. Keep the work.</h3>
               <p>Replace screenshots and recordings while keeping the timing, text, and styling you’ve already created.</p>
             </div>
@@ -296,6 +297,7 @@
         <article class="product-story product-story-reverse reveal">
           <div class="story-copy">
             <div class="story-copy-content">
+              <p class="release-step">02 · Adapt</p>
               <h3>Keep your versions together.</h3>
               <p>Adapt a timeline for another device, orientation, or language. Keep each version in the same project.</p>
             </div>
@@ -312,6 +314,7 @@
       <div class="product-story reveal">
         <div class="story-copy">
           <div class="story-copy-content">
+            <p class="release-step">03 · Deliver</p>
             <h2 id="delivery-title">Export for the formats your app needs.</h2>
             <ul class="device-support" role="list" aria-label="Supported app preview devices">
               <li>
@@ -321,7 +324,6 @@
               <li>
                 <img class="feature-title-icon" src="assets/icons/iphone-duo.svg" width="32" height="32" alt="" aria-hidden="true">
                 <span>iPhone Duo</span>
-                <span class="coming-soon-label device-new">New</span>
               </li>
               <li>
                 <img class="feature-title-icon" src="assets/icons/ipad.svg" width="32" height="32" alt="" aria-hidden="true">
@@ -336,7 +338,7 @@
                 <span>Apple Vision Pro</span>
               </li>
             </ul>
-            <p>Choose the device and placement for your video. Export to your Mac, or upload to App Store Connect.</p>
+            <p>Review before exporting to your Mac. With Pro and App Store Connect API credentials, you can upload supported videos directly from AppCut.</p>
           </div>
         </div>
         <div class="story-media">
@@ -347,9 +349,9 @@
 
 
 
-    <section class="pricing section shell" id="download" aria-labelledby="pricing-title">
+    <section class="pricing section shell" id="download" tabindex="-1" aria-labelledby="pricing-title">
       <div class="pricing-block reveal">
-        <h2 id="pricing-title">Start free.</h2>
+        <h2 id="pricing-title">Start free</h2>
         <dl class="pricing-options" aria-label="Pro plans and prices in US dollars">
           <div><dt>Monthly</dt><dd>$4.99/month</dd><dd class="plan-detail"><span class="coming-soon-label">7-day free trial</span></dd></div>
           <div><dt>Yearly</dt><dd>$39.99/year</dd><dd class="plan-detail"><span class="coming-soon-label">7-day free trial</span></dd></div>
@@ -496,8 +498,9 @@
         <div class="bricks-cta-actions">
           <a class="bricks-cta-button download-button" href="https://testflight.apple.com/join/UgyQd6ES" aria-label="Download for Mac">
           <picture aria-hidden="true"><source srcset="../images/apple-icon-white.svg" media="(prefers-color-scheme: dark)"><img src="../images/apple-icon-black.svg" width="18" height="18" alt=""></picture>
-            <span>Download for Mac</span>
+            <span>Download</span>
           </a>
+          <a class="cta-plan-link" href="#download">Compare Free and Pro</a>
         </div>
         <div class="cta-preview-mask" aria-hidden="true">
           <div class="hero-results cta-preview-layout">
@@ -533,10 +536,10 @@
 
   <footer class="footer shell">
     <p>AppCut. Made for indie Apple developers. Built natively for Mac.</p>
-    <div><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:hello@bricks.pe">Contact</a><span>© 2026 Bricks Apps</span></div>
+    <div><a href="guides/index.html">Guides</a><a href="../privacy.html">Privacy</a><a href="../terms.html">Terms</a><a href="mailto:hello@bricks.pe">Contact</a><span>© 2026 Bricks Apps</span></div>
   </footer>
 
-  <script src="script.js?v=20261031-feature-bento-1" defer></script>
+  <script src="script.js?v=20261117-preview-controls-1" defer></script>
   <script src="wind-files.js?v=20261029-double-wind-1" defer></script>
   <script src="../tally-embed.js?v=20261029-1" defer></script>
 </body>

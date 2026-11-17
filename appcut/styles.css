@@ -801,3 +801,93 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 .apes-landing .cta-preview-layout img { border-radius: calc(var(--media-radius) - var(--media-frame-inset) - 1px); }
 .apes-landing .hero-result .video-stage > video,
 .apes-landing .hero-result .video-stage > .video-poster { border-radius: 0; }
+
+/* Release workflow and opt-in previews. */
+/* Keep the linked release workflow readable even when its media is mid-reveal. */
+.apes-landing.launch-polish .product-tour .product-story.is-story-ready .story-copy-content { filter: none; }
+.apes-landing.launch-polish #update-preview { scroll-margin-top: 90px; }
+.apes-landing.launch-polish .hero-lede { max-width: 40ch; }
+.apes-landing.launch-polish .hero-actions,
+.apes-landing.launch-polish .bricks-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 20px;
+}
+.apes-landing.launch-polish .hero-workflow-link,
+.apes-landing.launch-polish .preview-control {
+  color: var(--text);
+  text-decoration-thickness: .08em;
+  text-underline-offset: .24em;
+}
+.apes-landing.launch-polish .hero-workflow-link,
+.apes-landing.launch-polish .cta-plan-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: .42em;
+  padding-inline: 8px;
+  font-size: .9375rem;
+  font-weight: 650;
+  text-align: center;
+}
+.apes-landing.launch-polish .hero-actions :focus-visible,
+.apes-landing.launch-polish .download-button:focus-visible,
+.apes-landing.launch-polish .cta-plan-link:focus-visible,
+.apes-landing.launch-polish .footer a:focus-visible,
+.apes-landing.launch-polish .preview-control:focus-visible {
+  outline: 3px solid var(--detail);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+.apes-landing.launch-polish .hero-actions :focus-visible { animation: none; }
+.apes-landing.launch-polish .cta-plan-link { color: var(--cta-text); }
+.apes-landing.launch-polish .bricks-download-cta .download-button:focus-visible,
+.apes-landing.launch-polish .cta-plan-link:focus-visible { outline-color: var(--cta-text); }
+.apes-landing.launch-polish .hero .download-button { font-size: 1rem; }
+.apes-landing.launch-polish .nav .download-button { min-height: 44px; }
+.apes-landing.launch-polish .hero-side-still { display: block; width: 100%; height: auto; }
+.apes-landing.launch-polish .hero-result-center video { cursor: auto; pointer-events: none; }
+.apes-landing.launch-polish .preview-control:not([hidden]) {
+  display: block;
+  width: fit-content;
+  min-height: 44px;
+  margin-inline: auto;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: .875rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+.apes-landing.launch-polish .preview-control:hover { text-decoration: underline; }
+.apes-landing.launch-polish .scene-clips > .preview-control { margin-top: 16px; }
+.apes-landing.launch-polish .preview-status {
+  display: block;
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: .875rem;
+}
+.apes-landing.launch-polish .preview-status:not(:empty) { margin-top: 6px; }
+.apes-landing.launch-polish .preview-status:empty { position: absolute; }
+.apes-landing.launch-polish .hero-results + .preview-control { position: relative; z-index: 4; margin-top: -32px; }
+.apes-landing.launch-polish .release-eyebrow,
+.apes-landing.launch-polish .release-step {
+  color: var(--detail);
+  font-weight: 700;
+  font-size: .875rem;
+  margin-bottom: 10px;
+}
+.apes-landing.launch-polish .delivery .device-support { margin-bottom: 0; }
+.apes-landing.launch-polish .product-tour + .delivery { margin-top: 0; padding-top: 0; }
+.apes-landing.launch-polish .product-tour { padding-bottom: clamp(36px, 6vw, 88px); }
+.apes-landing.launch-polish .download-caption { max-width: 42ch; text-wrap: pretty; }
+@media (max-width: 520px) {
+  .apes-landing.launch-polish .hero-actions { flex-direction: column; }
+  .apes-landing.launch-polish .hero h1 { font-size: clamp(2.15rem, 10vw, 3.25rem); }
+  .apes-landing.launch-polish .download-caption { max-width: 32ch; margin-top: 8px; }
+  .apes-landing.launch-polish .hero-results + .preview-control { margin-top: -24px; }
+}

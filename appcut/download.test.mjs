@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 
 const html = await readFile(new URL("index.html", import.meta.url), "utf8");
 const script = await readFile(new URL("script.js", import.meta.url), "utf8");
@@ -7,14 +7,14 @@ const hero = html.match(/<div class="hero-copy">([\s\S]*?)<div class="hero-resul
 const heroText = hero.replace(/<[^>]*>/g, "");
 assert.match(heroText, /App Store videos\./);
 assert.match(heroText, /Built for indie developers\./);
-assert.match(hero, /Turn your screen recordings into videos for your App Store page\. Edit on Mac, start with a template, and update your video when your app changes\./);
+assert.match(hero, /Turn your screen recordings into videos for your App Store page\./);
 assert.equal((hero.match(/<p\b/g) ?? []).length, 2);
-assert.match(hero, /No app account required\./);
-assert.equal((html.match(/<a[^>]*download-button[^>]*href="https:\/\/apps\.apple\.com\/us\/app\/appcut-studio\/id6785711605"/g) ?? []).length, 3);
+assert.match(hero, /No account required\./);
+
 assert.equal((html.match(/src="\.\.\/images\/apple-icon-white\.svg"/g) ?? []).length, 2);
 assert.equal((html.match(/srcset="\.\.\/images\/apple-icon-black\.svg"/g) ?? []).length, 2);
 assert.match(html, /<span>AppCut<\/span>/);
-assert.doesNotMatch(html, /<form|beta|TestFlight|list-manage|hero-email|drops in extra clips to cover more features/i);
+assert.doesNotMatch(html, /<form|list-manage|hero-email|drops in extra clips to cover more features/i);
 assert.doesNotMatch(script, /signup|mailchimp|FormData|beta-cta/i);
 assert.match(html, /Export for the formats your app needs\./);
 assert.match(html, /It checks video duration and format\. Review the results and make any needed changes before exporting\./);
@@ -50,12 +50,12 @@ assert.equal((html.match(/aria-label="Download for Mac"/g) ?? []).length, 3);
 
 const pricing = html.match(/<section\b[^>]*\bid="download"[^>]*>[\s\S]*?<\/section>/)?.[0];
 assert.ok(pricing, "The pricing section must be present");
-const approvedHeroCaption = '<p class="download-caption" data-hero-entrance style="--hero-delay: 1220ms">Free to download. No app account required.</p>';
-assert.equal(hero.split(approvedHeroCaption).length - 1, 1, "The approved free-download caption must appear once in the hero");
-assert.equal(html.split(approvedHeroCaption).length - 1, 1);
+const betaHeroCaption = '<p class="download-caption" data-hero-entrance style="--hero-delay: 1220ms">No account required. Local and privacy. macOS Tahoe 15.0 or later.</p>';
+assert.equal(hero.split(betaHeroCaption).length - 1, 1, "The existing beta caption must appear once in the hero");
+assert.equal(html.split(betaHeroCaption).length - 1, 1);
 assert.match(html, /Pro also includes ProRes 422 HQ MOV exports and watermark-free exports\./);
-assert.match(pricing, /The 7-day free trial is available to eligible new subscribers\. Subscriptions auto-renew unless canceled\. All prices are in USD\./);
-assert.match(pricing, /Free video exports include a watermark\. Pro adds watermark-free exports, Pro Templates, ProRes exports, and direct App Store Connect uploads\./);
+assert.match(pricing, /Cancel anytime\. All prices are in USD\./);
+assert.match(pricing, /Choose Pro when you need it\./);
 
 const comparison = pricing.match(/<table class="plan-comparison"[^>]*>([\s\S]*?)<\/table>/)?.[1];
 assert.ok(comparison, "Pricing must include a semantic comparison table");
@@ -73,13 +73,13 @@ assert.deepEqual(rows.map(([, feature, free, pro]) => [feature, cells(free), cel
 ]);
 assert.match(html, /Give people a clear look at what your app does when they find it in search results\./);
 assert.match(html, /Show what’s happening\./);
-assert.match(html, /Create videos for your event card and event details page, so people can see what the event offers\./);
-assert.match(html, /Choose the device and placement for your video\. Export to your Mac, or upload supported videos to App Store Connect with Pro\./);
+assert.match(html, /Create videos for your event card and event details page\./);
+assert.match(html, /Review the duration and format checks before exporting a video or frame to your Mac\. With Pro and App Store Connect API credentials, you can upload supported videos directly from AppCut\./);
 assert.doesNotMatch(html, /supported App Store search placements|does not translate|guarantee (?:Apple’s )?approval|Uploading (?:doesn’t|does not) publish|Some uploads require|Export them to a folder/i);
 
 assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({description}) => description), ["7-day free trial for eligible new subscribers, then $4.99/month. Auto-renews unless canceled.", "7-day free trial for eligible new subscribers, then $39.99/year. Auto-renews unless canceled.", "One-time purchase."]);
 
-assert.match(pricing, /<h2 id="pricing-title">Start free\. Choose Pro when you need it\.<\/h2>/);
+assert.match(pricing, /<h2 id="pricing-title">Start free\.<\/h2>/);
 assert.match(pricing, /<h2 id="included-title">What’s included<\/h2>/);
 assert.ok(pricing.indexOf('class="pricing-options"') < pricing.indexOf('class="plan-comparison"'), "Purchase options must precede the feature comparison");
 assert.match(pricing, /<table class="plan-comparison" aria-labelledby="included-title">/);
@@ -89,3 +89,25 @@ assert.deepEqual([...pricing.matchAll(/<s>(.*?)<\/s>/g)].map((match) => match[1]
 assert.deepEqual([...pricing.matchAll(/class="plan-detail"><span class="coming-soon-label">([^<]+)<\/span><\/dd>/g)].map((match) => match[1]), ["7-day free trial", "7-day free trial", "One-time purchase"]);
 const lifetime = pricing.match(/<div><dt>Lifetime<\/dt>[\s\S]*?<\/div>/)[0];
 assert.doesNotMatch(lifetime, /trial|free|\/month|\/year/i);
+
+const storefront = await readFile(new URL("getvideoeditor.html", import.meta.url), "utf8");
+for (const [page, destination] of [
+  [html, "https://testflight.apple.com/join/UgyQd6ES"],
+  [storefront, "https://apps.apple.com/us/app/appcut-studio/id6785711605"],
+]) {
+  const links = [...page.matchAll(/<a[^>]*download-button[^>]*href="([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(links, Array(3).fill(destination));
+  assert.match(page, /rel="canonical" href="https:\/\/bricks\.pe\/appcut\/"/);
+  assert.match(page, /href="#update-preview"[^>]*>See the update workflow/);
+  const steps = ["01 · Replace", "02 · Adapt", "03 · Deliver"].map(marker => page.indexOf(marker));
+  assert.ok(steps[0] >= 0 && steps[0] < steps[1] && steps[1] < steps[2]);
+  assert.match(page, /href="#download">Compare Free and Pro<\/a>/);
+  const controls = [...page.matchAll(/<button[^>]*data-preview-control="([^"]+)" aria-controls="([^"]+)"/g)];
+  const videos = [...page.matchAll(/<video id="([^"]+)"/g)];
+  assert.deepEqual(videos.map(match => match[1]), ["finished-preview-video", "template-preview-video"]);
+  assert.deepEqual(controls.map(match => [match[1], match[2]]), videos.map(match => [match[1], match[1]]));
+  assert.doesNotMatch(page, /<video[^>]*(autoplay|role="button")/);
+  for (const [, ref] of page.matchAll(/\s(?:src|poster|data-src)="(assets\/[^"]+)"/g)) {
+    await access(new URL(ref, import.meta.url));
+  }
+}
