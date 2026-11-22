@@ -2,7 +2,11 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
+import { renderPage } from "../../scripts/layout.mjs";
 import { guideRegistry } from "./guide-registry.mjs";
+
+const shells = new URL("../../content/pages/appcut/", import.meta.url);
+const readGuide = path => readFileSync(new URL(`guides/${path}`, shells), "utf8");
 
 await import("./guides.js");
 
@@ -30,7 +34,7 @@ test("guide topics expose the complete filter vocabulary", () => {
 });
 
 test("the static catalog and SEO describe the same guide collection", () => {
-  const hubHTML = readFileSync(new URL("./index.html", import.meta.url), "utf8");
+  const hubHTML = readGuide("index.html");
   const sitemap = readFileSync(new URL("../../sitemap.xml", import.meta.url), "utf8");
   const cardMatches = [...hubHTML.matchAll(/<article class="guide-card"[^>]*data-topics="([^"]+)"[^>]*>[\s\S]*?<a class="guide-card-link" href="([^"]+)"/g)];
   const hrefs = cardMatches.map((match) => match[2]);
@@ -59,22 +63,23 @@ test("the static catalog and SEO describe the same guide collection", () => {
   assert.deepEqual(structuredSlugs, publishedGuides.map((guide) => guide.slug));
   assert.deepEqual(hrefs, publishedGuides.map((guide) => `${guide.slug}/index.html`));
   publishedGuides.forEach((guide) => {
-    readFileSync(new URL(`./${guide.slug}/index.html`, import.meta.url), "utf8");
+    readGuide(`${guide.slug}/index.html`);
   });
 });
 
-test("local navigation targets files instead of filesystem directories", () => {
+test("the guide catalog and articles share accessible navigation", () => {
   const pagePaths = [
-    "../index.html",
-    "./index.html",
-    ...guideRegistry.filter((guide) => guide.status === "published").map((guide) => `./${guide.slug}/index.html`)
+    "index.html",
+    ...guideRegistry.filter((guide) => guide.status === "published").map((guide) => `${guide.slug}/index.html`),
   ];
-
-  pagePaths.forEach((path) => {
-    const html = readFileSync(new URL(path, import.meta.url), "utf8");
-    assert.doesNotMatch(html, /href="(?:\.\/|\.\.\/|\.\.\/\.\.\/)(?:#[^"]*)?"/);
-  });
-
+  for (const path of pagePaths) {
+    const source = readGuide(path);
+    const html = renderPage(`appcut/guides/${path}`, source);
+    const current = path === "index.html" ? "page" : "location";
+    assert.match(html, /class="bricks-skip-link" href="#main"/);
+    assert.match(html, /<main id="main" tabindex="-1">/);
+    assert.ok(html.includes(`href="/appcut/guides/" aria-current="${current}">Guides`));
+  }
 });
 
 test("each article breadcrumb includes the Guides collection", () => {
@@ -83,8 +88,8 @@ test("each article breadcrumb includes the Guides collection", () => {
     .map((guide) => `./${guide.slug}/index.html`);
 
   articlePaths.forEach((path) => {
-    const articleURL = new URL(path, import.meta.url);
-    const articleHTML = readFileSync(articleURL, "utf8");
+    const publicArticleURL = new URL(path, import.meta.url);
+    const articleHTML = readGuide(path);
     const structuredDataSource = articleHTML.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
     const structuredData = JSON.parse(structuredDataSource);
     const breadcrumbs = structuredData["@graph"].find((item) => item["@type"] === "BreadcrumbList");
@@ -95,7 +100,7 @@ test("each article breadcrumb includes the Guides collection", () => {
     assert.match(articleHTML, /class="guide-hero-icon"/);
     assert.equal(decoratedHeadingCount, headingCount);
     assert.doesNotMatch(articleHTML, /<svg[^>]+class="guide-(?:hero|section)-icon"/);
-    iconSources.forEach((source) => readFileSync(new URL(source, articleURL)));
+    iconSources.forEach((source) => readFileSync(new URL(source, publicArticleURL)));
     assert.equal(breadcrumbs.itemListElement.length, 3);
     assert.equal(breadcrumbs.itemListElement[1].name, "Guides");
     assert.equal(breadcrumbs.itemListElement[2].position, 3);
@@ -103,7 +108,7 @@ test("each article breadcrumb includes the Guides collection", () => {
 });
 
 test("the quick start defers YouTube until the viewer presses play", () => {
-  const articleHTML = readFileSync(new URL("./getting-started/index.html", import.meta.url), "utf8");
+  const articleHTML = readGuide("getting-started/index.html");
 
   assert.match(articleHTML, /data-video-id="0MCumtDdCSw"/);
   assert.match(articleHTML, /class="guide-video-play"/);
@@ -211,16 +216,18 @@ test("the enhanced catalog restores, filters, resets, and responds to history st
 });
 
 test("guide beta actions reach the current beta landing and Quick Start has a poster", () => {
-  const landing = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+  const landing = readFileSync(new URL("index.html", shells), "utf8");
   assert.match(landing, /id="top"/);
   assert.match(landing, /https:\/\/testflight\.apple\.com\/join\/UgyQd6ES/);
   for (const path of ["index.html", ...guideRegistry.filter(guide => guide.status === "published").map(guide => `${guide.slug}/index.html`)]) {
-    const page = readFileSync(new URL(path, import.meta.url), "utf8");
+    const source = readGuide(path);
+    const page = renderPage(`appcut/guides/${path}`, source);
     assert.doesNotMatch(page, /#hero-email/);
-    assert.match(page, /href="(?:\.\.\/)+index\.html#top">Get Beta Access/);
+    assert.match(page, /href="\/appcut\/#top" class="bricks-nav-action">Get Beta Access/);
   }
-  const quickStart = new URL("getting-started/index.html", import.meta.url);
-  const page = readFileSync(quickStart, "utf8");
+  const path = "getting-started/index.html";
+  const quickStart = new URL(path, import.meta.url);
+  const page = readGuide(path);
   const poster = page.match(/class="guide-video"[^>]*>\s*<img src="([^"]+)"/)?.[1];
   assert.ok(poster);
   assert.ok(readFileSync(new URL(poster, quickStart)).length > 0);

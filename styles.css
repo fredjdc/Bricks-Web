@@ -1,76 +1,3 @@
-/* 1️⃣ Self-Hosted Brand Font — SF Pro Display */
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYREGULAR.OTF') format('opentype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYMEDIUM.OTF') format('opentype');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYBOLD.OTF') format('opentype');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYHEAVYITALIC.OTF') format('opentype');
-    font-weight: 800;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYBLACKITALIC.OTF') format('opentype');
-    font-weight: 900;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYLIGHTITALIC.OTF') format('opentype');
-    font-weight: 300;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYSEMIBOLDITALIC.OTF') format('opentype');
-    font-weight: 600;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYTHINITALIC.OTF') format('opentype');
-    font-weight: 100;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('sf-pro-display/SFPRODISPLAYULTRALIGHTITALIC.OTF') format('opentype');
-    font-weight: 200;
-    font-style: italic;
-    font-display: swap;
-}
-
 /* 2️⃣ Color System & Global Variables */
 :root {
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -116,7 +43,7 @@
     /* Amber — star ratings */
 
     /* 3️⃣ Typography */
-    --font-stack: 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-stack: var(--bricks-font, system-ui, sans-serif);
 
     /* Spacing */
     --space-sm: 32px;
@@ -496,7 +423,6 @@ a:hover {
 }
 
 /* Button overrides for components */
-.site-header .btn,
 #cookie-consent-banner .btn {
     width: auto;
     height: auto;
@@ -594,26 +520,19 @@ a:hover {
     will-change: width;
 }
 
-/* ── Header Scroll-State ──────────────────────────────── */
-.site-header {
-    transition: top 0.4s var(--ease-out-expo),
-        box-shadow 0.4s var(--ease-out-expo),
-        background-color 0.4s ease !important;
+/* The purchase guide's ambient background shares the page canvas. */
+body:has(> .hero-bg) {
+    position: relative;
+    isolation: isolate;
 }
 
-.site-header.scrolled {
-    top: 8px !important;
-    box-shadow:
-        0 16px 48px rgba(11, 15, 20, 0.10),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.5) !important;
-    background-color: rgba(246, 247, 248, 0.92) !important;
-}
-
-/* ── Hero Background & Interactive Elements ────────────── */
 .hero-bg {
     position: absolute;
-    inset: 0;
-    z-index: 0;
+    inset: 0 0 auto;
+    block-size: 100vh;
+    overflow: clip;
+    z-index: -1;
+    pointer-events: none;
     will-change: transform;
 }
 
@@ -827,37 +746,6 @@ a:hover {
 /* Components */
 
 /* Header */
-.site-header {
-    position: fixed;
-    top: 24px;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    margin: 0 auto;
-    width: calc(100% - 48px);
-    max-width: var(--max-width);
-    padding: 16px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 8px 32px rgba(11, 15, 20, 0.04), inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
-}
-
-@media (max-width: 768px) {
-    .site-header {
-        top: 16px;
-        margin: 0 auto;
-        width: calc(100% - 32px);
-        padding: 16px 24px;
-    }
-}
-
 /* Language Picker */
 .language-picker {
     position: relative;
@@ -1179,12 +1067,6 @@ a:hover {
 }
 
 /* Footer */
-.site-footer {
-    border-top: 1px solid var(--surface-shadow);
-    padding: 64px 0;
-    margin-top: var(--space-lg);
-}
-
 .footer-brand {
     text-align: left;
 }
@@ -2294,15 +2176,6 @@ a:hover {
         margin-bottom: 1rem;
     }
 
-    .feature-list li span:first-child {
-        flex-shrink: 0;
-        margin-right: 0.75rem;
-    }
-
-    .feature-list li span:last-child {
-        flex: 1;
-    }
-
     /* Center WhatsApp link */
     .whatsapp-link {
         justify-content: center;
@@ -2935,38 +2808,25 @@ a:hover {
         transform: none !important;
     }
 }
-/* ── NEW HOMEPAGE STYLES ── */
+/* Shared palette for product, support and legal content. */
 :root {
-  --bricks-font-stack: "SF Pro Display", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
-  --b-bg: #F6F7F8;
-  --b-bg-elevated: #FFFFFF;
-  --b-surface-shadow: #E7ECEF;
-  --b-text: #0B0F14;
-  --b-text-2: #55626E;
-  --b-text-3: rgba(11,15,20,0.38);
-  --b-border: rgba(11,15,20,0.06);
-  --emboss-raised: 12px 12px 24px var(--b-surface-shadow), -12px -12px 24px #FFFFFF;
-  --emboss-recessed: inset 6px 6px 12px var(--b-surface-shadow), inset -6px -6px 12px #FFFFFF;
-  --emboss-soft: 4px 6px 16px var(--b-surface-shadow), -2px -2px 6px #FFFFFF;
-}
-[data-theme="dark"] {
-  --b-bg: #0B0F14;
-  --b-bg-elevated: #12181F;
-  --b-surface-shadow: #05080B;
-  --b-text: #F2F5F7;
-  --b-text-2: #8A96A2;
-  --b-text-3: rgba(242,245,247,0.4);
-  --b-border: rgba(255,255,255,0.08);
-  --emboss-raised: 12px 12px 24px #05080B, -12px -12px 24px #161D25;
-  --emboss-recessed: inset 6px 6px 12px #05080B, inset -6px -6px 12px #161D25;
-  --emboss-soft: 4px 6px 16px #05080B, -2px -2px 6px #161D25;
+  --bricks-font-stack: var(--bricks-font, system-ui, sans-serif);
+  --b-bg: var(--bricks-background);
+  --b-bg-elevated: var(--bricks-surface);
+  --b-text: var(--bricks-text);
+  --b-text-2: var(--bricks-muted);
+  --b-text-3: light-dark(rgba(11, 15, 20, .56), rgba(242, 245, 247, .6));
+  --b-border: var(--bricks-border);
+  --emboss-raised: var(--bricks-shadow-card);
+  --emboss-recessed: var(--bricks-shadow-inset);
+  --emboss-soft: var(--bricks-shadow-soft);
 }
 
 body { background: var(--b-bg); color: var(--b-text); transition: background 0.4s ease, color 0.4s ease; overflow-x: hidden; }
 
 /* Reveal on scroll */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
-.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal[data-reveal-ready] { opacity: 0; transform: translateY(24px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
+.reveal[data-reveal-ready].in { opacity: 1; transform: translateY(0); }
 .reveal-d1 { transition-delay: 0.08s; }
 .reveal-d2 { transition-delay: 0.16s; }
 .reveal-d3 { transition-delay: 0.24s; }
@@ -2979,12 +2839,6 @@ body { background: var(--b-bg); color: var(--b-text); transition: background 0.4
   0% { transform: scale(1) translate(0,0); }
   100% { transform: scale(1.08) translate(2%, -1%); }
 }
-
-/* Theme Aware Logo */
-.logo-light-theme { display: block; }
-.logo-dark-theme { display: none; }
-[data-theme="dark"] .logo-light-theme { display: none !important; }
-[data-theme="dark"] .logo-dark-theme { display: block !important; }
 
 /* ── Homepage: use theme-aware text color for all headings ── */
 #root h1, #root h2, #root h3, #root h4, #root h5, #root h6 {
@@ -3000,9 +2854,6 @@ body { background: var(--b-bg); color: var(--b-text); transition: background 0.4
     text-align: left !important;
   }
   #root ul, #root ol, #root li {
-    text-align: left !important;
-  }
-  #root footer, #root footer * {
     text-align: left !important;
   }
 }

@@ -10,8 +10,8 @@
   --accent: #007aff;
   --accent-strong: #0067d8;
   --button-text: #ffffff;
-  --shadow: 4px 6px 16px #e7ecef, -2px -2px 6px #ffffff;
-  --emboss-raised: 12px 12px 24px #e7ecef, -12px -12px 24px #ffffff;
+  --shadow: var(--bricks-shadow-card, 4px 6px 16px #e7ecef, -2px -2px 6px #fff);
+  --emboss-raised: var(--bricks-shadow-raised, 12px 12px 24px #e7ecef, -12px -12px 24px #fff);
   --radius: 32px;
   --shell: min(1180px, calc(100% - 96px));
   font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
@@ -29,8 +29,8 @@
     --accent: #409cff;
     --accent-strong: #72b6ff;
     --button-text: #07111a;
-    --shadow: 4px 6px 16px #05080b, -2px -2px 6px #161d25;
-    --emboss-raised: 12px 12px 24px #05080b, -12px -12px 24px #161d25;
+    --shadow: var(--bricks-shadow-card, 4px 6px 16px #05080b, -2px -2px 6px #161d25);
+    --emboss-raised: var(--bricks-shadow-raised, 12px 12px 24px #05080b, -12px -12px 24px #161d25);
   }
 }
 

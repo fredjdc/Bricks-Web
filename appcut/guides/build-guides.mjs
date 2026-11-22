@@ -5,7 +5,7 @@ import { guideRegistry } from "./guide-registry.mjs";
 const HUB_URL = "https://bricks.pe/appcut/guides/";
 const TOPICS = new Set(["plan", "capture", "edit", "deliver"]);
 const GUIDE_ICONS = new Set(["camera", "film-slate", "monitor-play", "sliders-horizontal"]);
-const hubPath = new URL("./index.html", import.meta.url);
+const hubPath = new URL("../../content/pages/appcut/guides/index.html", import.meta.url);
 const sitemapPath = new URL("../../sitemap.xml", import.meta.url);
 const publishedGuides = guideRegistry.filter((guide) => guide.status === "published");
 

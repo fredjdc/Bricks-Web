@@ -55,7 +55,11 @@ function initializeGuideCatalog() {
     if (selectedTopic === "all") url.searchParams.delete("topic");
     else url.searchParams.set("topic", selectedTopic);
 
-    window.history.replaceState(null, "", url);
+    try {
+      window.history.replaceState(null, "", url);
+    } catch (error) {
+      if (url.protocol !== "file:" || error.name !== "SecurityError") throw error;
+    }
   }
 
   function updateCatalog({ updateURL = true } = {}) {

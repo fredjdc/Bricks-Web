@@ -1,6 +1,7 @@
 /* Published Tally forms are light themed; keep their transparent interiors legible in both host themes. */
 .tally-embed { box-sizing: border-box; min-width: 0; width: 100%; padding: clamp(12px, 3vw, 24px); border-radius: 16px; background: #fff; color: #202124; color-scheme: light; font-family: inherit; text-align: left; }
 .tally-embed iframe { display: block; width: 100%; max-width: 100%; border: 0; }
+.tally-embed iframe:not([src]):not([data-tally-src]) { display: none; }
 .tally-embed .tally-status, .tally-embed .tally-fallback { margin: 0 0 16px; color: #4b5563; font-size: 14px; line-height: 1.5; }
 .tally-embed .tally-fallback { margin: 16px 0 0; }
 .tally-embed a { color: #075e87; text-underline-offset: 3px; }

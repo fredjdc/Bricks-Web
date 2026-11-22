@@ -1,39 +1,6 @@
 document.documentElement.classList.add("js");
 
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-const desktopResults = window.matchMedia("(min-width: 900px)");
-const visibleVideos = new Set();
-
-const loadVideo = (video) => {
-  const source = video.querySelector("source[data-src]");
-  if (!source) return;
-  source.src = source.dataset.src;
-  source.removeAttribute("data-src");
-  if (video.dataset.startTime) {
-    video.addEventListener("loadedmetadata", () => {
-      video.currentTime = Number(video.dataset.startTime);
-    }, { once: true });
-  }
-  video.load();
-};
-
-const canPlayVideo = (video) => !document.hidden
-  && video.getClientRects().length > 0
-  && (!video.hasAttribute("data-hero-side") || desktopResults.matches)
-  && video.dataset.userPaused !== "true"
-  && (!video.hasAttribute("data-scene-clips") || !motionPreference.matches);
-
-const playVideo = (video) => {
-  loadVideo(video);
-  return video.play();
-};
-
-const showVideoPoster = (video) => {
-  const poster = video.parentElement.querySelector(".video-poster");
-  poster.src = video.poster;
-  poster.hidden = false;
-};
-
 // HTML dimensions reserve the verified native ratio before metadata is available.
 // Refresh that hint on native size/source changes, without touching playback state.
 const syncVideoGeometry = video => {
@@ -50,28 +17,17 @@ const syncVideoGeometry = video => {
 };
 
 document.querySelectorAll("video[poster]").forEach((video) => {
-  const stage = document.createElement("div");
-  const poster = document.createElement("img");
-  stage.className = "video-stage";
-  poster.className = "video-poster";
-  poster.alt = "";
-  poster.setAttribute("aria-hidden", "true");
-  video.before(stage);
-  stage.append(video, poster);
-  syncVideoGeometry(video);
-  video.addEventListener("loadedmetadata", () => syncVideoGeometry(video));
+  const applyMetadata = () => {
+    syncVideoGeometry(video);
+    if (video.dataset.startTime) video.currentTime = Number(video.dataset.startTime);
+  };
+  if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+    applyMetadata();
+  } else {
+    syncVideoGeometry(video);
+    video.addEventListener("loadedmetadata", applyMetadata, { once: true });
+  }
   video.addEventListener("resize", () => syncVideoGeometry(video));
-  showVideoPoster(video);
-  video.addEventListener("loadstart", () => showVideoPoster(video));
-  video.addEventListener("error", () => showVideoPoster(video));
-  video.addEventListener("playing", () => {
-    if (!video.hasAttribute("data-scene-clips")) { poster.hidden = true; return; }
-    const showFrame = () => {
-      if (!video.paused && !video.error && video.readyState >= 2 && !motionPreference.matches) poster.hidden = true;
-    };
-    if (typeof video.requestVideoFrameCallback === "function") video.requestVideoFrameCallback(showFrame);
-    else showFrame();
-  });
 });
 
 const setupReveals = () => {
@@ -153,80 +109,6 @@ const setupReveals = () => {
 };
 setupReveals();
 
-document.querySelectorAll("[data-playback-toggle]").forEach((video) => {
-  const name = video.dataset.playbackLabel;
-  const updateLabel = () => video.setAttribute("aria-label", `${video.paused ? "Play" : "Pause"} ${name}`);
-  const togglePlayback = () => {
-    const pause = !video.paused;
-    const targets = video.id === "finished-preview-video"
-      ? document.querySelectorAll(".hero-results video") : [video];
-    targets.forEach((target) => {
-      target.dataset.userPaused = String(pause);
-      if (pause) target.pause();
-      else if (canPlayVideo(target) && (target === video || visibleVideos.has(target))) playVideo(target).catch(updateLabel);
-    });
-  };
-  video.addEventListener("click", togglePlayback);
-  video.addEventListener("keydown", (event) => {
-    if (!["Enter", " "].includes(event.key)) return;
-    event.preventDefault();
-    togglePlayback();
-  });
-  video.addEventListener("play", updateLabel);
-  video.addEventListener("pause", updateLabel);
-  updateLabel();
-});
-
-// Use explicit, keyboard-accessible buttons so previews start only by request.
-const previewVideos = [...document.querySelectorAll("[data-preview-control]")].flatMap(button => {
-  const video = document.getElementById(button.dataset.previewControl);
-  if (!(video instanceof HTMLVideoElement)) return [];
-  const label = button.textContent.trim().replace(/^Play /, "");
-  const status = document.createElement("span");
-  status.className = "preview-status";
-  status.setAttribute("role", "status");
-  button.after(status);
-
-  const updateLabel = () => {
-    button.textContent = `${video.paused ? "Play" : "Pause"} ${label}`;
-  };
-  button.addEventListener("click", () => {
-    status.textContent = "";
-    if (!video.paused) {
-      video.pause();
-      return;
-    }
-    playVideo(video).catch(error => {
-      // A user pause or an offscreen pause can interrupt a pending play().
-      if (error.name !== "AbortError") status.textContent = "Video unavailable. The still preview is shown.";
-      updateLabel();
-    });
-  });
-  video.addEventListener("play", updateLabel);
-  video.addEventListener("pause", updateLabel);
-  video.addEventListener("error", () => {
-    status.textContent = "Video unavailable. The still preview is shown.";
-    updateLabel();
-  });
-  button.hidden = false;
-  return [video];
-});
-
-if (previewVideos.length && "IntersectionObserver" in window) {
-  // Watch the section, not the video: the latter moves during the editor transition.
-  previewVideos.forEach(video => {
-    const section = video.closest("section");
-    if (!section) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) video.pause();
-    });
-    observer.observe(section);
-  });
-}
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) previewVideos.forEach(video => video.pause());
-});
-
 const workflowPinLayout = (cardHeight, viewportHeight, navBottom, bottomSpace) => {
   if (![cardHeight, viewportHeight].every(value => Number.isFinite(value) && value > 0)
     || ![navBottom, bottomSpace].every(value => Number.isFinite(value) && value >= 0)) return null;
@@ -247,7 +129,7 @@ const setupWorkflow = () => {
   if (images.some(image => !image)) return;
   const phases = [...media.querySelectorAll("[data-workflow-nav]")];
   const desktop = window.matchMedia("(min-width: 900px)");
-  const header = document.querySelector(".site-header");
+  const header = document.querySelector(".bricks-header");
   let activeIndex = 0, requestedIndex = 0, pin = null, frame = 0, needsMeasure = false;
   const showStep = index => {
     activeIndex = index;
@@ -318,51 +200,6 @@ const setupWorkflow = () => {
   modeChanged();
 };
 setupWorkflow();
-
-const observedVideos = document.querySelectorAll("video[data-autoplay-video]");
-
-const resumeVisibleVideos = () => {
-  if (motionPreference.matches) return;
-  visibleVideos.forEach((video) => {
-    if (canPlayVideo(video)) playVideo(video).catch(() => {});
-    else video.pause();
-  });
-};
-
-if (observedVideos.length && "IntersectionObserver" in window) {
-  const videoObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) visibleVideos.add(entry.target);
-      else visibleVideos.delete(entry.target);
-      if (entry.isIntersecting && !motionPreference.matches && entry.target.hasAttribute("data-autoplay-video") && canPlayVideo(entry.target)) {
-        playVideo(entry.target).catch(() => {});
-      } else if (!entry.isIntersecting || !canPlayVideo(entry.target)) entry.target.pause();
-    });
-  }, { threshold: 0.05 });
-  observedVideos.forEach((video) => videoObserver.observe(video));
-}
-
-desktopResults.addEventListener("change", () => {
-  document.querySelectorAll("[data-hero-side]").forEach((video) => {
-    if (!desktopResults.matches) {
-      video.pause();
-      showVideoPoster(video);
-    }
-  });
-  resumeVisibleVideos();
-});
-
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) observedVideos.forEach((video) => video.pause());
-  else resumeVisibleVideos();
-});
-
-motionPreference.addEventListener("change", () => {
-  if (motionPreference.matches) {
-    observedVideos.forEach(video => video.pause());
-    document.querySelectorAll("[data-scene-clips]").forEach(showVideoPoster);
-  } else resumeVisibleVideos();
-});
 
 const previewHandoff = (source, target, viewportHeight, sourceScale) => {
   const dimensions = [source.width, source.height, target.width, target.height, viewportHeight, sourceScale];

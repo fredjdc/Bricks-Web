@@ -1,0 +1,610 @@
+<div style="background:var(--b-bg);min-height:100vh;overflow:hidden">
+  <main id="main" tabindex="-1">
+    <section id="top" style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;background:var(--b-bg)" class="help-hero">
+      <div style="position:absolute;inset:0;pointer-events:none;opacity:0.5;background:radial-gradient(ellipse 700px 400px at 50% 20%, color-mix(in srgb, var(--b-text) 4%, transparent), transparent 60%)"></div>
+      <div class="reveal editorial-gutter" style="position:relative;z-index:2;max-width:800px;margin:0 auto;text-align:center">
+        <div style="display:inline-block;padding:6px 14px;border-radius:100px;background:var(--b-bg-elevated);box-shadow:var(--emboss-soft);font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--b-text-2)" class="editorial-badge">Support</div>
+        <h1 style="font-weight:900;letter-spacing:-0.04em;line-height:1.02;margin:0 0 20px" class="help-title">Help center</h1>
+        <p style="line-height:1.6;color:var(--b-text-2);margin:0 auto;max-width:480px" class="help-lede">User guides for Bricks Calc and Bricks Scan.</p>
+      </div>
+    </section>
+    <section style="max-width:800px;margin:0 auto" class="help-content">
+      <div class="reveal">
+        <div style="display:flex;align-items:center;gap:16px" class="help-divider">
+          <div style="flex:1;height:1px;background:var(--b-border)"></div>
+          <div style="padding:6px 18px;border-radius:100px;background:var(--b-bg-elevated);box-shadow:var(--emboss-soft);border:1px solid var(--b-border);font-size:13px;font-weight:700;letter-spacing:0.02em;color:#007AFF;white-space:nowrap">Bricks Calc</div>
+          <div style="flex:1;height:1px;background:var(--b-border)"></div>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:0.05s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Simulator</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">The simulator guides data entry through three sequential steps. Complete each step to unlock the next.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Step 1 — Property</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Currency</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Select the currency using the picker in the top bar. The default currency is configured in Settings.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Home price</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Enter the total property price. Calculations update automatically as you type.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Down payment</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Enter the down payment amount or select a quick percentage: 10%, 12.5%, 15%, 20%, 25%, 30%. The loan amount is automatically calculated as Home Price minus Down Payment.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Step 2 — Loan terms</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Interest rate</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Enter the annual interest rate (%) your lender is offering.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Loan term</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Enter the term in years or months using the type picker next to the field. Quick year options: 10, 15, 20, 25, 30. For exact terms, switch to months and type the number directly.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Disbursement date</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Set the exact date when the loan will be disbursed. This determines the dates in the amortization schedule.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Step 3 — Taxes &amp; insurance (optional)</h3>
+                <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 14px">Enable the "Include taxes and insurance" toggle to add these costs to the monthly payment. Each field accepts an annual percentage or a fixed monthly amount.</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Life insurance</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Annual percentage of the loan balance, or a fixed monthly amount.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Home insurance</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Annual percentage of the home value, or a fixed monthly amount.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Property tax</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Annual percentage of the home value, or a fixed monthly amount.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:4px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Tips</h3>
+                <ul style="padding-left:20px;margin:0;list-style-type:disc;color:var(--b-text-2)">
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">The calculator automatically validates fields before calculating.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Required fields must be completed before advancing to the next step.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Results can be saved for later comparison or reference from Files.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">The default currency and interest rate are configured in Settings.</li>
+                </ul>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal" style="transition-delay:0.1s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Results</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">The results screen shows a complete summary of your mortgage and provides access to detailed analysis tools.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Main metrics</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Monthly payment</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Shows the total monthly payment with an optional breakdown of principal and interest, insurance, and taxes.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Loan details</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Total interest, loan amount, down payment, home price, and term.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Charts</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Loan progress</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Pie chart showing the percentage of principal paid to date.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Monthly expenses breakdown</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Visualization of the monthly payment composition: principal and interest, insurance, and taxes.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Rental income</h3>
+                <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 14px">Tap "Add rental income" on the results screen to record rental income and see the impact on your net monthly obligation.</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Monthly income</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Estimated monthly rental amount.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Vacancy rate</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Percentage of time without a tenant. The app automatically calculates the net effective income.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-size:17px;font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px">Amortization schedule</h3>
+                <p style="font-size:14px;line-height:1.6;color:var(--b-text-2);margin:0">Access the full payment schedule from the results screen. It shows principal, interest, and remaining balance for each installment. Use the "Jump to current" button to scroll to the active installment.</p>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Actions</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Edit</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Returns to the simulator to modify the inputs.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Save</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Saves the calculation with a name for future access from Files.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Share</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Generates and shares the result as an image.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal" style="transition-delay:0.15000000000000002s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Prepayment calculator</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">The Prepayment Calculator lets you model one-time or recurring extra payments and instantly see how they reduce your interest and loan term.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Setting up a prepayment</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Starting installment</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Use the slider to choose which installment the prepayment begins on. The installment number and its corresponding month are shown above the slider.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Amount</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The extra amount applied each time. Tap the field to enter a value.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Repeat</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Choose Once for a single extra payment, or Monthly to apply the extra amount every installment from the starting point.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Ends</h3>
+                <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 14px">Choose when the recurring prepayment stops:</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Until payoff</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The extra payment continues every period until the loan is fully paid off.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Installment</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The extra payment stops at a specific installment. Use the slider below the toggle to set the ending installment.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Type</h3>
+                <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 14px">Choose how the extra payment is applied:</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Reduce term</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The extra amount reduces the number of remaining installments. Your periodic payment stays the same, but you pay off the loan earlier.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Reduce payment</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The extra amount lowers your ongoing periodic payment. The loan term stays the same, but each installment costs less.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Projected impact</h3>
+                <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 14px">As you adjust the settings, the Projected Impact section updates in real time. It shows:</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Savings</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Total interest you avoid paying over the life of the loan.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Interests</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">A before-and-after comparison of total interest paid — original versus with the prepayment applied.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:4px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Tips</h3>
+                <ul style="padding-left:20px;margin:0;list-style-type:disc;color:var(--b-text-2)">
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Earlier prepayments save more interest — the sooner principal is reduced, the less interest accrues.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Use Until Payoff with a monthly repeat to model a consistent extra payment strategy.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Try Reduce Term vs Reduce Payment to compare strategies with the same extra amount.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Tap the share icon at the top to save or send your prepayment scenario.</li>
+                </ul>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal" style="transition-delay:0.2s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Expenses</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">The Expenses tab, inside Financials on the results screen, lets you record additional property-related costs and see their impact on the total monthly cost.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Available frequencies</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">One-time</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">A cost that occurs only once (e.g. closing costs, moving expenses).</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Monthly</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">A cost that repeats every month (e.g. maintenance, HOA fees).</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Semester</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">A cost that occurs twice a year.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Annual</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">A cost that occurs once a year (e.g. insurance renewal).</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:4px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Tips</h3>
+                <ul style="padding-left:20px;margin:0;list-style-type:disc;color:var(--b-text-2)">
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Expenses are automatically grouped by frequency for easy review.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Monthly, semester, and annual expenses are normalized to a monthly equivalent in the total cost summary.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">When you have 12 or more expenses, a search bar appears to filter them quickly.</li>
+                </ul>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal" style="transition-delay:0.25s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Files</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">Files is your centralized panel for managing all your saved mortgage calculations. From here you can view, compare, and organize your scenarios in one place.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">View &amp; organize</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Tap to open</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Tap any calculation to open its results.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Row details</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Each row shows the name, monthly payment, next payment date, and a principal progress bar.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">iCloud sync</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Calculations are automatically synced via iCloud across your devices.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Swipe actions</h3>
+                <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 14px">Swipe left on a calculation to reveal quick actions.</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Duplicate</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Creates a copy of the calculation with the same base values.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">More</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Opens a menu with options to Rename or Delete the calculation.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Selection mode</h3>
+                <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 14px">Tap the "Select" button in the top bar to enable multi-selection mode.</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Compare</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Select 2 or 3 calculations and tap "Compare" to see a side-by-side comparison with key metrics for each.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Bulk delete</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Select two or more calculations and tap the trash icon to delete them all at once.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal">
+        <div style="display:flex;align-items:center;gap:16px" class="help-divider">
+          <div style="flex:1;height:1px;background:var(--b-border)"></div>
+          <div style="padding:6px 18px;border-radius:100px;background:var(--b-bg-elevated);box-shadow:var(--emboss-soft);border:1px solid var(--b-border);font-size:13px;font-weight:700;letter-spacing:0.02em;color:#00A6A1;white-space:nowrap">Bricks Scan</div>
+          <div style="flex:1;height:1px;background:var(--b-border)"></div>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:0.05s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Scan</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">Bricks Scan captures physical documents with your device camera and converts them into searchable digital files. All processing happens on-device — no document content is sent to external servers.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Capture methods</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Camera</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Tap the "Scan" button to open the camera. The app detects edges and corrects perspective automatically. Capture multiple pages in one session.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Import from Photos</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Select one or more images from your photo library. They go through the same processing pipeline as camera scans.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Import PDF</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Import existing PDFs from the Files app or iCloud Drive. Multi-page PDFs become a single document with all their pages.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Automatic processing</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Image enhancement</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Brightness and contrast adjustment, and auto-crop (configurable in Settings → Quality).</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">OCR</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">On-device text extraction using Apple’s Vision framework.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Auto-organization</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Suggestion or assignment of folders and tags based on content (configurable in Settings → Preferences).</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:4px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Tips</h3>
+                <ul style="padding-left:20px;margin:0;list-style-type:disc;color:var(--b-text-2)">
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Scan in a well-lit environment for best OCR results.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">You can add more pages to an existing document from its detail view.</li>
+                </ul>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal" style="transition-delay:0.1s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Documents</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">Each saved document contains the scanned images, OCR-extracted text, metadata, and notes. From the detail view you can read, edit, and manage all pages.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">OCR text &amp; intelligence</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Extracted text</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">OCR-recognized text is shown in each page’s view. You can search within the document and found text is visually highlighted.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Automatic title and summary</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">With Apple Intelligence available, the app automatically generates a descriptive title and a content summary. Both are editable.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Extracted metadata</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The app extracts key fields from the content: total amount, vendor, date, address, and more. All editable in the metadata panel.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Page management</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Reorder and delete</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Open the Page Organizer to drag pages or delete ones you don’t need.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Rotate and crop</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Non-destructive operations — the original image is preserved and changes can be reverted.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Notes</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Add notes at the document level or per page. Notes are included in full-text search.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Smart lists &amp; search</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">All Documents</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Shows all saved documents regardless of folder.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Past Week</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Documents created or modified in the last 7 days.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Trash</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Deleted documents. Permanently removed after 30 days.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:4px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Tips</h3>
+                <ul style="padding-left:20px;margin:0;list-style-type:disc;color:var(--b-text-2)">
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Search finds matches across the title, OCR text, notes, tags, and metadata. It also works from system Spotlight.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Pin your most important documents by tapping "Pin" to keep them at the top of the list.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">The free tier supports up to 12 documents. Premium unlocks unlimited storage.</li>
+                </ul>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal" style="transition-delay:0.15000000000000002s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Organize</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">Bricks Scan organizes your documents using Folders and Tags. You can assign them manually or let the app do it automatically based on content.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Folders</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Custom folders</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Create custom folders from the Organization view. A document can belong to multiple folders simultaneously.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Limits</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The free tier supports up to 20 folders. Premium unlocks unlimited folders.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Tags</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Default tags</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Invoice, Receipt, Contract, ID &amp; Passport, Medical, Others. Create custom tags with your own name, color, and icon.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Limits</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The free tier supports up to 12 tags. Premium unlocks unlimited tags.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Auto-organization</h3>
+                <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 14px">Configure the behavior in Settings → Preferences:</p>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Off</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Does not suggest or auto-assign folders or tags.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Suggest only</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Shows suggestions you can accept or dismiss.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Auto</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Assigns folders and tags directly without confirmation. Accuracy is tuned with the "Strictness" option.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal" style="transition-delay:0.2s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Annotate &amp; sign</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Markup</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Drawing tools</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Tap "Markup" on a page view to open the markup editor, powered by Apple’s PencilKit. Supports Apple Pencil on iPad and finger input on iPhone and iPad.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Non-destructive</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Annotations are stored non-destructively and can be included or excluded when exporting.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Signatures</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Saved signatures</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Draw your signature once and save it. You can apply it to any page with a single tap. Signatures are stored non-destructively.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Limits</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">The free tier allows saving up to 2 signatures. Premium unlocks unlimited signatures.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </details>
+      </div>
+      <div class="reveal" style="transition-delay:0.25s">
+        <details class="help-topic">
+          <summary class="help-topic-summary"><span style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text)" class="help-topic-title">Export &amp; share</span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
+
+            <div class="help-topic-content">
+              <p style="font-size:15px;line-height:1.6;color:var(--b-text-2);margin:0 0 24px">Tap "Export" in the document detail view to open the export panel. Choose the format, options, and share directly from the app.</p>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Formats</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">PDF</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">"Embed OCR in PDF" makes the PDF searchable with Cmd+F or Ctrl+F. "Protect with password" encrypts the PDF before sharing.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">JPEG, Text &amp; HTML</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Export pages as JPEG images, OCR text as a .txt file, or the full document with images as HTML. Quality is configured in Settings → Quality.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom:28px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Export options</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Include markup</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Toggle to include or exclude PencilKit annotations in the exported file.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Include signatures</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Toggle to include or exclude signatures placed on pages.</p>
+                  </div>
+                  <div style="background:var(--b-bg);box-shadow:var(--emboss-recessed)" class="help-step">
+                    <div style="font-size:15px;font-weight:600;color:var(--b-text);margin-bottom:4px">Scope</div>
+                    <p style="font-size:14px;line-height:1.55;color:var(--b-text-2);margin:0">Choose to export the current page or the full document.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:4px">
+                <h3 style="font-weight:700;letter-spacing:-0.01em;color:var(--b-text);margin:0 0 12px" class="help-group-title">Tips</h3>
+                <ul style="padding-left:20px;margin:0;list-style-type:disc;color:var(--b-text-2)">
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">After generating the file, the native share sheet lets you send it via AirDrop, Mail, Messages, save to iCloud Drive, or open in any compatible app.</li>
+                  <li style="font-size:14px;line-height:1.6;margin-bottom:6px">Text export is useful for copying content from physical documents directly to other applications.</li>
+                </ul>
+              </div>
+            </div>
+
+        </details>
+      </div>
+    </section>
+    <section id="download" style="max-width:1200px;margin:0 auto" class="editorial-download-section">
+      <div class="reveal editorial-download-panel" style="background:var(--b-text);text-align:center;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(11,15,20,0.25)">
+        <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 20% 10%, rgba(0,166,161,0.1), transparent 55%), radial-gradient(circle at 80% 90%, rgba(255,149,0,0.08), transparent 55%)"></div>
+        <h2 style="font-weight:900;letter-spacing:-0.035em;line-height:1.02;margin:0 0 20px;color:var(--b-bg);position:relative" class="editorial-download-title">Three tools.<br><span style="opacity:0.55">One quiet suite.</span></h2>
+        <p style="color:var(--b-bg);opacity:0.7;line-height:1.6;margin:0 auto 40px;max-width:520px;position:relative" class="editorial-description">Free to try. No account. Native on Apple.</p>
+        <div style="position:relative;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:var(--b-bg);color:var(--b-text);text-decoration:none;border:none;border-radius:100px;font-size:15px;font-weight:600;font-family:inherit;letter-spacing:-0.01em;box-shadow:0 12px 28px rgba(0,0,0,0.25);transition:background 0.25s ease, color 0.25s ease, transform 0.15s ease;transform:translateY(0)" class="editorial-download-link editorial-float-link"><div style="width:8px;height:8px;border-radius:4px;background:#007AFF;flex-shrink:0;transition:background 0.25s ease"></div>Bricks Calc</a>
+          <a href="https://apps.apple.com/us/app/bricks-scan-scan-to-pdf/id6758148083" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:10px;background:var(--b-bg);color:var(--b-text);text-decoration:none;border:none;border-radius:100px;font-size:15px;font-weight:600;font-family:inherit;letter-spacing:-0.01em;box-shadow:0 12px 28px rgba(0,0,0,0.25);transition:background 0.25s ease, color 0.25s ease, transform 0.15s ease;transform:translateY(0)" class="editorial-download-link editorial-float-link"><div style="width:8px;height:8px;border-radius:4px;background:#00A6A1;flex-shrink:0;transition:background 0.25s ease"></div>Bricks Scan</a>
+          <a href="leads.html" style="display:inline-flex;align-items:center;gap:10px;background:var(--b-bg);color:var(--b-text);text-decoration:none;border:none;border-radius:100px;font-size:15px;font-weight:600;font-family:inherit;letter-spacing:-0.01em;box-shadow:0 12px 28px rgba(0,0,0,0.25);transition:background 0.25s ease, color 0.25s ease, transform 0.15s ease;transform:translateY(0)" class="editorial-download-link editorial-float-link"><div style="width:8px;height:8px;border-radius:4px;background:#FF9500;flex-shrink:0;transition:background 0.25s ease"></div>Bricks Leads</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

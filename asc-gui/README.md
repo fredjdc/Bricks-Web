@@ -1,6 +1,6 @@
 # ASC GUI landing page
 
-Static page at `/asc-gui/`. Matches `../appcut/index.html` and reuses its stylesheet for the Bricks palette, typography, controls, and responsive foundation. Page-specific layout lives in `styles.css`. No JavaScript or build step is needed; FAQ and mobile navigation use native `details` elements.
+Static page at `/asc-gui/`. Edit its shell at `content/pages/asc-gui/index.html`. It uses the shared Bricks layout and marketing stylesheet. Page-specific styling lives in `asc-gui/styles.css`. FAQ and mobile navigation use native disclosure elements.
 
 ## Replace the images
 
@@ -26,4 +26,4 @@ Keep the local automation runtime explanation beside its feature copy. Preserve 
 
 ## Local review
 
-Serve the repository with `python3 -m http.server 8765 --bind 127.0.0.1` and open `/asc-gui/`. Check navigation and FAQ using a keyboard, narrow and wide layouts, and both color schemes when making future visual changes. Keep the existing GitHub Pages deployment workflow; this page needs no new hosting configuration or dependencies.
+Run `npm run build` from the repository root and open `asc-gui/index.html`. Run `npm run preview` to serve it over HTTP. Check navigation and FAQ with a keyboard, at narrow and wide widths, and in both color schemes.

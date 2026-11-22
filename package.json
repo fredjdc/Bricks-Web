@@ -3,12 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:jsx": "node scripts/precompile-jsx.mjs",
-    "watch:jsx": "node scripts/precompile-jsx.mjs --watch",
-    "check:jsx": "node scripts/precompile-jsx.mjs --check",
-    "apply:jsx": "node scripts/precompile-jsx.mjs --apply-html"
+    "build": "node scripts/build-site.mjs",
+    "test": "node --test",
+    "preview": "npm run build && python3 -m http.server 8080 --bind 127.0.0.1 --directory dist"
   },
   "devDependencies": {
-    "esbuild": "^0.25.3"
+    "parse5": "7.3.0"
   }
 }

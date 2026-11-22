@@ -1,0 +1,111 @@
+/* Responsive layout for the support, company and legal pages. */
+.company-hero { min-height: 56vh; padding-top: 180px; padding-bottom: 80px; }
+.editorial-gutter { padding: 0 48px; }
+.editorial-badge { margin-bottom: 32px; }
+.company-title { font-size: 80px; }
+.company-section { padding: 120px 48px; }
+.editorial-heading { font-size: 52px; }
+.company-lede { font-size: 18px; }
+.product-card-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.product-card { padding: 36px 32px; border-radius: 48px; }
+.values-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.values-card { padding: 36px 32px; border-radius: 32px; }
+.editorial-primary-link { padding: 16px 32px; }
+.editorial-download-section { padding: 60px 48px 120px; }
+.editorial-download-panel { border-radius: 48px; padding: 96px 64px; }
+.editorial-download-title { font-size: 64px; }
+.editorial-description { font-size: 18px; }
+.editorial-download-link { padding: 16px 28px; }
+.help-hero { min-height: 46vh; padding-top: 180px; padding-bottom: 80px; }
+.help-title { font-size: 72px; }
+.help-lede { font-size: 19px; }
+.help-content { padding: 0 48px 120px; }
+.help-divider { margin: 56px 0 28px; }
+.help-topic { border-radius: 32px; }
+.help-topic-summary { padding: 24px 32px; }
+.help-topic-title { font-size: 20px; }
+.help-topic-content { padding: 32px 32px 36px; }
+.help-group-title { font-size: 17px; }
+.help-step { padding: 18px 22px; border-radius: 22px; }
+.legal-hero { padding-top: 180px; padding-bottom: 64px; }
+.legal-title { font-size: 56px; }
+.legal-lede { font-size: 17px; }
+.legal-content { padding: 0 48px 96px; }
+.legal-section { margin-bottom: 56px; }
+.legal-heading { font-size: 26px; }
+.legal-text { font-size: 16px; }
+.legal-actions { margin-top: 40px; }
+.support-content { padding: 160px 48px 120px; }
+.support-panel { border-radius: 32px; padding: 40px 36px; }
+.confirmation-hero { padding: 180px 48px 120px; }
+.confirmation-social-link { padding: 14px 24px; }
+
+@media (max-width: 768px) {
+  .company-hero { min-height: auto; padding-top: 120px; padding-bottom: 48px; }
+  .editorial-gutter { padding: 0 20px; }
+  .editorial-badge { margin-bottom: 20px; }
+  .company-title { font-size: 44px; }
+  .company-section { padding: 64px 20px; }
+  .editorial-heading { font-size: 36px; }
+  .company-lede { font-size: 17px; }
+  .product-card-grid { grid-template-columns: 1fr; gap: 16px; }
+  .product-card { padding: 28px 24px; border-radius: 32px; }
+  .values-grid { grid-template-columns: 1fr; gap: 16px; }
+  .values-card { padding: 28px 24px; border-radius: 28px; }
+  .editorial-primary-link { padding: 14px 28px; }
+  .editorial-download-section { padding: 32px 20px 64px; }
+  .editorial-download-panel { border-radius: 32px; padding: 56px 24px; }
+  .editorial-download-title { font-size: 40px; }
+  .editorial-description { font-size: 16px; }
+  .editorial-download-link { padding: 14px 22px; }
+  .help-hero { min-height: auto; padding-top: 120px; padding-bottom: 48px; }
+  .help-title { font-size: 44px; }
+  .help-lede { font-size: 17px; }
+  .help-content { padding: 0 20px 64px; }
+  .help-divider { margin: 40px 0 24px; }
+  .help-topic { border-radius: 28px; }
+  .help-topic-summary { padding: 20px 24px; }
+  .help-topic-title { font-size: 18px; }
+  .help-topic-content { padding: 24px 24px 28px; }
+  .help-group-title { font-size: 16px; }
+  .help-step { padding: 16px 18px; border-radius: 18px; }
+  .legal-hero { padding-top: 120px; padding-bottom: 40px; }
+  .legal-title { font-size: 40px; }
+  .legal-lede { font-size: 15px; }
+  .legal-content { padding: 0 20px 64px; }
+  .legal-section { margin-bottom: 40px; }
+  .legal-heading { font-size: 22px; }
+  .legal-text { font-size: 15px; }
+  .legal-actions { margin-top: 24px; }
+  .support-content { padding: 120px 20px 80px; }
+  .support-panel { border-radius: 24px; padding: 28px 20px; }
+  .confirmation-hero { padding: 120px 20px 80px; }
+  .confirmation-social-link { padding: 12px 20px; }
+}
+
+.help-topic {
+  margin-bottom: 16px;
+  border: 1px solid var(--b-border);
+  background: var(--b-bg-elevated);
+  box-shadow: var(--emboss-soft);
+}
+.help-topic-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  list-style: none;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+}
+.help-topic-summary::-webkit-details-marker { display: none; }
+.help-topic-summary:focus-visible { outline: 3px solid var(--bricks-focus); outline-offset: -4px; }
+.help-topic-summary svg { flex: none; color: var(--b-text-3); }
+.help-topic[open] > .help-topic-summary { border-color: var(--b-border); }
+.help-topic[open] > .help-topic-summary svg { transform: rotate(180deg); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .editorial-float-link:hover,
+  .editorial-download-link:hover,
+  .product-card:hover { transform: translateY(-2px); }
+}
