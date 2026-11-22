@@ -209,6 +209,12 @@ function renderFooter(page, labels, language, path) {
 export function renderPage(path, source, { language: locale } = {}) {
   const page = sitePages.get(path);
   if (!page) throw new Error(`Unknown layout route: ${path}`);
+  const ctaIconSlot = "<!-- site:cta-icon -->";
+  if (source.includes(ctaIconSlot)) {
+    if (!page.brand.icon) throw new Error(`Missing download CTA icon for ${path}`);
+    const icon = `<img class="bricks-cta-icon" src="${escapeHTML(page.brand.icon)}" width="144" height="144" alt="">`;
+    source = source.replaceAll(ctaIconSlot, () => icon);
+  }
   const route = `/${path.replace(/(^|\/)index\.html$/, "$1")}`;
   const language = locale ?? page.language ?? "en";
   const labels = page.localized

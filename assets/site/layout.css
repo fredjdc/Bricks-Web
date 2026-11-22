@@ -135,6 +135,15 @@ body:has(> .bricks-header) {
   html { scroll-behavior: auto; }
 }
 
+.bricks-cta-icon {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 20px;
+  border-radius: 25%;
+}
+
 .bricks-footer {
   margin-top: 32px;
   padding: clamp(48px, 7vw, 80px) clamp(20px, 4vw, 48px) clamp(32px, 4vw, 48px);
