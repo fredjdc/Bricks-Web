@@ -1,23 +1,32 @@
 # Bricks Web
 
-Bricks Web builds static HTML for GitHub Pages. The build renders the shared header and footer on every content route. Pages use native HTML controls and load plain JavaScript for enhancements such as theme preferences and media.
+Bricks Web generates static HTML for GitHub Pages. The repository root contains the homepage, shared company and support pages, and site-wide build and hosting files.
+
+| App | Folder |
+| --- | --- |
+| AppCut | `appcut/` |
+| ASC GUI | `asc-gui/` |
+| Bricks Calc | `calc/` |
+| Bricks Leads | `leads/` |
+| Bricks Living | `living/` |
+| Bricks Scan | `scan/` |
+
+## Find and edit a page
+
+- Edit the shell in the app’s `pages/` folder. If it has a `site:content` slot, edit the body in that app’s `content/` folder. App-specific assets and documentation also stay with the app.
+- For the homepage and shared pages, edit `content/pages/` and `content/`. The common styles and interactions are in `assets/site/`.
+- HTML outside these source folders is generated. Open root `index.html` or a generated page inside an app’s folder for an offline preview. Use the HTTP preview to test hosted integrations.
+- Existing public URLs do not need to match where files live in this checkout. For example, `calc/homebuyers.html` opens locally while `/homebuyers.html` is still the hosted URL. Public redirects and asset paths are preserved by the build. Route metadata is in `scripts/layout.mjs` and its imports, and the path mapping is in `scripts/product-paths.mjs`.
 
 ## Preview and check
 
-Open `index.html` or any site's HTML file at its normal path in the repository. The pages link to each other on disk and use local styles, images, and controls. External destinations such as the App Store, YouTube, and hosted forms still require an internet connection.
-
-Use Node.js 22 to match the Pages workflow and Python 3 for the local preview server.
+Use Node.js 22 to match CI and Python 3 for the local preview server.
 
 ```sh
 npm ci
+npm run build
+npm test
 npm run preview
 ```
 
-Use [the HTTP preview](http://127.0.0.1:8080/) to test the hosted site and its integrations. Run `npm run build` after editing the site to refresh both the direct-open files and `dist/`, then run `npm test`. Include the regenerated HTML with your source changes. CI verifies that the direct-open files are current and publishes `dist/`.
-
-## Edit a page
-
-- Edit route shells under `content/pages/`. Pages with a content slot keep their bodies in `content/`, for example `content/index.html` for the homepage. A bilingual page has a matching `.es.html` body and a direct language link. The HTML at the public routes is generated.
-- Add routes and their product links, locale, and primary action to the appropriate route data in `scripts/layout.mjs` or its imports. Shared labels and markup live in the layout. Keep the canonical URL and sitemap consistent when adding or moving an indexable page.
-- Edit `assets/site/layout.css` for the shared navigation, footer, typography, and elevation. Keep product imagery and feature styles with their pages. Load integrations on the routes that use them.
-- When retiring a public path, update the redirect map in `scripts/layout.mjs`. Preserve campaign parameters, fragments, and both copies of the Apple App Site Association file.
+The preview runs at [127.0.0.1:8080](http://127.0.0.1:8080/). After an edit, include the updated generated HTML. CI checks it with `npm run build -- --check-local-pages` before publishing `dist/`.

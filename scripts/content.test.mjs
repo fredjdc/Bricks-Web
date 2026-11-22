@@ -11,8 +11,8 @@ test("localized content preserves route depth and renders before JavaScript", as
   try {
     assert.equal(localePath("calc/index.html", "es"), "calc/index.es.html");
     assert.equal(localePath("calculadora-hipotecaria.html"), "calculadora-hipotecaria.html");
-    await mkdir(join(rootDirectory, "content"));
-    await writeFile(join(rootDirectory, "content", "calc.es.html"), '<main id="main">Presupuesto de $425</main>\n');
+    await mkdir(join(rootDirectory, "calc", "content"), { recursive: true });
+    await writeFile(join(rootDirectory, "calc", "content", "calc.es.html"), '<main id="main">Presupuesto de $425</main>\n');
     const options = { rootDirectory, route: "calc/index.es.html", entry: "calc", language: "es" };
     const page = await renderContent("<body><!-- site:content --></body>", options);
     assert.match(page, /<main id="main">Presupuesto de \$425<\/main>/);

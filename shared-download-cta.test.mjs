@@ -4,10 +4,11 @@ import test from "node:test";
 
 import { localePath } from "./scripts/content.mjs";
 import { renderPage, sitePages } from "./scripts/layout.mjs";
+import { assetSourcePath, localPagePath } from "./scripts/product-paths.mjs";
 
 const read = path => readFile(new URL(path, import.meta.url), "utf8");
 const [homeContent, appCut, css, appCutCss] = await Promise.all([
-  read("content/index.html"), read("content/pages/appcut/index.html"),
+  read("content/index.html"), read("appcut/pages/index.html"),
   read("shared-download-cta.css"), read("appcut/styles.css"),
 ]);
 
@@ -49,14 +50,15 @@ test("each product landing page uses the shared CTA layout and its own icon", as
     if (!isCalcLanding && !isProductLanding) continue;
 
     for (const path of page.bilingual ? [route, localePath(route, "es")] : [route]) {
-      const html = await read(path);
+      const localPath = localPagePath(path);
+      const html = await read(localPath);
       const sections = [...html.matchAll(/<section\b[^>]*class="bricks-cta-section"[^>]*>([\s\S]*?)<\/section>/g)];
       assert.equal(sections.length, isCalcLanding ? 2 : 1, path);
-      const pageURL = new URL(path, import.meta.url);
+      const pageURL = new URL(localPath, import.meta.url);
       const styles = [...html.matchAll(/<link rel="stylesheet" href="([^"]*shared-download-cta\.css)"/g)];
       assert.equal(styles.length, 1, path);
       assert.equal(new URL(styles[0][1], pageURL).href, new URL("shared-download-cta.css", import.meta.url).href, path);
-      const brandIcon = new URL(`.${page.brand.ctaIcon ?? page.brand.icon}`, import.meta.url).href;
+      const brandIcon = new URL(assetSourcePath((page.brand.ctaIcon ?? page.brand.icon).slice(1)), import.meta.url).href;
       for (const [, section] of sections) {
         const icon = section.match(/<div class="bricks-download-cta(?: reveal)?">\s*<img class="bricks-cta-icon" src="([^"]+)" width="144" height="144" alt="">\s*(?:<p class="bricks-cta-eyebrow">[^<]+<\/p>\s*)?<h2/);
         assert.ok(icon, path);

@@ -5,7 +5,7 @@ import test from "node:test";
 import { renderPage } from "../../scripts/layout.mjs";
 import { guideRegistry } from "./guide-registry.mjs";
 
-const shells = new URL("../../content/pages/appcut/", import.meta.url);
+const shells = new URL("../pages/", import.meta.url);
 const readGuide = path => readFileSync(new URL(`guides/${path}`, shells), "utf8");
 
 await import("./guides.js");

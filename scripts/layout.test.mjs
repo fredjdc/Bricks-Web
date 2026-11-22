@@ -4,6 +4,7 @@ import test from "node:test";
 
 import { localePath } from "./content.mjs";
 import { renderPage, sitePages } from "./layout.mjs";
+import { localPagePath } from "./product-paths.mjs";
 
 const slots = ["<!-- site:head -->", "<!-- site:header -->", "<!-- site:footer -->"];
 
@@ -53,7 +54,7 @@ test("product pages render shared feature stories, cards, and stylesheet", async
     if (!isProduct) continue;
 
     for (const path of page.bilingual ? [route, localePath(route, "es")] : [route]) {
-      const pageURL = new URL(path, root);
+      const pageURL = new URL(localPagePath(path), root);
       const html = await readFile(pageURL, "utf8");
       const sheets = [...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)]
         .map(([, href]) => new URL(href, pageURL).href);
@@ -70,7 +71,7 @@ test("AppCut and Scan render native comparison tables with one shared stylesheet
   const stylesheet = new URL("assets/site/comparison.css", root).href;
   const routes = ["appcut/index.html", "appcut/getvideoeditor.html", "scan.html", "scan.es.html"];
   for (const path of routes) {
-    const pageURL = new URL(path, root);
+    const pageURL = new URL(localPagePath(path), root);
     const html = await readFile(pageURL, "utf8");
     const sheets = [...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)]
       .map(([, href]) => new URL(href, pageURL).href);
@@ -96,7 +97,7 @@ test("product FAQs share the same stylesheet and render as native grouped disclo
     if (!startsOpen && !startsClosed) continue;
 
     for (const path of page.bilingual ? [route, localePath(route, "es")] : [route]) {
-      const pageURL = new URL(path, root);
+      const pageURL = new URL(localPagePath(path), root);
       const html = await readFile(pageURL, "utf8");
       const sheets = [...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)]
         .map(([, href]) => new URL(href, pageURL).href);

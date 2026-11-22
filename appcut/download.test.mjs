@@ -4,7 +4,7 @@ import { access, readFile } from "node:fs/promises";
 import { renderPage } from "../scripts/layout.mjs";
 
 async function readLanding(path) {
-  const source = await readFile(new URL(`../content/pages/appcut/${path}`, import.meta.url), "utf8");
+  const source = await readFile(new URL(`./pages/${path}`, import.meta.url), "utf8");
   return renderPage(`appcut/${path}`, source);
 }
 

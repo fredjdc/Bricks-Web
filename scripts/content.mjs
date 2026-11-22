@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { fragmentSourcePath } from "./product-paths.mjs";
 
 const contentSlot = "<!-- site:content -->";
 
@@ -13,7 +14,7 @@ export async function renderContent(source, { rootDirectory, route, entry, langu
     throw new Error(`Expected one ${contentSlot} in ${route}`);
   }
 
-  const fragmentPath = join(rootDirectory, "content", localePath(`${entry}.html`, language));
+  const fragmentPath = join(rootDirectory, fragmentSourcePath(route, localePath(`${entry}.html`, language)));
   const fragment = (await readFile(fragmentPath, "utf8")).trim();
   if (!fragment) throw new Error(`Missing page content for ${route}: ${fragmentPath}`);
   return source.replace(contentSlot, () => `<div id="root">\n${fragment}\n  </div>`);

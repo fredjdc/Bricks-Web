@@ -6,9 +6,9 @@ import test from "node:test";
 import { renderPage, sitePages } from "../scripts/layout.mjs";
 
 const root = new URL("./", import.meta.url);
-const shells = new URL("../content/pages/", root);
-const page = readFileSync(new URL("calc/index.html", shells), "utf8");
-const pageContent = readFileSync(new URL("../content/calc-index.html", root), "utf8");
+const shells = new URL("pages/", root);
+const page = readFileSync(new URL("index.html", shells), "utf8");
+const pageContent = readFileSync(new URL("content/calc-index.html", root), "utf8");
 const dist = new URL("../dist/", root);
 const sitemap = readFileSync(new URL("../sitemap.xml", root), "utf8");
 
@@ -23,21 +23,21 @@ function structuredData(html) {
     .map((match) => JSON.parse(match[1]));
 }
 
-const guides = catalogGuides(readFileSync(new URL("calc/guides/index.html", shells), "utf8"));
+const guides = catalogGuides(readFileSync(new URL("guides/index.html", shells), "utf8"));
 assert.equal(guides.length, 7);
 assert.equal(new Set(guides).size, 7);
 const canonical = /<link rel="canonical" href="https:\/\/bricks\.pe\/calc\/"\s*\/?>/;
 assert.match(page, canonical);
-assert.match(readFileSync(new URL("calc.html", shells), "utf8"), canonical);
+assert.match(readFileSync(new URL("legacy.html", shells), "utf8"), canonical);
 assert.ok(sitemap.includes("<loc>https://bricks.pe/calc/</loc>"));
 assert.ok(sitemap.includes("<loc>https://bricks.pe/calc/guides/</loc>"));
 assert.equal(structuredData(page).length, 1);
 
 test("Calc overview routes share an English body and keep their Spanish update links", () => {
   assert.equal(sitePages.get("calc.html").entry, sitePages.get("calc/index.html").entry);
-  const legacySpanish = readFileSync(new URL("../calc.es.html", root), "utf8");
+  const legacySpanish = readFileSync(new URL("legacy.es.html", root), "utf8");
   const overviewSpanish = readFileSync(new URL("index.es.html", root), "utf8");
-  assert.match(legacySpanish, /<a href="index\.html#whats-new"[^>]*>Descubre las novedades/);
+  assert.match(legacySpanish, /<a href="\.\.\/index\.html#whats-new"[^>]*>Descubre las novedades/);
   assert.match(overviewSpanish, /<a href="https:\/\/bricksapps\.userjot\.com\/updates"[^>]*>Descubre las novedades/);
 });
 
@@ -78,7 +78,7 @@ test("Calc renders native FAQ answers and inline previews in HTML", () => {
   assert.match(faq, /save up to three plans/i);
 
   for (const [path, locale] of [["calc-index.html", "en"], ["calc-index.es.html", "es"]]) {
-    const content = readFileSync(new URL(`../content/${path}`, root), "utf8");
+    const content = readFileSync(new URL(`content/${path}`, root), "utf8");
     const media = content.match(/<video\b[^>]*>/)?.[0];
     assert.ok(media);
     assert.match(media, /\bautoplay\b/);
@@ -91,7 +91,7 @@ test("Calc renders native FAQ answers and inline previews in HTML", () => {
 
 for (const path of guides) {
   const route = `calc/guides/${path}`;
-  const source = readFileSync(new URL(route, shells), "utf8");
+  const source = readFileSync(new URL(`guides/${path}`, shells), "utf8");
   const html = renderPage(route, source);
   assert.match(html, /<script type="application\/ld\+json">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/bricks\.pe\/calc\/guides\//);
