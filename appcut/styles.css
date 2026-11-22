@@ -199,25 +199,6 @@
   .apes-landing .workflow-media { position: static; }
 }
 
-/* A standard comparison table, with the same surfaces and type as the page. */
-.apes-landing .plan-comparison { width: 100%; max-width: 760px; margin: 32px auto 0; border-collapse: collapse; table-layout: fixed; text-align: left; font-size: 1rem; line-height: 1.5; }
-.apes-landing .plan-comparison caption { padding-bottom: 16px; text-align: left; color: var(--text); font-weight: 650; }
-.apes-landing .plan-comparison col:first-child { width: 50%; }
-.apes-landing .plan-comparison th, .apes-landing .plan-comparison td { padding: 18px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-.apes-landing .plan-comparison thead th { background: var(--surface-muted); font-weight: 650; }
-.apes-landing .plan-comparison tbody th { font-weight: 500; }
-.apes-landing .plan-comparison :is(td, thead th:not(:first-child)) { text-align: center; }
-.apes-landing .plan-comparison td { color: var(--text-secondary); overflow-wrap: anywhere; hyphens: auto; }
-.apes-landing .plan-comparison [role="img"] { font-size: 1.15rem; font-weight: 650; }
-.apes-landing .plan-comparison .plan-included { color: var(--detail); }
-@media (max-width: 559px) {
-  .apes-landing .plan-comparison { font-size: 0.8125rem; }
-  .apes-landing .plan-comparison col:first-child { width: 38%; }
-  .apes-landing .plan-comparison th, .apes-landing .plan-comparison td { padding: 14px 4px; }
-}
-
-.apes-landing .plan-comparison td[aria-label="Watermarked"] { hyphens: manual; }
-
 /* Wide layout: give the three feature stories the same breathing room. */
 @media (min-width: 1200px) {
   .apes-landing .product-stories { row-gap: 256px; }
@@ -231,7 +212,7 @@
 .apes-landing .pricing-block > #included-title { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
 .apes-landing .pricing-block > h2 { max-width: 760px; margin: 0 auto 24px; font-size: clamp(2rem, 4.2vw, 3rem); }
 .apes-landing .pricing .pricing-options { margin: 0 auto 16px; }
-.apes-landing .pricing .plan-comparison { margin: 0 auto; }
+.apes-landing .bricks-comparison { --comparison-accent: var(--detail); }
 .apes-landing .pricing-block > .pricing-note { max-width: 760px; margin: 16px auto 0; color: var(--text-secondary); text-align: center; font-size: 0.875rem; line-height: 1.6; }
 @media (max-width: 559px) {
   .apes-landing .pricing-block { padding: 48px 16px; }

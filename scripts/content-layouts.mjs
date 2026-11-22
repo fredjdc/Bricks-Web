@@ -42,7 +42,7 @@ export function createContentLayouts({ bricks, calc }) {
     "thank-you-feedback.html": infoPage("thank-you-feedback", "Gracias | Bricks Apps"),
     "scan.html": {
       entry: "scan", brand: scanBrand, bilingual: true, spanishTitle: "Bricks Scan | Escáner de documentos",
-      styles: ["products", "features", "faq"],
+      styles: ["products", "features", "comparison", "faq"],
       links: [
         ["Bricks Calc", calcStore + "?ct=bricks_web_scan_header_menu_calc&mt=8"],
         ["Bricks Scan", scanStore + "?ct=bricks_web_scan_header_menu_scan&mt=8"],

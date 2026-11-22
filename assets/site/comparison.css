@@ -1,0 +1,36 @@
+.bricks-comparison {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: var(--bricks-surface);
+  color: var(--bricks-text);
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+
+.bricks-comparison col:first-child { width: 38%; }
+
+.bricks-comparison :is(th, td) {
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--bricks-border);
+  vertical-align: middle;
+  text-align: start;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.bricks-comparison thead th { background: var(--bricks-surface-muted); font-weight: 650; }
+.bricks-comparison tbody th { font-weight: 500; }
+.bricks-comparison :is(td, thead th:not(:first-child)) { text-align: center; }
+.bricks-comparison td { color: var(--bricks-muted); }
+.bricks-comparison td [role="img"] { font-size: 1.15rem; font-weight: 650; }
+.bricks-comparison td svg { display: inline-block; vertical-align: middle; }
+.bricks-comparison .bricks-comparison-included { color: var(--comparison-accent, var(--bricks-text)); }
+
+@media (min-width: 560px) {
+  .bricks-comparison { font-size: 1rem; }
+  .bricks-comparison col:first-child { width: 50%; }
+  .bricks-comparison :is(th, td) { padding: 18px 16px; }
+}

@@ -142,6 +142,7 @@
   <script src="assets/site/navigation.js" defer=""></script>
   <link rel="stylesheet" href="assets/site/products.css">
   <link rel="stylesheet" href="assets/site/features.css">
+  <link rel="stylesheet" href="assets/site/comparison.css">
   <link rel="stylesheet" href="assets/site/faq.css">
   <script src="assets/site/page-interactions.js" defer=""></script>
 </head>
@@ -341,49 +342,50 @@
       <h2 class="product-title" id="scan-comparison-title" style="margin:0 0 16px">Most scanner apps<br><span style="color:var(--b-text-2)">stop at the scan.</span></h2>
       <p style="font-size:17px;color:var(--b-text-2);margin:0;max-width:480px;margin-left:auto;margin-right:auto">Named, searchable, and organized. Automatically.</p>
     </div>
-    <table style="background:var(--b-bg-elevated);border-radius:32px;box-shadow:var(--emboss-soft);border:1px solid var(--b-border);overflow:hidden" class="reveal reveal-d1 product-comparison" aria-labelledby="scan-comparison-title">
+    <table class="bricks-comparison reveal reveal-d1" aria-labelledby="scan-comparison-title">
+      <colgroup><col><col><col></colgroup>
       <thead>
-        <tr style="border-bottom:2px solid var(--b-border);background:var(--b-bg)">
-          <th scope="col" style="font-size:11px;font-weight:700;color:var(--b-text-3);letter-spacing:0.1em;text-transform:uppercase;text-align:left">Feature</th>
-          <th scope="col" style="font-size:11px;font-weight:700;color:var(--b-text-3);letter-spacing:0.1em;text-transform:uppercase;text-align:center">Typical Apps</th>
-          <th scope="col" style="font-size:11px;font-weight:700;color:var(--product-accent-text);letter-spacing:0.1em;text-transform:uppercase;text-align:center">Bricks Scan</th>
+        <tr>
+          <th scope="col">Feature</th>
+          <th scope="col">Typical Apps</th>
+          <th scope="col">Bricks Scan</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Scan</th>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <th scope="row">Scan</th>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Search</th>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <th scope="row">Search</th>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Name Documents</th>
-          <td><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="var(--b-text-3)" stroke-width="1.6" stroke-linecap="round"></path></svg><span class="product-visually-hidden">No</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <th scope="row">Name Documents</th>
+          <td><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span class="product-visually-hidden">No</span></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Automate Organization</th>
-          <td><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="var(--b-text-3)" stroke-width="1.6" stroke-linecap="round"></path></svg><span class="product-visually-hidden">No</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <th scope="row">Automate Organization</th>
+          <td><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span class="product-visually-hidden">No</span></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">On-Device Processing</th>
-          <td><span style="font-size:12px;color:var(--b-text-3);font-style:italic">Rare</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <th scope="row">On-Device Processing</th>
+          <td><em>Rare</em></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">No Account Required</th>
-          <td><span style="font-size:12px;color:var(--b-text-3);font-style:italic">Rare</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <th scope="row">No Account Required</th>
+          <td><em>Rare</em></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Works Offline</th>
-          <td><span style="font-size:12px;color:var(--b-text-3);font-style:italic">Rare</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
+          <th scope="row">Works Offline</th>
+          <td><em>Rare</em></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Yes</span></td>
         </tr>
       </tbody>
     </table>

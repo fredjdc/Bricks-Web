@@ -55,7 +55,7 @@ assert.match(html, /Pro also includes ProRes 422 HQ MOV exports and watermark-fr
 assert.match(pricing, /Cancel anytime\. All prices are in USD\./);
 assert.match(pricing, /Choose Pro when you need it\./);
 
-const comparison = pricing.match(/<table class="plan-comparison"[^>]*>([\s\S]*?)<\/table>/)?.[1];
+const comparison = pricing.match(/<table class="bricks-comparison"[^>]*>([\s\S]*?)<\/table>/)?.[1];
 assert.ok(comparison, "Pricing must include a semantic comparison table");
 assert.equal((comparison.match(/scope="col"/g) ?? []).length, 3);
 const cells = (cell) => cell.match(/aria-label="([^"]+)"/)?.[1] ?? cell.replace(/&shy;|\u00ad/g, "").replace(/<[^>]*>/g, "").trim();
@@ -77,8 +77,8 @@ assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareAppl
 
 assert.match(pricing, /<h2 id="pricing-title">Start free<\/h2>/);
 assert.match(pricing, /<h2 id="included-title">What’s included<\/h2>/);
-assert.ok(pricing.indexOf('class="pricing-options"') < pricing.indexOf('class="plan-comparison"'), "Purchase options must precede the feature comparison");
-assert.match(pricing, /<table class="plan-comparison" aria-labelledby="included-title">/);
+assert.ok(pricing.indexOf('class="pricing-options"') < pricing.indexOf('class="bricks-comparison"'), "Purchase options must precede the feature comparison");
+assert.match(pricing, /<table class="bricks-comparison" aria-labelledby="included-title">/);
 
 assert.deepEqual([...pricing.matchAll(/<s>(.*?)<\/s>/g)].map((match) => match[1]), []);
 

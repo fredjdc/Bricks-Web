@@ -15,7 +15,7 @@ const appCutGuides = ["Guides", "/appcut/guides/"];
 const calcGuides = "/calc/guides/";
 
 const appCutLanding = {
-  brand: appCut, home: "#top", apple: true, styles: ["features", "faq"],
+  brand: appCut, home: "#top", apple: true, styles: ["features", "comparison", "faq"],
   action: ["Download", appCutBeta, "Download for Mac"],
 };
 const appCutGuide = {

@@ -65,6 +65,28 @@ test("product pages render shared feature stories, cards, and stylesheet", async
   }
 });
 
+test("AppCut and Scan render native comparison tables with one shared stylesheet", async () => {
+  const root = new URL("../", import.meta.url);
+  const stylesheet = new URL("assets/site/comparison.css", root).href;
+  const routes = ["appcut/index.html", "appcut/getvideoeditor.html", "scan.html", "scan.es.html"];
+  for (const path of routes) {
+    const pageURL = new URL(path, root);
+    const html = await readFile(pageURL, "utf8");
+    const sheets = [...html.matchAll(/<link rel="stylesheet" href="([^"]+)"/g)]
+      .map(([, href]) => new URL(href, pageURL).href);
+    assert.equal(sheets.filter(href => href === stylesheet).length, 1, path);
+
+    const tables = [...html.matchAll(/<table class="bricks-comparison\b[^"]*" aria-labelledby="([^"]+)">([\s\S]*?)<\/table>/g)];
+    assert.equal(tables.length, 1, path);
+    const [, headingId, table] = tables[0];
+    assert.ok(html.includes(`id="${headingId}"`), path);
+    assert.equal([...table.matchAll(/<th scope="col">/g)].length, 3, path);
+    assert.equal([...table.matchAll(/<th scope="row">/g)].length, 7, path);
+    assert.equal([...table.matchAll(/<td>/g)].length, 14, path);
+    assert.doesNotMatch(table, /style="/, path);
+  }
+});
+
 test("product FAQs share the same stylesheet and render as native grouped disclosures", async () => {
   const root = new URL("../", import.meta.url);
   const stylesheet = new URL("assets/site/faq.css", root);

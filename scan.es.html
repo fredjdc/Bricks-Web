@@ -141,6 +141,7 @@
   <script src="assets/site/navigation.js" defer=""></script>
   <link rel="stylesheet" href="assets/site/products.css">
   <link rel="stylesheet" href="assets/site/features.css">
+  <link rel="stylesheet" href="assets/site/comparison.css">
   <link rel="stylesheet" href="assets/site/faq.css">
   <script src="assets/site/page-interactions.js" defer=""></script>
   <meta name="robots" content="noindex, follow">
@@ -341,49 +342,50 @@
       <h2 class="product-title" id="scan-comparison-title" style="margin:0 0 16px">La mayoría de apps<br><span style="color:var(--b-text-2)">se detienen en el escaneo.</span></h2>
       <p style="font-size:17px;color:var(--b-text-2);margin:0;max-width:480px;margin-left:auto;margin-right:auto">Con nombre, buscable y organizado. Automáticamente.</p>
     </div>
-    <table style="background:var(--b-bg-elevated);border-radius:32px;box-shadow:var(--emboss-soft);border:1px solid var(--b-border);overflow:hidden" class="reveal reveal-d1 product-comparison" aria-labelledby="scan-comparison-title">
+    <table class="bricks-comparison reveal reveal-d1" aria-labelledby="scan-comparison-title">
+      <colgroup><col><col><col></colgroup>
       <thead>
-        <tr style="border-bottom:2px solid var(--b-border);background:var(--b-bg)">
-          <th scope="col" style="font-size:11px;font-weight:700;color:var(--b-text-3);letter-spacing:0.1em;text-transform:uppercase;text-align:left">Función</th>
-          <th scope="col" style="font-size:11px;font-weight:700;color:var(--b-text-3);letter-spacing:0.1em;text-transform:uppercase;text-align:center">Apps típicas</th>
-          <th scope="col" style="font-size:11px;font-weight:700;color:var(--product-accent-text);letter-spacing:0.1em;text-transform:uppercase;text-align:center">Bricks Scan</th>
+        <tr>
+          <th scope="col">Función</th>
+          <th scope="col">Apps típicas</th>
+          <th scope="col">Bricks Scan</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Escanear</th>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <th scope="row">Escanear</th>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Buscar</th>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <th scope="row">Buscar</th>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Nombrar documentos</th>
-          <td><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="var(--b-text-3)" stroke-width="1.6" stroke-linecap="round"></path></svg><span class="product-visually-hidden">No</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <th scope="row">Nombrar documentos</th>
+          <td><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span class="product-visually-hidden">No</span></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Organización automática</th>
-          <td><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="var(--b-text-3)" stroke-width="1.6" stroke-linecap="round"></path></svg><span class="product-visually-hidden">No</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <th scope="row">Organización automática</th>
+          <td><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span class="product-visually-hidden">No</span></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Procesamiento local</th>
-          <td><span style="font-size:12px;color:var(--b-text-3);font-style:italic">Raro</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <th scope="row">Procesamiento local</th>
+          <td><em>Raro</em></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Sin cuenta obligatoria</th>
-          <td><span style="font-size:12px;color:var(--b-text-3);font-style:italic">Raro</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <th scope="row">Sin cuenta obligatoria</th>
+          <td><em>Raro</em></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
         </tr>
         <tr>
-          <th scope="row" style="font-size:14px;font-weight:500;color:var(--b-text)">Funciona sin conexión</th>
-          <td><span style="font-size:12px;color:var(--b-text-3);font-style:italic">Raro</span></td>
-          <td><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="#00A6A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
+          <th scope="row">Funciona sin conexión</th>
+          <td><em>Raro</em></td>
+          <td><svg class="bricks-comparison-included" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><path d="M3 8l4 4 6-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="product-visually-hidden">Sí</span></td>
         </tr>
       </tbody>
     </table>
