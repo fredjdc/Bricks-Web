@@ -131,7 +131,6 @@ body:has(.calc-hero)::after {
 #privacy,
 #pricing,
 #about,
-#whats-new,
-#faq {
+#whats-new {
     scroll-margin-top: 110px;
 }

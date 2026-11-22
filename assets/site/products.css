@@ -28,12 +28,6 @@
   a.product-ecosystem-card:hover { transform: translateY(-2px); }
 }
 
-.product-faq-summary { list-style: none; }
-.product-faq-summary::-webkit-details-marker { display: none; }
-.product-faq-summary:focus-visible { outline-offset: -4px; }
-.product-faq-summary svg { transition: transform 180ms ease; }
-.product-faq details[open] svg { transform: rotate(180deg); }
-
 .product-comparison {
   border-collapse: separate;
   border-spacing: 0;
@@ -56,10 +50,6 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .product-faq-summary svg { transition: none; }
 }
 
 .product-hero {
@@ -153,29 +143,12 @@
   box-shadow: var(--emboss-soft);
 }
 
-.product-feature {
-  padding: 96px 48px;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.product-feature-grid, .product-feature-grid-reversed {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 96px;
-  align-items: center;
-}
-
 .product-title {
   font-size: 52px;
   font-weight: 900;
   letter-spacing: -0.035em;
   line-height: 1.02;
   color: var(--b-text);
-}
-
-.product-feature-grid-reversed {
-  direction: rtl;
 }
 
 .product-section {
@@ -243,32 +216,6 @@
   font-weight: 500;
   color: var(--b-text);
   letter-spacing: -0.015em;
-}
-
-.product-faq-summary {
-  width: 100%;
-  text-align: left;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  padding: 24px 32px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--b-text);
-  letter-spacing: -0.01em;
-}
-
-.product-faq-answer {
-  padding: 0 32px 28px;
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--b-text-2);
-  max-width: 720px;
 }
 
 .product-ecosystem-grid {
@@ -349,23 +296,8 @@
     padding: 28px 24px;
   }
 
-  .product-feature {
-    padding: 56px 20px;
-  }
-
-  .product-feature-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
   .product-title {
     font-size: 36px;
-  }
-
-  .product-feature-grid-reversed {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    direction: ltr;
   }
 
   .product-section {
@@ -405,15 +337,6 @@
 
   .product-quote-large {
     font-size: 20px;
-  }
-
-  .product-faq-summary {
-    padding: 20px 24px;
-    font-size: 16px;
-  }
-
-  .product-faq-answer {
-    padding: 0 24px 22px;
   }
 
   .product-ecosystem-grid {

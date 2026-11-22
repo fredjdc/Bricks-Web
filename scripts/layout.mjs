@@ -15,7 +15,7 @@ const appCutGuides = ["Guides", "/appcut/guides/"];
 const calcGuides = "/calc/guides/";
 
 const appCutLanding = {
-  brand: appCut, home: "#top", apple: true,
+  brand: appCut, home: "#top", apple: true, styles: ["features", "faq"],
   action: ["Download", appCutBeta, "Download for Mac"],
 };
 const appCutGuide = {
@@ -44,7 +44,7 @@ export const siteRedirects = new Map([
 export const sitePages = new Map(Object.entries({
   "appcut/index.html": appCutLanding,
   "asc-gui/index.html": {
-    brand: ascGui, home: "#top",
+    brand: ascGui, home: "#top", styles: ["features", "faq"],
     links: [["Features", "#features"], ["Automations", "#automations"], ["Setup", "#setup"], ["FAQ", "#faq"]],
     action: ["See the workflow", "#workflow"],
   },
@@ -60,7 +60,7 @@ const copy = {
     skip: "Skip to content", nav: "Primary navigation", menu: "Menu", home: name => `${name} home`,
     footerNav: "Footer navigation", help: "Support", privacy: "Privacy Policy", terms: "Terms of Service",
     apps: "Apps", devTools: "Dev Tools", about: "About Bricks", purchase: "Purchase Guide", helpCenter: "Help Center",
-    overview: "Overview", firstTimeBuyers: "First-Time Buyers", refinancing: "Refinancing", mortgageGuides: "Mortgage Guides",
+    mortgageCalculator: "Mortgage Calculator", firstTimeBuyers: "First-Time Buyers", refinancing: "Refinancing", mortgageGuides: "Mortgage Guides",
     appCutGuides: "AppCut Guides",
     feedback: "Share feedback", vote: "Vote on features", language: "Language",
     instagram: "Bricks on Instagram", linkedin: "Bricks on LinkedIn",
@@ -71,7 +71,7 @@ const copy = {
     skip: "Saltar al contenido", nav: "Navegación principal", menu: "Menú", home: name => `Inicio de ${name}`,
     footerNav: "Navegación del pie de página", help: "Soporte", privacy: "Política de privacidad", terms: "Términos del servicio",
     apps: "Apps", devTools: "Herramientas de desarrollo", about: "Acerca de Bricks", purchase: "Guía de compra", helpCenter: "Centro de ayuda",
-    overview: "Descripción general", firstTimeBuyers: "Primera vivienda", refinancing: "Refinanciamiento", mortgageGuides: "Guías hipotecarias",
+    mortgageCalculator: "Calculadora hipotecaria", firstTimeBuyers: "Primera vivienda", refinancing: "Refinanciamiento", mortgageGuides: "Guías hipotecarias",
     appCutGuides: "Guías de AppCut",
     feedback: "Comparte tus comentarios", vote: "Vota por nuevas funciones", language: "Idioma",
     instagram: "Bricks en Instagram", linkedin: "Bricks en LinkedIn",
@@ -182,7 +182,7 @@ function renderFooter(page, labels, language, path) {
         })).join("")}</div>
       </div>
       ${group(calc.name, [
-        [labels.overview, calc.home], [labels.firstTimeBuyers, "/homebuyers.html"],
+        [labels.mortgageCalculator, calc.home], [labels.firstTimeBuyers, "/homebuyers.html"],
         [labels.refinancing, "/refinance.html"], [labels.mortgageGuides, calcGuides],
       ])}
       ${group(labels.apps, [

@@ -15,10 +15,13 @@ figcaption span { white-space: nowrap; }
 .proof-grid p { font-size: 14px; }
 .preparation .section-heading { max-width: 900px; }
 .preparation-grid { display: grid; gap: 36px; margin-top: 64px; }
-.preparation-grid article { padding-top: 24px; border-top: 1px solid var(--border); }
-.preparation-grid h3 { margin: 24px 0 18px; font-size: clamp(1.5rem, 2.4vw, 1.9rem); }
-.preparation-grid p, .release-steps p, .setup-steps p { margin-bottom: 0; color: var(--text-secondary); }
+.preparation-grid .section-number { display: block; margin-bottom: 16px; }
+.release-steps p, .setup-steps p { margin-bottom: 0; color: var(--text-secondary); }
 .media-section, .automation-section, .setup-section { background: color-mix(in srgb, var(--surface) 78%, transparent); border-block: 1px solid var(--border); }
+.media-section, .automation-section {
+  --story-copy-column: minmax(0, .85fr);
+  --story-media-column: minmax(0, 1.15fr);
+}
 .story-copy h2 { font-size: clamp(2.5rem, 4.8vw, 4rem); margin-bottom: 24px; }
 .story-copy .eyebrow { font-size: 13px; }
 .release-steps, .setup-steps { padding: 0; margin: 0; list-style: none; }
@@ -36,14 +39,10 @@ figcaption span { white-space: nowrap; }
 .setup-section .section-heading { max-width: 1000px; }
 .setup-steps { display: grid; gap: 40px; margin-top: 56px; }
 .setup-steps h3 { font-size: 1.5rem; margin: 20px 0 16px; }
-.faq summary { min-height: 48px; }
-.faq details p { margin-bottom: 0; }
 a:focus-visible, summary:focus-visible, .button:focus-visible { outline: 3px solid var(--focus); outline-offset: 5px; border-radius: 4px; }
 [id] { scroll-margin-top: 100px; }
 @media (min-width: 900px) {
   .preparation-grid, .setup-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
-  .product-story { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 64px; }
-  .product-story-reverse { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
   .release-steps li { grid-template-columns: 72px 1fr; padding-block: 32px; }
   .release-steps li > div { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: center; }
   .release-steps h3 { margin: 0; }

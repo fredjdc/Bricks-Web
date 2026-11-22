@@ -42,20 +42,20 @@
       <div class="shell proof-grid"><p>Native Mac workspace</p><p>Local drafts</p><p>Explicit Save</p><p>Reusable release workflows</p></div>
     </section>
 
-    <section class="section shell preparation" id="features" aria-labelledby="preparation-title">
+    <section class="shell preparation bricks-feature-section" id="features" aria-labelledby="preparation-title">
       <div class="section-heading">
         <p class="eyebrow">A place to prepare</p>
         <h2 id="preparation-title">Prepare changes.<br><span class="quiet">Save when ready.</span></h2>
         <p>App Store Connect is Apple’s service for managing your App Store apps. ASC GUI brings listing and release work to your Mac, with local drafts and a deliberate Save to send changes to Apple.</p>
       </div>
       <div class="preparation-grid">
-        <article><span class="section-number">01 / LISTINGS</span><h3>Give every locale<br>the same attention.</h3><p>Edit descriptions, keywords, What’s New, and URLs. Keep the app, version, and language in view as you prepare each listing.</p></article>
-        <article><span class="section-number">02 / REUSE</span><h3>Keep the useful parts<br>of your last release.</h3><p>Preview and reuse selected text from the previous released version. Bring in saved review contact details and URL defaults.</p></article>
-        <article><span class="section-number">03 / DRAFTS</span><h3>Pick up where<br>you left off.</h3><p>Listing edits and staged media stay in a local draft between sessions. Save sends the prepared changes to App Store Connect.</p></article>
+        <article class="bricks-feature-card"><span class="section-number">01 / LISTINGS</span><h3>Give every locale<br>the same attention.</h3><p>Edit descriptions, keywords, What’s New, and URLs. Keep the app, version, and language in view as you prepare each listing.</p></article>
+        <article class="bricks-feature-card"><span class="section-number">02 / REUSE</span><h3>Keep the useful parts<br>of your last release.</h3><p>Preview and reuse selected text from the previous released version. Bring in saved review contact details and URL defaults.</p></article>
+        <article class="bricks-feature-card"><span class="section-number">03 / DRAFTS</span><h3>Pick up where<br>you left off.</h3><p>Listing edits and staged media stay in a local draft between sessions. Save sends the prepared changes to App Store Connect.</p></article>
       </div>
     </section>
 
-    <section class="section media-section" aria-labelledby="media-title">
+    <section class="bricks-feature-section media-section" aria-labelledby="media-title">
       <div class="shell product-story">
         <div class="story-copy">
           <p class="eyebrow">Screenshots &amp; app previews</p>
@@ -82,7 +82,7 @@
       </ol>
     </section>
 
-    <section class="section automation-section" id="automations" aria-labelledby="automation-title">
+    <section class="bricks-feature-section automation-section" id="automations" aria-labelledby="automation-title">
       <div class="shell product-story product-story-reverse">
         <div class="story-copy">
           <p class="eyebrow">Saved automations</p>
@@ -111,19 +111,19 @@
       </div>
     </section>
 
-    <section class="faq section shell" id="faq" aria-labelledby="faq-title">
-      <div class="section-heading"><p class="eyebrow">A few details</p><h2 id="faq-title">Good to know.</h2></div>
-      <div class="faq-list">
-        <details name="faq"><summary>Is ASC GUI available to download?</summary><p>ASC GUI is in development. Download availability, pricing, and final system requirements have not been announced.</p></details>
-        <details name="faq"><summary>What will I need?</summary><p>A compatible Mac, an existing app in App Store Connect, and a valid API key with access to the work you want to perform. Final macOS and hardware requirements will be confirmed with the release.</p></details>
-        <details name="faq"><summary>Which platforms can I manage?</summary><p>The current workspace supports version workflows for iOS, macOS, tvOS, and visionOS, subject to your app’s eligibility and Apple’s restrictions. iPhone and iPad media belong to the iOS workflow. ASC GUI itself runs on Mac.</p></details>
-        <details name="faq"><summary>Do I need Xcode Cloud? Can I upload a build?</summary><p>Xcode Cloud is optional. Choose an existing compatible processed build in App Store Connect, or start an already configured Xcode Cloud workflow and follow its progress. ASC GUI does not archive, sign, or directly deliver IPA or PKG files. Keep using your existing build delivery workflow.</p></details>
-        <details name="faq"><summary>Does it work offline?</summary><p>Drafts and staged media are stored locally. Connecting, opening or refreshing a workspace, uploading, checking status, submitting, and releasing require Apple’s services.</p></details>
-        <details name="faq"><summary>Can automations run while my Mac is off?</summary><p>No. Automations run locally while ASC GUI can execute. Quitting interrupts execution and sleep pauses local follow-up. After returning, check status and explicitly continue. Waiting steps also have a limited observation period and may need a new status check. Apple can continue processing requests it has already accepted.</p></details>
-        <details name="faq"><summary>Does it replace all of App Store Connect?</summary><p>No. ASC GUI focuses on listings, media, versions, review, and release work. Age ratings, App Privacy, pricing and availability, agreements, and some compliance or product requirements still need Apple’s website. Supported checks do not certify that every Apple requirement is complete.</p></details>
-        <details name="faq"><summary>Does it translate listings or create screenshots?</summary><p>No. You edit localized text and manage existing media. ASC GUI does not generate translations, listing copy, screenshots, or videos.</p></details>
-        <details name="faq"><summary>Does submitting mean my update is live?</summary><p>No. Submission, Apple’s review decision, and distribution are separate stages. Release requests depend on eligibility, and each platform has its own result. ASC GUI does not guarantee approval or simultaneous publication.</p></details>
-        <details name="faq"><summary>Where is my API key stored?</summary><p>In this Mac’s Keychain. ASC GUI uses it to authenticate direct requests to App Store Connect. Local drafts stay on your Mac until you save their content to Apple. App Review demo passwords are excluded from saved drafts and automation history and may need to be entered again.</p></details>
+    <section class="bricks-faq" id="faq" aria-labelledby="faq-title">
+      <div class="bricks-faq-heading"><p class="bricks-faq-eyebrow">A few details</p><h2 id="faq-title">Good to know.</h2></div>
+      <div class="bricks-faq-list">
+        <details name="faq"><summary>Is ASC GUI available to download?</summary><div class="bricks-faq-answer"><div><p>ASC GUI is in development. Download availability, pricing, and final system requirements have not been announced.</p></div></div></details>
+        <details name="faq"><summary>What will I need?</summary><div class="bricks-faq-answer"><div><p>A compatible Mac, an existing app in App Store Connect, and a valid API key with access to the work you want to perform. Final macOS and hardware requirements will be confirmed with the release.</p></div></div></details>
+        <details name="faq"><summary>Which platforms can I manage?</summary><div class="bricks-faq-answer"><div><p>The current workspace supports version workflows for iOS, macOS, tvOS, and visionOS, subject to your app’s eligibility and Apple’s restrictions. iPhone and iPad media belong to the iOS workflow. ASC GUI itself runs on Mac.</p></div></div></details>
+        <details name="faq"><summary>Do I need Xcode Cloud? Can I upload a build?</summary><div class="bricks-faq-answer"><div><p>Xcode Cloud is optional. Choose an existing compatible processed build in App Store Connect, or start an already configured Xcode Cloud workflow and follow its progress. ASC GUI does not archive, sign, or directly deliver IPA or PKG files. Keep using your existing build delivery workflow.</p></div></div></details>
+        <details name="faq"><summary>Does it work offline?</summary><div class="bricks-faq-answer"><div><p>Drafts and staged media are stored locally. Connecting, opening or refreshing a workspace, uploading, checking status, submitting, and releasing require Apple’s services.</p></div></div></details>
+        <details name="faq"><summary>Can automations run while my Mac is off?</summary><div class="bricks-faq-answer"><div><p>No. Automations run locally while ASC GUI can execute. Quitting interrupts execution and sleep pauses local follow-up. After returning, check status and explicitly continue. Waiting steps also have a limited observation period and may need a new status check. Apple can continue processing requests it has already accepted.</p></div></div></details>
+        <details name="faq"><summary>Does it replace all of App Store Connect?</summary><div class="bricks-faq-answer"><div><p>No. ASC GUI focuses on listings, media, versions, review, and release work. Age ratings, App Privacy, pricing and availability, agreements, and some compliance or product requirements still need Apple’s website. Supported checks do not certify that every Apple requirement is complete.</p></div></div></details>
+        <details name="faq"><summary>Does it translate listings or create screenshots?</summary><div class="bricks-faq-answer"><div><p>No. You edit localized text and manage existing media. ASC GUI does not generate translations, listing copy, screenshots, or videos.</p></div></div></details>
+        <details name="faq"><summary>Does submitting mean my update is live?</summary><div class="bricks-faq-answer"><div><p>No. Submission, Apple’s review decision, and distribution are separate stages. Release requests depend on eligibility, and each platform has its own result. ASC GUI does not guarantee approval or simultaneous publication.</p></div></div></details>
+        <details name="faq"><summary>Where is my API key stored?</summary><div class="bricks-faq-answer"><div><p>In this Mac’s Keychain. ASC GUI uses it to authenticate direct requests to App Store Connect. Local drafts stay on your Mac until you save their content to Apple. App Review demo passwords are excluded from saved drafts and automation history and may need to be entered again.</p></div></div></details>
       </div>
     </section>
 

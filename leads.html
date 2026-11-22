@@ -128,6 +128,8 @@
   <script src="assets/site/preferences.js" defer=""></script>
   <script src="assets/site/navigation.js" defer=""></script>
   <link rel="stylesheet" href="assets/site/products.css">
+  <link rel="stylesheet" href="assets/site/features.css">
+  <link rel="stylesheet" href="assets/site/faq.css">
   <script src="assets/site/page-interactions.js" defer=""></script>
 </head>
 
@@ -183,7 +185,7 @@
       </div>
     </div>
   </section>
-  <section class="product-section" style="max-width:1200px">
+  <section class="bricks-feature-section bricks-feature-shell">
     <div class="product-section-heading">
       <div class="reveal">
         <div style="font-size:12px;font-weight:700;color:var(--product-accent-text);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px">Why Leads</div>
@@ -192,32 +194,32 @@
       <p class="reveal reveal-d1" style="font-size:18px;line-height:1.6;color:var(--b-text-2);margin:0">A CRM shouldn’t feel like homework, and it shouldn’t ship your data to someone else’s server. Leads runs on your iPhone, with Apple Intelligence handling extraction and drafts locally.</p>
     </div>
     <div class="product-card-grid">
-      <div class="reveal reveal-d1 product-card">
+      <div class="reveal reveal-d1 bricks-feature-card">
         <div style="width:44px;height:44px;border-radius:14px;background:#FF95001a;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:var(--emboss-soft);border:1px solid var(--b-border)">
           <div style="width:22px;height:22px;background-color:#FF9500;mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS40LDcxLjZjMCw0LjIsMy40LDcuNiw3LjcsNy42czcuNi0zLjQsNy42LTcuNnYtMTUuM2MwLTkuNyw1LjYtMTUuNCwxNS40LTE1LjRoMTUuN2M0LjIsMCw3LjYtMy40LDcuNi03LjZzLTMuNC03LjctNy42LTcuN2gtMTUuN2MtMTksMC0zMC43LDExLjgtMzAuNywzMC43djE1LjNaTTE4NC42LDcxLjZ2LTE1LjNjMC0xOC45LTExLjctMzAuNy0zMC43LTMwLjdoLTE1LjZjLTQuMiwwLTcuNiwzLjQtNy42LDcuN3MzLjQsNy42LDcuNiw3LjZoMTUuNmM5LjgsMCwxNS40LDUuNywxNS40LDE1LjR2MTUuM2MwLDQuMiwzLjQsNy42LDcuNiw3LjZzNy43LTMuNCw3LjctNy42Wk0yNS40LDEzOC42djE1LjNjMCwxOC45LDExLjcsMzAuNywzMC43LDMwLjdoMTUuN2M0LjIsMCw3LjYtMy40LDcuNi03LjdzLTMuNC03LjYtNy42LTcuNmgtMTUuN2MtOS44LDAtMTUuNC01LjctMTUuNC0xNS40di0xNS4zYzAtNC4yLTMuNS03LjYtNy42LTcuNnMtNy43LDMuNC03LjcsNy42Wk0xODQuNiwxMzguNmMwLTQuMi0zLjQtNy42LTcuNy03LjZzLTcuNiwzLjQtNy42LDcuNnYxNS4zYzAsOS43LTUuNywxNS40LTE1LjQsMTUuNGgtMTUuNmMtNC4yLDAtNy42LDMuNC03LjYsNy42czMuNCw3LjcsNy42LDcuN2gxNS42YzE5LDAsMzAuNy0xMS44LDMwLjctMzAuN3YtMTUuM1oiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjMuNCw3NC45YzAsMywyLjUsNS41LDUuNSw1LjVoNzIuM2MzLDAsNS40LTIuNSw1LjQtNS41cy0yLjQtNS40LTUuNC01LjRoLTcyLjNjLTMsMC01LjUsMi40LTUuNSw1LjRaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTYzLjQsMTA0LjhjMCwzLDIuNSw1LjUsNS41LDUuNWg3Mi4zYzMsMCw1LjQtMi40LDUuNC01LjVzLTIuNC01LjQtNS40LTUuNGgtNzIuM2MtMywwLTUuNSwyLjQtNS41LDUuNFoiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjMuNCwxMzQuOGMwLDMsMi41LDUuNCw1LjUsNS40aDQ3LjZjMywwLDUuNS0yLjQsNS41LTUuNHMtMi41LTUuNS01LjUtNS41aC00Ny42Yy0zLDAtNS41LDIuNS01LjUsNS41WiIvPgo8L3N2Zz4=&quot;);-webkit-mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS40LDcxLjZjMCw0LjIsMy40LDcuNiw3LjcsNy42czcuNi0zLjQsNy42LTcuNnYtMTUuM2MwLTkuNyw1LjYtMTUuNCwxNS40LTE1LjRoMTUuN2M0LjIsMCw3LjYtMy40LDcuNi03LjZzLTMuNC03LjctNy42LTcuN2gtMTUuN2MtMTksMC0zMC43LDExLjgtMzAuNywzMC43djE1LjNaTTE4NC42LDcxLjZ2LTE1LjNjMC0xOC45LTExLjctMzAuNy0zMC43LTMwLjdoLTE1LjZjLTQuMiwwLTcuNiwzLjQtNy42LDcuN3MzLjQsNy42LDcuNiw3LjZoMTUuNmM5LjgsMCwxNS40LDUuNywxNS40LDE1LjR2MTUuM2MwLDQuMiwzLjQsNy42LDcuNiw3LjZzNy43LTMuNCw3LjctNy42Wk0yNS40LDEzOC42djE1LjNjMCwxOC45LDExLjcsMzAuNywzMC43LDMwLjdoMTUuN2M0LjIsMCw3LjYtMy40LDcuNi03LjdzLTMuNC03LjYtNy42LTcuNmgtMTUuN2MtOS44LDAtMTUuNC01LjctMTUuNC0xNS40di0xNS4zYzAtNC4yLTMuNS03LjYtNy42LTcuNnMtNy43LDMuNC03LjcsNy42Wk0xODQuNiwxMzguNmMwLTQuMi0zLjQtNy42LTcuNy03LjZzLTcuNiwzLjQtNy42LDcuNnYxNS4zYzAsOS43LTUuNywxNS40LTE1LjQsMTUuNGgtMTUuNmMtNC4yLDAtNy42LDMuNC03LjYsNy42czMuNCw3LjcsNy42LDcuN2gxNS42YzE5LDAsMzAuNy0xMS44LDMwLjctMzAuN3YtMTUuM1oiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjMuNCw3NC45YzAsMywyLjUsNS41LDUuNSw1LjVoNzIuM2MzLDAsNS40LTIuNSw1LjQtNS41cy0yLjQtNS40LTUuNC01LjRoLTcyLjNjLTMsMC01LjUsMi40LTUuNSw1LjRaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTYzLjQsMTA0LjhjMCwzLDIuNSw1LjUsNS41LDUuNWg3Mi4zYzMsMCw1LjQtMi40LDUuNC01LjVzLTIuNC01LjQtNS40LTUuNGgtNzIuM2MtMywwLTUuNSwyLjQtNS41LDUuNFoiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjMuNCwxMzQuOGMwLDMsMi41LDUuNCw1LjUsNS40aDQ3LjZjMywwLDUuNS0yLjQsNS41LTUuNHMtMi41LTUuNS01LjUtNS41aC00Ny42Yy0zLDAtNS41LDIuNS01LjUsNS41WiIvPgo8L3N2Zz4=&quot;);mask-size:contain;-webkit-mask-size:contain;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat"></div>
         </div>
-        <div style="font-size:20px;font-weight:700;color:var(--b-text);margin-bottom:8px;letter-spacing:-0.01em">Capture on the spot</div>
-        <div style="font-size:15px;color:var(--b-text-2);line-height:1.55">Add a lead in seconds, or share text from WhatsApp, Mail, or Messages. On-device AI pulls out contact, property, and next step for your review.</div>
+        <h3>Capture on the spot</h3>
+        <p>Add a lead in seconds, or share text from WhatsApp, Mail, or Messages. On-device AI pulls out contact, property, and next step for your review.</p>
       </div>
-      <div class="reveal reveal-d2 product-card">
+      <div class="reveal reveal-d2 bricks-feature-card">
         <div style="width:44px;height:44px;border-radius:14px;background:#FF95001a;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:var(--emboss-soft);border:1px solid var(--b-border)">
           <div style="width:22px;height:22px;background-color:#FF9500;mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xOTcuNiw4OC44aC0zOC4yYy01LjYsMC03LjEsNC40LTQsOC43bDE4LjgsMjZjMi40LDMuNCw2LjIsMy40LDguNiwwbDE4LjgtMjUuOWMzLjItNC4zLDEuNy04LjgtNC4xLTguOFpNMTA1LDE4OC4yYzQuNCwwLDguMS0zLjcsOC4xLTguMXMtMy43LTguMS04LjEtOC4xYy0zNywwLTY2LjktMjkuOS02Ni45LTY2LjlzMjkuOS02Nyw2Ni45LTY3LDY3LDMwLDY3LDY3LDMuNyw4LjEsOC4yLDguMSw4LTMuNiw4LjEtOC4xYzAtNDYuMS0zNy4zLTgzLjMtODMuMi04My4zUzIxLjgsNTksMjEuOCwxMDVzMzcuMyw4My4yLDgzLjIsODMuMlpNMTMxLjgsMTgyLjdjNC4xLDAsNy41LTMuNCw3LjUtNy42cy0zLjQtNy42LTcuNS03LjYtNy42LDMuNC03LjYsNy42LDMuNCw3LjYsNy42LDcuNlpNMTU0LjIsMTcwLjJjNC4yLDAsNy42LTMuNCw3LjYtNy42cy0zLjQtNy42LTcuNi03LjYtNy42LDMuNC03LjYsNy42LDMuNCw3LjYsNy42LDcuNlpNMTcwLjgsMTUxYzQuMiwwLDcuNi0zLjQsNy42LTcuNXMtMy40LTcuNi03LjYtNy42LTcuNiwzLjQtNy42LDcuNiwzLjQsNy41LDcuNiw3LjVaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTY0LjEsMTE1LjJoNDAuOGMzLjUsMCw2LjMtMi43LDYuMy02LjN2LTUzLjFjMC0zLjUtMi43LTYuMi02LjMtNi4ycy02LjIsMi43LTYuMiw2LjJ2NDYuOGgtMzQuNmMtMy41LDAtNi4zLDIuOC02LjMsNi4yczIuNyw2LjMsNi4zLDYuM1oiLz4KPC9zdmc+&quot;);-webkit-mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xOTcuNiw4OC44aC0zOC4yYy01LjYsMC03LjEsNC40LTQsOC43bDE4LjgsMjZjMi40LDMuNCw2LjIsMy40LDguNiwwbDE4LjgtMjUuOWMzLjItNC4zLDEuNy04LjgtNC4xLTguOFpNMTA1LDE4OC4yYzQuNCwwLDguMS0zLjcsOC4xLTguMXMtMy43LTguMS04LjEtOC4xYy0zNywwLTY2LjktMjkuOS02Ni45LTY2LjlzMjkuOS02Nyw2Ni45LTY3LDY3LDMwLDY3LDY3LDMuNyw4LjEsOC4yLDguMSw4LTMuNiw4LjEtOC4xYzAtNDYuMS0zNy4zLTgzLjMtODMuMi04My4zUzIxLjgsNTksMjEuOCwxMDVzMzcuMyw4My4yLDgzLjIsODMuMlpNMTMxLjgsMTgyLjdjNC4xLDAsNy41LTMuNCw3LjUtNy42cy0zLjQtNy42LTcuNS03LjYtNy42LDMuNC03LjYsNy42LDMuNCw3LjYsNy42LDcuNlpNMTU0LjIsMTcwLjJjNC4yLDAsNy42LTMuNCw3LjYtNy42cy0zLjQtNy42LTcuNi03LjYtNy42LDMuNC03LjYsNy42LDMuNCw3LjYsNy42LDcuNlpNMTcwLjgsMTUxYzQuMiwwLDcuNi0zLjQsNy42LTcuNXMtMy40LTcuNi03LjYtNy42LTcuNiwzLjQtNy42LDcuNiwzLjQsNy41LDcuNiw3LjVaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTY0LjEsMTE1LjJoNDAuOGMzLjUsMCw2LjMtMi43LDYuMy02LjN2LTUzLjFjMC0zLjUtMi43LTYuMi02LjMtNi4ycy02LjIsMi43LTYuMiw2LjJ2NDYuOGgtMzQuNmMtMy41LDAtNi4zLDIuOC02LjMsNi4yczIuNyw2LjMsNi4zLDYuM1oiLz4KPC9zdmc+&quot;);mask-size:contain;-webkit-mask-size:contain;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat"></div>
         </div>
-        <div style="font-size:20px;font-weight:700;color:var(--b-text);margin-bottom:8px;letter-spacing:-0.01em">Follow up on time</div>
-        <div style="font-size:15px;color:var(--b-text-2);line-height:1.55">Today’s follow-ups surface at the top. Apple Intelligence drafts a message on your iPhone — you edit and send. No auto-send.</div>
+        <h3>Follow up on time</h3>
+        <p>Today’s follow-ups surface at the top. Apple Intelligence drafts a message on your iPhone — you edit and send. No auto-send.</p>
       </div>
-      <div class="reveal reveal-d3 product-card">
+      <div class="reveal reveal-d3 bricks-feature-card">
         <div style="width:44px;height:44px;border-radius:14px;background:#FF95001a;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:var(--emboss-soft);border:1px solid var(--b-border)">
           <div style="width:22px;height:22px;background-color:#FF9500;mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01Ni4xLDE4MC4yaDk3LjhjMTcuMiwwLDI2LjQtOS4xLDI2LjQtMjYuMVY1NS45YzAtMTcuMS05LjEtMjYuMi0yNi40LTI2LjJINTYuMWMtMTcuMiwwLTI2LjMsOS4xLTI2LjMsMjYuMnY5OC4yYzAsMTcuMSw5LjEsMjYuMSwyNi4zLDI2LjFaTTU3LjQsMTY0LjRjLTcuNywwLTExLjgtMy45LTExLjgtMTEuOVY1Ny41YzAtNy45LDQuMS0xMS45LDExLjgtMTEuOWg5NS4zYzcuNiwwLDExLjgsNCwxMS44LDExLjl2OTUuMWMwLDgtNC4yLDExLjktMTEuOCwxMS45SDU3LjRaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTYxLjUsNjcuNHYxOWMwLDUuMSwzLDguMSw4LjEsOC4xaDE5LjFjNS4xLDAsOC4xLTMsOC4xLTguMXYtMTljMC01LjItMy04LjItOC4xLTguMmgtMTkuMWMtNS4xLDAtOC4xLDMtOC4xLDguMloiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjYuMSwxMjEuNGg3Ni44YzIuOCwwLDQuOC0yLjIsNC44LTQuOXMtMi4xLTQuNy00LjgtNC43aC03Ni44Yy0yLjgsMC00LjksMi4xLTQuOSw0LjdzMi4xLDQuOSw0LjksNC45WiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik02Ni4xLDE0Ny4zaDU2LjdjMi44LDAsNC44LTIuMSw0LjgtNC43cy0yLjEtNC45LTQuOC00LjloLTU2LjdjLTIuOCwwLTQuOSwyLjEtNC45LDQuOXMyLjEsNC43LDQuOSw0LjdaIi8+Cjwvc3ZnPg==&quot;);-webkit-mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01Ni4xLDE4MC4yaDk3LjhjMTcuMiwwLDI2LjQtOS4xLDI2LjQtMjYuMVY1NS45YzAtMTcuMS05LjEtMjYuMi0yNi40LTI2LjJINTYuMWMtMTcuMiwwLTI2LjMsOS4xLTI2LjMsMjYuMnY5OC4yYzAsMTcuMSw5LjEsMjYuMSwyNi4zLDI2LjFaTTU3LjQsMTY0LjRjLTcuNywwLTExLjgtMy45LTExLjgtMTEuOVY1Ny41YzAtNy45LDQuMS0xMS45LDExLjgtMTEuOWg5NS4zYzcuNiwwLDExLjgsNCwxMS44LDExLjl2OTUuMWMwLDgtNC4yLDExLjktMTEuOCwxMS45SDU3LjRaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTYxLjUsNjcuNHYxOWMwLDUuMSwzLDguMSw4LjEsOC4xaDE5LjFjNS4xLDAsOC4xLTMsOC4xLTguMXYtMTljMC01LjItMy04LjItOC4xLTguMmgtMTkuMWMtNS4xLDAtOC4xLDMtOC4xLDguMloiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjYuMSwxMjEuNGg3Ni44YzIuOCwwLDQuOC0yLjIsNC44LTQuOXMtMi4xLTQuNy00LjgtNC43aC03Ni44Yy0yLjgsMC00LjksMi4xLTQuOSw0LjdzMi4xLDQuOSw0LjksNC45WiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik02Ni4xLDE0Ny4zaDU2LjdjMi44LDAsNC44LTIuMSw0LjgtNC43cy0yLjEtNC45LTQuOC00LjloLTU2LjdjLTIuOCwwLTQuOSwyLjEtNC45LDQuOXMyLjEsNC43LDQuOSw0LjdaIi8+Cjwvc3ZnPg==&quot;);mask-size:contain;-webkit-mask-size:contain;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat"></div>
         </div>
-        <div style="font-size:20px;font-weight:700;color:var(--b-text);margin-bottom:8px;letter-spacing:-0.01em">Context always attached</div>
-        <div style="font-size:15px;color:var(--b-text-2);line-height:1.55">Properties with distrito and UBIGEO, portal IDs, notes, calls, visits — all attached to the contact, all on your device.</div>
+        <h3>Context always attached</h3>
+        <p>Properties with distrito and UBIGEO, portal IDs, notes, calls, visits — all attached to the contact, all on your device.</p>
       </div>
     </div>
   </section>
-  <section class="product-feature">
-    <div class="product-feature-grid">
-      <div class="reveal" style="direction:ltr">
+  <section class="bricks-feature-section bricks-feature-shell">
+    <div class="product-story product-story-equal-columns">
+      <div class="reveal">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
           <div style="width:20px;height:20px;background-color:#FF9500;mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS40LDcxLjZjMCw0LjIsMy40LDcuNiw3LjcsNy42czcuNi0zLjQsNy42LTcuNnYtMTUuM2MwLTkuNyw1LjYtMTUuNCwxNS40LTE1LjRoMTUuN2M0LjIsMCw3LjYtMy40LDcuNi03LjZzLTMuNC03LjctNy42LTcuN2gtMTUuN2MtMTksMC0zMC43LDExLjgtMzAuNywzMC43djE1LjNaTTE4NC42LDcxLjZ2LTE1LjNjMC0xOC45LTExLjctMzAuNy0zMC43LTMwLjdoLTE1LjZjLTQuMiwwLTcuNiwzLjQtNy42LDcuN3MzLjQsNy42LDcuNiw3LjZoMTUuNmM5LjgsMCwxNS40LDUuNywxNS40LDE1LjR2MTUuM2MwLDQuMiwzLjQsNy42LDcuNiw3LjZzNy43LTMuNCw3LjctNy42Wk0yNS40LDEzOC42djE1LjNjMCwxOC45LDExLjcsMzAuNywzMC43LDMwLjdoMTUuN2M0LjIsMCw3LjYtMy40LDcuNi03LjdzLTMuNC03LjYtNy42LTcuNmgtMTUuN2MtOS44LDAtMTUuNC01LjctMTUuNC0xNS40di0xNS4zYzAtNC4yLTMuNS03LjYtNy42LTcuNnMtNy43LDMuNC03LjcsNy42Wk0xODQuNiwxMzguNmMwLTQuMi0zLjQtNy42LTcuNy03LjZzLTcuNiwzLjQtNy42LDcuNnYxNS4zYzAsOS43LTUuNywxNS40LTE1LjQsMTUuNGgtMTUuNmMtNC4yLDAtNy42LDMuNC03LjYsNy42czMuNCw3LjcsNy42LDcuN2gxNS42YzE5LDAsMzAuNy0xMS44LDMwLjctMzAuN3YtMTUuM1oiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjMuNCw3NC45YzAsMywyLjUsNS41LDUuNSw1LjVoNzIuM2MzLDAsNS40LTIuNSw1LjQtNS41cy0yLjQtNS40LTUuNC01LjRoLTcyLjNjLTMsMC01LjUsMi40LTUuNSw1LjRaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTYzLjQsMTA0LjhjMCwzLDIuNSw1LjUsNS41LDUuNWg3Mi4zYzMsMCw1LjQtMi40LDUuNC01LjVzLTIuNC01LjQtNS40LTUuNGgtNzIuM2MtMywwLTUuNSwyLjQtNS41LDUuNFoiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjMuNCwxMzQuOGMwLDMsMi41LDUuNCw1LjUsNS40aDQ3LjZjMywwLDUuNS0yLjQsNS41LTUuNHMtMi41LTUuNS01LjUtNS41aC00Ny42Yy0zLDAtNS41LDIuNS01LjUsNS41WiIvPgo8L3N2Zz4=&quot;);-webkit-mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0yNS40LDcxLjZjMCw0LjIsMy40LDcuNiw3LjcsNy42czcuNi0zLjQsNy42LTcuNnYtMTUuM2MwLTkuNyw1LjYtMTUuNCwxNS40LTE1LjRoMTUuN2M0LjIsMCw3LjYtMy40LDcuNi03LjZzLTMuNC03LjctNy42LTcuN2gtMTUuN2MtMTksMC0zMC43LDExLjgtMzAuNywzMC43djE1LjNaTTE4NC42LDcxLjZ2LTE1LjNjMC0xOC45LTExLjctMzAuNy0zMC43LTMwLjdoLTE1LjZjLTQuMiwwLTcuNiwzLjQtNy42LDcuN3MzLjQsNy42LDcuNiw3LjZoMTUuNmM5LjgsMCwxNS40LDUuNywxNS40LDE1LjR2MTUuM2MwLDQuMiwzLjQsNy42LDcuNiw3LjZzNy43LTMuNCw3LjctNy42Wk0yNS40LDEzOC42djE1LjNjMCwxOC45LDExLjcsMzAuNywzMC43LDMwLjdoMTUuN2M0LjIsMCw3LjYtMy40LDcuNi03LjdzLTMuNC03LjYtNy42LTcuNmgtMTUuN2MtOS44LDAtMTUuNC01LjctMTUuNC0xNS40di0xNS4zYzAtNC4yLTMuNS03LjYtNy42LTcuNnMtNy43LDMuNC03LjcsNy42Wk0xODQuNiwxMzguNmMwLTQuMi0zLjQtNy42LTcuNy03LjZzLTcuNiwzLjQtNy42LDcuNnYxNS4zYzAsOS43LTUuNywxNS40LTE1LjQsMTUuNGgtMTUuNmMtNC4yLDAtNy42LDMuNC03LjYsNy42czMuNCw3LjcsNy42LDcuN2gxNS42YzE5LDAsMzAuNy0xMS44LDMwLjctMzAuN3YtMTUuM1oiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjMuNCw3NC45YzAsMywyLjUsNS41LDUuNSw1LjVoNzIuM2MzLDAsNS40LTIuNSw1LjQtNS41cy0yLjQtNS40LTUuNC01LjRoLTcyLjNjLTMsMC01LjUsMi40LTUuNSw1LjRaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTYzLjQsMTA0LjhjMCwzLDIuNSw1LjUsNS41LDUuNWg3Mi4zYzMsMCw1LjQtMi40LDUuNC01LjVzLTIuNC01LjQtNS40LTUuNGgtNzIuM2MtMywwLTUuNSwyLjQtNS41LDUuNFoiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjMuNCwxMzQuOGMwLDMsMi41LDUuNCw1LjUsNS40aDQ3LjZjMywwLDUuNS0yLjQsNS41LTUuNHMtMi41LTUuNS01LjUtNS41aC00Ny42Yy0zLDAtNS41LDIuNS01LjUsNS41WiIvPgo8L3N2Zz4=&quot;);mask-size:contain;-webkit-mask-size:contain;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat"></div>
           <div style="font-size:12px;font-weight:700;color:var(--product-accent-text);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0">Capture</div>
@@ -248,7 +250,7 @@
           </div>
         </div>
       </div>
-      <div class="reveal reveal-d1" style="direction:ltr">
+      <div class="reveal reveal-d1">
         <div class="product-phone">
           <div aria-hidden="true" style="position:absolute;inset:10% 15%;background:radial-gradient(ellipse at 50% 55%, #FF950022 0%, #FF950010 35%, transparent 70%);filter:blur(40px);pointer-events:none"></div>
           <img src="images-bricks-leads/screenshot-capture-section-en-light.png" alt="Add a lead the moment it happens." class="product-phone-frame" style="height:auto;display:block">
@@ -256,9 +258,9 @@
       </div>
     </div>
   </section>
-  <section class="product-feature">
-    <div class="product-feature-grid-reversed">
-      <div class="reveal" style="direction:ltr">
+  <section class="bricks-feature-section bricks-feature-shell">
+    <div class="product-story product-story-equal-columns product-story-reverse">
+      <div class="reveal">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
           <div style="width:20px;height:20px;background-color:#FF9500;mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xOTcuNiw4OC44aC0zOC4yYy01LjYsMC03LjEsNC40LTQsOC43bDE4LjgsMjZjMi40LDMuNCw2LjIsMy40LDguNiwwbDE4LjgtMjUuOWMzLjItNC4zLDEuNy04LjgtNC4xLTguOFpNMTA1LDE4OC4yYzQuNCwwLDguMS0zLjcsOC4xLTguMXMtMy43LTguMS04LjEtOC4xYy0zNywwLTY2LjktMjkuOS02Ni45LTY2LjlzMjkuOS02Nyw2Ni45LTY3LDY3LDMwLDY3LDY3LDMuNyw4LjEsOC4yLDguMSw4LTMuNiw4LjEtOC4xYzAtNDYuMS0zNy4zLTgzLjMtODMuMi04My4zUzIxLjgsNTksMjEuOCwxMDVzMzcuMyw4My4yLDgzLjIsODMuMlpNMTMxLjgsMTgyLjdjNC4xLDAsNy41LTMuNCw3LjUtNy42cy0zLjQtNy42LTcuNS03LjYtNy42LDMuNC03LjYsNy42LDMuNCw3LjYsNy42LDcuNlpNMTU0LjIsMTcwLjJjNC4yLDAsNy42LTMuNCw3LjYtNy42cy0zLjQtNy42LTcuNi03LjYtNy42LDMuNC03LjYsNy42LDMuNCw3LjYsNy42LDcuNlpNMTcwLjgsMTUxYzQuMiwwLDcuNi0zLjQsNy42LTcuNXMtMy40LTcuNi03LjYtNy42LTcuNiwzLjQtNy42LDcuNiwzLjQsNy41LDcuNiw3LjVaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTY0LjEsMTE1LjJoNDAuOGMzLjUsMCw2LjMtMi43LDYuMy02LjN2LTUzLjFjMC0zLjUtMi43LTYuMi02LjMtNi4ycy02LjIsMi43LTYuMiw2LjJ2NDYuOGgtMzQuNmMtMy41LDAtNi4zLDIuOC02LjMsNi4yczIuNyw2LjMsNi4zLDYuM1oiLz4KPC9zdmc+&quot;);-webkit-mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xOTcuNiw4OC44aC0zOC4yYy01LjYsMC03LjEsNC40LTQsOC43bDE4LjgsMjZjMi40LDMuNCw2LjIsMy40LDguNiwwbDE4LjgtMjUuOWMzLjItNC4zLDEuNy04LjgtNC4xLTguOFpNMTA1LDE4OC4yYzQuNCwwLDguMS0zLjcsOC4xLTguMXMtMy43LTguMS04LjEtOC4xYy0zNywwLTY2LjktMjkuOS02Ni45LTY2LjlzMjkuOS02Nyw2Ni45LTY3LDY3LDMwLDY3LDY3LDMuNyw4LjEsOC4yLDguMSw4LTMuNiw4LjEtOC4xYzAtNDYuMS0zNy4zLTgzLjMtODMuMi04My4zUzIxLjgsNTksMjEuOCwxMDVzMzcuMyw4My4yLDgzLjIsODMuMlpNMTMxLjgsMTgyLjdjNC4xLDAsNy41LTMuNCw3LjUtNy42cy0zLjQtNy42LTcuNS03LjYtNy42LDMuNC03LjYsNy42LDMuNCw3LjYsNy42LDcuNlpNMTU0LjIsMTcwLjJjNC4yLDAsNy42LTMuNCw3LjYtNy42cy0zLjQtNy42LTcuNi03LjYtNy42LDMuNC03LjYsNy42LDMuNCw3LjYsNy42LDcuNlpNMTcwLjgsMTUxYzQuMiwwLDcuNi0zLjQsNy42LTcuNXMtMy40LTcuNi03LjYtNy42LTcuNiwzLjQtNy42LDcuNiwzLjQsNy41LDcuNiw3LjVaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTY0LjEsMTE1LjJoNDAuOGMzLjUsMCw2LjMtMi43LDYuMy02LjN2LTUzLjFjMC0zLjUtMi43LTYuMi02LjMtNi4ycy02LjIsMi43LTYuMiw2LjJ2NDYuOGgtMzQuNmMtMy41LDAtNi4zLDIuOC02LjMsNi4yczIuNyw2LjMsNi4zLDYuM1oiLz4KPC9zdmc+&quot;);mask-size:contain;-webkit-mask-size:contain;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat"></div>
           <div style="font-size:12px;font-weight:700;color:var(--product-accent-text);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0">Follow up</div>
@@ -289,7 +291,7 @@
           </div>
         </div>
       </div>
-      <div class="reveal reveal-d1" style="direction:ltr">
+      <div class="reveal reveal-d1">
         <div class="product-phone">
           <div aria-hidden="true" style="position:absolute;inset:10% 15%;background:radial-gradient(ellipse at 50% 55%, #FF950022 0%, #FF950010 35%, transparent 70%);filter:blur(40px);pointer-events:none"></div>
           <img src="images-bricks-leads/screenshot-followup-section-en-light.png" alt="Today’s list, and nothing more." class="product-phone-frame" style="height:auto;display:block">
@@ -297,9 +299,9 @@
       </div>
     </div>
   </section>
-  <section class="product-feature">
-    <div class="product-feature-grid">
-      <div class="reveal" style="direction:ltr">
+  <section class="bricks-feature-section bricks-feature-shell">
+    <div class="product-story product-story-equal-columns">
+      <div class="reveal">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
           <div style="width:20px;height:20px;background-color:#FF9500;mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01Ni4xLDE4MC4yaDk3LjhjMTcuMiwwLDI2LjQtOS4xLDI2LjQtMjYuMVY1NS45YzAtMTcuMS05LjEtMjYuMi0yNi40LTI2LjJINTYuMWMtMTcuMiwwLTI2LjMsOS4xLTI2LjMsMjYuMnY5OC4yYzAsMTcuMSw5LjEsMjYuMSwyNi4zLDI2LjFaTTU3LjQsMTY0LjRjLTcuNywwLTExLjgtMy45LTExLjgtMTEuOVY1Ny41YzAtNy45LDQuMS0xMS45LDExLjgtMTEuOWg5NS4zYzcuNiwwLDExLjgsNCwxMS44LDExLjl2OTUuMWMwLDgtNC4yLDExLjktMTEuOCwxMS45SDU3LjRaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTYxLjUsNjcuNHYxOWMwLDUuMSwzLDguMSw4LjEsOC4xaDE5LjFjNS4xLDAsOC4xLTMsOC4xLTguMXYtMTljMC01LjItMy04LjItOC4xLTguMmgtMTkuMWMtNS4xLDAtOC4xLDMtOC4xLDguMloiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjYuMSwxMjEuNGg3Ni44YzIuOCwwLDQuOC0yLjIsNC44LTQuOXMtMi4xLTQuNy00LjgtNC43aC03Ni44Yy0yLjgsMC00LjksMi4xLTQuOSw0LjdzMi4xLDQuOSw0LjksNC45WiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik02Ni4xLDE0Ny4zaDU2LjdjMi44LDAsNC44LTIuMSw0LjgtNC43cy0yLjEtNC45LTQuOC00LjloLTU2LjdjLTIuOCwwLTQuOSwyLjEtNC45LDQuOXMyLjEsNC43LDQuOSw0LjdaIi8+Cjwvc3ZnPg==&quot;);-webkit-mask-image:url(&quot;data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyMTAgMjEwIj4KICA8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMzAuMy4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogMi4xLjMgQnVpbGQgMTgyKSAgLS0+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5zdDAgewogICAgICAgIGZpbGwtb3BhY2l0eTogLjk7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik01Ni4xLDE4MC4yaDk3LjhjMTcuMiwwLDI2LjQtOS4xLDI2LjQtMjYuMVY1NS45YzAtMTcuMS05LjEtMjYuMi0yNi40LTI2LjJINTYuMWMtMTcuMiwwLTI2LjMsOS4xLTI2LjMsMjYuMnY5OC4yYzAsMTcuMSw5LjEsMjYuMSwyNi4zLDI2LjFaTTU3LjQsMTY0LjRjLTcuNywwLTExLjgtMy45LTExLjgtMTEuOVY1Ny41YzAtNy45LDQuMS0xMS45LDExLjgtMTEuOWg5NS4zYzcuNiwwLDExLjgsNCwxMS44LDExLjl2OTUuMWMwLDgtNC4yLDExLjktMTEuOCwxMS45SDU3LjRaIi8+CiAgPHBhdGggY2xhc3M9InN0MCIgZD0iTTYxLjUsNjcuNHYxOWMwLDUuMSwzLDguMSw4LjEsOC4xaDE5LjFjNS4xLDAsOC4xLTMsOC4xLTguMXYtMTljMC01LjItMy04LjItOC4xLTguMmgtMTkuMWMtNS4xLDAtOC4xLDMtOC4xLDguMloiLz4KICA8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNjYuMSwxMjEuNGg3Ni44YzIuOCwwLDQuOC0yLjIsNC44LTQuOXMtMi4xLTQuNy00LjgtNC43aC03Ni44Yy0yLjgsMC00LjksMi4xLTQuOSw0LjdzMi4xLDQuOSw0LjksNC45WiIvPgogIDxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik02Ni4xLDE0Ny4zaDU2LjdjMi44LDAsNC44LTIuMSw0LjgtNC43cy0yLjEtNC45LTQuOC00LjloLTU2LjdjLTIuOCwwLTQuOSwyLjEtNC45LDQuOXMyLjEsNC43LDQuOSw0LjdaIi8+Cjwvc3ZnPg==&quot;);mask-size:contain;-webkit-mask-size:contain;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat"></div>
           <div style="font-size:12px;font-weight:700;color:var(--product-accent-text);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0">Context</div>
@@ -330,7 +332,7 @@
           </div>
         </div>
       </div>
-      <div class="reveal reveal-d1" style="direction:ltr">
+      <div class="reveal reveal-d1">
         <div class="product-phone">
           <div aria-hidden="true" style="position:absolute;inset:10% 15%;background:radial-gradient(ellipse at 50% 55%, #FF950022 0%, #FF950010 35%, transparent 70%);filter:blur(40px);pointer-events:none"></div>
           <img src="images-bricks-leads/hero-video-img-en.png" alt="Everything attached, nothing lost." class="product-phone-frame" style="height:auto;display:block">
@@ -371,47 +373,47 @@
       </div>
     </div>
   </section>
-  <section class="product-section" style="max-width:960px">
-    <div class="reveal product-intro">
-      <div style="font-size:12px;font-weight:700;color:var(--product-accent-text);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px">FAQ</div>
-      <h2 class="product-title" style="margin:0">Questions about the beta.</h2>
+  <section class="bricks-faq" id="faq" aria-labelledby="faq-title">
+    <div class="bricks-faq-heading reveal">
+      <p class="bricks-faq-eyebrow">FAQ</p>
+      <h2 id="faq-title">Questions about the beta.</h2>
     </div>
-    <div style="background:var(--b-bg-elevated);border-radius:32px;box-shadow:var(--emboss-soft);border:1px solid var(--b-border);overflow:hidden" class="reveal reveal-d1 product-faq">
+    <div class="bricks-faq-list reveal reveal-d1">
       <details name="leads-faq-en" open="">
-        <summary class="product-faq-summary"><span>Is Bricks Leads only for Apple devices?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">Yes. Bricks Leads runs natively on iPhone, iPad, and Mac. The on-device AI features require an Apple Intelligence-capable device.</div>
+        <summary>Is Bricks Leads only for Apple devices?</summary>
+        <div class="bricks-faq-answer"><div><p>Yes. Bricks Leads runs natively on iPhone, iPad, and Mac. The on-device AI features require an Apple Intelligence-capable device.</p></div></div>
       </details>
-      <details name="leads-faq-en" style="border-top:1px solid var(--b-border)">
-        <summary class="product-faq-summary"><span>Where is my data stored?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">On your device. Leads is local-first — nothing leaves your iPhone. A future update will add optional iCloud sync across your own Apple devices. No server backend, no team syncing.</div>
+      <details name="leads-faq-en">
+        <summary>Where is my data stored?</summary>
+        <div class="bricks-faq-answer"><div><p>On your device. Leads is local-first — nothing leaves your iPhone. A future update will add optional iCloud sync across your own Apple devices. No server backend, no team syncing.</p></div></div>
       </details>
-      <details name="leads-faq-en" style="border-top:1px solid var(--b-border)">
-        <summary class="product-faq-summary"><span>Does it work in Spanish and for Peru?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">Yes. Leads supports Spanish, Peru addresses (distrito, UBIGEO), portal templates for Adondevivir, Urbania, and Properati, and Peru financial tools including alcabala, UIT, and mortgage and commission calculators.</div>
+      <details name="leads-faq-en">
+        <summary>Does it work in Spanish and for Peru?</summary>
+        <div class="bricks-faq-answer"><div><p>Yes. Leads supports Spanish, Peru addresses (distrito, UBIGEO), portal templates for Adondevivir, Urbania, and Properati, and Peru financial tools including alcabala, UIT, and mortgage and commission calculators.</p></div></div>
       </details>
-      <details name="leads-faq-en" style="border-top:1px solid var(--b-border)">
-        <summary class="product-faq-summary"><span>Does the AI send messages for me?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">No. Apple Intelligence drafts suggested messages on your device. You review and edit every one, then send through iMessage, WhatsApp, or Mail yourself. Nothing goes out automatically.</div>
+      <details name="leads-faq-en">
+        <summary>Does the AI send messages for me?</summary>
+        <div class="bricks-faq-answer"><div><p>No. Apple Intelligence drafts suggested messages on your device. You review and edit every one, then send through iMessage, WhatsApp, or Mail yourself. Nothing goes out automatically.</p></div></div>
       </details>
-      <details name="leads-faq-en" style="border-top:1px solid var(--b-border)">
-        <summary class="product-faq-summary"><span>When does it launch publicly?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">We’re aiming for Q3 2026. The beta runs until then.</div>
+      <details name="leads-faq-en">
+        <summary>When does it launch publicly?</summary>
+        <div class="bricks-faq-answer"><div><p>We’re aiming for Q3 2026. The beta runs until then.</p></div></div>
       </details>
-      <details name="leads-faq-en" style="border-top:1px solid var(--b-border)">
-        <summary class="product-faq-summary"><span>Does beta access expire?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">No. Your beta access stays active until the public launch. You won’t get kicked out mid-deal.</div>
+      <details name="leads-faq-en">
+        <summary>Does beta access expire?</summary>
+        <div class="bricks-faq-answer"><div><p>No. Your beta access stays active until the public launch. You won’t get kicked out mid-deal.</p></div></div>
       </details>
-      <details name="leads-faq-en" style="border-top:1px solid var(--b-border)">
-        <summary class="product-faq-summary"><span>Will my data carry over at launch?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">Yes. Every lead, property, and follow-up you add in the beta transfers to the launch version. Nothing resets.</div>
+      <details name="leads-faq-en">
+        <summary>Will my data carry over at launch?</summary>
+        <div class="bricks-faq-answer"><div><p>Yes. Every lead, property, and follow-up you add in the beta transfers to the launch version. Nothing resets.</p></div></div>
       </details>
-      <details name="leads-faq-en" style="border-top:1px solid var(--b-border)">
-        <summary class="product-faq-summary"><span>How much does it cost?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">Free during the beta. And every beta tester gets a free 2-year subscription after launch — our thank-you for helping shape it.</div>
+      <details name="leads-faq-en">
+        <summary>How much does it cost?</summary>
+        <div class="bricks-faq-answer"><div><p>Free during the beta. And every beta tester gets a free 2-year subscription after launch — our thank-you for helping shape it.</p></div></div>
       </details>
-      <details name="leads-faq-en" style="border-top:1px solid var(--b-border)">
-        <summary class="product-faq-summary"><span>Who should join the beta?</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></summary>
-        <div class="product-faq-answer">Solo realtors in Peru who use Apple devices and want a CRM that stays out of the way. If that sounds like you, request access below.</div>
+      <details name="leads-faq-en">
+        <summary>Who should join the beta?</summary>
+        <div class="bricks-faq-answer"><div><p>Solo realtors in Peru who use Apple devices and want a CRM that stays out of the way. If that sounds like you, request access below.</p></div></div>
       </details>
     </div>
   </section>
@@ -435,7 +437,7 @@
       </div>
       <section class="bricks-footer-group">
       <h2>Bricks Calc</h2>
-      <ul><li><a href="calc/index.html">Overview</a></li><li><a href="homebuyers.html">First-Time Buyers</a></li><li><a href="refinance.html">Refinancing</a></li><li><a href="calc/guides/index.html">Mortgage Guides</a></li></ul>
+      <ul><li><a href="calc/index.html">Mortgage Calculator</a></li><li><a href="homebuyers.html">First-Time Buyers</a></li><li><a href="refinance.html">Refinancing</a></li><li><a href="calc/guides/index.html">Mortgage Guides</a></li></ul>
     </section>
       <section class="bricks-footer-group">
       <h2>Apps</h2>

@@ -652,10 +652,8 @@ body {
 }
 
 .living-whatsapp-intro {
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.62fr);
-  gap: clamp(22px, 4vw, 54px);
-  align-items: end;
+  --story-copy-column: minmax(0, .95fr);
+  --story-media-column: minmax(320px, .62fr);
 }
 
 .living-whatsapp-copy {
@@ -680,35 +678,15 @@ body {
   gap: 14px;
 }
 
-.feature-item {
-  display: grid;
-  gap: 7px;
-  padding: 0 0 14px;
-  border-bottom: 1px solid var(--living-border);
-  background: transparent;
-}
-
-.feature-item:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-
-.feature-item strong {
-  display: inline-flex;
+.living-whatsapp-features h3 {
+  display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
-  color: var(--living-text);
 }
 
-.feature-item strong .living-icon {
+.living-whatsapp-features h3 .living-icon {
+  flex: none;
   color: var(--living-accent);
-}
-
-.feature-item span {
-  font-size: 15px;
-  color: var(--living-text-muted);
-  line-height: 1.55;
 }
 
 .living-whatsapp-gallery {
@@ -903,7 +881,6 @@ body {
   .living-timeline,
   .living-workflow-panel,
   .living-role-panel,
-  .living-whatsapp-intro,
   .living-role-grid,
   .living-report-hero,
   .living-report-grid,

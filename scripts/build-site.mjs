@@ -124,7 +124,8 @@ try {
     const languages = page.bilingual ? ["en", "es"] : [undefined];
     return Promise.all(languages.map(async language => {
       const route = localePath(path, language);
-      const html = await renderContent(source, { rootDirectory, route, entry: page.entry, language });
+      const entry = language === "es" ? page.spanishEntry ?? page.entry : page.entry;
+      const html = await renderContent(source, { rootDirectory, route, entry, language });
       return [route, renderPage(path, html, { language })];
     }));
   }))).flat();

@@ -15,7 +15,7 @@ export function createContentLayouts({ bricks, calc }) {
   const faq = [localized("FAQ", "Preguntas"), "#faq"];
   const calcPage = (entry, { language = "en", bilingual = false } = {}) => ({
     entry, brand: calc, home: "#top", language, bilingual,
-    styles: ["calc-content"], scripts: ["calc"],
+    styles: ["calc-content", "features", "faq"], scripts: ["calc"],
     spanishTitle: "Planificación hipotecaria | Bricks Calc",
     links: [...calcLinks, faq],
     action: [localized("Download", "Descargar"), calcStore + "?ct=bricks_web_calc_header_cta&mt=8"],
@@ -28,7 +28,7 @@ export function createContentLayouts({ bricks, calc }) {
   return {
     "index.html": calcPage("index", { bilingual: true }),
     "calc/index.html": calcPage("calc-index", { bilingual: true }),
-    "calc.html": calcPage("calc", { bilingual: true }),
+    "calc.html": { ...calcPage("calc-index", { bilingual: true }), spanishEntry: "calc" },
     "homebuyers.html": calcPage("homebuyers"),
     "refinance.html": calcPage("refinance"),
     "refinanciamiento.html": calcPage("calculadora-hipotecaria", { language: "es" }),
@@ -42,7 +42,7 @@ export function createContentLayouts({ bricks, calc }) {
     "thank-you-feedback.html": infoPage("thank-you-feedback", "Gracias | Bricks Apps"),
     "scan.html": {
       entry: "scan", brand: scanBrand, bilingual: true, spanishTitle: "Bricks Scan | Escáner de documentos",
-      styles: ["products"],
+      styles: ["products", "features", "faq"],
       links: [
         ["Bricks Calc", calcStore + "?ct=bricks_web_scan_header_menu_calc&mt=8"],
         ["Bricks Scan", scanStore + "?ct=bricks_web_scan_header_menu_scan&mt=8"],
@@ -52,7 +52,7 @@ export function createContentLayouts({ bricks, calc }) {
       },
     "leads.html": {
       entry: "leads", brand: leadsBrand, bilingual: true, spanishTitle: "Bricks Leads | CRM para bienes raíces",
-      styles: ["products"],
+      styles: ["products", "features", "faq"],
       links: [
         ["Bricks Calc", calcStore + "?ct=bricks_web_leads_header_menu_calc&mt=8"],
         ["Bricks Scan", scanStore + "?ct=bricks_web_leads_header_menu_scan&mt=8"],
@@ -61,7 +61,7 @@ export function createContentLayouts({ bricks, calc }) {
       action: [localized("Join the beta", "Únete al beta"), leadsSignup],
       },
     "living.html": {
-      entry: "living", language: "es",
+      entry: "living", language: "es", styles: ["features"],
       brand: { name: "Bricks Living", home: "/living.html", ctaIcon: "/images-bricks-living/bricks-living-logo.svg" },
       links: [["Flujo", "#landing/workflow"], ["WhatsApp", "#landing/whatsapp"], ["Roles", "#landing/roles"], ["Reportes", "#landing/reportes"]],
       action: ["Contactar", "mailto:hello@bricks.pe"],

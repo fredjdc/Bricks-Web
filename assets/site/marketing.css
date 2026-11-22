@@ -59,19 +59,11 @@ h3 { font-size: 1.8rem; font-weight: 680; }
 .section-heading h2, h2.section-heading { margin-bottom: 16px; }
 .section-heading p { max-width: 52ch; color: var(--text-secondary); font-size: 1.08rem; }
 
-.product-story { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: center; }
 .story-copy { max-width: 590px; }
 .story-copy p { color: var(--text-secondary); font-size: 1.08rem; }
 .story-copy ul { display: grid; gap: 12px; margin: 24px 0 0; padding: 0; list-style: none; }
 .story-copy li { position: relative; padding-left: 20px; color: var(--text-secondary); }
 .story-copy li::before { content: ""; position: absolute; top: 0.68em; left: 0; width: 8px; height: 1px; background: currentColor; }
-
-.faq-list { max-width: 880px; }
-.faq > .section-heading { max-width: none; }
-.faq details { border-bottom: 1px solid var(--border); }
-.faq summary { padding: 24px 44px 24px 0; font-size: 1.12rem; font-weight: 650; cursor: pointer; }
-.faq summary::marker { color: var(--text-secondary); }
-.faq details p { padding: 0 0 24px; color: var(--text-secondary); }
 
 @media (min-width: 560px) {
   .shell { width: min(calc(100% - 48px), var(--shell)); }
@@ -81,12 +73,6 @@ h3 { font-size: 1.8rem; font-weight: 680; }
   .section { padding-block: 124px; }
   .hero-copy { width: 100%; max-width: none; }
   .hero h1 { width: 100%; max-width: none; white-space: nowrap; font-size: clamp(3.6rem, 6.6vw, 5.8rem); }
-  .product-story { grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr); gap: 72px; }
-  .product-story-reverse { grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr); }
-  .product-story-reverse .story-copy { order: 2; }
-  .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 72px; align-items: start; }
-  .faq > .section-heading { margin-bottom: 0; }
-  .faq-list { max-width: none; }
 }
 
 @media (max-width: 560px) {

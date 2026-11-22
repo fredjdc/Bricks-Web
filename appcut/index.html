@@ -48,6 +48,8 @@
   <link rel="stylesheet" href="../assets/site/layout.css">
   <link rel="stylesheet" href="../shared-download-cta.css">
   <script src="../assets/site/preferences.js" defer=""></script>
+  <link rel="stylesheet" href="../assets/site/features.css">
+  <link rel="stylesheet" href="../assets/site/faq.css">
 </head>
 <body class="apes-landing launch-polish">
   <a class="bricks-skip-link" href="#main">Skip to content</a>
@@ -191,44 +193,44 @@
       </div>
     </section>
 
-    <section class="feature-bento" aria-labelledby="feature-bento-title">
+    <section class="bricks-feature-section bricks-feature-shell" aria-labelledby="feature-bento-title">
       <div class="feature-bento-heading section-heading reveal">
         <p class="feature-bento-eyebrow">From edit to upload</p>
         <h2 id="feature-bento-title">Made for your App Store workflow.</h2>
         <p class="feature-bento-subtitle">Bring your footage, editing, and delivery into one Mac app.</p>
       </div>
       <div class="feature-bento-grid">
-        <article class="feature-bento-card feature-bento-wide reveal">
+        <article class="feature-bento-card bricks-feature-card feature-bento-wide reveal">
           <img class="feature-bento-icon" src="assets/icons/bento-02.svg" width="44" height="44" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <h3>Timeline editing</h3>
           <p>Arrange recordings, screenshots, text, and audio. Trim clips and use Auto Cut to review pauses before removing them.</p>
         </article>
-        <article class="feature-bento-card reveal">
+        <article class="feature-bento-card bricks-feature-card reveal">
           <img class="feature-bento-icon" src="assets/icons/bento-01.svg" width="44" height="44" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <h3>A focused Mac editor</h3>
           <p>Edit in a native Mac app built around creating videos for the App Store.</p>
         </article>
-        <article class="feature-bento-card reveal">
+        <article class="feature-bento-card bricks-feature-card reveal">
           <img class="feature-bento-icon" src="assets/icons/bento-05.svg" width="44" height="44" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <h3>Device and language timelines</h3>
           <p>Keep separate timelines for different devices and languages in one project.</p>
         </article>
-        <article class="feature-bento-card feature-bento-wide reveal">
+        <article class="feature-bento-card bricks-feature-card feature-bento-wide reveal">
           <img class="feature-bento-icon" src="assets/icons/bento-07.svg" width="44" height="44" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <h3>App Store Connect uploads</h3>
           <p>With Pro, upload supported videos directly to App Store Connect or send them to its Asset Library for later assignment.</p>
         </article>
-        <article class="feature-bento-card reveal">
+        <article class="feature-bento-card bricks-feature-card reveal">
           <img class="feature-bento-icon" src="assets/icons/bento-04.svg" width="44" height="44" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <h3>Templates</h3>
           <p>Choose a template, add your media, and adjust it to fit your app.</p>
         </article>
-        <article class="feature-bento-card reveal">
+        <article class="feature-bento-card bricks-feature-card reveal">
           <img class="feature-bento-icon" src="assets/icons/bento-03.svg" width="44" height="44" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <h3>Motion</h3>
           <p>Use animated text, entrances, and focused zooms to draw attention to what matters.</p>
         </article>
-        <article class="feature-bento-card reveal">
+        <article class="feature-bento-card bricks-feature-card reveal">
           <img class="feature-bento-icon" src="assets/icons/bento-06.svg" width="44" height="44" alt="" aria-hidden="true" loading="lazy" decoding="async">
           <h3>App Store preview</h3>
           <p>Review your video in an App Store-style layout before you export.</p>
@@ -468,16 +470,16 @@
       </script>
     </section>
 
-    <section class="faq section shell" id="faq" aria-labelledby="faq-title">
-      <h2 id="faq-title" class="section-heading reveal">Before you get started.</h2>
-      <div class="faq-list reveal">
-        <details name="faq"><summary>Do I need an account?</summary><div class="faq-answer"><div><p>No app account is required to create and edit projects. Direct uploads require your App Store Connect API credentials and Pro.</p></div></div></details>
-        <details name="faq"><summary>Which devices can I create videos for?</summary><div class="faq-answer"><div><p>AppCut runs on Mac. Create videos for iPhone, iPhone Duo, iPad, Mac, and Apple Vision Pro, with separate device and language timelines in one project.</p></div></div></details>
-        <details name="faq"><summary>What does the app check before export?</summary><div class="faq-answer"><div><p>It checks video duration and format. Review the results and make any needed changes before exporting.</p></div></div></details>
-        <details name="faq"><summary>Can I export files to my Mac?</summary><div class="faq-answer"><div><p>Yes. Export videos as MP4 (H.264) or individual frames as PNG images. Pro also includes ProRes 422 HQ MOV exports and watermark-free exports.</p></div></div></details>
-        <details name="faq"><summary>What do I need to upload directly?</summary><div class="faq-answer"><div><p>You need Pro and App Store Connect API credentials. Connect your account in the app to upload supported videos from the editor.</p></div></div></details>
-        <details name="faq"><summary>Where are my projects and credentials stored?</summary><div class="faq-answer"><div><p>Projects are saved as files on your Mac. Your App Store Connect API credentials are stored in macOS Keychain.</p></div></div></details>
-        <details name="faq"><summary>How do I make my first video?</summary><div class="faq-answer"><div><p>Follow the in-app onboarding or the <a href="guides/getting-started/index.html">getting-started guide</a> for a walkthrough from importing your media to exporting your video.</p></div></div></details>
+    <section class="bricks-faq" id="faq" aria-labelledby="faq-title">
+      <div class="bricks-faq-heading reveal"><h2 id="faq-title">Before you get started.</h2></div>
+      <div class="bricks-faq-list reveal">
+        <details name="faq"><summary>Do I need an account?</summary><div class="bricks-faq-answer"><div><p>No app account is required to create and edit projects. Direct uploads require your App Store Connect API credentials and Pro.</p></div></div></details>
+        <details name="faq"><summary>Which devices can I create videos for?</summary><div class="bricks-faq-answer"><div><p>AppCut runs on Mac. Create videos for iPhone, iPhone Duo, iPad, Mac, and Apple Vision Pro, with separate device and language timelines in one project.</p></div></div></details>
+        <details name="faq"><summary>What does the app check before export?</summary><div class="bricks-faq-answer"><div><p>It checks video duration and format. Review the results and make any needed changes before exporting.</p></div></div></details>
+        <details name="faq"><summary>Can I export files to my Mac?</summary><div class="bricks-faq-answer"><div><p>Yes. Export videos as MP4 (H.264) or individual frames as PNG images. Pro also includes ProRes 422 HQ MOV exports and watermark-free exports.</p></div></div></details>
+        <details name="faq"><summary>What do I need to upload directly?</summary><div class="bricks-faq-answer"><div><p>You need Pro and App Store Connect API credentials. Connect your account in the app to upload supported videos from the editor.</p></div></div></details>
+        <details name="faq"><summary>Where are my projects and credentials stored?</summary><div class="bricks-faq-answer"><div><p>Projects are saved as files on your Mac. Your App Store Connect API credentials are stored in macOS Keychain.</p></div></div></details>
+        <details name="faq"><summary>How do I make my first video?</summary><div class="bricks-faq-answer"><div><p>Follow the in-app onboarding or the <a href="guides/getting-started/index.html">getting-started guide</a> for a walkthrough from importing your media to exporting your video.</p></div></div></details>
       </div>
     </section>
 
@@ -534,7 +536,7 @@
       </div>
       <section class="bricks-footer-group">
       <h2>Bricks Calc</h2>
-      <ul><li><a href="../calc/index.html">Overview</a></li><li><a href="../homebuyers.html">First-Time Buyers</a></li><li><a href="../refinance.html">Refinancing</a></li><li><a href="../calc/guides/index.html">Mortgage Guides</a></li></ul>
+      <ul><li><a href="../calc/index.html">Mortgage Calculator</a></li><li><a href="../homebuyers.html">First-Time Buyers</a></li><li><a href="../refinance.html">Refinancing</a></li><li><a href="../calc/guides/index.html">Mortgage Guides</a></li></ul>
     </section>
       <section class="bricks-footer-group">
       <h2>Apps</h2>

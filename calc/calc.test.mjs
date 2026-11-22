@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import test from "node:test";
 
-import { renderPage } from "../scripts/layout.mjs";
+import { renderPage, sitePages } from "../scripts/layout.mjs";
 
 const root = new URL("./", import.meta.url);
 const shells = new URL("../content/pages/", root);
@@ -32,6 +32,14 @@ assert.match(readFileSync(new URL("calc.html", shells), "utf8"), canonical);
 assert.ok(sitemap.includes("<loc>https://bricks.pe/calc/</loc>"));
 assert.ok(sitemap.includes("<loc>https://bricks.pe/calc/guides/</loc>"));
 assert.equal(structuredData(page).length, 1);
+
+test("Calc overview routes share an English body and keep their Spanish update links", () => {
+  assert.equal(sitePages.get("calc.html").entry, sitePages.get("calc/index.html").entry);
+  const legacySpanish = readFileSync(new URL("../calc.es.html", root), "utf8");
+  const overviewSpanish = readFileSync(new URL("index.es.html", root), "utf8");
+  assert.match(legacySpanish, /<a href="index\.html#whats-new"[^>]*>Descubre las novedades/);
+  assert.match(overviewSpanish, /<a href="https:\/\/bricksapps\.userjot\.com\/updates"[^>]*>Descubre las novedades/);
+});
 
 test("hosted and direct-open Calc link to the standalone Mortgage Guides page from the footer", {
   skip: existsSync(dist) ? false : "Run npm run build to verify the published HTML",
