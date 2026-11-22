@@ -1,14 +1,29 @@
-/* Shared presentation from Calc's DownloadCTA; each page owns its outer layout. */
+.bricks-cta-section {
+  width: min(calc(100% - 32px), var(--bricks-shell));
+  margin-inline: auto;
+  padding: 32px 0 72px;
+}
+.bricks-cta-icon {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 20px;
+  border-radius: 25%;
+}
 .bricks-download-cta {
-  --cta-surface: var(--b-text, var(--text));
-  --cta-text: var(--b-bg, var(--bg));
+  --cta-surface: var(--bricks-text);
+  --cta-text: var(--bricks-background);
   --cta-hover: #087ea4;
+  --cta-inner-shadow-color: light-dark(rgba(0, 0, 0, .35), rgba(37, 56, 70, .1));
+  --cta-inner-shadow-highlight: light-dark(rgba(22, 29, 37, .6), rgba(255, 255, 255, .7));
+  --cta-inner-shadow: 12px 16px 40px var(--cta-inner-shadow-color), -4px -4px 16px var(--cta-inner-shadow-highlight);
   position: relative;
   overflow: hidden;
   padding: 96px 64px;
   border-radius: 48px;
   background: var(--cta-surface);
-  box-shadow: 0 20px 60px rgba(11, 15, 20, .25);
+  box-shadow: var(--bricks-shadow-raised);
   text-align: center;
 }
 .bricks-download-cta::before {
@@ -27,7 +42,7 @@
   letter-spacing: -.035em;
   line-height: 1.02;
   color: var(--cta-text);
-  text-wrap: wrap;
+  overflow-wrap: anywhere;
 }
 .bricks-download-cta > p {
   position: relative;
@@ -44,6 +59,13 @@
   font-size: 13px;
   line-height: 1.55;
   opacity: .62;
+}
+.bricks-download-cta > .bricks-cta-eyebrow {
+  margin: 0 auto 12px;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: .09em;
+  text-transform: uppercase;
 }
 .bricks-cta-actions {
   position: relative;
@@ -67,16 +89,24 @@
   font-weight: 600;
   letter-spacing: -.01em;
   text-decoration: none;
-  white-space: nowrap;
-  box-shadow: 0 12px 28px rgba(0,0,0,.25);
+  max-width: 100%;
+  min-height: 44px;
+  box-shadow: var(--cta-inner-shadow);
   transition: background .25s ease, color .25s ease, transform .15s ease;
 }
-.bricks-cta-button img { display: block; width: 18px; height: 18px; margin: 0; flex: 0 0 auto; }
-.bricks-cta-button:hover { background: var(--cta-hover); color: #fff; opacity: 1; transform: translateY(-2px); }
-.bricks-cta-button:hover img { filter: brightness(0) invert(1); }
-.bricks-cta-button:focus-visible { outline: 3px solid var(--cta-text); outline-offset: 4px; }
+.bricks-cta-button img { display: block; width: 18px; height: 18px; margin: 0; flex: 0 0 auto; filter: var(--bricks-icon-filter, none); }
+.bricks-download-cta .bricks-cta-button:hover { background: var(--cta-hover); color: #fff; transform: translateY(-2px); }
+.bricks-download-cta .bricks-cta-button:hover img { filter: brightness(0) invert(1); }
+.bricks-download-cta .bricks-cta-button:focus-visible { outline: 3px solid var(--cta-text); outline-offset: 4px; border-radius: 100px; }
+@media (min-width: 560px) {
+  .bricks-cta-section { width: min(calc(100% - 48px), var(--bricks-shell)); }
+}
+@media (min-width: 900px) {
+  .bricks-cta-section { padding-bottom: 104px; }
+}
 @media (max-width: 768px) {
   .bricks-download-cta { padding: 56px 24px; border-radius: 32px; }
+  #root .bricks-download-cta > :is(h2, p) { text-align: center !important; }
   #root .bricks-download-cta > h2,
 .bricks-download-cta > h2 { font-size: 40px; }
   .bricks-download-cta > p { font-size: 16px; }
@@ -85,5 +115,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .bricks-download-cta .bricks-cta-button { transition: none; }
-  .bricks-cta-button:hover { transform: none; }
+  .bricks-download-cta .bricks-cta-button:hover { transform: none; }
 }

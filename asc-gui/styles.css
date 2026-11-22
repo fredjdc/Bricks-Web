@@ -38,9 +38,6 @@ figcaption span { white-space: nowrap; }
 .setup-steps h3 { font-size: 1.5rem; margin: 20px 0 16px; }
 .faq summary { min-height: 48px; }
 .faq details p { margin-bottom: 0; }
-.final-panel h2 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
-.final-panel .availability-note { font-size: 14px; margin: 24px auto 0; }
-.final-panel .eyebrow { font-size: 13px; }
 a:focus-visible, summary:focus-visible, .button:focus-visible { outline: 3px solid var(--focus); outline-offset: 5px; border-radius: 4px; }
 [id] { scroll-margin-top: 100px; }
 @media (min-width: 900px) {

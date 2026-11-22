@@ -61,7 +61,8 @@ export function createContentLayouts({ bricks, calc }) {
       action: [localized("Join the beta", "Únete al beta"), leadsSignup],
       },
     "living.html": {
-      entry: "living", brand: { name: "Bricks Living", home: "/living.html" }, language: "es",
+      entry: "living", language: "es",
+      brand: { name: "Bricks Living", home: "/living.html", ctaIcon: "/images-bricks-living/bricks-living-logo.svg" },
       links: [["Flujo", "#landing/workflow"], ["WhatsApp", "#landing/whatsapp"], ["Roles", "#landing/roles"], ["Reportes", "#landing/reportes"]],
       action: ["Contactar", "mailto:hello@bricks.pe"],
     },

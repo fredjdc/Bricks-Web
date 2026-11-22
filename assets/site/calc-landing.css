@@ -135,8 +135,3 @@ body:has(.calc-hero)::after {
 #faq {
     scroll-margin-top: 110px;
 }
-
-#root .calc-download-cta-content h2,
-#root .calc-download-cta-content p {
-    text-align: center !important;
-}

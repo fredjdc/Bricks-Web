@@ -143,7 +143,6 @@
   --media-radius: var(--radius-large);
 }
 .apes-landing .hero .download-button img { filter: var(--bricks-inverse-icon-filter, none); }
-.apes-landing .bricks-cta-button:not(:hover) img { filter: var(--bricks-icon-filter, none); }
 .apes-landing .section { padding-block: 72px; }
 .apes-landing .hero { padding-top: 64px; gap: 56px; }
 .apes-landing .hero-lede { max-width: 32ch; margin-bottom: var(--hero-cta-space); font-weight: 500; }
@@ -251,7 +250,6 @@
 .apes-landing .pricing .pricing-options { margin: 0 auto 16px; }
 .apes-landing .pricing .plan-comparison { margin: 0 auto; }
 .apes-landing .pricing-block > .pricing-note { max-width: 760px; margin: 16px auto 0; color: var(--text-secondary); text-align: center; font-size: 0.875rem; line-height: 1.6; }
-.apes-landing .final-cta { padding-top: 32px; }
 @media (max-width: 559px) {
   .apes-landing .pricing-block { padding: 48px 16px; }
   .apes-landing .pricing-block > #included-title { margin-top: 24px; padding-top: 24px; }
@@ -570,24 +568,8 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 }
 .apes-landing .story-copy-content { display: flow-root; max-width: 100%; }
 
-/* Override shared components only on this landing page; flat controls and focus rings stay unchanged. */
-.apes-landing .bricks-download-cta,
-.apes-landing .bricks-download-cta .bricks-cta-button { box-shadow: var(--shadow); }
-
 .apes-landing { --shadow: var(--bricks-shadow-raised); }
-
-/* Recompute the shadow for content on the inverted CTA surface. */
-.apes-landing .bricks-download-cta > .bricks-cta-actions,
-.apes-landing .bricks-download-cta > .cta-preview-mask {
-  --shadow: 12px 16px 40px var(--shadow-color), -4px -4px 16px var(--shadow-highlight);
-}
-/* The CTA surface inverts the page. Its own outer shadow stays on the page
-   palette; only content casting shadows onto the CTA uses the inverse palette. */
-.apes-landing .bricks-download-cta > .bricks-cta-actions,
-.apes-landing .bricks-download-cta > .cta-preview-mask {
-  --shadow-color: light-dark(rgba(0,0,0,.35), rgba(37,56,70,.1));
-  --shadow-highlight: light-dark(rgba(22,29,37,.6), rgba(255,255,255,.7));
-}
+.apes-landing .cta-preview-mask { --shadow: var(--cta-inner-shadow); }
 
 /* Center only the remaining content copy in the existing smallest layout. */
 @media (max-width: 559px) {
@@ -676,7 +658,7 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
   text-align: center;
 }
 .apes-landing.launch-polish .hero-actions :focus-visible,
-.apes-landing.launch-polish .download-button:focus-visible,
+.apes-landing.launch-polish .download-button:not(.bricks-cta-button):focus-visible,
 .apes-landing.launch-polish .cta-plan-link:focus-visible {
   outline: 3px solid var(--detail);
   outline-offset: 4px;
@@ -684,7 +666,6 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 }
 .apes-landing.launch-polish .hero-actions :focus-visible { animation: none; }
 .apes-landing.launch-polish .cta-plan-link { color: var(--cta-text); }
-.apes-landing.launch-polish .bricks-download-cta .download-button:focus-visible,
 .apes-landing.launch-polish .cta-plan-link:focus-visible { outline-color: var(--cta-text); }
 .apes-landing.launch-polish .hero .download-button { font-size: 1rem; }
 .apes-landing.launch-polish .hero-side-still { display: block; width: 100%; height: auto; }

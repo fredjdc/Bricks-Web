@@ -9,7 +9,7 @@ const appCutBeta = "https://testflight.apple.com/join/UgyQd6ES";
 
 const appCut = { name: "AppCut", home: "/appcut/", icon: "/appcut/AppIcon.png" };
 const calc = { name: "Bricks Calc", home: "/calc/", icon: "/calc/assets/app-store/app-icon.png" };
-const ascGui = { name: "ASC GUI", home: "/asc-gui/", mark: "ASC" };
+const ascGui = { name: "ASC GUI", home: "/asc-gui/", mark: "ASC", ctaIcon: "/asc-gui/assets/app-icon.png" };
 const bricks = { name: "Bricks Apps", home: "/", logo: true };
 const appCutGuides = ["Guides", "/appcut/guides/"];
 const calcGuides = "/calc/guides/";
@@ -210,9 +210,11 @@ export function renderPage(path, source, { language: locale } = {}) {
   const page = sitePages.get(path);
   if (!page) throw new Error(`Unknown layout route: ${path}`);
   const ctaIconSlot = "<!-- site:cta-icon -->";
-  if (source.includes(ctaIconSlot)) {
-    if (!page.brand.icon) throw new Error(`Missing download CTA icon for ${path}`);
-    const icon = `<img class="bricks-cta-icon" src="${escapeHTML(page.brand.icon)}" width="144" height="144" alt="">`;
+  const hasDownloadCta = source.includes(ctaIconSlot);
+  if (hasDownloadCta) {
+    const iconPath = page.brand.ctaIcon ?? page.brand.icon;
+    if (!iconPath) throw new Error(`Missing download CTA icon for ${path}`);
+    const icon = `<img class="bricks-cta-icon" src="${escapeHTML(iconPath)}" width="144" height="144" alt="">`;
     source = source.replaceAll(ctaIconSlot, () => icon);
   }
   const route = `/${path.replace(/(^|\/)index\.html$/, "$1")}`;
@@ -235,6 +237,7 @@ export function renderPage(path, source, { language: locale } = {}) {
     : "";
   const slots = new Map([
     ["<!-- site:head -->", '<link rel="stylesheet" href="/assets/site/layout.css">' +
+      (hasDownloadCta ? '\n  <link rel="stylesheet" href="/shared-download-cta.css">' : "") +
       '\n  <script src="/assets/site/preferences.js" defer></script>' +
       (page.links?.length > 1 ? '\n  <script src="/assets/site/navigation.js" defer></script>' : "") + styles + enhancements + scripts],
     ["<!-- site:header -->", renderHeader(page, labels, route, language)],

@@ -41,6 +41,20 @@ body {
   scroll-margin-top: 112px;
 }
 
+.living-public-main > .bricks-cta-section {
+  width: min(100%, var(--bricks-shell));
+  padding: 0;
+}
+
+/* The square mark sits to the left of the wordmark in the Living asset. */
+.living-public-main .bricks-cta-icon {
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: left;
+  border: 24px solid var(--living-accent);
+  background: var(--living-accent);
+}
+
 .living-card {
   border: 1px solid var(--living-border);
   box-shadow: var(--bricks-shadow-soft);

@@ -6,20 +6,18 @@ import { localePath } from "./scripts/content.mjs";
 import { renderPage, sitePages } from "./scripts/layout.mjs";
 
 const read = path => readFile(new URL(path, import.meta.url), "utf8");
-const [home, homeContent, appCut, css, appCutCss] = await Promise.all([
-  read("content/pages/index.html"), read("content/index.html"), read("content/pages/appcut/index.html"),
+const [homeContent, appCut, css, appCutCss] = await Promise.all([
+  read("content/index.html"), read("content/pages/appcut/index.html"),
   read("shared-download-cta.css"), read("appcut/styles.css"),
 ]);
 
 test("the homepage and AppCut use the shared download call to action styles", () => {
-  assert.match(home, /href="shared-download-cta\.css\?v=/);
-  assert.match(appCut, /href="\.\.\/shared-download-cta\.css\?v=/);
   assert.doesNotMatch(appCut, /href="\.\.\/styles\.css/);
   const component = homeContent.match(/<section\b[^>]*\bid="pricing"[^>]*>[\s\S]*?<\/section>/)?.[0];
   assert.ok(component);
-  assert.match(component, /class="reveal calc-download-cta-content bricks-download-cta"/);
+  assert.match(component, /class="bricks-download-cta reveal"/);
   assert.doesNotMatch(component, /radial-gradient|box-shadow|border-radius|font-size/);
-  assert.match(component, /class="calc-download-button bricks-cta-button"/);
+  assert.match(component, /class="bricks-cta-button"/);
   assert.match(component, /ct=bricks_web_calc_pricing&amp;mt=8/);
   assert.doesNotMatch(appCutCss, /final-panel/);
   assert.match(css, /\.bricks-download-cta > h2/);
@@ -27,7 +25,7 @@ test("the homepage and AppCut use the shared download call to action styles", ()
 });
 
 test("AppCut closing CTA has a heading, one description, and an accessible download link", async () => {
-  const closing = renderPage("appcut/index.html", appCut).match(/<section class="final-cta section shell"[^>]*>[\s\S]*?<\/section>/)?.[0];
+  const closing = renderPage("appcut/index.html", appCut).match(/<section class="bricks-cta-section"[^>]*>[\s\S]*?<\/section>/)?.[0];
   assert.ok(closing);
   assert.match(closing, /class="bricks-download-cta reveal"/);
   assert.match(closing, /aria-labelledby="final-title"/);
@@ -43,20 +41,28 @@ test("AppCut closing CTA has a heading, one description, and an accessible downl
   for (const asset of ["images/apple-icon-white.svg", "images/apple-icon-black.svg"]) assert.ok((await read(asset)).includes("<svg"));
 });
 
-test("product download panels show the route's app icon above each heading", async () => {
+test("each product landing page uses the shared CTA layout and its own icon", async () => {
   for (const [route, page] of sitePages) {
     const isCalcLanding = page.scripts?.includes("calc");
-    const isScanLanding = page.entry === "scan";
-    const isAppCutLanding = ["appcut/index.html", "appcut/getvideoeditor.html"].includes(route);
-    if (!isCalcLanding && !isScanLanding && !isAppCutLanding) continue;
+    const isProductLanding = ["scan", "leads", "living"].includes(page.entry) ||
+      ["appcut/index.html", "appcut/getvideoeditor.html", "asc-gui/index.html"].includes(route);
+    if (!isCalcLanding && !isProductLanding) continue;
 
     for (const path of page.bilingual ? [route, localePath(route, "es")] : [route]) {
       const html = await read(path);
-      const icons = [...html.matchAll(/<img class="bricks-cta-icon" src="([^"]+)" width="144" height="144" alt="">\s*<h2/g)];
-      assert.equal(icons.length, isCalcLanding ? 2 : 1, path);
+      const sections = [...html.matchAll(/<section\b[^>]*class="bricks-cta-section"[^>]*>([\s\S]*?)<\/section>/g)];
+      assert.equal(sections.length, isCalcLanding ? 2 : 1, path);
       const pageURL = new URL(path, import.meta.url);
-      const brandIcon = new URL(`.${page.brand.icon}`, import.meta.url).href;
-      for (const [, src] of icons) assert.equal(new URL(src, pageURL).href, brandIcon, path);
+      const styles = [...html.matchAll(/<link rel="stylesheet" href="([^"]*shared-download-cta\.css)"/g)];
+      assert.equal(styles.length, 1, path);
+      assert.equal(new URL(styles[0][1], pageURL).href, new URL("shared-download-cta.css", import.meta.url).href, path);
+      const brandIcon = new URL(`.${page.brand.ctaIcon ?? page.brand.icon}`, import.meta.url).href;
+      for (const [, section] of sections) {
+        const icon = section.match(/<div class="bricks-download-cta(?: reveal)?">\s*<img class="bricks-cta-icon" src="([^"]+)" width="144" height="144" alt="">\s*(?:<p class="bricks-cta-eyebrow">[^<]+<\/p>\s*)?<h2/);
+        assert.ok(icon, path);
+        assert.equal(new URL(icon[1], pageURL).href, brandIcon, path);
+        assert.match(section, /<div class="bricks-cta-actions">\s*<a\b[^>]*class="bricks-cta-button(?: download-button)?"/, path);
+      }
     }
   }
 });
