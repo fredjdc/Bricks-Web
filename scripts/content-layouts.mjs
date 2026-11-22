@@ -13,11 +13,11 @@ export function createContentLayouts({ bricks, calc }) {
     [localized("Features", "Funciones"), "#features"],
   ];
   const faq = [localized("FAQ", "Preguntas"), "#faq"];
-  const calcPage = (entry, { language = "en", bilingual = false, guides = false } = {}) => ({
+  const calcPage = (entry, { language = "en", bilingual = false } = {}) => ({
     entry, brand: calc, home: "#top", language, bilingual,
     styles: ["calc-content"], scripts: ["calc"],
     spanishTitle: "Planificación hipotecaria | Bricks Calc",
-    links: [...calcLinks, ...(guides ? [[localized("Guides", "Guías"), "#guides"]] : []), faq],
+    links: [...calcLinks, faq],
     action: [localized("Download", "Descargar"), calcStore + "?ct=bricks_web_calc_header_cta&mt=8"],
   });
   const infoPage = (entry, spanishTitle) => ({
@@ -27,7 +27,7 @@ export function createContentLayouts({ bricks, calc }) {
   const leadsBrand = { name: "Bricks Leads", home: "/leads.html", icon: "/images/bricks-leads-web-icon.png" };
   return {
     "index.html": calcPage("index", { bilingual: true }),
-    "calc/index.html": calcPage("calc-index", { bilingual: true, guides: true }),
+    "calc/index.html": calcPage("calc-index", { bilingual: true }),
     "calc.html": calcPage("calc", { bilingual: true }),
     "homebuyers.html": calcPage("homebuyers"),
     "refinance.html": calcPage("refinance"),
@@ -64,7 +64,6 @@ export function createContentLayouts({ bricks, calc }) {
       entry: "living", brand: { name: "Bricks Living", home: "/living.html" }, language: "es",
       links: [["Flujo", "#landing/workflow"], ["WhatsApp", "#landing/whatsapp"], ["Roles", "#landing/roles"], ["Reportes", "#landing/reportes"]],
       action: ["Contactar", "mailto:hello@bricks.pe"],
-      appearance: false,
     },
   };
 }

@@ -12,22 +12,20 @@ const calc = { name: "Bricks Calc", home: "/calc/", icon: "/calc/assets/app-stor
 const ascGui = { name: "ASC GUI", home: "/asc-gui/", mark: "ASC" };
 const bricks = { name: "Bricks Apps", home: "/", logo: true };
 const appCutGuides = ["Guides", "/appcut/guides/"];
-const calcGuides = ["Guides", "/calc/#guides"];
+const calcGuides = "/calc/guides/";
 
 const appCutLanding = {
   brand: appCut, home: "#top", apple: true,
   action: ["Download", appCutBeta, "Download for Mac"],
-  footer: [["AppCut Guides", appCutGuides[1]]], note: "AppCut. Built for Mac.",
 };
 const appCutGuide = {
   brand: appCut,
   links: [["How it works", "/appcut/#workflow"], ["Features", "/appcut/#features"], appCutGuides, ["FAQ", "/appcut/#faq"]],
   current: appCutGuides[1],
   action: ["Get Beta Access", "/appcut/#top"],
-  note: "Made for Apple developers. Built natively for Mac.",
 };
 const calcGuide = campaign => ({
-  brand: calc, links: [calcGuides], footer: [["More mortgage guides", calcGuides[1]]],
+  brand: calc,
   action: ["Download", `${appStore}?ct=guide_${campaign}&mt=8`],
 });
 
@@ -49,10 +47,9 @@ export const sitePages = new Map(Object.entries({
     brand: ascGui, home: "#top",
     links: [["Features", "#features"], ["Automations", "#automations"], ["Setup", "#setup"], ["FAQ", "#faq"]],
     action: ["See the workflow", "#workflow"],
-    note: "Built natively for Mac.",
-    disclaimer: "Independent software. Not affiliated with or endorsed by Apple.",
   },
   "appcut/guides/effective-app-preview/index.html": appCutGuide,
+  "calc/guides/index.html": { brand: calc },
   ...createStaticLayouts({ appCutLanding, appCutGuide, calcGuide, calc, appCutStore }),
   ...staticFormsLayouts,
   ...createContentLayouts({ bricks, calc }),
@@ -61,8 +58,10 @@ export const sitePages = new Map(Object.entries({
 const copy = {
   en: {
     skip: "Skip to content", nav: "Primary navigation", menu: "Menu", home: name => `${name} home`,
-    help: "Support", privacy: "Privacy Policy", terms: "Terms of Service", contact: "Contact",
-    apps: "Apps", business: "Business", about: "About Bricks", purchase: "Purchase guide", guides: "Guides",
+    footerNav: "Footer navigation", help: "Support", privacy: "Privacy Policy", terms: "Terms of Service",
+    apps: "Apps", devTools: "Dev Tools", about: "About Bricks", purchase: "Purchase Guide", helpCenter: "Help Center",
+    overview: "Overview", firstTimeBuyers: "First-Time Buyers", refinancing: "Refinancing", mortgageGuides: "Mortgage Guides",
+    appCutGuides: "AppCut Guides",
     feedback: "Share feedback", vote: "Vote on features", language: "Language",
     instagram: "Bricks on Instagram", linkedin: "Bricks on LinkedIn",
     tagline: "Productivity apps for Apple platforms.", copyright: "© 2026 Bricks Apps. Made with care.",
@@ -70,11 +69,13 @@ const copy = {
   },
   es: {
     skip: "Saltar al contenido", nav: "Navegación principal", menu: "Menú", home: name => `Inicio de ${name}`,
-    help: "Soporte", privacy: "Política de privacidad", terms: "Términos del servicio", contact: "Contacto",
-    apps: "Apps", business: "Empresa", about: "Acerca de Bricks", purchase: "Guía de compra", guides: "Guías",
+    footerNav: "Navegación del pie de página", help: "Soporte", privacy: "Política de privacidad", terms: "Términos del servicio",
+    apps: "Apps", devTools: "Herramientas de desarrollo", about: "Acerca de Bricks", purchase: "Guía de compra", helpCenter: "Centro de ayuda",
+    overview: "Descripción general", firstTimeBuyers: "Primera vivienda", refinancing: "Refinanciamiento", mortgageGuides: "Guías hipotecarias",
+    appCutGuides: "Guías de AppCut",
     feedback: "Comparte tus comentarios", vote: "Vota por nuevas funciones", language: "Idioma",
     instagram: "Bricks en Instagram", linkedin: "Bricks en LinkedIn",
-    tagline: "Apps enfocadas para bienes raíces, creadas para Apple.", copyright: "© 2026 Bricks Apps. Hecho con cuidado.",
+    tagline: "Apps de productividad para plataformas Apple.", copyright: "© 2026 Bricks Apps. Hecho con cuidado.",
     appearance: "Apariencia", auto: "Sistema", light: "Claro", dark: "Oscuro",
   },
 };
@@ -122,7 +123,7 @@ function renderHeader(page, labels, route, language) {
     current: link[1] === route ? "page" : link[1] === page.current ? "location" : undefined,
   }));
   const apple = page.apple
-    ? '<picture aria-hidden="true"><source srcset="/images/apple-icon-black.svg" media="(prefers-color-scheme: dark)"><img src="/images/apple-icon-white.svg" width="20" height="20" alt=""></picture>'
+    ? '<img src="/images/apple-icon-white.svg" width="20" height="20" alt="">'
     : "";
   const action = page.action ? renderLink(page.action, { className: `bricks-nav-action${page.apple ? " download-button" : ""}`, icon: apple, language }) : "";
   const navigation = links.length > 1
@@ -139,19 +140,22 @@ function renderHeader(page, labels, route, language) {
 }
 
 function renderFooter(page, labels, language, path) {
+  const renderItem = link => {
+    // Keep the old Calc fragment usable by taking it to the new catalog link.
+    const anchor = path === "calc/index.html" && link[1] === calcGuides ? ' id="guides"' : "";
+    return `<li${anchor}>${renderLink(link, { language })}</li>`;
+  };
   const group = (title, links) => `<section class="bricks-footer-group">
       <h2>${renderText(title, language)}</h2>
-      <ul>${links.map(link => `<li>${renderLink(link, { language })}</li>`).join("")}</ul>
+      <ul>${links.map(renderItem).join("")}</ul>
     </section>`;
   const dot = '<span class="bricks-footer-separator" aria-hidden="true">·</span>';
-  const appearance = page.entry && page.appearance !== false
-    ? `<div class="bricks-footer-setting" role="group"${renderAria(labels.appearance, language)} data-site-theme hidden>
+  const appearance = `<div class="bricks-footer-setting" role="group"${renderAria(labels.appearance, language)} data-site-theme hidden>
         <span class="bricks-footer-label" aria-hidden="true">${renderText(labels.appearance, language)}</span>
         <div class="bricks-footer-options">${["auto", "light", "dark"].map(theme =>
-          `<button type="button" data-theme-choice="${theme}" aria-pressed="${theme === "auto"}">${escapeHTML(copy[language][theme])}</button>`
+          `<button type="button" data-theme-choice="${theme}" aria-pressed="${theme === "auto"}">${renderText(labels[theme], language)}</button>`
         ).join(dot)}</div>
-      </div>`
-    : "";
+      </div>`;
   const languages = page.bilingual
     ? `<div class="bricks-footer-setting" role="group"${renderAria(labels.language, language)}>
         <span class="bricks-footer-label" aria-hidden="true">${renderText(labels.language, language)}</span>
@@ -169,27 +173,31 @@ function renderFooter(page, labels, language, path) {
   ];
   return `<footer class="bricks-footer">
   <div class="bricks-footer-inner">
-    <div class="bricks-footer-columns">
+    <nav class="bricks-footer-columns"${renderAria(labels.footerNav, language)}>
       <div class="bricks-footer-brand">
         ${renderLink(["", "/", labels.home("Bricks Apps")], { className: "bricks-footer-logo", icon: logo, language })}
-        <p>${renderText(page.note ?? labels.tagline, language)}</p>
-        ${page.disclaimer ? `<small>${escapeHTML(page.disclaimer)}</small>` : ""}
+        <p>${renderText(labels.tagline, language)}</p>
         <div class="bricks-footer-socials">${socials.map(([icon, label, href]) => renderLink(["", href, label], {
           icon: `<img src="/images/icon-${icon}.svg" width="15" height="15" alt="">`, language,
         })).join("")}</div>
       </div>
+      ${group(calc.name, [
+        [labels.overview, calc.home], [labels.firstTimeBuyers, "/homebuyers.html"],
+        [labels.refinancing, "/refinance.html"], [labels.mortgageGuides, calcGuides],
+      ])}
       ${group(labels.apps, [
-        ["Bricks Scan", "/scan.html"], ["Bricks Calc", "/calc/"], ["Bricks Leads", "/leads.html"], ["Bricks Living", "/living.html"],
+        ["Bricks Scan", "/scan.html"], ["Bricks Leads", "/leads.html"], ["Bricks Living", "/living.html"],
       ])}
-      ${group(labels.business, [
-        [labels.about, "/about.html"], [labels.purchase, "/purchase-guide-01.html"], ["hello@bricks.pe", "mailto:hello@bricks.pe"],
+      ${group(labels.devTools, [
+        [appCut.name, appCut.home], [ascGui.name, ascGui.home], [labels.appCutGuides, appCutGuides[1]],
       ])}
-      ${group(labels.contact, [
-        [labels.help, "/support.html"], [labels.vote, "https://bricksapps.userjot.com"],
-        [labels.guides, "/help.html"], [labels.feedback, "/survey.html"], ...(page.footer ?? []),
+      ${group(bricks.name, [
+        [labels.about, "/about.html"], [labels.purchase, "/purchase-guide-01.html"],
+        [labels.help, "/support.html"], [labels.helpCenter, "/help.html"],
+        [labels.vote, "https://bricksapps.userjot.com"], [labels.feedback, "/survey.html"], ["hello@bricks.pe", "mailto:hello@bricks.pe"],
       ])}
-    </div>
-    ${languages || appearance ? `<div class="bricks-footer-settings">${languages}${appearance}</div>` : ""}
+    </nav>
+    <div class="bricks-footer-settings">${languages}${appearance}</div>
     <div class="bricks-footer-bottom">
       <span>${renderText(labels.copyright, language)}</span>
       <div>${renderLink([labels.privacy, "/privacy.html"], { language })}${renderLink([labels.terms, "/terms.html"], { language })}</div>
@@ -217,10 +225,11 @@ export function renderPage(path, source, { language: locale } = {}) {
   const styles = (page.styles ?? []).map(name => `\n  <link rel="stylesheet" href="/assets/site/${name}.css">`).join("");
   const scripts = (page.scripts ?? []).map(name => `\n  <script type="module" src="/assets/site/${name}.js"></script>`).join("");
   const enhancements = page.entry
-    ? '\n  <script src="/assets/site/preferences.js" defer></script>\n  <script type="module" src="/assets/site/page-interactions.js"></script>'
+    ? '\n  <script type="module" src="/assets/site/page-interactions.js"></script>'
     : "";
   const slots = new Map([
     ["<!-- site:head -->", '<link rel="stylesheet" href="/assets/site/layout.css">' +
+      '\n  <script src="/assets/site/preferences.js" defer></script>' +
       (page.links?.length > 1 ? '\n  <script src="/assets/site/navigation.js" defer></script>' : "") + styles + enhancements + scripts],
     ["<!-- site:header -->", renderHeader(page, labels, route, language)],
     ["<!-- site:footer -->", renderFooter(page, labels, language, path)],

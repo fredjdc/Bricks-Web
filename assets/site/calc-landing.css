@@ -132,7 +132,6 @@ body:has(.calc-hero)::after {
 #pricing,
 #about,
 #whats-new,
-#guides,
 #faq {
     scroll-margin-top: 110px;
 }
@@ -140,20 +139,4 @@ body:has(.calc-hero)::after {
 #root .calc-download-cta-content h2,
 #root .calc-download-cta-content p {
     text-align: center !important;
-}
-
-.calc-guides {
-    width: min(100% - 40px, 1000px);
-    margin-inline: auto;
-    padding-block: 48px;
-}
-
-.calc-guides ul {
-    padding-inline-start: 1.25em;
-    line-height: 1.8;
-}
-
-.calc-guides a {
-    text-decoration: underline;
-    text-underline-offset: .2em;
 }

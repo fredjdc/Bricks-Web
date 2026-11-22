@@ -101,6 +101,7 @@
         }
     </style>
     <link rel="stylesheet" href="assets/site/layout.css">
+  <script src="assets/site/preferences.js" defer=""></script>
 </head>
 
 <body>
@@ -140,27 +141,33 @@
 
     <footer class="bricks-footer">
   <div class="bricks-footer-inner">
-    <div class="bricks-footer-columns">
+    <nav class="bricks-footer-columns" aria-label="Footer navigation" data-site-en-aria="Footer navigation" data-site-es-aria="Navegación del pie de página">
       <div class="bricks-footer-brand">
         <a href="index.html" class="bricks-footer-logo" aria-label="Bricks Apps home" data-site-en-aria="Bricks Apps home" data-site-es-aria="Inicio de Bricks Apps"><img src="images/bricks-dark-logo.svg" width="78" height="24" alt=""></a>
-        <p><span data-site-en="Productivity apps for Apple platforms." data-site-es="Apps enfocadas para bienes raíces, creadas para Apple.">Productivity apps for Apple platforms.</span></p>
-
+        <p><span data-site-en="Productivity apps for Apple platforms." data-site-es="Apps de productividad para plataformas Apple.">Productivity apps for Apple platforms.</span></p>
         <div class="bricks-footer-socials"><a href="https://www.instagram.com/hellobricksapps/" aria-label="Bricks on Instagram" data-site-en-aria="Bricks on Instagram" data-site-es-aria="Bricks en Instagram"><img src="images/icon-instagram.svg" width="15" height="15" alt=""></a><a href="https://www.linkedin.com/company/bricksapps/" aria-label="Bricks on LinkedIn" data-site-en-aria="Bricks on LinkedIn" data-site-es-aria="Bricks en LinkedIn"><img src="images/icon-linkedin.svg" width="15" height="15" alt=""></a></div>
       </div>
       <section class="bricks-footer-group">
+      <h2>Bricks Calc</h2>
+      <ul><li><a href="calc/index.html"><span data-site-en="Overview" data-site-es="Descripción general">Overview</span></a></li><li><a href="homebuyers.html"><span data-site-en="First-Time Buyers" data-site-es="Primera vivienda">First-Time Buyers</span></a></li><li><a href="refinance.html"><span data-site-en="Refinancing" data-site-es="Refinanciamiento">Refinancing</span></a></li><li><a href="calc/guides/index.html"><span data-site-en="Mortgage Guides" data-site-es="Guías hipotecarias">Mortgage Guides</span></a></li></ul>
+    </section>
+      <section class="bricks-footer-group">
       <h2><span data-site-en="Apps" data-site-es="Apps">Apps</span></h2>
-      <ul><li><a href="scan.html">Bricks Scan</a></li><li><a href="calc/index.html">Bricks Calc</a></li><li><a href="leads.html">Bricks Leads</a></li><li><a href="living.html">Bricks Living</a></li></ul>
+      <ul><li><a href="scan.html">Bricks Scan</a></li><li><a href="leads.html">Bricks Leads</a></li><li><a href="living.html">Bricks Living</a></li></ul>
     </section>
       <section class="bricks-footer-group">
-      <h2><span data-site-en="Business" data-site-es="Empresa">Business</span></h2>
-      <ul><li><a href="about.html"><span data-site-en="About Bricks" data-site-es="Acerca de Bricks">About Bricks</span></a></li><li><a href="purchase-guide-01.html"><span data-site-en="Purchase guide" data-site-es="Guía de compra">Purchase guide</span></a></li><li><a href="mailto:hello@bricks.pe">hello@bricks.pe</a></li></ul>
+      <h2><span data-site-en="Dev Tools" data-site-es="Herramientas de desarrollo">Dev Tools</span></h2>
+      <ul><li><a href="appcut/index.html">AppCut</a></li><li><a href="asc-gui/index.html">ASC GUI</a></li><li><a href="appcut/guides/index.html"><span data-site-en="AppCut Guides" data-site-es="Guías de AppCut">AppCut Guides</span></a></li></ul>
     </section>
       <section class="bricks-footer-group">
-      <h2><span data-site-en="Contact" data-site-es="Contacto">Contact</span></h2>
-      <ul><li><a href="support.html"><span data-site-en="Support" data-site-es="Soporte">Support</span></a></li><li><a href="https://bricksapps.userjot.com"><span data-site-en="Vote on features" data-site-es="Vota por nuevas funciones">Vote on features</span></a></li><li><a href="help.html"><span data-site-en="Guides" data-site-es="Guías">Guides</span></a></li><li><a href="survey.html"><span data-site-en="Share feedback" data-site-es="Comparte tus comentarios">Share feedback</span></a></li></ul>
+      <h2>Bricks Apps</h2>
+      <ul><li><a href="about.html"><span data-site-en="About Bricks" data-site-es="Acerca de Bricks">About Bricks</span></a></li><li><a href="purchase-guide-01.html"><span data-site-en="Purchase Guide" data-site-es="Guía de compra">Purchase Guide</span></a></li><li><a href="support.html"><span data-site-en="Support" data-site-es="Soporte">Support</span></a></li><li><a href="help.html"><span data-site-en="Help Center" data-site-es="Centro de ayuda">Help Center</span></a></li><li><a href="https://bricksapps.userjot.com"><span data-site-en="Vote on features" data-site-es="Vota por nuevas funciones">Vote on features</span></a></li><li><a href="survey.html"><span data-site-en="Share feedback" data-site-es="Comparte tus comentarios">Share feedback</span></a></li><li><a href="mailto:hello@bricks.pe">hello@bricks.pe</a></li></ul>
     </section>
-    </div>
-
+    </nav>
+    <div class="bricks-footer-settings"><div class="bricks-footer-setting" role="group" aria-label="Appearance" data-site-en-aria="Appearance" data-site-es-aria="Apariencia" data-site-theme="" hidden="">
+        <span class="bricks-footer-label" aria-hidden="true"><span data-site-en="Appearance" data-site-es="Apariencia">Appearance</span></span>
+        <div class="bricks-footer-options"><button type="button" data-theme-choice="auto" aria-pressed="true"><span data-site-en="System" data-site-es="Sistema">System</span></button><span class="bricks-footer-separator" aria-hidden="true">·</span><button type="button" data-theme-choice="light" aria-pressed="false"><span data-site-en="Light" data-site-es="Claro">Light</span></button><span class="bricks-footer-separator" aria-hidden="true">·</span><button type="button" data-theme-choice="dark" aria-pressed="false"><span data-site-en="Dark" data-site-es="Oscuro">Dark</span></button></div>
+      </div></div>
     <div class="bricks-footer-bottom">
       <span><span data-site-en="© 2026 Bricks Apps. Made with care." data-site-es="© 2026 Bricks Apps. Hecho con cuidado.">© 2026 Bricks Apps. Made with care.</span></span>
       <div><a href="privacy.html"><span data-site-en="Privacy Policy" data-site-es="Política de privacidad">Privacy Policy</span></a><a href="terms.html"><span data-site-en="Terms of Service" data-site-es="Términos del servicio">Terms of Service</span></a></div>

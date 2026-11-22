@@ -16,7 +16,6 @@ assert.match(hero, /<p class="hero-lede\b[^"]*"[^>]*>[^<]+<\/p>/);
 assert.equal((hero.match(/class="download-caption"/g) ?? []).length, 1);
 
 assert.match(hero, /src="\.\.\/images\/apple-icon-white\.svg"/);
-assert.match(hero, /srcset="\.\.\/images\/apple-icon-black\.svg" media="\(prefers-color-scheme: dark\)"/);
 assert.match(html, /class="bricks-brand" aria-label="AppCut home"/);
 assert.doesNotMatch(html, /<form|list-manage|hero-email|drops in extra clips to cover more features/i);
 assert.doesNotMatch(script, /signup|mailchimp|FormData|beta-cta/i);

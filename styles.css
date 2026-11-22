@@ -13,22 +13,22 @@
     --radius: 0.5rem;
 
     /* 2️⃣ Color System (Web) - Cool Neutrals Only */
-    --bg-primary: #F6F7F8;
+    --bg-primary: var(--bricks-background);
     /* Off-white base */
-    --bg-white: #FFFFFF;
+    --bg-white: var(--bricks-surface);
     /* White */
-    --surface-shadow: #E7ECEF;
+    --surface-shadow: light-dark(#e7ecef, #05080b);
     /* Cool gray (surface shadow) */
-    --depth-plane: #C9D3DA;
+    --depth-plane: light-dark(#c9d3da, #2e3943);
     /* Cool gray (depth plane) */
-    --edge-def: #9AA7B2;
+    --edge-def: light-dark(#9aa7b2, #657380);
     /* Cool gray (edge definition) */
 
-    --text-primary: #0B0F14;
+    --text-primary: var(--bricks-text);
     /* Near-black (UI text) */
-    --text-secondary: #55626E;
+    --text-secondary: var(--bricks-muted);
     /* Secondary text gray */
-    --text-tertiary: rgba(11, 15, 20, 0.38);
+    --text-tertiary: light-dark(rgba(11, 15, 20, .38), rgba(242, 245, 247, .4));
     /* Tertiary / disabled text */
 
     --accent-teal: #00C7B2;
@@ -2063,21 +2063,8 @@ body:has(> .hero-bg) {
         text-align: center;
     }
 
-    /* Center general footer content */
-    footer {
-        text-align: center;
-    }
-
     .footer-social {
         justify-content: left;
-    }
-
-    /* Left-align footer titles and list items */
-    footer .subheading,
-    footer ul,
-    footer ol,
-    footer li {
-        text-align: left;
     }
 
     /* Center cookie consent banner */

@@ -231,8 +231,6 @@
   .guide-filters button { flex: 1 1 calc(33.333% - 8px); padding-inline: 12px; }
 }
 
-@media (prefers-color-scheme: dark) {
-  .guide-card-icon,
-  .guide-hero-icon,
-  .guide-section-icon { filter: invert(1); }
-}
+.guide-card-icon,
+.guide-hero-icon,
+.guide-section-icon { filter: var(--bricks-icon-filter, none); }

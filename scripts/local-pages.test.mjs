@@ -68,6 +68,10 @@ test("every generated page can reach its site links and local assets without HTT
         const target = decodeURIComponent(destination.pathname.slice(root.pathname.length));
         if (node.tagName === "a" && target.endsWith(".html")) {
           assert.ok(pages.has(target), path + ": " + value);
+          if (target === "calc/guides/index.html" && !value.startsWith("#")) {
+            const footer = nodes.find(item => item.tagName === "footer");
+            assert.ok(footer && [...elements(footer)].includes(node), path + ": Mortgage Guides must be linked from the footer");
+          }
           const fragment = decodeURIComponent(destination.hash.slice(1));
           if (fragment) assert.ok(anchors.get(target).has(fragment), path + ": " + value);
         }

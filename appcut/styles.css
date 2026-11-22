@@ -1,19 +1,11 @@
 :root {
-  --success: #16803c;
-  --error: #b42318;
-  --dot: rgba(85, 98, 110, 0.16);
+  --success: light-dark(#16803c, #5fd47d);
+  --error: light-dark(#b42318, #ff8b82);
+  --dot: light-dark(rgba(85, 98, 110, .16), rgba(174, 184, 192, .14));
   --radius-hero: 48px;
   --ape-badge-bg: #facc15;
   --ape-badge-text: #0b0f14;
   --ape-badge-radius: 999px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --success: #5fd47d;
-    --error: #ff8b82;
-    --dot: rgba(174, 184, 192, 0.14);
-  }
 }
 
 #workflow, #features, #delivery, #faq, #download { scroll-margin-top: 84px; }
@@ -39,12 +31,9 @@
 .workflow-media { display: none; position: relative; }
 .feature-media-image { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: var(--radius-large); background: var(--surface); box-shadow: var(--shadow); object-fit: contain; }
 .workflow-steps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 72px; }
-.feature-title-icon { width: 32px; height: 32px; margin-bottom: 18px; opacity: 0.88; }
+.feature-title-icon { width: 32px; height: 32px; margin-bottom: 18px; opacity: 0.88; filter: var(--bricks-icon-filter, none); }
 .workflow-step > p { max-width: 52ch; color: var(--text-secondary); font-size: 1.06rem; }
 
-@media (prefers-color-scheme: dark) {
-  .feature-title-icon { filter: invert(1); }
-}
 .mobile-workflow-media-wrap { position: relative; margin-top: 28px; }
 
 .product-tour > .section-heading { max-width: 900px; margin-bottom: 72px; }
@@ -144,7 +133,17 @@
 }
 
 /* Landing only: guides retain their existing shared styles. */
-.apes-landing { --border: rgba(11,15,20,.1); --detail: #087ea4; --radius-large: 32px; --media-radius: var(--radius-large); }
+.apes-landing {
+  --bg: var(--bricks-background);
+  --surface: var(--bricks-surface);
+  --surface-muted: var(--bricks-surface-muted);
+  --border: light-dark(rgba(11,15,20,.1), rgba(242,245,247,.12));
+  --detail: light-dark(#087ea4, #65cff3);
+  --radius-large: 32px;
+  --media-radius: var(--radius-large);
+}
+.apes-landing .hero .download-button img { filter: var(--bricks-inverse-icon-filter, none); }
+.apes-landing .bricks-cta-button:not(:hover) img { filter: var(--bricks-icon-filter, none); }
 .apes-landing .section { padding-block: 72px; }
 .apes-landing .hero { padding-top: 64px; gap: 56px; }
 .apes-landing .hero-lede { max-width: 32ch; margin-bottom: var(--hero-cta-space); font-weight: 500; }
@@ -213,9 +212,6 @@
   .apes-landing .result-section { gap: 40px; }
   .apes-landing .workflow > .shell { padding-inline: 20px; }
   .apes-landing .workflow-heading { margin-bottom: 40px; }
-}
-@media (prefers-color-scheme: dark) {
-  .apes-landing { --bg: var(--bricks-background, #0b0f14); --surface: var(--bricks-surface, #12181f); --surface-muted: var(--bricks-surface-muted, #1c252e); --border: rgba(242,245,247,.12); --detail: #65cff3; }
 }
 @media (prefers-reduced-motion: reduce) {
   .apes-landing .workflow-media, .apes-landing .faq > h2 { position: static; }
@@ -349,12 +345,12 @@
     mask-image: var(--hero-grain-mask); -webkit-mask-image: var(--hero-grain-mask);
   }
 }
-@media (prefers-color-scheme: dark) and (prefers-reduced-motion: no-preference) {
-  .apes-landing .hero-ambient-glow {
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-theme="dark"] .apes-landing .hero-ambient-glow {
     --hero-glow-warm: 233,187,122; --hero-glow-cool: 81,163,224; --hero-glow-shade: 0,0,0;
     --hero-glow-near-duration: 18s; --hero-glow-near-drift: var(--hero-glow-drift); --hero-glow-near-tilt: .45deg; --hero-glow-sweep: none;
   }
-  .apes-landing .hero::before {
+  :root[data-theme="dark"] .apes-landing .hero::before {
     background:
       radial-gradient(ellipse 78% 82% at 50% 42%, transparent 28%, rgba(0,0,0,.65) 100%),
       radial-gradient(ellipse 42% 12% at calc(var(--hero-spotlight-x, 50%) + 3vw) calc(var(--hero-spotlight-y, 80%) + 2vh), rgba(122,181,213,.18), transparent 85%),
@@ -362,7 +358,7 @@
       conic-gradient(from -60deg at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 80%), transparent 0deg 9deg, rgba(81,163,224,.10) 18deg, transparent 24deg 31deg, rgba(215,241,255,.28) 37deg, transparent 41deg 43deg, rgba(233,187,122,.20) 52deg, rgba(233,187,122,.20) 58deg, transparent 72deg 87deg, rgba(81,163,224,.11) 101deg, transparent 120deg),
       linear-gradient(120deg, #081729 0%, #142d46 38%, #282637 65%, #081a2b 100%);
   }
-  .apes-landing .hero::after {
+  :root[data-theme="dark"] .apes-landing .hero::after {
     opacity: calc(var(--hero-spotlight-opacity, 0) * var(--hero-grain-strength));
     mix-blend-mode: soft-light;
   }
@@ -579,10 +575,7 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
 .apes-landing .bricks-download-cta .bricks-cta-button { box-shadow: var(--shadow); }
 .apes-landing .bricks-download-cta > img { width: 144px; height: 144px; }
 
-.apes-landing { --shadow: var(--bricks-shadow-raised, 12px 16px 40px rgba(37, 56, 70, .1), -4px -4px 16px rgba(255, 255, 255, .7)); }
-@media (prefers-color-scheme: dark) {
-  .apes-landing { --shadow: var(--bricks-shadow-raised, 12px 16px 40px rgba(0, 0, 0, .35), -4px -4px 16px rgba(22, 29, 37, .6)); }
-}
+.apes-landing { --shadow: var(--bricks-shadow-raised); }
 
 /* Recompute the shadow for content on the inverted CTA surface. */
 .apes-landing .bricks-download-cta > .bricks-cta-actions,
@@ -593,15 +586,8 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
    palette; only content casting shadows onto the CTA uses the inverse palette. */
 .apes-landing .bricks-download-cta > .bricks-cta-actions,
 .apes-landing .bricks-download-cta > .cta-preview-mask {
-  --shadow-color: rgba(0,0,0,.35);
-  --shadow-highlight: rgba(22,29,37,.6);
-}
-@media (prefers-color-scheme: dark) {
-  .apes-landing .bricks-download-cta > .bricks-cta-actions,
-  .apes-landing .bricks-download-cta > .cta-preview-mask {
-    --shadow-color: rgba(37,56,70,.1);
-    --shadow-highlight: rgba(255,255,255,.7);
-  }
+  --shadow-color: light-dark(rgba(0,0,0,.35), rgba(37,56,70,.1));
+  --shadow-highlight: light-dark(rgba(22,29,37,.6), rgba(255,255,255,.7));
 }
 
 /* Center only the remaining content copy in the existing smallest layout. */

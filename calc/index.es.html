@@ -129,9 +129,9 @@
 
 
   <link rel="stylesheet" href="../assets/site/layout.css">
+  <script src="../assets/site/preferences.js" defer=""></script>
   <script src="../assets/site/navigation.js" defer=""></script>
   <link rel="stylesheet" href="../assets/site/calc-content.css">
-  <script src="../assets/site/preferences.js" defer=""></script>
   <script src="../assets/site/page-interactions.js" defer=""></script>
   <script src="../assets/site/calc.js" defer=""></script>
   <meta name="robots" content="noindex, follow">
@@ -142,8 +142,8 @@
   <header class="bricks-header">
     <nav class="bricks-nav" aria-label="Navegación principal">
       <a href="#top" class="bricks-brand" aria-label="Inicio de Bricks Calc"><img src="assets/app-store/app-icon.png" width="40" height="40" alt="">Bricks Calc</a>
-      <div class="bricks-nav-actions"><div class="bricks-desktop-links"><a href="#monthly-cost">Costo mensual</a><a href="#compare-options">Comparar planes</a><a href="#features">Funciones</a><a href="#guides">Guías</a><a href="#faq">Preguntas</a></div>
-      <details class="bricks-nav-menu" data-site-menu=""><summary>Menú</summary><div><a href="#monthly-cost">Costo mensual</a><a href="#compare-options">Comparar planes</a><a href="#features">Funciones</a><a href="#guides">Guías</a><a href="#faq">Preguntas</a></div></details><a href="https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_header_cta&amp;mt=8" class="bricks-nav-action">Descargar</a></div>
+      <div class="bricks-nav-actions"><div class="bricks-desktop-links"><a href="#monthly-cost">Costo mensual</a><a href="#compare-options">Comparar planes</a><a href="#features">Funciones</a><a href="#faq">Preguntas</a></div>
+      <details class="bricks-nav-menu" data-site-menu=""><summary>Menú</summary><div><a href="#monthly-cost">Costo mensual</a><a href="#compare-options">Comparar planes</a><a href="#features">Funciones</a><a href="#faq">Preguntas</a></div></details><a href="https://apps.apple.com/us/app/bricks-calc-loan-calculator/id6754506837?ct=bricks_web_calc_header_cta&amp;mt=8" class="bricks-nav-action">Descargar</a></div>
     </nav>
   </header>
   <div id="root">
@@ -366,18 +366,6 @@
         <a href="https://bricksapps.userjot.com/updates" style="display:inline-flex;align-items:center;color:#007AFF;font-size:15px;font-weight:600;text-decoration:none">Descubre las novedades <span aria-hidden="true" style="margin-left:6px">→</span></a>
       </div>
     </section>
-    <section id="guides" class="calc-guides" lang="en" aria-labelledby="calc-guides-title">
-      <h2 id="calc-guides-title">Mortgage guides</h2>
-      <ul>
-        <li><a href="guides/mortgage-payment-calculator-taxes-insurance-pmi/index.html">Calculate the full monthly payment</a></li>
-        <li><a href="guides/how-much-house-can-i-afford/index.html">How much house can I afford?</a></li>
-        <li><a href="guides/mortgage-extra-payment-calculator/index.html">Test extra mortgage payments</a></li>
-        <li><a href="guides/amortization-schedule-calculator/index.html">Read an amortization schedule</a></li>
-        <li><a href="guides/should-i-refinance-my-mortgage/index.html">Check whether refinancing pays</a></li>
-        <li><a href="guides/15-year-vs-30-year-mortgage/index.html">Compare 15-year and 30-year loans</a></li>
-        <li><a href="guides/rental-property-mortgage-calculator/index.html">Model rental income</a></li>
-      </ul>
-    </section>
     <section id="faq" class="calc-faq">
       <div class="reveal calc-faq-heading">
         <h2 style="font-weight:900;letter-spacing:-0.035em;line-height:1.02;margin:0;color:var(--b-text)" class="calc-faq-title">Antes de empezar.</h2>
@@ -447,26 +435,29 @@
   </div>
   <footer class="bricks-footer">
   <div class="bricks-footer-inner">
-    <div class="bricks-footer-columns">
+    <nav class="bricks-footer-columns" aria-label="Navegación del pie de página">
       <div class="bricks-footer-brand">
         <a href="../index.es.html" class="bricks-footer-logo" aria-label="Inicio de Bricks Apps"><img src="../images/bricks-dark-logo.svg" width="78" height="24" alt=""></a>
-        <p>Apps enfocadas para bienes raíces, creadas para Apple.</p>
-
+        <p>Apps de productividad para plataformas Apple.</p>
         <div class="bricks-footer-socials"><a href="https://www.instagram.com/hellobricksapps/" aria-label="Bricks en Instagram"><img src="../images/icon-instagram.svg" width="15" height="15" alt=""></a><a href="https://www.linkedin.com/company/bricksapps/" aria-label="Bricks en LinkedIn"><img src="../images/icon-linkedin.svg" width="15" height="15" alt=""></a></div>
       </div>
       <section class="bricks-footer-group">
+      <h2>Bricks Calc</h2>
+      <ul><li><a href="index.es.html">Descripción general</a></li><li><a href="../homebuyers.html">Primera vivienda</a></li><li><a href="../refinance.html">Refinanciamiento</a></li><li id="guides"><a href="guides/index.html">Guías hipotecarias</a></li></ul>
+    </section>
+      <section class="bricks-footer-group">
       <h2>Apps</h2>
-      <ul><li><a href="../scan.es.html">Bricks Scan</a></li><li><a href="index.es.html">Bricks Calc</a></li><li><a href="../leads.es.html">Bricks Leads</a></li><li><a href="../living.html">Bricks Living</a></li></ul>
+      <ul><li><a href="../scan.es.html">Bricks Scan</a></li><li><a href="../leads.es.html">Bricks Leads</a></li><li><a href="../living.html">Bricks Living</a></li></ul>
     </section>
       <section class="bricks-footer-group">
-      <h2>Empresa</h2>
-      <ul><li><a href="../about.es.html">Acerca de Bricks</a></li><li><a href="../purchase-guide-01.html">Guía de compra</a></li><li><a href="mailto:hello@bricks.pe">hello@bricks.pe</a></li></ul>
+      <h2>Herramientas de desarrollo</h2>
+      <ul><li><a href="../appcut/index.html">AppCut</a></li><li><a href="../asc-gui/index.html">ASC GUI</a></li><li><a href="../appcut/guides/index.html">Guías de AppCut</a></li></ul>
     </section>
       <section class="bricks-footer-group">
-      <h2>Contacto</h2>
-      <ul><li><a href="../support.es.html">Soporte</a></li><li><a href="https://bricksapps.userjot.com">Vota por nuevas funciones</a></li><li><a href="../help.es.html">Guías</a></li><li><a href="../survey.html">Comparte tus comentarios</a></li></ul>
+      <h2>Bricks Apps</h2>
+      <ul><li><a href="../about.es.html">Acerca de Bricks</a></li><li><a href="../purchase-guide-01.html">Guía de compra</a></li><li><a href="../support.es.html">Soporte</a></li><li><a href="../help.es.html">Centro de ayuda</a></li><li><a href="https://bricksapps.userjot.com">Vota por nuevas funciones</a></li><li><a href="../survey.html">Comparte tus comentarios</a></li><li><a href="mailto:hello@bricks.pe">hello@bricks.pe</a></li></ul>
     </section>
-    </div>
+    </nav>
     <div class="bricks-footer-settings"><div class="bricks-footer-setting" role="group" aria-label="Idioma">
         <span class="bricks-footer-label" aria-hidden="true">Idioma</span>
         <div class="bricks-footer-options"><a href="index.html" lang="en" hreflang="en" data-site-language="en" aria-label="English">EN</a><span class="bricks-footer-separator" aria-hidden="true">·</span><span aria-current="page" lang="es">ES</span></div>

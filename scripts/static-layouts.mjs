@@ -4,7 +4,6 @@ export function createStaticLayouts({ appCutLanding, appCutGuide, calcGuide, cal
     "appcut/getvideoeditor.html": {
       ...appCutLanding,
       action: ["Download", appCutStore, "Download for Mac"],
-      note: "AppCut. Made for indie Apple developers. Built natively for Mac.",
     },
     "appcut/guides/index.html": appCutGuide,
     "appcut/guides/app-preview-assets/index.html": appCutGuide,

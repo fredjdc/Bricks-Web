@@ -34,7 +34,6 @@ test("AppCut closing CTA has a heading, one description, and an accessible downl
   assert.match(closing, /<img src="AppIcon\.png" width="144" height="144" alt="">/);
   assert.doesNotMatch(closing, /trial|availability|bricks-cta-note/i);
   assert.match(closing, /href="https:\/\/testflight\.apple\.com\/join\/UgyQd6ES" aria-label="Download for Mac"/);
-  assert.match(closing, /srcset="\.\.\/images\/apple-icon-white\.svg" media="\(prefers-color-scheme: dark\)"/);
   assert.match(closing, /src="\.\.\/images\/apple-icon-black\.svg" width="18" height="18" alt=""/);
   assert.match(css, /:focus-visible \{ outline: 3px solid var\(--cta-text\)/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
