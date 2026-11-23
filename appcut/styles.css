@@ -431,13 +431,11 @@
   .apes-landing #features.is-placement-ready :focus-within { opacity: 1; filter: none; }
 }
 
-/* Custom device drawings: one responsive row with room for wrapping labels. */
-.apes-landing .device-support { --device-icon-height: 26px; --device-icon-fill: color-mix(in srgb, var(--text) 12%, var(--surface)); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(4px, 1vw, 8px); margin: 24px 0; padding: 0; list-style: none; }
-.apes-landing .device-support li { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 6px; margin: 0; padding: 0; color: var(--text-secondary); font-size: .8125rem; line-height: 1.35; text-align: center; }
+/* Custom device drawings in one responsive row. */
+.apes-landing .device-support { --device-icon-height: 26px; --device-icon-fill: color-mix(in srgb, var(--text) 12%, var(--surface)); display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; padding: 0; list-style: none; }
+.apes-landing .device-support li { min-width: 0; margin: 0; padding: 0; }
 .apes-landing .device-support li::before { display: none; }
-.apes-landing .device-support li > span { max-width: 100%; overflow-wrap: anywhere; text-wrap: balance; }
-.apes-landing .device-support img { display: block; flex: none; width: auto; height: var(--device-icon-height); object-fit: contain; }
-.apes-landing .device-support .device-new { padding: 1px 5px; font-size: .625rem; }
+.apes-landing .device-support img { display: block; width: auto; height: var(--device-icon-height); margin-bottom: 0; object-fit: contain; }
 
 /* Intrinsic media must not widen grid tracks or the mobile layout viewport. */
 html.ape-page, .apes-landing { overflow-x: clip; }
@@ -531,8 +529,7 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
   .apes-landing #features .section-heading,
   .apes-landing #features .capability-grid > article,
   .apes-landing .product-tour > .section-heading,
-  .apes-landing .product-tour .story-copy,
-  .apes-landing #delivery .story-copy { text-align: center; }
+  .apes-landing .product-tour .story-copy { text-align: center; }
   .apes-landing #workflow .workflow-step > p,
   .apes-landing #workflow .workflow-step > .feature-title-icon { margin-inline: auto; }
 }
@@ -630,7 +627,6 @@ html:not(.js) #workflow .mobile-workflow-media-wrap { display: block; }
   font-size: .875rem;
   margin-bottom: 10px;
 }
-.apes-landing.launch-polish .delivery .device-support { margin-bottom: 0; }
 .apes-landing.launch-polish .product-tour + .delivery { margin-top: 0; padding-top: 0; }
 .apes-landing.launch-polish .product-tour { padding-bottom: clamp(36px, 6vw, 88px); }
 .apes-landing.launch-polish .download-caption { max-width: 42ch; text-wrap: pretty; }

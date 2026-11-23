@@ -51,9 +51,8 @@ assert.equal((html.match(/aria-label="Download for Mac"/g) ?? []).length, 3);
 const pricing = html.match(/<section\b[^>]*\bid="download"[^>]*>[\s\S]*?<\/section>/)?.[0];
 assert.ok(pricing, "The pricing section must be present");
 assert.match(hero, /<p class="download-caption"[^>]*>No accounts · Works offline · macOS Tahoe 15\.0\+<\/p>/);
-assert.match(html, /Pro also includes ProRes 422 HQ MOV exports and watermark-free exports\./);
+assert.match(html, /Pro adds ProRes 422 HQ \(MOV\) and watermark-free export\./);
 assert.match(pricing, /Cancel anytime\. All prices are in USD\./);
-assert.match(pricing, /Choose Pro when you need it\./);
 
 const comparison = pricing.match(/<table class="bricks-comparison"[^>]*>([\s\S]*?)<\/table>/)?.[1];
 assert.ok(comparison, "Pricing must include a semantic comparison table");
@@ -69,8 +68,10 @@ assert.deepEqual(rows.map(([, feature, free, pro]) => [feature, cells(free), cel
   ["Direct App Store Connect upload", "Not included", "Included"],
   ["Watermark-free exports", "Not included", "Included"],
 ]);
-assert.match(html, /aria-labelledby="delivery-title"/);
-assert.match(html, /With Pro and App Store Connect API credentials, you can upload supported videos directly from AppCut\./);
+const delivery = html.match(/<section\b[^>]*\bid="delivery"[^>]*>[\s\S]*?<\/section>/)?.[0];
+assert.ok(delivery, "The delivery section must be present");
+assert.match(delivery, /aria-labelledby="delivery-title"/);
+assert.match(delivery, /Export to your Mac\. With Pro and App Store Connect API credentials, upload supported videos directly\./);
 assert.doesNotMatch(html, /supported App Store search placements|does not translate|guarantee (?:Apple’s )?approval|Uploading (?:doesn’t|does not) publish|Some uploads require|Export them to a folder/i);
 
 assert.deepEqual(schema["@graph"].find((item) => item["@type"] === "SoftwareApplication").offers.map(({description}) => description), ["7-day free trial for eligible new subscribers, then $4.99/month. Auto-renews unless canceled.", "7-day free trial for eligible new subscribers, then $39.99/year. Auto-renews unless canceled.", "One-time purchase."]);
